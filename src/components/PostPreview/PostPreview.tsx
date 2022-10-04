@@ -1,12 +1,5 @@
 import React from "react";
-
-type PostPreviewProps = {
-  commentCount: number;
-  dateCreated: number;
-  score: number;
-  title: string;
-  userName: string;
-};
+import { Post } from "@types";
 
 export function PostPreview({
   commentCount,
@@ -14,7 +7,7 @@ export function PostPreview({
   score,
   title,
   userName,
-}: PostPreviewProps) {
+}: Post) {
   return (
     <div className="post-preview">
       <div className="post-preview__score">Score: {score}</div>

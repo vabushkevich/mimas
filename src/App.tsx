@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { PostPreview } from "@components";
+import { PostList } from "@components";
 
 export function App() {
   const [posts, setPosts] = useState([]);
@@ -22,7 +22,7 @@ export function App() {
         .then((res) => res.json())
         .then((json) => json.access_token);
 
-      const posts = await fetch(
+      const postsRaw = await fetch(
         "https://oauth.reddit.com/r/AskReddit/hot?limit=5",
         {
           headers: {
@@ -33,23 +33,18 @@ export function App() {
         .then((res) => res.json())
         .then((json) => json.data.children);
 
+      const posts = postsRaw.map((postRaw: any) => ({
+        commentCount: postRaw.data.num_comments,
+        dateCreated: postRaw.data.created_utc * 1000,
+        id: postRaw.data.name,
+        score: postRaw.data.score,
+        title: postRaw.data.title,
+        userName: postRaw.data.author,
+      }));
+
       setPosts(posts);
     })();
   }, []);
 
-  return (
-    <ol>
-      {posts.map((post) => (
-        <li key={post.data.name}>
-          <PostPreview
-            commentCount={post.data.num_comments}
-            dateCreated={post.data.created_utc * 1000}
-            score={post.data.score}
-            title={post.data.title}
-            userName={post.data.author}
-          />
-        </li>
-      ))}
-    </ol>
-  );
+  return <PostList posts={posts} />;
 }
