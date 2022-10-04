@@ -2,6 +2,7 @@ import React from "react";
 import { Post } from "@types";
 
 import { PostPreview } from "@components";
+import "./PostList.scss";
 
 type PostListProps = {
   posts: Post[];
@@ -9,9 +10,9 @@ type PostListProps = {
 
 export function PostList({ posts }: PostListProps) {
   return (
-    <ol>
+    <ol className="post-list">
       {posts.map((post) => (
-        <li key={post.id}>
+        <li key={post.id} className="post-list__item">
           <PostPreview {...post} />
         </li>
       ))}
