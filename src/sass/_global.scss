@@ -1,0 +1,17 @@
+@use "./variables" as *;
+@use "./typography";
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+* {
+  transition: box-shadow .15s ease-in-out;
+}
+
+:focus {
+  box-shadow: $focus-box-shadow;
+  outline: 0;
+}
