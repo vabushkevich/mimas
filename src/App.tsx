@@ -40,6 +40,7 @@ export function App() {
         score: postRaw.data.score,
         subreddit: postRaw.data.subreddit,
         title: postRaw.data.title,
+        url: postRaw.data.url,
         userName: postRaw.data.author,
       }));
 

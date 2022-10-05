@@ -5,5 +5,6 @@ export interface Post {
   score: number;
   subreddit: string;
   title: string;
+  url: string;
   userName: string;
 }

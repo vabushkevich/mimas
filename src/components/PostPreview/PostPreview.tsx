@@ -9,6 +9,7 @@ export function PostPreview({
   score,
   subreddit,
   title,
+  url,
   userName,
 }: Post) {
   return (
