@@ -38,6 +38,7 @@ export function App() {
         dateCreated: postRaw.data.created_utc * 1000,
         id: postRaw.data.name,
         score: postRaw.data.score,
+        subreddit: postRaw.data.subreddit,
         title: postRaw.data.title,
         userName: postRaw.data.author,
       }));

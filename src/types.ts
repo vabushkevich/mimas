@@ -3,6 +3,7 @@ export interface Post {
   dateCreated: number;
   id: string;
   score: number;
+  subreddit: string;
   title: string;
   userName: string;
 }
