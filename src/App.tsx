@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { PostList } from "@components";
+import { PostList, Container } from "@components";
 
 export function App() {
   const [posts, setPosts] = useState([]);
@@ -46,5 +46,9 @@ export function App() {
     })();
   }, []);
 
-  return <PostList posts={posts} />;
+  return (
+    <Container>
+      <PostList posts={posts} />
+    </Container>
+  );
 }

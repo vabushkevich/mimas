@@ -1,0 +1,15 @@
+@use "@sass/variables" as *;
+
+.container {
+  margin: 0px auto;
+  padding: 0px 15px;
+  width: 100%;
+
+  @media (min-width: $screen-sm) {
+    width: 540px;
+  }
+
+  @media (min-width: $screen-md) {
+    width: 700px;
+  }
+}
