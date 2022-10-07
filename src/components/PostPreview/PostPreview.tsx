@@ -15,13 +15,30 @@ export function PostPreview({
   return (
     <div className="post-preview">
       <div className="post-preview__header">
-        <div className="post-preview__subreddit">{subreddit}</div>
-        <div className="post-preview__user">{userName}</div>
+        <a href={`https://www.reddit.com/r/${subreddit}/`}>
+          <div className="post-preview__subreddit">{subreddit}</div>
+        </a>
+        <a
+          className="post-preview__user"
+          href={`https://www.reddit.com/user/${userName}/`}
+        >
+          {userName}
+        </a>
         <div className="post-preview__date">{new Date(dateCreated).toLocaleString()}</div>
       </div>
-      <div className="post-preview__title">{title}</div>
+      <a
+        className="post-preview__title"
+        href={url}
+      >
+        {title}
+      </a>
       <div className="post-preview__footer">
-        <div className="post-preview__comments-btn">{commentCount}</div>
+        <a
+          className="post-preview__comments-btn"
+          href={url}
+        >
+          {commentCount}
+        </a>
         <div className="post-preview__voting">
           <div className="post-preview__down-btn"></div>
           <div className="post-preview__score">{score}</div>
