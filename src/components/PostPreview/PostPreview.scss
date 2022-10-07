@@ -67,16 +67,20 @@
 
   &__down-btn,
   &__up-btn {
-    width: 16px;
-    height: 16px;
-    background-color: black;
+    &::after {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 18px;
+      background-color: black;
+    }
   }
 
-  &__down-btn {
+  &__down-btn::after {
     -webkit-mask: no-repeat center url(./assets/arrow-down.svg);
   }
 
-  &__up-btn {
+  &__up-btn::after {
     -webkit-mask: no-repeat center url(./assets/arrow-up.svg);
   }
 }
