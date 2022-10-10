@@ -40,9 +40,9 @@ export function PostPreview({
           {commentCount}
         </a>
         <div className="post-preview__voting">
-          <div className="post-preview__down-btn"></div>
+          <button className="post-preview__down-btn"></button>
           <div className="post-preview__score">{score}</div>
-          <div className="post-preview__up-btn"></div>
+          <button className="post-preview__up-btn"></button>
         </div>
       </div>
     </div>
