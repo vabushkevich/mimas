@@ -67,12 +67,29 @@
 
   &__down-btn,
   &__up-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+    }
+
     &::after {
       content: "";
       display: block;
       width: 18px;
       height: 18px;
       background-color: black;
+    }
+
+    &:hover::before {
+      background-color: rgba($color: black, $alpha: 0.07);
     }
   }
 
