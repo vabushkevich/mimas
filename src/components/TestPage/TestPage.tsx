@@ -21,7 +21,7 @@ async function loadPosts(ids: string[], accessToken: string) {
     score: data.score,
     subreddit: data.subreddit,
     title: data.title,
-    url: data.url,
+    url: `https://www.reddit.com${data.permalink}`,
     userName: data.author,
   }));
 }
