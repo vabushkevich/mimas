@@ -38,6 +38,7 @@ module.exports = {
       "@sass": path.resolve(__dirname, "src/sass"),
       "@store": path.resolve(__dirname, "src/store"),
       "@types": path.resolve(__dirname, "src/types.ts"),
+      "@utils": path.resolve(__dirname, "src/utils.ts"),
     },
     extensions: [".tsx", ".ts", ".js", ".json"],
   },
