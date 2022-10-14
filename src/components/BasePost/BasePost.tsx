@@ -11,7 +11,8 @@ export function BasePost({
   title,
   url,
   userName,
-}: Post) {
+  children,
+}: Post & { children?: React.ReactNode }) {
   return (
     <div className="post-preview">
       <div className="post-preview__header">
@@ -32,6 +33,7 @@ export function BasePost({
       >
         {title}
       </a>
+      <div>{children}</div>
       <div className="post-preview__footer">
         <a
           className="post-preview__comments-btn"
