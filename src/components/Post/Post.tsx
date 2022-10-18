@@ -14,7 +14,7 @@ function isLinkPost(post: Post) {
   return true;
 }
 
-export function PostPreview(props: Post) {
+export function Post(props: Post) {
   if (isLinkPost(props)) return <LinkPost {...props} />
   return <BasePost {...props} />;
 }
