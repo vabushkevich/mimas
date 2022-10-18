@@ -1,4 +1,4 @@
-export interface Post {
+export interface BasePost {
   commentCount: number;
   dateCreated: number;
   id: string;
@@ -8,3 +8,9 @@ export interface Post {
   url: string;
   userName: string;
 }
+
+export interface LinkPost extends BasePost {
+  linkUrl: string;
+}
+
+export type Post = LinkPost;

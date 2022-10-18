@@ -23,6 +23,7 @@ async function loadPosts(ids: string[], accessToken: string) {
     title: data.title,
     url: `https://www.reddit.com${data.permalink}`,
     userName: data.author,
+    linkUrl: data.url_overridden_by_dest,
   }));
 }
 

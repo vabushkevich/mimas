@@ -1,0 +1,13 @@
+@use "@sass/variables" as *;
+
+.link-post {
+  display: block;
+  color: $gray-700;
+  background-color: $gray-200;
+  padding: 10px;
+  border-radius: 5px;
+
+  &__host {
+    font-weight: 500;
+  }
+}
