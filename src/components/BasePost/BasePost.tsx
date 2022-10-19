@@ -1,5 +1,5 @@
 import React from "react";
-import { Post } from "@types";
+import { BasePost as BasePostProps } from "@types";
 
 import "./BasePost.scss";
 
@@ -12,7 +12,7 @@ export function BasePost({
   url,
   userName,
   children,
-}: Post & { children?: React.ReactNode }) {
+}: BasePostProps & { children?: React.ReactNode }) {
   return (
     <div className="post-preview">
       <div className="post-preview__header">

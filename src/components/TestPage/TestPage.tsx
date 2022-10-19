@@ -15,21 +15,11 @@ async function loadPosts(ids: string[], accessToken: string) {
     .then((res) => res.json())
     .then((json) => json.data.children.map((post: any) => post.data));
 
-  return postsRaw.map((data: PostData) => ({
-    commentCount: data.num_comments,
-    dateCreated: data.created_utc * 1000,
-    id: data.name,
-    score: data.score,
-    subreddit: data.subreddit,
-    title: data.title,
-    url: `https://www.reddit.com${data.permalink}`,
-    userName: data.author,
-    linkUrl: data.url_overridden_by_dest,
-  }));
+  return postsRaw;
 }
 
 export function TestPage() {
-  const [posts, setPosts] = useState([]);
+  const [postsData, setPostsData] = useState([]);
   useEffect(() => {
     (async () => {
       const accessToken = await fetch(
@@ -49,15 +39,15 @@ export function TestPage() {
         .then((json) => json.access_token);
 
       const ids = ["y5quua", "ll758a", "fo7p5b", "y8zot8", "y8iuvs", "y65mmv", "y5qe15", "y8ufdr", "xjyw0a", "y5kht8"];
-      const posts = await loadPosts(ids.map((id) => `t3_${id}`), accessToken);
+      const postsData = await loadPosts(ids.map((id) => `t3_${id}`), accessToken);
 
-      setPosts(posts);
+      setPostsData(postsData);
     })();
   }, []);
 
   return (
     <Container>
-      <PostList posts={posts} />
+      <PostList postsData={postsData} />
     </Container>
   );
 }

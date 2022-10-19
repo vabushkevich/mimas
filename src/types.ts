@@ -5,6 +5,7 @@ export interface PostData {
   num_comments: number;
   permalink: string;
   score: number;
+  selftext_html: string | null;
   subreddit: string;
   title: string;
   url_overridden_by_dest?: string;
@@ -24,5 +25,3 @@ export interface BasePost {
 export interface LinkPost extends BasePost {
   linkUrl: string;
 }
-
-export type Post = LinkPost;
