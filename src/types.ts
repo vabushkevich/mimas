@@ -25,3 +25,7 @@ export interface BasePost {
 export interface LinkPost extends BasePost {
   linkUrl: string;
 }
+
+export interface TextPost extends BasePost {
+  contentHtml: string;
+}

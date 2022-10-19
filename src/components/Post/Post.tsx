@@ -1,7 +1,8 @@
 import React from "react";
 import { PostData } from "@types";
+import { decodeEntities } from "@utils";
 
-import { BasePost, LinkPost } from "@components";
+import { BasePost, LinkPost, TextPost } from "@components";
 
 type PostProps = {
   postData: PostData;
@@ -18,6 +19,10 @@ function isLinkPost({ url_overridden_by_dest }: PostData) {
   return true;
 }
 
+function isTextPost({ selftext_html }: PostData) {
+  return typeof selftext_html == "string";
+}
+
 export function Post({ postData }: PostProps) {
   const props = {
     commentCount: postData.num_comments,
@@ -30,6 +35,10 @@ export function Post({ postData }: PostProps) {
     userName: postData.author,
   };
 
+  if (isTextPost(postData)) {
+    const contentHtml = decodeEntities(postData.selftext_html);
+    return <TextPost{...props} contentHtml={contentHtml} />;
+  }
   if (isLinkPost(postData)) {
     return <LinkPost {...props} linkUrl={postData.url_overridden_by_dest} />;
   }

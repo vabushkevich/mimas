@@ -4,6 +4,7 @@ import { Container } from "./Container/Container";
 import { TestPage } from "./TestPage/TestPage";
 import { BasePost } from "./BasePost/BasePost";
 import { LinkPost } from "./LinkPost/LinkPost";
+import { TextPost } from "./TextPost/TextPost";
 
 export {
   Post,
@@ -12,4 +13,5 @@ export {
   TestPage,
   BasePost,
   LinkPost,
+  TextPost,
 };
