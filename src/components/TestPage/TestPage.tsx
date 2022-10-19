@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { PostData } from "@types";
 
 import { PostList, Container } from "@components";
 
 async function loadPosts(ids: string[], accessToken: string) {
-  const postsRaw = await fetch(
+  const postsRaw: PostData[] = await fetch(
     `https://oauth.reddit.com/api/info?id=${ids.join()}`,
     {
       headers: {
@@ -12,9 +13,9 @@ async function loadPosts(ids: string[], accessToken: string) {
     }
   )
     .then((res) => res.json())
-    .then((json) => json.data.children);
+    .then((json) => json.data.children.map((post: any) => post.data));
 
-  return postsRaw.map(({ data }: any) => ({
+  return postsRaw.map((data: PostData) => ({
     commentCount: data.num_comments,
     dateCreated: data.created_utc * 1000,
     id: data.name,
