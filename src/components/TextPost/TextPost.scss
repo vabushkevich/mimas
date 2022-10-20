@@ -1,0 +1,7 @@
+.text-post-body {
+  &--collapsed {
+    height: 150px;
+    overflow: hidden;
+    -webkit-mask: linear-gradient(black 25%, transparent);
+  }
+}

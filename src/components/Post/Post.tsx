@@ -37,7 +37,13 @@ export function Post({ postData }: PostProps) {
 
   if (isTextPost(postData)) {
     const contentHtml = decodeEntities(postData.selftext_html);
-    return <TextPost{...props} contentHtml={contentHtml} />;
+    return (
+      <TextPost
+        {...props}
+        contentHtml={contentHtml}
+        collapsed={contentHtml.length > 500}
+      />
+    );
   }
   if (isLinkPost(postData)) {
     return <LinkPost {...props} linkUrl={postData.url_overridden_by_dest} />;
