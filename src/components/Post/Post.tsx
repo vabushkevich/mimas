@@ -2,7 +2,13 @@ import React from "react";
 import { PostData } from "@types";
 import { decodeEntities } from "@utils";
 
-import { BasePost, LinkPost, TextPost, GalleryPost } from "@components";
+import {
+  BasePost,
+  LinkPost,
+  TextPost,
+  GalleryPost,
+  VideoPost,
+} from "@components";
 
 type PostProps = {
   postData: PostData;
@@ -27,6 +33,10 @@ function isGalleryPost(postData: PostData) {
   return "gallery_data" in postData;
 }
 
+function isVideoPost({ is_video }: PostData) {
+  return is_video === true;
+}
+
 export function Post({ postData }: PostProps) {
   const props = {
     commentCount: postData.num_comments,
@@ -39,6 +49,10 @@ export function Post({ postData }: PostProps) {
     userName: postData.author,
   };
 
+  if (isVideoPost(postData)) {
+    const video = postData.media.reddit_video.fallback_url;
+    return <VideoPost {...props} video={video} />;
+  }
   if (isGalleryPost(postData)) {
     const images = postData.gallery_data.items.reduce((out, item) => {
       const url = decodeEntities(postData.media_metadata[item.media_id].s.u);

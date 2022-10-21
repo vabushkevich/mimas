@@ -1,6 +1,12 @@
 export interface PostData {
   author: string;
   created_utc: number;
+  is_video: boolean;
+  media: null | {
+    reddit_video?: {
+      fallback_url: string;
+    };
+  };
   name: string;
   num_comments: number;
   permalink: string;
@@ -42,4 +48,8 @@ export interface TextPost extends BasePost {
 
 export interface GalleryPost extends BasePost {
   images: string[];
+}
+
+export interface VideoPost extends BasePost {
+  video: string;
 }

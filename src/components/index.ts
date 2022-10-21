@@ -7,6 +7,7 @@ import { LinkPost } from "./LinkPost/LinkPost";
 import { TextPost } from "./TextPost/TextPost";
 import { Carousel } from "./Carousel/Carousel";
 import { GalleryPost } from "./GalleryPost/GalleryPost";
+import { VideoPost } from "./VideoPost/VideoPost";
 
 export {
   Post,
@@ -18,4 +19,5 @@ export {
   TextPost,
   Carousel,
   GalleryPost,
+  VideoPost,
 };
