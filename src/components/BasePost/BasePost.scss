@@ -5,7 +5,7 @@
   border-radius: 5px;
   padding: 10px;
 
-  a:not(&__title):hover {
+  & a:not(&__title):hover {
     color: $primary-dark;
   }
 
