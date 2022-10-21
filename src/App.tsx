@@ -1,7 +1,16 @@
 import React from "react";
 
-import { TestPage } from "@components";
+import { TestPage, Navbar } from "@components";
 
 export function App() {
-  return <TestPage />;
+  const navItems = [
+    { text: "Test", href: "/" },
+  ];
+
+  return (
+    <>
+      <Navbar items={navItems} />
+      <TestPage />
+    </>
+  );
 }
