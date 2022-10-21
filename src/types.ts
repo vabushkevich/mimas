@@ -24,6 +24,7 @@ export interface PostData {
       u: string;
     };
   }>;
+  post_hint?: "image";
   url_overridden_by_dest?: string;
 }
 
@@ -52,4 +53,8 @@ export interface GalleryPost extends BasePost {
 
 export interface VideoPost extends BasePost {
   video: string;
+}
+
+export interface ImagePost extends BasePost {
+  image: string;
 }

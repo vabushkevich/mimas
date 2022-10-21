@@ -8,6 +8,7 @@ import {
   TextPost,
   GalleryPost,
   VideoPost,
+  ImagePost,
 } from "@components";
 
 type PostProps = {
@@ -37,6 +38,10 @@ function isVideoPost({ is_video }: PostData) {
   return is_video === true;
 }
 
+function isImagePost({ post_hint }: PostData) {
+  return post_hint === "image";
+}
+
 export function Post({ postData }: PostProps) {
   const props = {
     commentCount: postData.num_comments,
@@ -49,6 +54,9 @@ export function Post({ postData }: PostProps) {
     userName: postData.author,
   };
 
+  if (isImagePost(postData)) {
+    return <ImagePost {...props} image={postData.url_overridden_by_dest} />
+  }
   if (isVideoPost(postData)) {
     const video = postData.media.reddit_video.fallback_url;
     return <VideoPost {...props} video={video} />;
