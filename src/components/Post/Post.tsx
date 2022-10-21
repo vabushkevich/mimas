@@ -66,8 +66,9 @@ export function Post({ postData }: PostProps) {
   }
   if (isGalleryPost(postData)) {
     const images = postData.gallery_data.items.reduce((out, item) => {
-      const url = decodeEntities(postData.media_metadata[item.media_id].s.u);
-      out.push(url);
+      const images = postData.media_metadata[item.media_id].p;
+      const image = findLast(images, (item) => item.x <= 640);
+      out.push(decodeEntities(image.u));
       return out;
     }, []);
     return <GalleryPost {...props} images={images} />;

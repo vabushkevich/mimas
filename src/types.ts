@@ -20,6 +20,11 @@ export interface PostData {
     }[];
   };
   media_metadata?: Record<string, {
+    p: {
+      u: string;
+      x: number;
+      y: number;
+    }[];
     s: {
       u: string;
     };
