@@ -25,6 +25,15 @@ export interface PostData {
     };
   }>;
   post_hint?: "image";
+  preview?: {
+    images: {
+      resolutions: {
+        url: string;
+        width: number;
+        height: number;
+      }[];
+    }[];
+  };
   url_overridden_by_dest?: string;
 }
 

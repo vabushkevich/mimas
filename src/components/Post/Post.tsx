@@ -1,6 +1,7 @@
 import React from "react";
 import { PostData } from "@types";
 import { decodeEntities } from "@utils";
+import { findLast } from "lodash-es";
 
 import {
   BasePost,
@@ -55,7 +56,9 @@ export function Post({ postData }: PostProps) {
   };
 
   if (isImagePost(postData)) {
-    return <ImagePost {...props} image={postData.url_overridden_by_dest} />
+    const images = postData.preview.images[0].resolutions;
+    const image = findLast(images, (item) => item.width <= 640);
+    return <ImagePost {...props} image={decodeEntities(image.url)} />
   }
   if (isVideoPost(postData)) {
     const video = postData.media.reddit_video.fallback_url;
