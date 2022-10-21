@@ -8,6 +8,16 @@ export interface PostData {
   selftext_html: string | null;
   subreddit: string;
   title: string;
+  gallery_data?: {
+    items: {
+      media_id: string;
+    }[];
+  };
+  media_metadata?: Record<string, {
+    s: {
+      u: string;
+    };
+  }>;
   url_overridden_by_dest?: string;
 }
 
@@ -28,4 +38,8 @@ export interface LinkPost extends BasePost {
 
 export interface TextPost extends BasePost {
   contentHtml: string;
+}
+
+export interface GalleryPost extends BasePost {
+  images: string[];
 }

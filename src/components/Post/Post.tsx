@@ -2,7 +2,7 @@ import React from "react";
 import { PostData } from "@types";
 import { decodeEntities } from "@utils";
 
-import { BasePost, LinkPost, TextPost } from "@components";
+import { BasePost, LinkPost, TextPost, GalleryPost } from "@components";
 
 type PostProps = {
   postData: PostData;
@@ -23,6 +23,10 @@ function isTextPost({ selftext_html }: PostData) {
   return typeof selftext_html == "string";
 }
 
+function isGalleryPost(postData: PostData) {
+  return "gallery_data" in postData;
+}
+
 export function Post({ postData }: PostProps) {
   const props = {
     commentCount: postData.num_comments,
@@ -35,6 +39,14 @@ export function Post({ postData }: PostProps) {
     userName: postData.author,
   };
 
+  if (isGalleryPost(postData)) {
+    const images = postData.gallery_data.items.reduce((out, item) => {
+      const url = decodeEntities(postData.media_metadata[item.media_id].s.u);
+      out.push(url);
+      return out;
+    }, []);
+    return <GalleryPost {...props} images={images} />;
+  }
   if (isTextPost(postData)) {
     const contentHtml = decodeEntities(postData.selftext_html);
     return (

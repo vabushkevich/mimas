@@ -5,6 +5,8 @@ import { TestPage } from "./TestPage/TestPage";
 import { BasePost } from "./BasePost/BasePost";
 import { LinkPost } from "./LinkPost/LinkPost";
 import { TextPost } from "./TextPost/TextPost";
+import { Carousel } from "./Carousel/Carousel";
+import { GalleryPost } from "./GalleryPost/GalleryPost";
 
 export {
   Post,
@@ -14,4 +16,6 @@ export {
   BasePost,
   LinkPost,
   TextPost,
+  Carousel,
+  GalleryPost,
 };
