@@ -10,6 +10,7 @@ import { GalleryPost } from "./GalleryPost/GalleryPost";
 import { VideoPost } from "./VideoPost/VideoPost";
 import { ImagePost } from "./ImagePost/ImagePost";
 import { Navbar } from "./Navbar/Navbar";
+import { HotPage } from "./HotPage/HotPage";
 
 export {
   Post,
@@ -24,4 +25,5 @@ export {
   VideoPost,
   ImagePost,
   Navbar,
+  HotPage,
 };

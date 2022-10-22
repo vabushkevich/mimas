@@ -5,6 +5,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
+  devServer: {
+    historyApiFallback: true,
+  },
   entry: "./src/index.tsx",
   mode: devMode ? "development" : "production",
   module: {
