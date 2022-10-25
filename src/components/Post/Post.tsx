@@ -51,7 +51,7 @@ export function Post({ postData }: PostProps) {
     score: postData.score,
     subreddit: postData.subreddit,
     title: postData.title,
-    url: `https://www.reddit.com${postData.permalink}`,
+    url: postData.permalink,
     userName: postData.author,
   };
 

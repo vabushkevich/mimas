@@ -9,6 +9,9 @@ module.exports = {
     historyApiFallback: true,
   },
   entry: "./src/index.tsx",
+  output: {
+    publicPath: "/",
+  },
   mode: devMode ? "development" : "production",
   module: {
     rules: [
