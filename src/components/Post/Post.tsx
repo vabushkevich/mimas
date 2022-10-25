@@ -60,10 +60,12 @@ export function Post({ postData }: PostProps) {
     const image = findLast(images, (item) => item.width <= 640);
     return <ImagePost {...props} image={decodeEntities(image.url)} />
   }
+
   if (isVideoPost(postData)) {
     const video = postData.media.reddit_video.fallback_url;
     return <VideoPost {...props} video={video} />;
   }
+
   if (isGalleryPost(postData)) {
     const images = postData.gallery_data.items.reduce((out, item) => {
       const images = postData.media_metadata[item.media_id].p;
@@ -73,6 +75,7 @@ export function Post({ postData }: PostProps) {
     }, []);
     return <GalleryPost {...props} images={images} />;
   }
+
   if (isTextPost(postData)) {
     const contentHtml = decodeEntities(postData.selftext_html);
     return (
@@ -83,8 +86,10 @@ export function Post({ postData }: PostProps) {
       />
     );
   }
+
   if (isLinkPost(postData)) {
     return <LinkPost {...props} linkUrl={postData.url_overridden_by_dest} />;
   }
+  
   return <BasePost {...props} />;
 }
