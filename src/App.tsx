@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getAccessToken } from "@services/authorization";
+import { RedditWebAPI } from "@services/reddit-web-api";
+import { ClientContext } from "@context";
 
 import { TestPage, Navbar, HotPage, PostPage } from "@components";
 
@@ -15,11 +18,21 @@ export function App() {
     "/": TestPage,
     "/hot": HotPage,
   }[window.location.pathname];
+  const [client, setClient] = useState<RedditWebAPI>(null);
 
-  return (
-    <>
+  useEffect(() => {
+    (async () => {
+      const accessToken = await getAccessToken();
+      const client = new RedditWebAPI(accessToken);
+
+      setClient(client);
+    })();
+  }, []);
+
+  return client && (
+    <ClientContext.Provider value={client}>
       <Navbar items={navItems} />
       <Page />
-    </>
+    </ClientContext.Provider>
   );
 }

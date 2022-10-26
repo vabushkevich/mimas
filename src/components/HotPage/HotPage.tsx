@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { getAccessToken } from "@services/authorization";
-import { RedditWebAPI } from "@services/reddit-web-api";
+import React, { useState, useEffect, useContext } from "react";
+import { ClientContext } from "@context";
 
 import { PostList, Container } from "@components";
 
 export function HotPage() {
   const [postsData, setPostsData] = useState([]);
+  const client = useContext(ClientContext);
 
   useEffect(() => {
     (async () => {
-      const accessToken = await getAccessToken();
-      const client = new RedditWebAPI(accessToken);
       const postsData = await client.getHotPosts();
 
       setPostsData(postsData);

@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { PostData } from "@types";
-import { getAccessToken } from "@services/authorization";
-import { RedditWebAPI } from "@services/reddit-web-api";
+import { ClientContext } from "@context";
 
 import { Post, Container } from "@components";
 
 export function PostPage() {
   const [postData, setPostData] = useState<PostData>();
+  const client = useContext(ClientContext);
 
   useEffect(() => {
     (async () => {
-      const accessToken = await getAccessToken();
-      const client = new RedditWebAPI(accessToken);
       const postId = location.pathname.match(/\/comments\/(\w+)\//)[1];
       const postData = (await client.getPosts([postId]))[0];
 
