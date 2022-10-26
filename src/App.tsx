@@ -3,18 +3,14 @@ import { getAccessToken } from "@services/authorization";
 import { RedditWebAPI } from "@services/reddit-web-api";
 import { ClientContext } from "@context";
 
-import { TestPage, Navbar, HotPage, PostPage } from "@components";
+import { TestPage, HotPage, PostPage } from "@components";
 
 function isPostPage() {
   return /\/comments\/\w+\//.test(location.pathname);
 }
 
 export function App() {
-  const navItems = [
-    { text: "Test", href: "/" },
-    { text: "Hot", href: "/hot" },
-  ];
-  const Page = isPostPage() ? PostPage : {
+  const SpecificPage = isPostPage() ? PostPage : {
     "/": TestPage,
     "/hot": HotPage,
   }[window.location.pathname];
@@ -31,8 +27,7 @@ export function App() {
 
   return client && (
     <ClientContext.Provider value={client}>
-      <Navbar items={navItems} />
-      <Page />
+      <SpecificPage />
     </ClientContext.Provider>
   );
 }

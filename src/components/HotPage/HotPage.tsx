@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ClientContext } from "@context";
 
-import { PostList, Container } from "@components";
+import { PostList, Container, Page } from "@components";
 
 export function HotPage() {
   const [postsData, setPostsData] = useState([]);
@@ -16,8 +16,10 @@ export function HotPage() {
   }, []);
 
   return (
-    <Container>
-      <PostList postsData={postsData} />
-    </Container>
+    <Page>
+      <Container>
+        <PostList postsData={postsData} />
+      </Container>
+    </Page>
   );
 }

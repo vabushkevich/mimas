@@ -12,6 +12,7 @@ import { ImagePost } from "./ImagePost/ImagePost";
 import { Navbar } from "./Navbar/Navbar";
 import { HotPage } from "./HotPage/HotPage";
 import { PostPage } from "./PostPage/PostPage";
+import { Page } from "./Page/Page";
 
 export {
   Post,
@@ -28,4 +29,5 @@ export {
   Navbar,
   HotPage,
   PostPage,
+  Page,
 };

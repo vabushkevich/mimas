@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { PostData } from "@types";
 import { ClientContext } from "@context";
 
-import { Post, Container } from "@components";
+import { Post, Container, Page } from "@components";
 
 export function PostPage() {
   const [postData, setPostData] = useState<PostData>();
@@ -18,8 +18,10 @@ export function PostPage() {
   }, []);
 
   return (
-    <Container>
-      {postData ? <Post postData={postData} /> : <div>Loading...</div>}
-    </Container>
+    <Page>
+      <Container>
+        {postData ? <Post postData={postData} /> : <div>Loading...</div>}
+      </Container>
+    </Page>
   );
 }
