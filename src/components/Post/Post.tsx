@@ -14,6 +14,7 @@ import {
 
 type PostProps = {
   postData: PostData;
+  collapsed?: boolean;
 };
 
 function isLinkPost({ url_overridden_by_dest }: PostData) {
@@ -43,7 +44,7 @@ function isImagePost({ post_hint }: PostData) {
   return post_hint === "image";
 }
 
-export function Post({ postData }: PostProps) {
+export function Post({ postData, collapsed }: PostProps) {
   const props = {
     commentCount: postData.num_comments,
     dateCreated: postData.created_utc * 1000,
@@ -82,7 +83,7 @@ export function Post({ postData }: PostProps) {
       <TextPost
         {...props}
         contentHtml={contentHtml}
-        collapsed={contentHtml.length > 500}
+        collapsed={collapsed ?? contentHtml.length > 500}
       />
     );
   }

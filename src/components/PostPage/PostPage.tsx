@@ -20,7 +20,7 @@ export function PostPage() {
   return (
     <Page>
       <Container>
-        {postData ? <Post postData={postData} /> : <div>Loading...</div>}
+        {postData ? <Post postData={postData} collapsed={false} /> : <div>Loading...</div>}
       </Container>
     </Page>
   );
