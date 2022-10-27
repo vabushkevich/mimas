@@ -26,8 +26,19 @@ export class RedditWebAPI {
       .then((json) => json.data.children.map((post: any) => post.data));
   }
 
-  async getHotPosts(): Promise<PostData[]> {
-    return await this.#fetchWithAuth("https://oauth.reddit.com/hot")
+  async getHotPosts({
+    after,
+    limit,
+  }: {
+    after?: string,
+    limit?: number,
+  } = {}): Promise<PostData[]> {
+    const params = [];
+
+    if (after) params.push(`after=${after}`);
+    if (limit) params.push(`limit=${limit}`);
+
+    return await this.#fetchWithAuth(`https://oauth.reddit.com/hot?${params.join("&")}`)
       .then((res) => res.json())
       .then((json) => json.data.children.map((post: any) => post.data));
   }
