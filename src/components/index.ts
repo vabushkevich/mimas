@@ -13,6 +13,7 @@ import { Navbar } from "./Navbar/Navbar";
 import { HotPage } from "./HotPage/HotPage";
 import { PostPage } from "./PostPage/PostPage";
 import { Page } from "./Page/Page";
+import { IntersectionDetector } from "./IntersectionDetector/IntersectionDetector";
 
 export {
   Post,
@@ -30,4 +31,5 @@ export {
   HotPage,
   PostPage,
   Page,
+  IntersectionDetector,
 };
