@@ -14,6 +14,9 @@ import { HotPage } from "./HotPage/HotPage";
 import { PostPage } from "./PostPage/PostPage";
 import { Page } from "./Page/Page";
 import { IntersectionDetector } from "./IntersectionDetector/IntersectionDetector";
+import { Comment } from "./Comment/Comment";
+import { CommentThread } from "./CommentThread/CommentThread";
+import { CommentThreadList } from "./CommentThreadList/CommentThreadList";
 
 export {
   Post,
@@ -32,4 +35,7 @@ export {
   PostPage,
   Page,
   IntersectionDetector,
+  Comment,
+  CommentThread,
+  CommentThreadList,
 };

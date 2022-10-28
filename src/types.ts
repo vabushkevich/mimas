@@ -78,3 +78,39 @@ export interface VideoPost extends BasePost {
 export interface ImagePost extends BasePost {
   image: string;
 }
+
+export interface CommentThreadData {
+  author: string;
+  body_html: string;
+  created_utc: number;
+  name: string;
+  replies: "" | {
+    data: {
+      children: {
+        data: CommentThreadListItemData;
+      }[];
+    };
+  };
+  score: number;
+}
+
+export interface MoreCommentsData {
+  children: string[];
+}
+
+export type CommentThreadListItemData = CommentThreadData | MoreCommentsData;
+
+export interface Comment {
+  avatar: string;
+  contentHtml: string;
+  dateCreated: number;
+  id: string;
+  score: number;
+  userName: string;
+}
+
+export interface CommentThread {
+  comment: Comment;
+  replies: CommentThread[];
+  moreReplies: string[];
+}

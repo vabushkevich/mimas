@@ -1,0 +1,14 @@
+@use "@sass/mixins" as *;
+
+.comment-thread-list {
+  @include reset-list;
+
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 10px;
+
+  &__item:not(:last-child) {
+    margin-bottom: 30px;
+  }
+}

@@ -1,4 +1,4 @@
-import { PostData, SubredditData } from "@types";
+import { PostData, SubredditData, CommentThreadListItemData } from "@types";
 
 export class RedditWebAPI {
   #accessToken: string;
@@ -49,5 +49,13 @@ export class RedditWebAPI {
     )
       .then((res) => res.json())
       .then((json) => json.data);
+  }
+
+  async getComments(postId: string): Promise<CommentThreadListItemData[]> {
+    return await this.#fetchWithAuth(
+      `https://oauth.reddit.com/comments/${postId}`,
+    )
+      .then((res) => res.json())
+      .then((json) => json[1].data.children.map((item: any) => item.data));
   }
 }

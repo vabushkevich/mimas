@@ -1,0 +1,13 @@
+@use "@sass/mixins" as *;
+
+.comment-thread {
+  &__replies {
+    @include reset-list;
+
+    margin-left: 20px;
+  }
+
+  &__reply {
+    margin-top: 30px;
+  }
+}
