@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { PostData } from "@types";
 import { decodeEntities } from "@utils";
 import { findLast } from "lodash-es";
+import { ClientContext } from "@context";
 
 import {
   BasePost,
@@ -11,6 +12,7 @@ import {
   VideoPost,
   ImagePost,
 } from "@components";
+import defaultAvatar from "./assets/default-avatar.png";
 
 type PostProps = {
   postData: PostData;
@@ -45,7 +47,21 @@ function isImagePost({ post_hint }: PostData) {
 }
 
 export function Post({ postData, collapsed }: PostProps) {
+  const client = useContext(ClientContext);
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const subredditData = await client.getSubredditInfo(postData.subreddit);
+      const avatar = subredditData.community_icon
+        || subredditData.icon_img
+        || defaultAvatar;
+      setAvatar(avatar.split("?")[0]);
+    })();
+  }, []);
+
   const props = {
+    avatar,
     commentCount: postData.num_comments,
     dateCreated: postData.created_utc * 1000,
     id: postData.name,
@@ -91,6 +107,6 @@ export function Post({ postData, collapsed }: PostProps) {
   if (isLinkPost(postData)) {
     return <LinkPost {...props} linkUrl={postData.url_overridden_by_dest} />;
   }
-  
+
   return <BasePost {...props} />;
 }

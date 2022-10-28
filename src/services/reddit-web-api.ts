@@ -1,4 +1,4 @@
-import { PostData } from "@types";
+import { PostData, SubredditData } from "@types";
 
 export class RedditWebAPI {
   #accessToken: string;
@@ -41,5 +41,13 @@ export class RedditWebAPI {
     return await this.#fetchWithAuth(`https://oauth.reddit.com/hot?${params.join("&")}`)
       .then((res) => res.json())
       .then((json) => json.data.children.map((post: any) => post.data));
+  }
+
+  async getSubredditInfo(name: string): Promise<SubredditData> {
+    return await this.#fetchWithAuth(
+      `https://oauth.reddit.com/r/${name}/about`,
+    )
+      .then((res) => res.json())
+      .then((json) => json.data);
   }
 }

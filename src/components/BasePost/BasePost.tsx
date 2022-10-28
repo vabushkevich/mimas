@@ -4,6 +4,7 @@ import { BasePost as BasePostProps } from "@types";
 import "./BasePost.scss";
 
 export function BasePost({
+  avatar,
   commentCount,
   dateCreated,
   score,
@@ -16,8 +17,15 @@ export function BasePost({
   return (
     <div className="post-preview">
       <div className="post-preview__header">
-        <a href={`https://www.reddit.com/r/${subreddit}/`}>
-          <div className="post-preview__subreddit">{subreddit}</div>
+        <a
+          className="post-preview__subreddit"
+          href={`https://www.reddit.com/r/${subreddit}/`}
+        >
+          <div
+            className="post-preview__subreddit-img"
+            style={{ backgroundImage: `url("${avatar}")` }}
+          ></div>
+          <div className="post-preview__subreddit-name">{subreddit}</div>
         </a>
         <a
           className="post-preview__user"

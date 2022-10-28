@@ -42,7 +42,13 @@ export interface PostData {
   url_overridden_by_dest?: string;
 }
 
+export interface SubredditData {
+  community_icon: string;
+  icon_img: string;
+}
+
 export interface BasePost {
+  avatar: string;
   commentCount: number;
   dateCreated: number;
   id: string;
