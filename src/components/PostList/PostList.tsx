@@ -1,19 +1,19 @@
 import React from "react";
-import { PostData } from "@types";
+import { Post as PostType } from "@types";
 
 import { Post } from "@components";
 import "./PostList.scss";
 
 type PostListProps = {
-  postsData: PostData[];
+  posts: PostType[];
 };
 
-export function PostList({ postsData }: PostListProps) {
+export function PostList({ posts }: PostListProps) {
   return (
     <ol className="post-list">
-      {postsData.map((postData) => (
-        <li key={postData.name} className="post-list__item">
-          <Post postData={postData} />
+      {posts.map((post) => (
+        <li key={post.id} className="post-list__item">
+          <Post {...post} />
         </li>
       ))}
     </ol>

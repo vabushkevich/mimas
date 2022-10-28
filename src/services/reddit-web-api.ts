@@ -1,4 +1,98 @@
-import { PostData, SubredditData, CommentThreadListItemData } from "@types";
+import { SubredditData, CommentThreadListItemData, PostRaw, Post } from "@types";
+import { findLast } from "lodash-es";
+import { decodeEntities } from "@utils";
+
+function isLinkPost(postRaw: PostRaw) {
+  const { url_overridden_by_dest } = postRaw.data;
+  if (!url_overridden_by_dest) return false;
+  switch (new URL(url_overridden_by_dest).hostname) {
+    case "www.reddit.com":
+    case "i.redd.it":
+    case "v.redd.it":
+      return false;
+  }
+  return true;
+}
+
+function isTextPost(postRaw: PostRaw) {
+  return typeof postRaw.data.selftext_html == "string";
+}
+
+function isGalleryPost(postRaw: PostRaw) {
+  return "gallery_data" in postRaw.data;
+}
+
+function isVideoPost(postRaw: PostRaw) {
+  return postRaw.data.is_video === true;
+}
+
+function isImagePost(postRaw: PostRaw) {
+  return postRaw.data.post_hint === "image";
+}
+
+function readPost(postRaw: PostRaw): Post {
+  const post = {
+    avatar: "",
+    commentCount: postRaw.data.num_comments,
+    dateCreated: postRaw.data.created_utc * 1000,
+    id: postRaw.data.name,
+    score: postRaw.data.score,
+    subreddit: postRaw.data.subreddit,
+    title: postRaw.data.title,
+    url: postRaw.data.permalink,
+    userName: postRaw.data.author,
+  };
+
+  if (isImagePost(postRaw)) {
+    const images = postRaw.data.preview.images[0].resolutions;
+    const image = findLast(images, (item) => item.width <= 640);
+    return {
+      ...post,
+      type: "image",
+      image: decodeEntities(image.url),
+    };
+  }
+
+  if (isVideoPost(postRaw)) {
+    return {
+      ...post,
+      type: "video",
+      video: postRaw.data.media.reddit_video.fallback_url,
+    };
+  }
+
+  if (isGalleryPost(postRaw)) {
+    const images = postRaw.data.gallery_data.items.reduce((out, item) => {
+      const images = postRaw.data.media_metadata[item.media_id].p;
+      const image = findLast(images, (item) => item.x <= 640);
+      out.push(decodeEntities(image.u));
+      return out;
+    }, []);
+    return {
+      ...post,
+      type: "gallery",
+      images,
+    };
+  }
+
+  if (isTextPost(postRaw)) {
+    return {
+      ...post,
+      type: "text",
+      contentHtml: decodeEntities(postRaw.data.selftext_html),
+    };
+  }
+
+  if (isLinkPost(postRaw)) {
+    return {
+      ...post,
+      type: "link",
+      linkUrl: postRaw.data.url_overridden_by_dest,
+    };
+  }
+
+  return post;
+}
 
 export class RedditWebAPI {
   #accessToken: string;
@@ -17,13 +111,14 @@ export class RedditWebAPI {
     });
   }
 
-  async getPosts(ids: string[]): Promise<PostData[]> {
+  async getPosts(ids: string[]) {
     const fullnames = ids.map((id) => `t3_${id}`).join();
-    return await this.#fetchWithAuth(
+    const postsRaw: PostRaw[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/info?id=${fullnames}`,
     )
       .then((res) => res.json())
-      .then((json) => json.data.children.map((post: any) => post.data));
+      .then((json) => json.data.children);
+    return postsRaw.map((postRaw) => readPost(postRaw));
   }
 
   async getHotPosts({
@@ -32,15 +127,17 @@ export class RedditWebAPI {
   }: {
     after?: string,
     limit?: number,
-  } = {}): Promise<PostData[]> {
+  } = {}) {
     const params = [];
 
     if (after) params.push(`after=${after}`);
     if (limit) params.push(`limit=${limit}`);
 
-    return await this.#fetchWithAuth(`https://oauth.reddit.com/hot?${params.join("&")}`)
+    const postsRaw: PostRaw[] = await this.#fetchWithAuth(`https://oauth.reddit.com/hot?${params.join("&")}`)
       .then((res) => res.json())
-      .then((json) => json.data.children.map((post: any) => post.data));
+      .then((json) => json.data.children);
+
+    return postsRaw.map((postRaw) => readPost(postRaw));
   }
 
   async getSubredditInfo(name: string): Promise<SubredditData> {
