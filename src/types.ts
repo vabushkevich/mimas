@@ -88,26 +88,26 @@ export interface ImagePost extends BasePost {
 
 export type Post = BasePost | ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
 
-export interface CommentThreadData {
-  author: string;
-  body_html: string;
-  created_utc: number;
-  name: string;
-  replies: "" | {
-    data: {
-      children: {
-        data: CommentThreadListItemData;
-      }[];
+export interface CommentRaw {
+  data: {
+    author: string;
+    body_html: string;
+    created_utc: number;
+    name: string;
+    replies: "" | {
+      data: {
+        children: (CommentRaw | MoreItems)[];
+      };
     };
+    score: number;
   };
-  score: number;
 }
 
-export interface MoreCommentsData {
-  children: string[];
+export interface MoreItems {
+  data: {
+    children: string[];
+  };
 }
-
-export type CommentThreadListItemData = CommentThreadData | MoreCommentsData;
 
 export interface Comment {
   avatar: string;

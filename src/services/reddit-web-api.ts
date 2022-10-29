@@ -1,4 +1,11 @@
-import { SubredditData, CommentThreadListItemData, PostRaw, Post } from "@types";
+import {
+  SubredditData,
+  PostRaw,
+  Post,
+  CommentRaw,
+  MoreItems,
+  CommentThread,
+} from "@types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
 
@@ -94,6 +101,45 @@ function readPost(postRaw: PostRaw): Post {
   return post;
 }
 
+function readThread({
+  data: {
+    author,
+    created_utc,
+    name,
+    replies,
+    score,
+    body_html,
+  }
+}: CommentRaw): CommentThread {
+  const lastReply = replies && replies.data.children.at(-1);
+
+  return {
+    comment: {
+      avatar: "",
+      contentHtml: decodeEntities(body_html),
+      dateCreated: created_utc * 1000,
+      id: name,
+      score: score,
+      userName: author,
+    },
+    replies: readReplies(replies),
+    moreReplies: lastReply && "children" in lastReply.data
+      ? [...lastReply.data.children]
+      : [],
+  };
+}
+
+function readReplies(
+  replies: CommentRaw["data"]["replies"],
+): CommentThread[] {
+  if (replies == "") return [];
+  return replies.data.children
+    .filter((item): item is CommentRaw =>
+      !("children" in item.data)
+    )
+    .map((item) => readThread(item));
+}
+
 export class RedditWebAPI {
   #accessToken: string;
 
@@ -148,11 +194,24 @@ export class RedditWebAPI {
       .then((json) => json.data);
   }
 
-  async getComments(postId: string): Promise<CommentThreadListItemData[]> {
-    return await this.#fetchWithAuth(
+  async getComments(postId: string) {
+    const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${postId}`,
     )
       .then((res) => res.json())
-      .then((json) => json[1].data.children.map((item: any) => item.data));
+      .then((json) => json[1].data.children);
+    const commentsRaw = items.filter(
+      (item): item is CommentRaw => !("children" in item.data)
+    );
+    const threads = commentsRaw.map((commentRaw) => readThread(commentRaw));
+    const lastItem = items.at(-1);
+    const moreComments = lastItem && "children" in lastItem.data
+      ? lastItem.data.children
+      : [];
+
+    return {
+      threads,
+      more: moreComments,
+    };
   }
 }
