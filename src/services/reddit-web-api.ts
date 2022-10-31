@@ -5,6 +5,7 @@ import {
   CommentRaw,
   MoreItems,
   CommentThread,
+  CommentsSortingMethod,
 } from "@types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
@@ -194,9 +195,17 @@ export class RedditWebAPI {
       .then((json) => json.data);
   }
 
-  async getComments(postId: string) {
+  async getComments(
+    postId: string,
+    {
+      sort,
+    }: {
+      sort?: CommentsSortingMethod,
+    } = {}
+  ) {
+    const params = new URLSearchParams({ sort });
     const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/comments/${postId}`,
+      `https://oauth.reddit.com/comments/${postId}?${params}`,
     )
       .then((res) => res.json())
       .then((json) => json[1].data.children);

@@ -123,3 +123,13 @@ export interface CommentThread {
   replies: CommentThread[];
   moreReplies: string[];
 }
+
+export type CommentsSortingMethod =
+  | "confidence"
+  | "top"
+  | "new"
+  | "controversial"
+  | "old"
+  | "random"
+  | "qa"
+  | "live";

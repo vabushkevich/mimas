@@ -1,0 +1,29 @@
+@use "@sass/variables" as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0px 14px;
+  color: $gray-800;
+  background-color: $gray-200;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition-property: box-shadow, background-color;
+
+  &:hover {
+    background-color: $gray-300;
+  }
+
+  &:active {
+    background-color: $gray-400;
+  }
+
+  &__right-icon {
+    display: inline-flex;
+    margin-left: 8px;
+  }
+}
