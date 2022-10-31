@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ClientContext } from "@context";
+import { Post } from "@types";
 
 import { PostList, Container, Page } from "@components";
 
 export function TestPage() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const client = useContext(ClientContext);
 
   useEffect(() => {
