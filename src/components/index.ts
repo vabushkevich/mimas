@@ -17,6 +17,7 @@ import { IntersectionDetector } from "./IntersectionDetector/IntersectionDetecto
 import { Comment } from "./Comment/Comment";
 import { CommentThread } from "./CommentThread/CommentThread";
 import { CommentThreadList } from "./CommentThreadList/CommentThreadList";
+import { Card } from "./Card/Card";
 
 export {
   Post,
@@ -38,4 +39,5 @@ export {
   Comment,
   CommentThread,
   CommentThreadList,
+  Card,
 };

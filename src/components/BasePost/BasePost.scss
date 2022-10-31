@@ -1,10 +1,6 @@
 @use "@sass/variables" as *;
 
 .post-preview {
-  background-color: white;
-  border-radius: 5px;
-  padding: 10px;
-
   & a:not(&__title):hover {
     color: $primary-dark;
   }
