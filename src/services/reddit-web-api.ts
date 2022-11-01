@@ -172,8 +172,8 @@ export class RedditWebAPI {
     after,
     limit,
   }: {
-    after?: string,
-    limit?: number,
+    after?: string;
+    limit?: number;
   } = {}) {
     const params = [];
 
@@ -201,8 +201,8 @@ export class RedditWebAPI {
       limit = 50,
       sort,
     }: {
-      limit?: number,
-      sort?: CommentsSortingMethod,
+      limit?: number;
+      sort?: CommentsSortingMethod;
     } = {}
   ) {
     const params = new URLSearchParams({ sort, limit: String(limit) });

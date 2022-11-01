@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react";
 
 type IntersectionDetectorProps = {
-  marginLeft?: number,
-  marginTop?: number,
-  marginRight?: number,
-  marginBottom?: number,
+  marginLeft?: number;
+  marginTop?: number;
+  marginRight?: number;
+  marginBottom?: number;
   onIntersect: () => void;
   children?: React.ReactNode;
 };
