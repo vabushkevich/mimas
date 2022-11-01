@@ -180,7 +180,9 @@ export class RedditWebAPI {
     if (after) params.push(`after=${after}`);
     if (limit) params.push(`limit=${limit}`);
 
-    const postsRaw: PostRaw[] = await this.#fetchWithAuth(`https://oauth.reddit.com/hot?${params.join("&")}`)
+    const postsRaw: PostRaw[] = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/hot?${params.join("&")}`,
+    )
       .then((res) => res.json())
       .then((json) => json.data.children);
 
