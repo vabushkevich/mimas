@@ -198,12 +198,14 @@ export class RedditWebAPI {
   async getComments(
     postId: string,
     {
+      limit = 50,
       sort,
     }: {
+      limit?: number,
       sort?: CommentsSortingMethod,
     } = {}
   ) {
-    const params = new URLSearchParams({ sort });
+    const params = new URLSearchParams({ sort, limit: String(limit) });
     const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${postId}?${params}`,
     )
