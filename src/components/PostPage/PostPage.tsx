@@ -27,7 +27,7 @@ const commentsSortingMenu: {
 
 export function PostPage() {
   const [post, setPost] = useState<PostType>();
-  const [commentThreads, setCommentThreads] = useState<CommentThread[]>();
+  const [commentThreads, setCommentThreads] = useState<CommentThread[]>([]);
   const [nextThreadsIds, setNextThreadsIds] = useState<string[]>([]);
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
@@ -56,7 +56,7 @@ export function PostPage() {
     <Page>
       <Container>
         {post ? <Post {...post} collapsed={false} /> : <div>Loading...</div>}
-        {commentThreads && (
+        {commentThreads.length > 0 && (
           <>
             <div className="comments-sorting">
               <Card>
