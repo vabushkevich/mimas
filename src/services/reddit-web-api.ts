@@ -175,13 +175,12 @@ export class RedditWebAPI {
     after?: string;
     limit?: number;
   } = {}) {
-    const params = [];
-
-    if (after) params.push(`after=${after}`);
-    if (limit) params.push(`limit=${limit}`);
+    const params = new URLSearchParams();
+    if (after) params.append("after", after);
+    if (limit) params.append("limit", String(limit));
 
     const postsRaw: PostRaw[] = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/hot?${params.join("&")}`,
+      `https://oauth.reddit.com/hot?${params}`,
     )
       .then((res) => res.json())
       .then((json) => json.data.children);
