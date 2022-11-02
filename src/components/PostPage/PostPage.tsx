@@ -32,7 +32,7 @@ export function PostPage() {
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
   const client = useContext(ClientContext);
-  const postId = location.pathname.match(/\/comments\/(\w+)\//)[1];
+  const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
   useEffect(() => {
     (async () => {

@@ -159,9 +159,8 @@ export class RedditWebAPI {
   }
 
   async getPosts(ids: string[]) {
-    const fullnames = ids.map((id) => `t3_${id}`).join();
     const postsRaw: PostRaw[] = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/api/info?id=${fullnames}`,
+      `https://oauth.reddit.com/api/info?id=${ids}`,
     )
       .then((res) => res.json())
       .then((json) => json.data.children);
@@ -206,9 +205,10 @@ export class RedditWebAPI {
       sort?: CommentsSortingMethod;
     } = {}
   ) {
+    const postIdSuffix = postId.split("_").at(-1);
     const params = new URLSearchParams({ sort, limit: String(limit) });
     const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/comments/${postId}?${params}`,
+      `https://oauth.reddit.com/comments/${postIdSuffix}?${params}`,
     )
       .then((res) => res.json())
       .then((json) => json[1].data.children);
