@@ -125,7 +125,7 @@ function readThread({
     },
     replies: readReplies(replies),
     moreReplies: lastReply && "children" in lastReply.data
-      ? [...lastReply.data.children]
+      ? lastReply.data.children.map((s) => "t1_" + s)
       : [],
   };
 }
@@ -218,7 +218,7 @@ export class RedditWebAPI {
     const threads = commentsRaw.map((commentRaw) => readThread(commentRaw));
     const lastItem = items.at(-1);
     const moreComments = lastItem && "children" in lastItem.data
-      ? lastItem.data.children
+      ? lastItem.data.children.map((s) => "t1_" + s)
       : [];
 
     return {
