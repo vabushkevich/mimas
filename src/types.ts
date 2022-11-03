@@ -100,6 +100,7 @@ export interface CommentRaw {
       };
     };
     score: number;
+    author_fullname?: string;
   };
 }
 
@@ -115,6 +116,7 @@ export interface Comment {
   dateCreated: number;
   id: string;
   score: number;
+  userId: string | null;
   userName: string;
 }
 

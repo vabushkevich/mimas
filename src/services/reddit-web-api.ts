@@ -104,6 +104,7 @@ function readPost(postRaw: PostRaw): Post {
 
 function readThread({
   data: {
+    author_fullname,
     author,
     created_utc,
     name,
@@ -121,6 +122,7 @@ function readThread({
       dateCreated: created_utc * 1000,
       id: name,
       score: score,
+      userId: author_fullname || null,
       userName: author,
     },
     replies: readReplies(replies),
