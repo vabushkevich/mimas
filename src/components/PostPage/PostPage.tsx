@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Post as PostType, CommentThread, CommentsSortingMethod } from "@types";
+import {
+  Post as PostType,
+  CommentThread,
+  CommentsSortingMethod,
+  User,
+} from "@types";
 import { ClientContext } from "@context";
 
 import {
@@ -31,6 +36,7 @@ export function PostPage() {
   const [nextThreadsIds, setNextThreadsIds] = useState<string[]>([]);
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
+  const [users, setUsers] = useState<Record<string, User>>({});
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
@@ -51,6 +57,31 @@ export function PostPage() {
       setNextThreadsIds(more);
     })();
   }, [commentsSorting]);
+
+  useEffect(() => {
+    (async () => {
+      if (commentThreads.length == 0) return;
+
+      const userIds = new Set<string>();
+
+      (function traverseTreads(threads) {
+        for (const thread of threads) {
+          const { comment } = thread;
+          if (comment.userId && !(comment.userId in users)) {
+            userIds.add(comment.userId);
+          }
+          traverseTreads(thread.replies);
+        }
+      })(commentThreads);
+
+      const newUsers = (await client.getUsers([...userIds.values()]))
+        .reduce(
+          (res, user) => (res[user.id] = user, res),
+          {} as Record<string, User>,
+        );
+      setUsers((users) => ({ ...users, ...newUsers }));
+    })();
+  }, [commentThreads]);
 
   return (
     <Page>
@@ -78,7 +109,7 @@ export function PostPage() {
                 </DropdownMenu>
               </Card>
             </div>
-            <CommentThreadList threads={commentThreads} />
+            <CommentThreadList threads={commentThreads} users={users} />
           </>
         )}
       </Container>

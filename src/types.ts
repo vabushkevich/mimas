@@ -135,3 +135,12 @@ export type CommentsSortingMethod =
   | "random"
   | "qa"
   | "live";
+
+export interface UserRaw {
+  profile_img: string;
+}
+
+export interface User {
+  avatar: string;
+  id: string;
+}

@@ -6,6 +6,8 @@ import {
   MoreItems,
   CommentThread,
   CommentsSortingMethod,
+  UserRaw,
+  User,
 } from "@types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
@@ -143,6 +145,20 @@ function readReplies(
     .map((item) => readThread(item));
 }
 
+function readUsers(usersRaw: Record<string, UserRaw>) {
+  const users: User[] = [];
+
+  for (const userId in usersRaw) {
+    const userRaw = usersRaw[userId];
+    users.push({
+      id: userId,
+      avatar: decodeEntities(userRaw.profile_img),
+    });
+  }
+
+  return users;
+}
+
 export class RedditWebAPI {
   #accessToken: string;
 
@@ -227,5 +243,13 @@ export class RedditWebAPI {
       threads,
       more: moreComments,
     };
+  }
+
+  async getUsers(ids: string[]) {
+    const usersRaw: Record<string, UserRaw> = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}`,
+    )
+      .then((res) => res.json());
+    return readUsers(usersRaw);
   }
 }
