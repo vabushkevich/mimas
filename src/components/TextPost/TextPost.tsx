@@ -22,8 +22,8 @@ export function TextPost(props: TextPostProps) {
           "text-post-body",
           collapsed && "text-post-body--collapsed",
         )}
-        dangerouslySetInnerHTML={{ __html: contentHtml }}>
-      </div>
+        dangerouslySetInnerHTML={{ __html: contentHtml }}
+      ></div>
     </BasePost>
   );
 }
