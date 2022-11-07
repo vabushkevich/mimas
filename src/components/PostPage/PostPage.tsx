@@ -33,7 +33,7 @@ const commentsSortingMenu: {
 export function PostPage() {
   const [post, setPost] = useState<PostType>();
   const [commentThreads, setCommentThreads] = useState<CommentThread[]>([]);
-  const [nextThreadsIds, setNextThreadsIds] = useState<string[]>([]);
+  const [nextThreadIds, setNextThreadIds] = useState<string[]>([]);
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
   const [users, setUsers] = useState<Record<string, User>>({});
@@ -54,7 +54,7 @@ export function PostPage() {
         { sort: commentsSorting },
       );
       setCommentThreads(threads);
-      setNextThreadsIds(more);
+      setNextThreadIds(more);
     })();
   }, [commentsSorting]);
 
