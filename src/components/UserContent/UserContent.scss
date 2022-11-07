@@ -1,0 +1,126 @@
+@use "@sass/variables" as *;
+
+.user-content {
+  overflow-wrap: break-word;
+
+  *:first-child {
+    margin-top: 0;
+  }
+
+  *:last-child {
+    margin-bottom: 0;
+  }
+
+  p,
+  ol,
+  ul,
+  blockquote,
+  pre,
+  table {
+    margin: 0 0 0.8em;
+  }
+
+  strong,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+
+  h1 {
+    margin: 0.87em 0 0.58em;
+    font-size: 1.38em;
+  }
+
+  h2 {
+    margin: 0.96em 0 0.64em;
+    font-size: 1.25em;
+  }
+
+  h3 {
+    margin: 1.06em 0 0.71em;
+    font-size: 1.13em;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin: 1.2em 0 0.8em;
+    font-size: 1em;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol,
+  ul {
+    padding-left: 1.5em;
+  }
+
+  li,
+  li>ul:first-of-type,
+  li>ol:first-of-type {
+    margin-top: 0.3em;
+  }
+
+  blockquote {
+    padding-left: 0.6em;
+    border-left: 3px solid $gray-500;
+    color: $gray-600;
+  }
+
+  pre,
+  code {
+    border-radius: 0.3em;
+    font-size: 90%;
+    font-family: Menlo, Consolas, Monaco, "Liberation Mono", "Lucida Console", monospace;
+    background-color: lighten($color: $gray-200, $amount: 2%);
+  }
+
+  pre {
+    padding: 0.6em;
+  }
+
+  pre>code {
+    font-size: inherit;
+  }
+
+  :not(pre)>code {
+    padding: 0.1em 0.3em;
+  }
+
+  hr {
+    height: 2px;
+    border: none;
+    margin: 1em 0;
+    background-color: $gray-400;
+  }
+
+  table {
+    display: block;
+    overflow: auto;
+    border-collapse: collapse;
+
+    td,
+    th {
+      padding: 0.35em 0.7em;
+      border: 1px solid $gray-400;
+    }
+
+    th {
+      font-weight: 500;
+    }
+
+    tr:nth-child(2n) {
+      background-color: lighten($color: $gray-200, $amount: 4%);
+    }
+  }
+}

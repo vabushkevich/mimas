@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./UserContent.scss";
+
 type UserContentProps = {
   contentHtml: string;
 };
