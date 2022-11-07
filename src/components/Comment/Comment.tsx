@@ -1,6 +1,7 @@
 import React from "react";
 import { Comment as CommentProps } from "@types";
 
+import { UserContent } from "@components";
 import "./Comment.scss";
 
 export function Comment({
@@ -25,10 +26,9 @@ export function Comment({
         </a>
         <div className="comment__date">{new Date(dateCreated).toLocaleString()}</div>
       </div>
-      <div
-        className="comment__body"
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
-      ></div>
+      <div className="comment__body">
+        <UserContent contentHtml={contentHtml} />
+      </div>
       <div className="comment__footer">
         <button className="comment__reply-btn">Reply</button>
         <div className="comment__voting">

@@ -2,7 +2,7 @@ import React from "react";
 import { TextPost } from "@types";
 import classNames from "classnames";
 
-import { BasePost } from "@components";
+import { BasePost, UserContent } from "@components";
 import "./TextPost.scss";
 
 interface TextPostProps extends TextPost {
@@ -22,8 +22,9 @@ export function TextPost(props: TextPostProps) {
           "text-post-body",
           collapsed && "text-post-body--collapsed",
         )}
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
-      ></div>
+      >
+        <UserContent contentHtml={contentHtml} />
+      </div>
     </BasePost>
   );
 }
