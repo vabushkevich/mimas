@@ -1,4 +1,5 @@
 import React from "react";
+import { formatDistanceToNow } from "@utils";
 import { BasePost as BasePostProps } from "@types";
 
 import { Card } from "@components";
@@ -35,7 +36,9 @@ export function BasePost({
           >
             {userName}
           </a>
-          <div className="post-preview__date">{new Date(dateCreated).toLocaleString()}</div>
+          <div className="post-preview__date">
+            {formatDistanceToNow(dateCreated)}
+          </div>
         </div>
         <a
           className="post-preview__title"
