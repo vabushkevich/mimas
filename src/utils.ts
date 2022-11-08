@@ -27,3 +27,9 @@ export function formatDate(date: Date | number) {
     timeStyle: "short",
   }).format(date);
 }
+
+export function compactNumber(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    notation: "compact",
+  }).format(value);
+}

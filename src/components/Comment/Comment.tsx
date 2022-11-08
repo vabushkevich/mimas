@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDistanceToNow, formatDate } from "@utils";
+import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { Comment as CommentProps } from "@types";
 
 import { UserContent } from "@components";
@@ -39,7 +39,7 @@ export function Comment({
         <button className="comment__reply-btn">Reply</button>
         <div className="comment__voting">
           <button className="comment__down-btn"></button>
-          <div className="comment__score">{score}</div>
+          <div className="comment__score">{compactNumber(score)}</div>
           <button className="comment__up-btn"></button>
         </div>
       </div>
