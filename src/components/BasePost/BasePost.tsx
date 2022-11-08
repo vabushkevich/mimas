@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDistanceToNow } from "@utils";
+import { formatDistanceToNow, formatDate } from "@utils";
 import { BasePost as BasePostProps } from "@types";
 
 import { Card } from "@components";
@@ -36,7 +36,10 @@ export function BasePost({
           >
             {userName}
           </a>
-          <div className="post-preview__date">
+          <div
+            className="post-preview__date"
+            title={formatDate(dateCreated)}
+          >
             {formatDistanceToNow(dateCreated)}
           </div>
         </div>

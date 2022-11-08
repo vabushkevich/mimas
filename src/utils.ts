@@ -20,3 +20,10 @@ export function formatDistanceToNow(date: Date | number) {
   if (distance < msInYear) return `${Math.floor(distance / msInMonth)}mo`;
   return `${Math.floor(distance / msInYear)}y`;
 }
+
+export function formatDate(date: Date | number) {
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}

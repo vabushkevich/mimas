@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDistanceToNow } from "@utils";
+import { formatDistanceToNow, formatDate } from "@utils";
 import { Comment as CommentProps } from "@types";
 
 import { UserContent } from "@components";
@@ -25,7 +25,10 @@ export function Comment({
           ></div>
           <div className="comment__user-name">{userName}</div>
         </a>
-        <div className="comment__date">
+        <div
+          className="comment__date"
+          title={formatDate(dateCreated)}
+        >
           {formatDistanceToNow(dateCreated)}
         </div>
       </div>
