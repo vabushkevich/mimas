@@ -1,9 +1,13 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { BasePost as BasePostProps } from "@types";
+import { BasePost as BasePostType } from "@types";
 
 import { Card } from "@components";
 import "./BasePost.scss";
+
+type BasePostProps = BasePostType & {
+  children?: React.ReactNode;
+};
 
 export function BasePost({
   avatar,
@@ -15,7 +19,7 @@ export function BasePost({
   url,
   userName,
   children,
-}: BasePostProps & { children?: React.ReactNode }) {
+}: BasePostProps) {
   return (
     <Card>
       <div className="post-preview">
