@@ -23,7 +23,7 @@ export function TextPost(props: TextPostProps) {
           collapsed && "text-post-body--collapsed",
         )}
       >
-        <UserContent contentHtml={contentHtml} />
+        <UserContent html={contentHtml} />
       </div>
     </BasePost>
   );

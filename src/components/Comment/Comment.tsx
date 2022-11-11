@@ -33,7 +33,7 @@ export function Comment({
         </div>
       </div>
       <div className="comment__body">
-        <UserContent contentHtml={contentHtml} />
+        <UserContent html={contentHtml} />
       </div>
       <div className="comment__footer">
         <button className="comment__reply-btn">Reply</button>

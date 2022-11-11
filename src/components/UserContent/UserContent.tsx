@@ -3,14 +3,14 @@ import React from "react";
 import "./UserContent.scss";
 
 type UserContentProps = {
-  contentHtml: string;
+  html: string;
 };
 
-export function UserContent({ contentHtml }: UserContentProps) {
+export function UserContent({ html }: UserContentProps) {
   return (
     <div
       className="user-content"
-      dangerouslySetInnerHTML={{ __html: contentHtml }}
+      dangerouslySetInnerHTML={{ __html: html }}
     ></div>
   );
 }
