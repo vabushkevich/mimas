@@ -53,7 +53,9 @@ export function BasePost({
         >
           {title}
         </a>
-        <div className="post-preview__body">{children}</div>
+        {React.Children.count(children) > 0 && (
+          <div className="post-preview__body">{children}</div>
+        )}
         <div className="post-preview__footer">
           <a
             className="post-preview__comments-btn"
