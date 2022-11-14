@@ -1,6 +1,6 @@
 @use "@sass/variables" as *;
 
-.post-preview {
+.post {
   & a:not(&__title):hover {
     color: $primary-dark;
   }
