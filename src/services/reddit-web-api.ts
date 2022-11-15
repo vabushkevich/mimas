@@ -48,7 +48,7 @@ function readPost(postRaw: PostRaw): Post {
     id: postRaw.data.name,
     score: postRaw.data.score,
     subreddit: postRaw.data.subreddit,
-    title: postRaw.data.title,
+    title: decodeEntities(postRaw.data.title),
     url: postRaw.data.permalink,
     userName: postRaw.data.author,
   };
