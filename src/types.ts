@@ -102,12 +102,14 @@ export interface CommentRaw {
     score: number;
     author_fullname?: string;
   };
+  kind: "t1";
 }
 
 export interface MoreItems {
   data: {
     children: string[];
   };
+  kind: "more";
 }
 
 export interface Comment {
