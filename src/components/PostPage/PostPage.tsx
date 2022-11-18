@@ -15,6 +15,7 @@ import {
   DropdownMenu,
   MenuItem,
   Card,
+  IntersectionDetector,
 } from "@components";
 import "./PostPage.scss";
 
@@ -39,6 +40,14 @@ export function PostPage() {
   const [users, setUsers] = useState<Record<string, User>>({});
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
+
+  const loadMoreThreads = async () => {
+    const { threads: newThreads, more } = await client.getMoreComments(
+      postId, nextThreadIds, { sort: commentsSorting }
+    );
+    setCommentThreads((threads) => [...threads, ...newThreads]);
+    setNextThreadIds(more);
+  };
 
   useEffect(() => {
     (async () => {
@@ -110,6 +119,12 @@ export function PostPage() {
               </Card>
             </div>
             <CommentThreadList threads={commentThreads} users={users} />
+            {nextThreadIds.length > 0 && (
+              <IntersectionDetector
+                marginTop={100}
+                onIntersect={loadMoreThreads}
+              />
+            )}
           </>
         )}
       </Container>

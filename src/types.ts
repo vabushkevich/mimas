@@ -94,6 +94,7 @@ export interface CommentRaw {
     body_html: string;
     created_utc: number;
     name: string;
+    parent_id: string;
     replies: "" | {
       data: {
         children: (CommentRaw | MoreItems)[];
@@ -108,6 +109,7 @@ export interface CommentRaw {
 export interface MoreItems {
   data: {
     children: string[];
+    parent_id: string;
   };
   kind: "more";
 }

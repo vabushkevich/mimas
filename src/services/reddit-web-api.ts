@@ -145,6 +145,30 @@ function readReplies(
     .map((item) => readThread(item));
 }
 
+function buildThreadTrees(commentListItems: (CommentRaw | MoreItems)[]) {
+  const threads: CommentThread[] = [];
+  const threadsCache: Record<string, CommentThread> = {};
+
+  for (const item of commentListItems) {
+    if (item.kind == "more") {
+      const parent = threadsCache[item.data.parent_id];
+      parent.moreReplies = item.data.children.map((s) => "t1_" + s);
+      continue;
+    }
+
+    const thread = readThread(item);
+    const parent = threadsCache[item.data.parent_id];
+    if (parent) {
+      parent.replies.push(thread);
+    } else {
+      threads.push(thread);
+    }
+    threadsCache[thread.comment.id] = thread;
+  }
+
+  return threads;
+}
+
 function readUsers(usersRaw: Record<string, UserRaw>) {
   const users: User[] = [];
 
@@ -241,6 +265,44 @@ export class RedditWebAPI {
 
     return {
       threads,
+      more: moreComments,
+    };
+  }
+
+  async getMoreComments(
+    postId: string,
+    commentIds: string[],
+    {
+      sort,
+    }: {
+      sort?: CommentsSortingMethod,
+    } = {}
+  ) {
+    const formData = new FormData();
+    formData.append("api_type", "json");
+    formData.append(
+      "children",
+      commentIds.map((v) => v.split("_").at(-1)).join()
+    );
+    formData.append("link_id", postId);
+    if (sort) formData.append("sort", sort);
+
+    const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
+      "https://oauth.reddit.com/api/morechildren",
+      { body: formData, method: "POST" },
+    )
+      .then((res) => res.json())
+      .then((json) => json.json.data.things);
+    const lastItem = items.at(-1);
+    const hasMoreComments = lastItem?.kind == "more";
+    const moreComments = hasMoreComments
+      ? lastItem.data.children.map((s) => "t1_" + s)
+      : [];
+
+    if (hasMoreComments) items.pop();
+
+    return {
+      threads: buildThreadTrees(items),
       more: moreComments,
     };
   }
