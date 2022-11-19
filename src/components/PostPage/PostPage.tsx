@@ -38,6 +38,7 @@ export function PostPage() {
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
   const [users, setUsers] = useState<Record<string, User>>({});
+  const [collapsedThreadIds, setCollapsedThreadIds] = useState<string[]>([]);
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
@@ -47,6 +48,19 @@ export function PostPage() {
     );
     setCommentThreads((threads) => [...threads, ...newThreads]);
     setNextThreadIds(more);
+  };
+
+  const handleThreadCollapseToggle = (id: string) => {
+    setCollapsedThreadIds((ids) => {
+      const newIds = [...ids];
+      const i = collapsedThreadIds.indexOf(id);
+      if (i == -1) {
+        newIds.push(id);
+      } else {
+        newIds.splice(i, 1);
+      }
+      return newIds;
+    });
   };
 
   useEffect(() => {
@@ -118,7 +132,12 @@ export function PostPage() {
                 </DropdownMenu>
               </Card>
             </div>
-            <CommentThreadList threads={commentThreads} users={users} />
+            <CommentThreadList
+              collapsedThreadIds={collapsedThreadIds}
+              threads={commentThreads}
+              users={users}
+              onThreadCollapseToggle={handleThreadCollapseToggle}
+            />
             {nextThreadIds.length > 0 && (
               <IntersectionDetector
                 marginTop={100}

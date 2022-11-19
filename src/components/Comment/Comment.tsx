@@ -1,12 +1,17 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { Comment as CommentProps } from "@types";
+import { Comment as CommentType } from "@types";
 
 import { UserContent } from "@components";
 import "./Comment.scss";
 
+type CommentProps = CommentType & {
+  collapsed?: boolean;
+};
+
 export function Comment({
   avatar,
+  collapsed = false,
   contentHtml,
   dateCreated,
   score,
@@ -32,17 +37,21 @@ export function Comment({
           {formatDistanceToNow(dateCreated)}
         </div>
       </div>
-      <div className="comment__body">
-        <UserContent html={contentHtml} />
-      </div>
-      <div className="comment__footer">
-        <button className="comment__reply-btn">Reply</button>
-        <div className="comment__voting">
-          <button className="comment__down-btn"></button>
-          <div className="comment__score">{compactNumber(score)}</div>
-          <button className="comment__up-btn"></button>
-        </div>
-      </div>
+      {!collapsed && (
+        <>
+          <div className="comment__body">
+            <UserContent html={contentHtml} />
+          </div>
+          <div className="comment__footer">
+            <button className="comment__reply-btn">Reply</button>
+            <div className="comment__voting">
+              <button className="comment__down-btn"></button>
+              <div className="comment__score">{compactNumber(score)}</div>
+              <button className="comment__up-btn"></button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

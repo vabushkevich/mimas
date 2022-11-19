@@ -5,13 +5,17 @@ import { CommentThread, Card } from "@components";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = {
+  collapsedThreadIds: string[];
   threads: CommentThreadType[];
   users: Record<string, User>;
+  onThreadCollapseToggle: (id: string) => void;
 };
 
 export function CommentThreadList({
+  collapsedThreadIds,
   threads,
   users,
+  onThreadCollapseToggle,
 }: CommentThreadListProps) {
   return (
     <div className="comment-thread-list">
@@ -20,7 +24,12 @@ export function CommentThreadList({
           {threads.map((thread) => {
             return (
               <li key={thread.comment.id} className="comment-thread-list__item">
-                <CommentThread {...thread} users={users} />
+                <CommentThread
+                  {...thread}
+                  collapsedThreadIds={collapsedThreadIds}
+                  users={users}
+                  onCollapseToggle={(id) => onThreadCollapseToggle(id)}
+                />
               </li>
             );
           })}

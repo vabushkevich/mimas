@@ -1,6 +1,40 @@
+@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .comment-thread {
+  &__comment-wrapper {
+    display: flex;
+  }
+
+  &__collapse-btn {
+    flex-shrink: 0;
+    position: relative;
+    width: 2px;
+    padding: 0px;
+    border: none;
+    background-color: $gray-400;
+    cursor: pointer;
+
+    &::before {
+      $offset: 5px;
+      content: "";
+      position: absolute;
+      left: -$offset;
+      right: -$offset;
+      top: -$offset;
+      bottom: -$offset;
+    }
+
+    &:hover {
+      background-color: $gray-500;
+    }
+  }
+
+  &__comment {
+    flex-grow: 1;
+    padding: 5px 0 5px 10px;
+  }
+
   &__replies {
     @include reset-list;
 
