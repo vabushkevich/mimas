@@ -2,6 +2,7 @@ import React from "react";
 import { CommentThread as CommentThreadType, User } from "@types";
 
 import { Comment } from "@components";
+import { CommentWrapper } from "./CommentWrapper";
 import "./CommentThread.scss";
 
 type CommentThreadProps = CommentThreadType & {
@@ -22,19 +23,15 @@ export function CommentThread({
 
   return (
     <div className="comment-thread">
-      <div className="comment-thread__comment-wrapper">
-        <button
-          className="comment-thread__collapse-btn"
-          onClick={() => onCollapseToggle(comment.id)}
-        ></button>
-        <div className="comment-thread__comment">
-          <Comment
-            {...comment}
-            avatar={users[comment.userId]?.avatar}
-            collapsed={collapsed}
-          />
-        </div>
-      </div>
+      <CommentWrapper
+        onCollapseButtonClick={() => onCollapseToggle(comment.id)}
+      >
+        <Comment
+          {...comment}
+          avatar={users[comment.userId]?.avatar}
+          collapsed={collapsed}
+        />
+      </CommentWrapper>
       {replies.length > 0 && !collapsed && (
         <ol className="comment-thread__replies">
           {replies.map((reply) => (
