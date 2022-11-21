@@ -9,6 +9,7 @@ type CommentThreadProps = CommentThreadType & {
   collapsedThreadIds: string[];
   users: Record<string, User>;
   onCollapseToggle: (id: string) => void;
+  onLoadMore: (path: string[], threadIds: string[]) => void;
 };
 
 export function CommentThread({
@@ -18,6 +19,7 @@ export function CommentThread({
   moreReplies,
   users,
   onCollapseToggle,
+  onLoadMore,
 }: CommentThreadProps) {
   const collapsed = collapsedThreadIds.includes(comment.id);
 
@@ -32,7 +34,7 @@ export function CommentThread({
           collapsed={collapsed}
         />
       </CommentWrapper>
-      {replies.length > 0 && !collapsed && (
+      {(!collapsed && (replies.length > 0 || moreReplies.length > 0)) && (
         <ol className="comment-thread__replies">
           {replies.map((reply) => (
             <li className="comment-thread__reply" key={reply.comment.id}>
@@ -41,9 +43,28 @@ export function CommentThread({
                 collapsedThreadIds={collapsedThreadIds}
                 users={users}
                 onCollapseToggle={onCollapseToggle}
+                onLoadMore={(path, threadIds) =>
+                  onLoadMore([comment.id, ...path], threadIds)
+                }
               />
             </li>
           ))}
+          {moreReplies.length > 0 && (
+            <li className="comment-thread__reply">
+              <CommentWrapper
+                onCollapseButtonClick={() =>
+                  onLoadMore([comment.id], moreReplies)
+                }
+              >
+                <button
+                  className="comment-thread__more-replies-btn"
+                  onClick={() => onLoadMore([comment.id], moreReplies)}
+                >
+                  {moreReplies.length} more replies
+                </button>
+              </CommentWrapper>
+            </li>
+          )}
         </ol>
       )}
     </div>

@@ -50,6 +50,40 @@ export function PostPage() {
     setNextThreadIds(more);
   };
 
+  const loadMoreReplies = async (path: string[], threadIds: string[]) => {
+    const { threads: newThreads, more } = await client.getMoreComments(
+      postId, threadIds, { sort: commentsSorting }
+    );
+    setCommentThreads((threads) =>
+      updateThread(threads, path, { replies: newThreads, moreReplies: more })
+    );
+  };
+
+  const updateThread = (
+    threads: CommentThread[],
+    path: string[],
+    update: Partial<CommentThread>
+  ) => {
+    const threadId = path[0];
+    const threadIndex = threads
+      .findIndex(({ comment }) => comment.id == threadId);
+    const thread = { ...threads[threadIndex] };
+
+    if (path.length == 1) {
+      Object.assign(thread, {
+        replies: [...thread.replies, ...update.replies],
+        moreReplies: update.moreReplies,
+      });
+    } else {
+      thread.replies = updateThread(thread.replies, path.slice(1), update);
+    }
+
+    threads = [...threads];
+    threads[threadIndex] = thread;
+
+    return threads;
+  }
+
   const handleThreadCollapseToggle = (id: string) => {
     setCollapsedThreadIds((ids) => {
       const newIds = [...ids];
@@ -137,6 +171,7 @@ export function PostPage() {
               threads={commentThreads}
               users={users}
               onThreadCollapseToggle={handleThreadCollapseToggle}
+              onThreadLoadMore={loadMoreReplies}
             />
             {nextThreadIds.length > 0 && (
               <IntersectionDetector

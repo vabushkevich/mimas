@@ -9,6 +9,7 @@ type CommentThreadListProps = {
   threads: CommentThreadType[];
   users: Record<string, User>;
   onThreadCollapseToggle: (id: string) => void;
+  onThreadLoadMore: (path: string[], threadIds: string[]) => void;
 };
 
 export function CommentThreadList({
@@ -16,6 +17,7 @@ export function CommentThreadList({
   threads,
   users,
   onThreadCollapseToggle,
+  onThreadLoadMore,
 }: CommentThreadListProps) {
   return (
     <div className="comment-thread-list">
@@ -29,6 +31,7 @@ export function CommentThreadList({
                   collapsedThreadIds={collapsedThreadIds}
                   users={users}
                   onCollapseToggle={(id) => onThreadCollapseToggle(id)}
+                  onLoadMore={onThreadLoadMore}
                 />
               </li>
             );

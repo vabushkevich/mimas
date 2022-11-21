@@ -1,3 +1,4 @@
+@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .comment-thread {
@@ -9,5 +10,19 @@
 
   &__reply {
     margin-top: 30px;
+  }
+
+  &__more-replies-btn {
+    color: unset;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 500;
+
+    &:hover {
+      color: $primary-dark;
+    }
   }
 }
