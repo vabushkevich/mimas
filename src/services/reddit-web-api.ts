@@ -294,7 +294,12 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json.json.data.things);
     const lastItem = items.at(-1);
-    const hasMoreComments = lastItem?.kind == "more";
+    const preLastItem = items.at(-2);
+    const hasMoreComments = lastItem?.kind == "more" && (
+      !preLastItem
+      || preLastItem.kind == "more"
+      || lastItem.data.parent_id != preLastItem.data.name
+    );
     const moreComments = hasMoreComments
       ? lastItem.data.children.map((s) => "t1_" + s)
       : [];
