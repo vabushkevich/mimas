@@ -131,6 +131,7 @@ function readThread({
     moreReplies: lastReply?.kind == "more"
       ? lastReply.data.children.map((s) => "t1_" + s)
       : [],
+    moreRepliesCount: lastReply?.kind == "more" ? lastReply.data.count : 0,
   };
 }
 
@@ -151,6 +152,7 @@ function buildThreadTrees(commentListItems: (CommentRaw | MoreItems)[]) {
     if (item.kind == "more") {
       const parent = threadsCache[item.data.parent_id];
       parent.moreReplies = item.data.children.map((s) => "t1_" + s);
+      parent.moreRepliesCount = item.data.count;
       continue;
     }
 
@@ -307,6 +309,7 @@ export class RedditWebAPI {
     return {
       threads: buildThreadTrees(items),
       more: moreComments,
+      moreCount: hasMoreComments ? lastItem.data.count : 0,
     };
   }
 

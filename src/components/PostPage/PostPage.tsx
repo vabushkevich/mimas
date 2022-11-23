@@ -51,11 +51,15 @@ export function PostPage() {
   };
 
   const loadMoreReplies = async (path: string[], threadIds: string[]) => {
-    const { threads: newThreads, more } = await client.getMoreComments(
+    const { threads: newThreads, more, moreCount } = await client.getMoreComments(
       postId, threadIds, { sort: commentsSorting }
     );
     setCommentThreads((threads) =>
-      updateThread(threads, path, { replies: newThreads, moreReplies: more })
+      updateThread(threads, path, {
+        replies: newThreads,
+        moreReplies: more,
+        moreRepliesCount: moreCount,
+      })
     );
   };
 
@@ -73,6 +77,7 @@ export function PostPage() {
       Object.assign(thread, {
         replies: [...thread.replies, ...update.replies],
         moreReplies: update.moreReplies,
+        moreRepliesCount: update.moreRepliesCount,
       });
     } else {
       thread.replies = updateThread(thread.replies, path.slice(1), update);

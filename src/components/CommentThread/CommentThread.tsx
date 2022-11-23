@@ -17,6 +17,7 @@ export function CommentThread({
   comment,
   replies,
   moreReplies,
+  moreRepliesCount,
   users,
   onCollapseToggle,
   onLoadMore,
@@ -60,7 +61,7 @@ export function CommentThread({
                   className="comment-thread__more-replies-btn"
                   onClick={() => onLoadMore([comment.id], moreReplies)}
                 >
-                  {moreReplies.length} more replies
+                  {moreRepliesCount} more replies
                 </button>
               </CommentWrapper>
             </li>
