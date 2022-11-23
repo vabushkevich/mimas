@@ -55,18 +55,18 @@ export function PostPage() {
       postId, threadIds, { sort: commentsSorting }
     );
     setCommentThreads((threads) =>
-      updateThread(threads, path, {
-        replies: newThreads,
+      updateThread(threads, path, (thread) => ({
+        replies: [...thread.replies, ...newThreads],
         moreReplies: more,
         moreRepliesCount: moreCount,
-      })
+      }))
     );
   };
 
   const updateThread = (
     threads: CommentThread[],
     path: string[],
-    update: Partial<CommentThread>
+    updater: (thread: CommentThread) => Partial<CommentThread>,
   ) => {
     const threadId = path[0];
     const threadIndex = threads
@@ -74,13 +74,9 @@ export function PostPage() {
     const thread = { ...threads[threadIndex] };
 
     if (path.length == 1) {
-      Object.assign(thread, {
-        replies: [...thread.replies, ...update.replies],
-        moreReplies: update.moreReplies,
-        moreRepliesCount: update.moreRepliesCount,
-      });
+      Object.assign(thread, updater(thread));
     } else {
-      thread.replies = updateThread(thread.replies, path.slice(1), update);
+      thread.replies = updateThread(thread.replies, path.slice(1), updater);
     }
 
     threads = [...threads];
