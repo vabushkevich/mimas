@@ -128,7 +128,7 @@ function readThread({
       userName: author,
     },
     replies: readReplies(replies),
-    moreReplies: lastReply && "children" in lastReply.data
+    moreReplies: lastReply?.kind == "more"
       ? lastReply.data.children.map((s) => "t1_" + s)
       : [],
   };
@@ -139,9 +139,7 @@ function readReplies(
 ): CommentThread[] {
   if (replies == "") return [];
   return replies.data.children
-    .filter((item): item is CommentRaw =>
-      !("children" in item.data)
-    )
+    .filter((item): item is CommentRaw => item.kind == "t1")
     .map((item) => readThread(item));
 }
 
@@ -255,11 +253,11 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json[1].data.children);
     const commentsRaw = items.filter(
-      (item): item is CommentRaw => !("children" in item.data)
+      (item): item is CommentRaw => item.kind == "t1"
     );
     const threads = commentsRaw.map((commentRaw) => readThread(commentRaw));
     const lastItem = items.at(-1);
-    const moreComments = lastItem && "children" in lastItem.data
+    const moreComments = lastItem?.kind == "more"
       ? lastItem.data.children.map((s) => "t1_" + s)
       : [];
 
