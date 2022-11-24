@@ -132,6 +132,8 @@ export function PostPage() {
         }
       })(commentThreads);
 
+      if (userIds.size == 0) return;
+
       const newUsers = (await client.getUsers([...userIds.values()]))
         .reduce(
           (res, user) => (res[user.id] = user, res),
