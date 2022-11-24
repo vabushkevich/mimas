@@ -120,21 +120,21 @@ export function PostPage() {
     (async () => {
       if (commentThreads.length == 0) return;
 
-      const userIds = new Set<string>();
+      const newUserIds = new Set<string>();
 
       (function traverseTreads(threads) {
         for (const thread of threads) {
           const { comment } = thread;
           if (comment.userId && !(comment.userId in users)) {
-            userIds.add(comment.userId);
+            newUserIds.add(comment.userId);
           }
           traverseTreads(thread.replies);
         }
       })(commentThreads);
 
-      if (userIds.size == 0) return;
+      if (newUserIds.size == 0) return;
 
-      const newUsers = (await client.getUsers([...userIds.values()]))
+      const newUsers = (await client.getUsers([...newUserIds.values()]))
         .reduce(
           (res, user) => (res[user.id] = user, res),
           {} as Record<string, User>,
