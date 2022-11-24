@@ -248,7 +248,8 @@ export class RedditWebAPI {
     } = {}
   ) {
     const postIdSuffix = postId.split("_").at(-1);
-    const params = new URLSearchParams({ sort, limit: String(limit) });
+    const params = new URLSearchParams({ limit: String(limit) });
+    if (sort) params.set("sort", sort);
     const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${postIdSuffix}?${params}`,
     )
