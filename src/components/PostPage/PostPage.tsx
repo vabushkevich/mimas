@@ -46,25 +46,22 @@ export function PostPage() {
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
-  const loadMoreThreads = async () => {
-    const { threads: newThreads, more } = await client.getMoreComments(
-      postId, moreThread.ids, { sort: commentsSorting }
-    );
-    setCommentThreads((threads) => [...threads, ...newThreads]);
-    setMoreThread(more);
-  };
-
   const loadMoreReplies = async (path: string[], threadIds: string[]) => {
     const { threads: newThreads, more } = await client.getMoreComments(
       postId, threadIds, { sort: commentsSorting }
     );
-    setCommentThreads((threads) =>
-      updateThread(threads, path, (thread) => ({
-        replies: [...thread.replies, ...newThreads],
-        moreReplies: more.ids,
-        moreRepliesCount: more.count,
-      }))
-    );
+    if (path.length == 0) {
+      setCommentThreads((threads) => [...threads, ...newThreads]);
+      setMoreThread(more);
+    } else {
+      setCommentThreads((threads) =>
+        updateThread(threads, path, (thread) => ({
+          replies: [...thread.replies, ...newThreads],
+          moreReplies: more.ids,
+          moreRepliesCount: more.count,
+        }))
+      );
+    }
   };
 
   const updateThread = (
@@ -189,7 +186,7 @@ export function PostPage() {
             {moreThread.ids.length > 0 && (
               <IntersectionDetector
                 marginTop={100}
-                onIntersect={loadMoreThreads}
+                onIntersect={() => loadMoreReplies([], moreThread.ids)}
               />
             )}
           </>
