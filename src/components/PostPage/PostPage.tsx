@@ -169,13 +169,19 @@ export function PostPage() {
                 </DropdownMenu>
               </Card>
             </div>
-            <CommentThreadList
-              collapsedThreadIds={collapsedThreadIds}
-              threads={commentThreads}
-              users={users}
-              onThreadCollapseToggle={handleThreadCollapseToggle}
-              onThreadLoadMore={loadMoreReplies}
-            />
+            <div className="comments">
+              <Card>
+                <CommentThreadList
+                  collapsedThreadIds={collapsedThreadIds}
+                  moreReplies={nextThreadIds}
+                  moreRepliesCount={nextThreadIds.length}
+                  threads={commentThreads}
+                  users={users}
+                  onThreadCollapseToggle={handleThreadCollapseToggle}
+                  onThreadLoadMore={loadMoreReplies}
+                />
+              </Card>
+            </div>
             {nextThreadIds.length > 0 && (
               <IntersectionDetector
                 marginTop={100}

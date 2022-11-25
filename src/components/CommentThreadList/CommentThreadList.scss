@@ -1,13 +1,24 @@
+@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .comment-thread-list {
-  margin-top: 10px;
-
-  &__list {
-    @include reset-list;
-  }
+  @include reset-list;
 
   &__item:not(:last-child) {
     margin-bottom: 20px;
+  }
+
+  &__more-replies-btn {
+    color: unset;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 500;
+
+    &:hover {
+      color: $primary-dark;
+    }
   }
 }
