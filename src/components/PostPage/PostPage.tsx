@@ -4,6 +4,7 @@ import {
   CommentThread,
   CommentsSortingMethod,
   User,
+  MoreItems,
 } from "@types";
 import { ClientContext } from "@context";
 
@@ -34,7 +35,10 @@ const commentsSortingMenu: {
 export function PostPage() {
   const [post, setPost] = useState<PostType>();
   const [commentThreads, setCommentThreads] = useState<CommentThread[]>([]);
-  const [nextThreadIds, setNextThreadIds] = useState<string[]>([]);
+  const [moreThread, setMoreThread] = useState<MoreItems>({
+    ids: [],
+    count: 0,
+  });
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
   const [users, setUsers] = useState<Record<string, User>>({});
@@ -44,21 +48,21 @@ export function PostPage() {
 
   const loadMoreThreads = async () => {
     const { threads: newThreads, more } = await client.getMoreComments(
-      postId, nextThreadIds, { sort: commentsSorting }
+      postId, moreThread.ids, { sort: commentsSorting }
     );
     setCommentThreads((threads) => [...threads, ...newThreads]);
-    setNextThreadIds(more);
+    setMoreThread(more);
   };
 
   const loadMoreReplies = async (path: string[], threadIds: string[]) => {
-    const { threads: newThreads, more, moreCount } = await client.getMoreComments(
+    const { threads: newThreads, more } = await client.getMoreComments(
       postId, threadIds, { sort: commentsSorting }
     );
     setCommentThreads((threads) =>
       updateThread(threads, path, (thread) => ({
         replies: [...thread.replies, ...newThreads],
-        moreReplies: more,
-        moreRepliesCount: moreCount,
+        moreReplies: more.ids,
+        moreRepliesCount: more.count,
       }))
     );
   };
@@ -88,7 +92,7 @@ export function PostPage() {
   const handleThreadCollapseToggle = (id: string) => {
     setCollapsedThreadIds((ids) => {
       const newIds = [...ids];
-      const i = collapsedThreadIds.indexOf(id);
+      const i = ids.indexOf(id);
       if (i == -1) {
         newIds.push(id);
       } else {
@@ -112,7 +116,7 @@ export function PostPage() {
         { sort: commentsSorting },
       );
       setCommentThreads(threads);
-      setNextThreadIds(more);
+      setMoreThread(more);
     })();
   }, [commentsSorting]);
 
@@ -173,8 +177,8 @@ export function PostPage() {
               <Card>
                 <CommentThreadList
                   collapsedThreadIds={collapsedThreadIds}
-                  moreReplies={nextThreadIds}
-                  moreRepliesCount={nextThreadIds.length}
+                  moreReplies={moreThread.ids}
+                  moreRepliesCount={moreThread.count}
                   threads={commentThreads}
                   users={users}
                   onThreadCollapseToggle={handleThreadCollapseToggle}
@@ -182,7 +186,7 @@ export function PostPage() {
                 />
               </Card>
             </div>
-            {nextThreadIds.length > 0 && (
+            {moreThread.ids.length > 0 && (
               <IntersectionDetector
                 marginTop={100}
                 onIntersect={loadMoreThreads}

@@ -3,11 +3,12 @@ import {
   PostRaw,
   Post,
   CommentRaw,
-  MoreItems,
+  MoreItemsRaw,
   CommentThread,
   CommentsSortingMethod,
   UserRaw,
   User,
+  MoreItems,
 } from "@types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
@@ -144,9 +145,24 @@ function readReplies(
     .map((item) => readThread(item));
 }
 
-function buildThreadTrees(commentListItems: (CommentRaw | MoreItems)[]) {
+function buildThreadList(commentListItems: (CommentRaw | MoreItemsRaw)[]) {
   const threads: CommentThread[] = [];
   const threadsCache: Record<string, CommentThread> = {};
+
+  const lastItem = commentListItems.at(-1);
+  const preLastItem = commentListItems.at(-2);
+  const hasMoreComments = lastItem?.kind == "more" && (
+    !preLastItem
+    || preLastItem.kind == "more"
+    || lastItem.data.parent_id != preLastItem.data.name
+  );
+  const more: MoreItems = {
+    ids: hasMoreComments
+      ? lastItem.data.children.map((s) => "t1_" + s)
+      : [],
+    count: hasMoreComments ? lastItem.data.count : 0,
+  };
+  if (hasMoreComments) commentListItems.pop();
 
   for (const item of commentListItems) {
     if (item.kind == "more") {
@@ -166,7 +182,7 @@ function buildThreadTrees(commentListItems: (CommentRaw | MoreItems)[]) {
     threadsCache[thread.comment.id] = thread;
   }
 
-  return threads;
+  return { threads, more };
 }
 
 function readUsers(usersRaw: Record<string, UserRaw>) {
@@ -247,27 +263,17 @@ export class RedditWebAPI {
       sort?: CommentsSortingMethod;
     } = {}
   ) {
-    const postIdSuffix = postId.split("_").at(-1);
     const params = new URLSearchParams({ limit: String(limit) });
     if (sort) params.set("sort", sort);
-    const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
+
+    const postIdSuffix = postId.split("_").at(-1);
+    const items: (CommentRaw | MoreItemsRaw)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${postIdSuffix}?${params}`,
     )
       .then((res) => res.json())
       .then((json) => json[1].data.children);
-    const commentsRaw = items.filter(
-      (item): item is CommentRaw => item.kind == "t1"
-    );
-    const threads = commentsRaw.map((commentRaw) => readThread(commentRaw));
-    const lastItem = items.at(-1);
-    const moreComments = lastItem?.kind == "more"
-      ? lastItem.data.children.map((s) => "t1_" + s)
-      : [];
 
-    return {
-      threads,
-      more: moreComments,
-    };
+    return buildThreadList(items);
   }
 
   async getMoreComments(
@@ -288,30 +294,14 @@ export class RedditWebAPI {
     formData.append("link_id", postId);
     if (sort) formData.append("sort", sort);
 
-    const items: (CommentRaw | MoreItems)[] = await this.#fetchWithAuth(
+    const items: (CommentRaw | MoreItemsRaw)[] = await this.#fetchWithAuth(
       "https://oauth.reddit.com/api/morechildren",
       { body: formData, method: "POST" },
     )
       .then((res) => res.json())
       .then((json) => json.json.data.things);
-    const lastItem = items.at(-1);
-    const preLastItem = items.at(-2);
-    const hasMoreComments = lastItem?.kind == "more" && (
-      !preLastItem
-      || preLastItem.kind == "more"
-      || lastItem.data.parent_id != preLastItem.data.name
-    );
-    const moreComments = hasMoreComments
-      ? lastItem.data.children.map((s) => "t1_" + s)
-      : [];
 
-    if (hasMoreComments) items.pop();
-
-    return {
-      threads: buildThreadTrees(items),
-      more: moreComments,
-      moreCount: hasMoreComments ? lastItem.data.count : 0,
-    };
+    return buildThreadList(items);
   }
 
   async getUsers(ids: string[]) {

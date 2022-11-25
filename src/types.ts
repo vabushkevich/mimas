@@ -97,7 +97,7 @@ export interface CommentRaw {
     parent_id: string;
     replies: "" | {
       data: {
-        children: (CommentRaw | MoreItems)[];
+        children: (CommentRaw | MoreItemsRaw)[];
       };
     };
     score: number;
@@ -106,7 +106,7 @@ export interface CommentRaw {
   kind: "t1";
 }
 
-export interface MoreItems {
+export interface MoreItemsRaw {
   data: {
     children: string[];
     count: number;
@@ -130,6 +130,11 @@ export interface CommentThread {
   replies: CommentThread[];
   moreReplies: string[];
   moreRepliesCount: number;
+}
+
+export interface MoreItems {
+  count: number;
+  ids: string[];
 }
 
 export type CommentsSortingMethod =
