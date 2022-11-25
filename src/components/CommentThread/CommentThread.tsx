@@ -1,8 +1,7 @@
 import React from "react";
 import { CommentThread as CommentThreadType, User } from "@types";
 
-import { Comment, CommentThreadList } from "@components";
-import { CommentWrapper } from "./CommentWrapper";
+import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
 type CommentThreadProps = CommentThreadType & {

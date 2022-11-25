@@ -24,6 +24,7 @@ import { MenuItem } from "./MenuItem/MenuItem";
 import { DropdownMenu } from "./DropdownMenu/DropdownMenu";
 import { DropdownButton } from "./DropdownButton/DropdownButton";
 import { UserContent } from "./UserContent/UserContent";
+import { CommentWrapper } from "./CommentWrapper/CommentWrapper";
 
 export {
   Post,
@@ -52,4 +53,5 @@ export {
   DropdownMenu,
   DropdownButton,
   UserContent,
+  CommentWrapper,
 };
