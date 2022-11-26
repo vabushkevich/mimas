@@ -45,7 +45,7 @@ export function CommentThreadList({
               className="comment-thread-list__more-replies-btn"
               onClick={() => onThreadLoadMore([], moreReplies)}
             >
-              {moreRepliesCount} more replies
+              {moreRepliesCount} comments
             </button>
           </CommentWrapper>
         </li>
