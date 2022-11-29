@@ -11,8 +11,8 @@ interface TextPostProps extends TextPost {
 
 export function TextPost(props: TextPostProps) {
   const {
+    bodyHtml,
     collapsed = false,
-    contentHtml,
   } = props;
 
   return (
@@ -23,7 +23,7 @@ export function TextPost(props: TextPostProps) {
           collapsed && "text-post-body--collapsed",
         )}
       >
-        <UserContent html={contentHtml} />
+        <UserContent html={bodyHtml} />
       </div>
     </BasePost>
   );

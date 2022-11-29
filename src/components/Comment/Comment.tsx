@@ -11,8 +11,8 @@ type CommentProps = CommentType & {
 
 export function Comment({
   avatar,
+  bodyHtml,
   collapsed = false,
-  contentHtml,
   dateCreated,
   score,
   userName,
@@ -40,7 +40,7 @@ export function Comment({
       {!collapsed && (
         <>
           <div className="comment__body">
-            <UserContent html={contentHtml} />
+            <UserContent html={bodyHtml} />
           </div>
           <div className="comment__footer">
             <button className="comment__reply-btn">Reply</button>

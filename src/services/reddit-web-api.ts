@@ -90,7 +90,7 @@ function readPost(postRaw: PostRaw): Post {
     return {
       ...post,
       type: "text",
-      contentHtml: decodeEntities(postRaw.data.selftext_html),
+      bodyHtml: decodeEntities(postRaw.data.selftext_html),
     };
   }
 
@@ -121,7 +121,7 @@ function readThread({
   return {
     comment: {
       avatar: "",
-      contentHtml: decodeEntities(body_html),
+      bodyHtml: decodeEntities(body_html),
       dateCreated: created_utc * 1000,
       id: name,
       score: score,

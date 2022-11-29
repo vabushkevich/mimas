@@ -44,7 +44,7 @@ export function Post(initProps: PostProps) {
       return (
         <TextPost
           {...props}
-          collapsed={props.collapsed ?? props.contentHtml.length > 500}
+          collapsed={props.collapsed ?? props.bodyHtml.length > 500}
         />
       );
     case "video":

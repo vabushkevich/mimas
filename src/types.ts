@@ -68,7 +68,7 @@ export interface LinkPost extends BasePost {
 
 export interface TextPost extends BasePost {
   type: "text";
-  contentHtml: string;
+  bodyHtml: string;
 }
 
 export interface GalleryPost extends BasePost {
@@ -117,7 +117,7 @@ export interface MoreItemsRaw {
 
 export interface Comment {
   avatar: string;
-  contentHtml: string;
+  bodyHtml: string;
   dateCreated: number;
   id: string;
   score: number;
