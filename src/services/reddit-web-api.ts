@@ -157,10 +157,10 @@ function buildThreadList(commentListItems: (CommentRaw | MoreItemsRaw)[]) {
     || lastItem.data.parent_id != preLastItem.data.name
   );
   const more: MoreItems = {
+    totalCount: hasMoreComments ? lastItem.data.count : 0,
     ids: hasMoreComments
       ? lastItem.data.children.map((s) => "t1_" + s)
       : [],
-    count: hasMoreComments ? lastItem.data.count : 0,
   };
   if (hasMoreComments) commentListItems.pop();
 

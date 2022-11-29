@@ -133,8 +133,8 @@ export interface CommentThread {
 }
 
 export interface MoreItems {
-  count: number;
   ids: string[];
+  totalCount: number;
 }
 
 export type CommentsSortingMethod =

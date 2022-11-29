@@ -36,8 +36,8 @@ export function PostPage() {
   const [post, setPost] = useState<PostType>();
   const [commentThreads, setCommentThreads] = useState<CommentThread[]>([]);
   const [moreThread, setMoreThread] = useState<MoreItems>({
+    totalCount: 0,
     ids: [],
-    count: 0,
   });
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
@@ -58,7 +58,7 @@ export function PostPage() {
         updateThread(threads, path, (thread) => ({
           replies: [...thread.replies, ...newThreads],
           moreReplies: more.ids,
-          moreRepliesCount: more.count,
+          moreRepliesCount: more.totalCount,
         }))
       );
     }
@@ -175,7 +175,7 @@ export function PostPage() {
                 <CommentThreadList
                   collapsedThreadIds={collapsedThreadIds}
                   moreReplies={moreThread.ids}
-                  moreRepliesCount={moreThread.count}
+                  moreRepliesCount={moreThread.totalCount}
                   threads={commentThreads}
                   users={users}
                   onThreadCollapseToggle={handleThreadCollapseToggle}
