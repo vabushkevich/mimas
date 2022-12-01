@@ -3,7 +3,6 @@ import { Post } from "@types";
 import { ClientContext } from "@context";
 
 import {
-  BasePost,
   LinkPost,
   TextPost,
   GalleryPost,
@@ -30,8 +29,6 @@ export function Post(initProps: PostProps) {
       setAvatar(avatar.split("?")[0]);
     })();
   }, []);
-
-  if (!("type" in props)) return <BasePost {...props} />;
 
   switch (props.type) {
     case "gallery":

@@ -86,7 +86,7 @@ export interface ImagePost extends BasePost {
   image: string;
 }
 
-export type Post = BasePost | ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
+export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
 
 export interface CommentRaw {
   data: {

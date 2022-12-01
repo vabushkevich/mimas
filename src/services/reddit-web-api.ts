@@ -102,7 +102,11 @@ function readPost(postRaw: PostRaw): Post {
     };
   }
 
-  return post;
+  return {
+    ...post,
+    type: "text",
+    bodyHtml: "",
+  };
 }
 
 function readThread({
