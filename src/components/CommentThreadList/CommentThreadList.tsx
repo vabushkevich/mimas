@@ -1,14 +1,11 @@
 import React from "react";
-import { CommentThread as CommentThreadType, User } from "@types";
+import { User, CommentThreadList as CommentThreadListType } from "@types";
 
 import { CommentThread, CommentWrapper } from "@components";
 import "./CommentThreadList.scss";
 
-type CommentThreadListProps = {
+type CommentThreadListProps = CommentThreadListType & {
   collapsedThreadIds: string[];
-  moreReplies: string[];
-  moreRepliesCount: number;
-  threads: CommentThreadType[];
   users: Record<string, User>;
   onThreadCollapseToggle: (id: string) => void;
   onThreadLoadMore: (path: string[], threadIds: string[]) => void;
@@ -16,8 +13,7 @@ type CommentThreadListProps = {
 
 export function CommentThreadList({
   collapsedThreadIds,
-  moreReplies,
-  moreRepliesCount,
+  more,
   threads,
   users,
   onThreadCollapseToggle,
@@ -36,16 +32,16 @@ export function CommentThreadList({
           />
         </li>
       ))}
-      {moreRepliesCount > 0 && (
+      {more.ids.length > 0 && (
         <li className="comment-thread-list__item">
           <CommentWrapper
-            onCollapseButtonClick={() => onThreadLoadMore([], moreReplies)}
+            onCollapseButtonClick={() => onThreadLoadMore([], more.ids)}
           >
             <button
               className="comment-thread-list__more-replies-btn"
-              onClick={() => onThreadLoadMore([], moreReplies)}
+              onClick={() => onThreadLoadMore([], more.ids)}
             >
-              {`${moreRepliesCount} comment${moreRepliesCount != 1 ? "s" : ""}`}
+              {`${more.totalCount} comment${more.totalCount != 1 ? "s" : ""}`}
             </button>
           </CommentWrapper>
         </li>

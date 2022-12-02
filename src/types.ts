@@ -127,9 +127,12 @@ export interface Comment {
 
 export interface CommentThread {
   comment: Comment;
-  replies: CommentThread[];
-  moreReplies: string[];
-  moreRepliesCount: number;
+  replies: CommentThreadList;
+}
+
+export interface CommentThreadList {
+  threads: CommentThread[];
+  more: MoreItems;
 }
 
 export interface MoreItems {

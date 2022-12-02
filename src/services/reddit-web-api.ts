@@ -9,6 +9,7 @@ import {
   UserRaw,
   User,
   MoreItems,
+  CommentThreadList,
 } from "@types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
@@ -120,8 +121,6 @@ function readThread({
     body_html,
   }
 }: CommentRaw): CommentThread {
-  const lastReply = replies && replies.data.children.at(-1);
-
   return {
     comment: {
       avatar: "",
@@ -133,23 +132,25 @@ function readThread({
       userName: author,
     },
     replies: readReplies(replies),
-    moreReplies: lastReply?.kind == "more"
-      ? lastReply.data.children.map((s) => "t1_" + s)
-      : [],
-    moreRepliesCount: lastReply?.kind == "more" ? lastReply.data.count : 0,
   };
 }
 
 function readReplies(
   replies: CommentRaw["data"]["replies"],
-): CommentThread[] {
-  if (replies == "") return [];
-  return replies.data.children
-    .filter((item): item is CommentRaw => item.kind == "t1")
-    .map((item) => readThread(item));
+): CommentThreadList {
+  if (replies == "") return {
+    threads: [],
+    more: {
+      ids: [],
+      totalCount: 0,
+    },
+  };
+  return buildThreadList(replies.data.children);
 }
 
-function buildThreadList(commentListItems: (CommentRaw | MoreItemsRaw)[]) {
+function buildThreadList(
+  commentListItems: (CommentRaw | MoreItemsRaw)[],
+): CommentThreadList {
   const threads: CommentThread[] = [];
   const threadsCache: Record<string, CommentThread> = {};
 
@@ -171,15 +172,17 @@ function buildThreadList(commentListItems: (CommentRaw | MoreItemsRaw)[]) {
   for (const item of commentListItems) {
     if (item.kind == "more") {
       const parent = threadsCache[item.data.parent_id];
-      parent.moreReplies = item.data.children.map((s) => "t1_" + s);
-      parent.moreRepliesCount = item.data.count;
+      parent.replies.more = {
+        ids: item.data.children.map((s) => "t1_" + s),
+        totalCount: item.data.count,
+      };
       continue;
     }
 
     const thread = readThread(item);
     const parent = threadsCache[item.data.parent_id];
     if (parent) {
-      parent.replies.push(thread);
+      parent.replies.threads.push(thread);
     } else {
       threads.push(thread);
     }

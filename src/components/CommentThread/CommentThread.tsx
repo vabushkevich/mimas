@@ -15,13 +15,14 @@ export function CommentThread({
   collapsedThreadIds,
   comment,
   replies,
-  moreReplies,
-  moreRepliesCount,
   users,
   onCollapseToggle,
   onLoadMore,
 }: CommentThreadProps) {
   const collapsed = collapsedThreadIds.includes(comment.id);
+  const showReplies = !collapsed && (
+    replies.threads.length > 0 || replies.more.ids.length > 0
+  );
 
   return (
     <div className="comment-thread">
@@ -34,13 +35,11 @@ export function CommentThread({
           collapsed={collapsed}
         />
       </CommentWrapper>
-      {!collapsed && (replies.length > 0 || moreReplies.length > 0) && (
+      {showReplies && (
         <div className="comment-thread__replies">
           <CommentThreadList
+            {...replies}
             collapsedThreadIds={collapsedThreadIds}
-            moreReplies={moreReplies}
-            moreRepliesCount={moreRepliesCount}
-            threads={replies}
             users={users}
             onThreadCollapseToggle={onCollapseToggle}
             onThreadLoadMore={(path, threadIds) =>

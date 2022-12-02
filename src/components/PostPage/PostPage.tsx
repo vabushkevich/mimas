@@ -56,9 +56,10 @@ export function PostPage() {
     } else {
       setCommentThreads((threads) =>
         updateThread(threads, path, (thread) => ({
-          replies: [...thread.replies, ...newThreads],
-          moreReplies: more.ids,
-          moreRepliesCount: more.totalCount,
+          replies: {
+            threads: [...thread.replies.threads, ...newThreads],
+            more,
+          }
         }))
       );
     }
@@ -77,7 +78,8 @@ export function PostPage() {
     if (path.length == 1) {
       Object.assign(thread, updater(thread));
     } else {
-      thread.replies = updateThread(thread.replies, path.slice(1), updater);
+      thread.replies.threads =
+        updateThread(thread.replies.threads, path.slice(1), updater);
     }
 
     threads = [...threads];
@@ -129,7 +131,7 @@ export function PostPage() {
           if (comment.userId && !(comment.userId in users)) {
             newUserIds.add(comment.userId);
           }
-          traverseTreads(thread.replies);
+          traverseTreads(thread.replies.threads);
         }
       })(commentThreads);
 
@@ -174,8 +176,7 @@ export function PostPage() {
               <Card>
                 <CommentThreadList
                   collapsedThreadIds={collapsedThreadIds}
-                  moreReplies={moreThread.ids}
-                  moreRepliesCount={moreThread.totalCount}
+                  more={moreThread}
                   threads={commentThreads}
                   users={users}
                   onThreadCollapseToggle={handleThreadCollapseToggle}
