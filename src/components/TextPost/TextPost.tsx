@@ -17,14 +17,16 @@ export function TextPost(props: TextPostProps) {
 
   return (
     <BasePost {...props}>
-      <div
-        className={classNames(
-          "text-post-body",
-          collapsed && "text-post-body--collapsed",
-        )}
-      >
-        <UserContent html={bodyHtml} />
-      </div>
+      {bodyHtml.length > 0 && (
+        <div
+          className={classNames(
+            "text-post-body",
+            collapsed && "text-post-body--collapsed",
+          )}
+        >
+          <UserContent html={bodyHtml} />
+        </div>
+      )}
     </BasePost>
   );
 }
