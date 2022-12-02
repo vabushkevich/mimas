@@ -4,7 +4,7 @@ import {
   CommentThread,
   CommentsSortingMethod,
   User,
-  MoreItems,
+  CommentThreadList as CommentThreadListType,
 } from "@types";
 import { ClientContext } from "@context";
 
@@ -34,11 +34,8 @@ const commentsSortingMenu: {
 
 export function PostPage() {
   const [post, setPost] = useState<PostType>();
-  const [commentThreads, setCommentThreads] = useState<CommentThread[]>([]);
-  const [moreThread, setMoreThread] = useState<MoreItems>({
-    totalCount: 0,
-    ids: [],
-  });
+  const [commentThreadList, setCommentThreadList] =
+    useState<CommentThreadListType>();
   const [commentsSorting, setCommentsSorting] =
     useState<CommentsSortingMethod>("confidence");
   const [users, setUsers] = useState<Record<string, User>>({});
@@ -47,29 +44,36 @@ export function PostPage() {
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
   const loadMoreReplies = async (path: string[], threadIds: string[]) => {
-    const { threads: newThreads, more } = await client.getMoreComments(
-      postId, threadIds, { sort: commentsSorting }
+    const {
+      threads: newThreads,
+      more: newMore,
+    } = await client.getMoreComments(
+      postId,
+      threadIds,
+      { sort: commentsSorting },
     );
-    if (path.length == 0) {
-      setCommentThreads((threads) => [...threads, ...newThreads]);
-      setMoreThread(more);
-    } else {
-      setCommentThreads((threads) =>
-        updateThread(threads, path, (thread) => ({
-          replies: {
-            threads: [...thread.replies.threads, ...newThreads],
-            more,
-          }
-        }))
-      );
-    }
+
+    setCommentThreadList((threadList) => {
+      if (path.length == 0) return {
+        threads: [...threadList.threads, ...newThreads],
+        more: newMore,
+      };
+
+      return updateThread(threadList, path, (thread) => ({
+        replies: {
+          threads: [...thread.replies.threads, ...newThreads],
+          more: newMore,
+        }
+      }));
+    });
   };
 
   const updateThread = (
-    threads: CommentThread[],
+    threadList: CommentThreadListType,
     path: string[],
     updater: (thread: CommentThread) => Partial<CommentThread>,
   ) => {
+    const threads = [...threadList.threads];
     const threadId = path[0];
     const threadIndex = threads
       .findIndex(({ comment }) => comment.id == threadId);
@@ -78,14 +82,13 @@ export function PostPage() {
     if (path.length == 1) {
       Object.assign(thread, updater(thread));
     } else {
-      thread.replies.threads =
-        updateThread(thread.replies.threads, path.slice(1), updater);
+      thread.replies = updateThread(thread.replies, path.slice(1), updater);
     }
 
-    threads = [...threads];
     threads[threadIndex] = thread;
+    threadList = { ...threadList, threads };
 
-    return threads;
+    return threadList;
   }
 
   const handleThreadCollapseToggle = (id: string) => {
@@ -110,30 +113,29 @@ export function PostPage() {
 
   useEffect(() => {
     (async () => {
-      const { threads, more } = await client.getComments(
+      const threadList = await client.getComments(
         postId,
         { sort: commentsSorting },
       );
-      setCommentThreads(threads);
-      setMoreThread(more);
+      setCommentThreadList(threadList);
     })();
   }, [commentsSorting]);
 
   useEffect(() => {
     (async () => {
-      if (commentThreads.length == 0) return;
+      if (!commentThreadList) return;
 
       const newUserIds = new Set<string>();
 
-      (function traverseTreads(threads) {
-        for (const thread of threads) {
+      (function traverseTreads(threadList) {
+        for (const thread of threadList.threads) {
           const { comment } = thread;
           if (comment.userId && !(comment.userId in users)) {
             newUserIds.add(comment.userId);
           }
-          traverseTreads(thread.replies.threads);
+          traverseTreads(thread.replies);
         }
-      })(commentThreads);
+      })(commentThreadList);
 
       if (newUserIds.size == 0) return;
 
@@ -144,13 +146,13 @@ export function PostPage() {
         );
       setUsers((users) => ({ ...users, ...newUsers }));
     })();
-  }, [commentThreads]);
+  }, [commentThreadList]);
 
   return (
     <Page>
       <Container>
         {post ? <Post {...post} collapsed={false} /> : <div>Loading...</div>}
-        {commentThreads.length > 0 && (
+        {commentThreadList?.threads.length > 0 && (
           <>
             <div className="comments-sorting">
               <Card>
@@ -175,19 +177,20 @@ export function PostPage() {
             <div className="comments">
               <Card>
                 <CommentThreadList
+                  {...commentThreadList}
                   collapsedThreadIds={collapsedThreadIds}
-                  more={moreThread}
-                  threads={commentThreads}
                   users={users}
                   onThreadCollapseToggle={handleThreadCollapseToggle}
                   onThreadLoadMore={loadMoreReplies}
                 />
               </Card>
             </div>
-            {moreThread.ids.length > 0 && (
+            {commentThreadList?.more.ids.length > 0 && (
               <IntersectionDetector
                 marginTop={100}
-                onIntersect={() => loadMoreReplies([], moreThread.ids)}
+                onIntersect={() =>
+                  loadMoreReplies([], commentThreadList.more.ids)
+                }
               />
             )}
           </>
