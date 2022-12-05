@@ -5,9 +5,9 @@ import classNames from "classnames";
 import { BasePost, UserContent } from "@components";
 import "./TextPost.scss";
 
-interface TextPostProps extends TextPost {
+type TextPostProps = TextPost & {
   collapsed?: boolean;
-}
+};
 
 export function TextPost(props: TextPostProps) {
   const {

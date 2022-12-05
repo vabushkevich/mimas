@@ -1,4 +1,4 @@
-export interface PostRaw {
+export type PostRaw = {
   data: {
     author: string;
     created_utc: number;
@@ -42,14 +42,14 @@ export interface PostRaw {
     };
     url_overridden_by_dest?: string;
   };
-}
+};
 
-export interface SubredditData {
+export type SubredditData = {
   community_icon: string;
   icon_img: string;
-}
+};
 
-export interface BasePost {
+export type BasePost = {
   avatar: string;
   commentCount: number;
   dateCreated: number;
@@ -59,36 +59,36 @@ export interface BasePost {
   title: string;
   url: string;
   userName: string;
-}
+};
 
-export interface LinkPost extends BasePost {
+export type LinkPost = BasePost & {
   type: "link";
   linkUrl: string;
-}
+};
 
-export interface TextPost extends BasePost {
+export type TextPost = BasePost & {
   type: "text";
   bodyHtml: string;
-}
+};
 
-export interface GalleryPost extends BasePost {
+export type GalleryPost = BasePost & {
   type: "gallery";
   images: string[];
-}
+};
 
-export interface VideoPost extends BasePost {
+export type VideoPost = BasePost & {
   type: "video";
   video: string;
-}
+};
 
-export interface ImagePost extends BasePost {
+export type ImagePost = BasePost & {
   type: "image";
   image: string;
-}
+};
 
 export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
 
-export interface CommentRaw {
+export type CommentRaw = {
   data: {
     author: string;
     body_html: string;
@@ -104,18 +104,18 @@ export interface CommentRaw {
     author_fullname?: string;
   };
   kind: "t1";
-}
+};
 
-export interface MoreItemsRaw {
+export type MoreItemsRaw = {
   data: {
     children: string[];
     count: number;
     parent_id: string;
   };
   kind: "more";
-}
+};
 
-export interface Comment {
+export type Comment = {
   avatar: string;
   bodyHtml: string;
   dateCreated: number;
@@ -123,22 +123,22 @@ export interface Comment {
   score: number;
   userId: string | null;
   userName: string;
-}
+};
 
-export interface CommentThread {
+export type CommentThread = {
   comment: Comment;
   replies: CommentThreadList;
-}
+};
 
-export interface CommentThreadList {
+export type CommentThreadList = {
   threads: CommentThread[];
   more: MoreItems;
-}
+};
 
-export interface MoreItems {
+export type MoreItems = {
   ids: string[];
   totalCount: number;
-}
+};
 
 export type CommentsSortingMethod =
   | "confidence"
@@ -150,11 +150,11 @@ export type CommentsSortingMethod =
   | "qa"
   | "live";
 
-export interface UserRaw {
+export type UserRaw = {
   profile_img: string;
-}
+};
 
-export interface User {
+export type User = {
   avatar: string;
   id: string;
-}
+};
