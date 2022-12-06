@@ -1,11 +1,11 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { Comment as CommentType } from "@types";
+import { Comment } from "@types";
 
 import { UserContent } from "@components";
 import "./Comment.scss";
 
-type CommentProps = CommentType & {
+type CommentProps = Comment & {
   collapsed?: boolean;
 };
 

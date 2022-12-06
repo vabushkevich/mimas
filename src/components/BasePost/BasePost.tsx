@@ -1,11 +1,11 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { BasePost as BasePostType } from "@types";
+import { BasePost } from "@types";
 
 import { Card } from "@components";
 import "./BasePost.scss";
 
-type BasePostProps = BasePostType & {
+type BasePostProps = BasePost & {
   children?: React.ReactNode;
 };
 

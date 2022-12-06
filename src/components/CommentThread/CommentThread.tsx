@@ -1,10 +1,10 @@
 import React from "react";
-import { CommentThread as CommentThreadType, User } from "@types";
+import { CommentThread, User } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
-type CommentThreadProps = CommentThreadType & {
+type CommentThreadProps = CommentThread & {
   collapsedThreadIds: string[];
   users: Record<string, User>;
   onCollapseToggle: (id: string) => void;
