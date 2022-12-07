@@ -11,7 +11,7 @@
   transition: box-shadow .15s ease-in-out;
 }
 
-:focus {
+:focus-visible {
   box-shadow: $focus-box-shadow;
   outline: 0;
 }
