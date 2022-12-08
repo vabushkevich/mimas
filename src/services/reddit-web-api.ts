@@ -127,6 +127,7 @@ function readThread({
     comment: {
       avatar: "",
       bodyHtml: decodeEntities(body_html),
+      byAdmin: distinguished == "admin",
       byModerator: distinguished == "moderator",
       bySubmitter: is_submitter,
       dateCreated: created_utc * 1000,

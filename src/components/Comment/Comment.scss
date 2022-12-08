@@ -33,7 +33,8 @@
     font-weight: 500;
 
     &--submitter,
-    &--moderator {
+    &--moderator,
+    &--admin {
       padding: 2px 4px;
       border-radius: 4px;
       color: white;
@@ -46,6 +47,10 @@
 
     &--moderator {
       background-color: #59cc63;
+    }
+
+    &--admin {
+      background-color: #ff8040;
     }
   }
 

@@ -13,6 +13,7 @@ type CommentProps = Comment & {
 export function Comment({
   avatar,
   bodyHtml,
+  byAdmin,
   byModerator,
   bySubmitter,
   collapsed = false,
@@ -36,6 +37,7 @@ export function Comment({
               "comment__user-name",
               bySubmitter && "comment__user-name--submitter",
               byModerator && "comment__user-name--moderator",
+              byAdmin && "comment__user-name--admin",
             )}
           >
             {userName}

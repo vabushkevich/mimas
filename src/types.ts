@@ -93,7 +93,7 @@ export type CommentRaw = {
     author: string;
     body_html: string;
     created_utc: number;
-    distinguished: "moderator" | null;
+    distinguished: "moderator" | "admin" | null;
     is_submitter: boolean;
     name: string;
     parent_id: string;
@@ -120,6 +120,7 @@ export type MoreItemsRaw = {
 export type Comment = {
   avatar: string;
   bodyHtml: string;
+  byAdmin: boolean;
   byModerator: boolean;
   bySubmitter: boolean;
   dateCreated: number;
