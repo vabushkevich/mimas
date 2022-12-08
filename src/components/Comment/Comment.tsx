@@ -1,6 +1,7 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { Comment } from "@types";
+import classNames from "classnames";
 
 import { UserContent } from "@components";
 import "./Comment.scss";
@@ -12,6 +13,7 @@ type CommentProps = Comment & {
 export function Comment({
   avatar,
   bodyHtml,
+  bySubmitter,
   collapsed = false,
   dateCreated,
   score,
@@ -28,7 +30,14 @@ export function Comment({
             className="comment__user-img"
             style={{ backgroundImage: `url("${avatar}")` }}
           ></div>
-          <div className="comment__user-name">{userName}</div>
+          <div
+            className={classNames(
+              "comment__user-name",
+              bySubmitter && "comment__user-name--submitter",
+            )}
+          >
+            {userName}
+          </div>
         </a>
         <div
           className="comment__date"

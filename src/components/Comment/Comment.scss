@@ -31,6 +31,14 @@
 
   &__user-name {
     font-weight: 500;
+
+    &--submitter {
+      padding: 2px 4px;
+      border-radius: 4px;
+      color: white;
+      background-color: #68b2f3;
+      line-height: 1;
+    }
   }
 
   &__body {

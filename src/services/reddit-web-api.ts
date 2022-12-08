@@ -115,6 +115,7 @@ function readThread({
     author_fullname,
     author,
     created_utc,
+    is_submitter,
     name,
     replies,
     score,
@@ -125,6 +126,7 @@ function readThread({
     comment: {
       avatar: "",
       bodyHtml: decodeEntities(body_html),
+      bySubmitter: is_submitter,
       dateCreated: created_utc * 1000,
       id: name,
       score: score,

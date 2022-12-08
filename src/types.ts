@@ -93,6 +93,7 @@ export type CommentRaw = {
     author: string;
     body_html: string;
     created_utc: number;
+    is_submitter: boolean;
     name: string;
     parent_id: string;
     replies: "" | {
@@ -118,6 +119,7 @@ export type MoreItemsRaw = {
 export type Comment = {
   avatar: string;
   bodyHtml: string;
+  bySubmitter: boolean;
   dateCreated: number;
   id: string;
   score: number;
