@@ -115,6 +115,7 @@ function readThread({
     author_fullname,
     author,
     created_utc,
+    distinguished,
     is_submitter,
     name,
     replies,
@@ -126,6 +127,7 @@ function readThread({
     comment: {
       avatar: "",
       bodyHtml: decodeEntities(body_html),
+      byModerator: distinguished == "moderator",
       bySubmitter: is_submitter,
       dateCreated: created_utc * 1000,
       id: name,

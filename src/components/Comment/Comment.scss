@@ -32,12 +32,20 @@
   &__user-name {
     font-weight: 500;
 
-    &--submitter {
+    &--submitter,
+    &--moderator {
       padding: 2px 4px;
       border-radius: 4px;
       color: white;
-      background-color: #68b2f3;
       line-height: 1;
+    }
+
+    &--submitter {
+      background-color: #68b2f3;
+    }
+
+    &--moderator {
+      background-color: #59cc63;
     }
   }
 
