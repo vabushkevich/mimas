@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   Post as PostType,
   CommentThread,
-  CommentsSortingMethod,
+  CommentSortingMethod,
   User,
   CommentThreadList as CommentThreadListType,
 } from "@types";
@@ -22,7 +22,7 @@ import "./PostPage.scss";
 
 const commentsSortingMenu: {
   text: string;
-  value: CommentsSortingMethod;
+  value: CommentSortingMethod;
 }[] = [
   { text: "Best", value: "confidence" },
   { text: "Top", value: "top" },
@@ -37,7 +37,7 @@ export function PostPage() {
   const [commentThreadList, setCommentThreadList] =
     useState<CommentThreadListType>();
   const [commentsSorting, setCommentsSorting] =
-    useState<CommentsSortingMethod>("confidence");
+    useState<CommentSortingMethod>("confidence");
   const [users, setUsers] = useState<Record<string, User>>({});
   const [collapsedThreadIds, setCollapsedThreadIds] = useState<string[]>([]);
   const client = useContext(ClientContext);

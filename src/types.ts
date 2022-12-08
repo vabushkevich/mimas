@@ -142,7 +142,7 @@ export type MoreItems = {
   totalCount: number;
 };
 
-export type CommentsSortingMethod =
+export type CommentSortingMethod =
   | "confidence"
   | "top"
   | "new"

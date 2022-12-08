@@ -5,7 +5,7 @@ import {
   CommentRaw,
   MoreItemsRaw,
   CommentThread,
-  CommentsSortingMethod,
+  CommentSortingMethod,
   UserRaw,
   User,
   MoreItems,
@@ -269,7 +269,7 @@ export class RedditWebAPI {
       sort,
     }: {
       limit?: number;
-      sort?: CommentsSortingMethod;
+      sort?: CommentSortingMethod;
     } = {}
   ) {
     const params = new URLSearchParams({ limit: String(limit) });
@@ -291,7 +291,7 @@ export class RedditWebAPI {
     {
       sort,
     }: {
-      sort?: CommentsSortingMethod,
+      sort?: CommentSortingMethod,
     } = {}
   ) {
     const formData = new FormData();
