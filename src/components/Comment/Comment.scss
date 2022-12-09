@@ -54,6 +54,13 @@
     }
   }
 
+  &__edited-icon {
+    width: 9px;
+    height: 9px;
+    background-color: $gray-600;
+    -webkit-mask: no-repeat center url(./assets/pencil.svg);
+  }
+
   &__body {
     margin: 6px 0;
   }

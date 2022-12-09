@@ -18,6 +18,7 @@ export function Comment({
   bySubmitter,
   collapsed = false,
   dateCreated,
+  dateEdited,
   score,
   userName,
 }: CommentProps) {
@@ -49,6 +50,12 @@ export function Comment({
         >
           {formatDistanceToNow(dateCreated)}
         </div>
+        {!!dateEdited && (
+          <div
+            className="comment__edited-icon"
+            title={formatDate(dateEdited)}
+          ></div>
+        )}
       </div>
       {!collapsed && (
         <>
