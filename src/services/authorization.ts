@@ -16,7 +16,7 @@ export async function getAccessToken(): Promise<string> {
   const authData = await requestBasicAccess();
   localStorage.setItem("auth", JSON.stringify({
     accessToken: authData.access_token,
-    expires: Date.now() + authData.expires_in,
+    expires: Date.now() + authData.expires_in * 1000,
   }));
 
   return authData.access_token;
