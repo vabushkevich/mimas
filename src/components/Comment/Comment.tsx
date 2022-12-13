@@ -19,11 +19,12 @@ export function Comment({
   collapsed = false,
   dateCreated,
   dateEdited,
+  locked,
   pinned,
   score,
   userName,
 }: CommentProps) {
-  const hasStatusIcons = !!dateEdited || pinned;
+  const hasStatusIcons = !!dateEdited || pinned || locked;
 
   return (
     <div className="comment">
@@ -62,6 +63,7 @@ export function Comment({
               ></div>
             )}
             {pinned && <div className="comment__pin-icon"></div>}
+            {locked && <div className="comment__lock-icon"></div>}
           </div>
         )}
       </div>

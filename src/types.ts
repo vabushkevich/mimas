@@ -96,6 +96,7 @@ export type CommentRaw = {
     distinguished: "moderator" | "admin" | null;
     edited: number | false;
     is_submitter: boolean;
+    locked: boolean;
     name: string;
     parent_id: string;
     replies: "" | {
@@ -128,6 +129,7 @@ export type Comment = {
   dateCreated: number;
   dateEdited: number;
   id: string;
+  locked: boolean;
   pinned: boolean;
   score: number;
   userId: string | null;
