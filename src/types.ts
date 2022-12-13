@@ -104,6 +104,7 @@ export type CommentRaw = {
       };
     };
     score: number;
+    stickied: boolean;
     author_fullname?: string;
   };
   kind: "t1";
@@ -127,6 +128,7 @@ export type Comment = {
   dateCreated: number;
   dateEdited: number;
   id: string;
+  pinned: boolean;
   score: number;
   userId: string | null;
   userName: string;

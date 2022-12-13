@@ -72,6 +72,10 @@
     -webkit-mask: no-repeat center url(./assets/pencil.svg);
   }
 
+  &__pin-icon {
+    -webkit-mask: no-repeat center url(./assets/pin.svg);
+  }
+
   &__body {
     margin: 6px 0;
   }

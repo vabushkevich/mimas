@@ -121,6 +121,7 @@ function readThread({
     name,
     replies,
     score,
+    stickied,
     body_html,
   }
 }: CommentRaw): CommentThread {
@@ -134,6 +135,7 @@ function readThread({
       dateCreated: created_utc * 1000,
       dateEdited: edited ? edited * 1000 : 0,
       id: name,
+      pinned: stickied,
       score: score,
       userId: author_fullname || null,
       userName: author,
