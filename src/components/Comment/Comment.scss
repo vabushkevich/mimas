@@ -54,10 +54,21 @@
     }
   }
 
-  &__edited-icon {
-    width: 9px;
-    height: 9px;
-    background-color: $gray-600;
+  &__status-icons {
+    display: flex;
+
+    >* {
+      width: 12px;
+      height: 12px;
+      background-color: lighten($color: $gray-600, $amount: 10%);
+    }
+
+    > :not(:last-child) {
+      margin-right: 6px;
+    }
+  }
+
+  &__pencil-icon {
     -webkit-mask: no-repeat center url(./assets/pencil.svg);
   }
 

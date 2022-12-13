@@ -22,6 +22,8 @@ export function Comment({
   score,
   userName,
 }: CommentProps) {
+  const hasStatusIcons = !!dateEdited;
+
   return (
     <div className="comment">
       <div className="comment__header">
@@ -50,11 +52,15 @@ export function Comment({
         >
           {formatDistanceToNow(dateCreated)}
         </div>
-        {!!dateEdited && (
-          <div
-            className="comment__edited-icon"
-            title={formatDate(dateEdited)}
-          ></div>
+        {hasStatusIcons && (
+          <div className="comment__status-icons">
+            {!!dateEdited && (
+              <div
+                className="comment__pencil-icon"
+                title={formatDate(dateEdited)}
+              ></div>
+            )}
+          </div>
         )}
       </div>
       {!collapsed && (
