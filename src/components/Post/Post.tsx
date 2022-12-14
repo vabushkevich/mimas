@@ -9,7 +9,7 @@ import {
   VideoPost,
   ImagePost,
 } from "@components";
-import defaultAvatar from "./assets/default-avatar.png";
+import defaultAvatar from "./assets/default-avatar.svg";
 
 type PostProps = Post & {
   collapsed?: boolean;
