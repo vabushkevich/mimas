@@ -104,6 +104,7 @@ export type CommentRaw = {
         children: (CommentRaw | MoreItemsRaw)[];
       };
     };
+    score_hidden: boolean;
     score: number;
     stickied: boolean;
     author_fullname?: string;
@@ -132,6 +133,7 @@ export type Comment = {
   locked: boolean;
   pinned: boolean;
   score: number;
+  scoreHidden: boolean;
   userId: string | null;
   userName: string;
 };

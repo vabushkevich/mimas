@@ -22,6 +22,7 @@ export function Comment({
   locked,
   pinned,
   score,
+  scoreHidden,
   userName,
 }: CommentProps) {
   const hasStatusIcons = !!dateEdited || pinned || locked;
@@ -76,7 +77,9 @@ export function Comment({
             {!locked && <button className="comment__reply-btn">Reply</button>}
             <div className="comment__voting">
               <button className="comment__down-btn"></button>
-              <div className="comment__score">{compactNumber(score)}</div>
+              <div className="comment__score">
+                {scoreHidden ? "–" : compactNumber(score)}
+              </div>
               <button className="comment__up-btn"></button>
             </div>
           </div>
