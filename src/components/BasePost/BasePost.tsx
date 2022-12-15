@@ -30,7 +30,7 @@ export function BasePost({
           >
             <div
               className="post__subreddit-img"
-              style={{ backgroundImage: `url("${avatar}")` }}
+              style={avatar ? { backgroundImage: `url("${avatar}")` } : {}}
             ></div>
             <div className="post__subreddit-name">{subreddit}</div>
           </a>

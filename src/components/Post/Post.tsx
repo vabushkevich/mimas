@@ -9,7 +9,6 @@ import {
   VideoPost,
   ImagePost,
 } from "@components";
-import defaultAvatar from "./assets/default-avatar.svg";
 
 type PostProps = Post & {
   collapsed?: boolean;
@@ -23,9 +22,7 @@ export function Post(initProps: PostProps) {
   useEffect(() => {
     (async () => {
       const subredditData = await client.getSubredditInfo(props.subreddit);
-      const avatar = subredditData.community_icon
-        || subredditData.icon_img
-        || defaultAvatar;
+      const avatar = subredditData.community_icon || subredditData.icon_img;
       setAvatar(avatar.split("?")[0]);
     })();
   }, []);
