@@ -2,6 +2,7 @@ import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { Comment } from "@types";
 import classNames from "classnames";
+import { capitalize } from "lodash-es";
 
 import { UserContent } from "@components";
 import defaultAvatar from "./assets/default-avatar.svg";
@@ -20,6 +21,8 @@ export function Comment({
   collapsed = false,
   dateCreated,
   dateEdited,
+  deleted,
+  deletedBy,
   locked,
   pinned,
   score,
@@ -27,6 +30,12 @@ export function Comment({
   userName,
 }: CommentProps) {
   const hasStatusIcons = !!dateEdited || pinned || locked;
+
+  if (deleted) return (
+    <div className="comment comment--deleted">
+      {capitalize(deletedBy)} removed comment
+    </div>
+  );
 
   return (
     <div className="comment">

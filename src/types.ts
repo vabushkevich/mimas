@@ -92,6 +92,7 @@ export type CommentRaw = {
   data: {
     author: string;
     body_html: string;
+    body: string;
     created_utc: number;
     distinguished: "moderator" | "admin" | null;
     edited: number | false;
@@ -124,11 +125,14 @@ export type MoreItemsRaw = {
 export type Comment = {
   avatar?: string;
   bodyHtml: string;
+  bodyText: string;
   byAdmin: boolean;
   byModerator: boolean;
   bySubmitter: boolean;
   dateCreated: number;
   dateEdited: number;
+  deleted: boolean;
+  deletedBy?: "user" | "moderator";
   id: string;
   locked: boolean;
   pinned: boolean;

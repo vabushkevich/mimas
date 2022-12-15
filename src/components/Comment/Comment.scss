@@ -147,4 +147,8 @@
   &__up-btn::after {
     -webkit-mask: no-repeat center url(./assets/arrow-up.svg);
   }
+
+  &--deleted {
+    color: $gray-600;
+  }
 }

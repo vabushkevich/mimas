@@ -10,6 +10,7 @@ import {
   User,
   MoreItems,
   CommentThreadList,
+  Comment,
 } from "@types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
@@ -110,40 +111,64 @@ function readPost(postRaw: PostRaw): Post {
   };
 }
 
-function readThread({
-  data: {
-    author_fullname,
-    author,
-    created_utc,
-    distinguished,
-    edited,
-    is_submitter,
-    locked,
-    name,
-    replies,
-    score_hidden,
-    score,
-    stickied,
-    body_html,
-  }
-}: CommentRaw): CommentThread {
-  return {
-    comment: {
-      avatar: "",
-      bodyHtml: decodeEntities(body_html),
-      byAdmin: distinguished == "admin",
-      byModerator: distinguished == "moderator",
-      bySubmitter: is_submitter,
-      dateCreated: created_utc * 1000,
-      dateEdited: edited ? edited * 1000 : 0,
-      id: name,
+export function commentIsDeleted(commentRaw: CommentRaw) {
+  const { author, body } = commentRaw.data;
+  if (author != "[deleted]") return false;
+  return body == "[deleted]" || body == "[removed]";
+}
+
+export function commentIsDeletedBy(commentRaw: CommentRaw) {
+  const { body } = commentRaw.data;
+  if (!commentIsDeleted(commentRaw)) return null;
+  if (body == "[deleted]") return "user";
+  if (body == "[removed]") return "moderator";
+}
+
+function readThread(commentRaw: CommentRaw): CommentThread {
+  const {
+    data: {
+      author_fullname,
+      author,
+      body_html,
+      body,
+      created_utc,
+      distinguished,
+      edited,
+      is_submitter,
       locked,
-      pinned: stickied,
-      score: score,
-      scoreHidden: score_hidden,
-      userId: author_fullname || null,
-      userName: author,
-    },
+      name,
+      replies,
+      score_hidden,
+      score,
+      stickied,
+    }
+  } = commentRaw;
+
+  const comment: Comment = {
+    avatar: "",
+    bodyHtml: decodeEntities(body_html),
+    bodyText: body,
+    byAdmin: distinguished == "admin",
+    byModerator: distinguished == "moderator",
+    bySubmitter: is_submitter,
+    dateCreated: created_utc * 1000,
+    dateEdited: edited ? edited * 1000 : 0,
+    deleted: commentIsDeleted(commentRaw),
+    id: name,
+    locked,
+    pinned: stickied,
+    score: score,
+    scoreHidden: score_hidden,
+    userId: author_fullname || null,
+    userName: author,
+  };
+
+  if (comment.deleted) {
+    comment.deletedBy = commentIsDeletedBy(commentRaw);
+  }
+
+  return {
+    comment,
     replies: readReplies(replies),
   };
 }
