@@ -4,6 +4,7 @@ import { Comment } from "@types";
 import classNames from "classnames";
 
 import { UserContent } from "@components";
+import defaultAvatar from "./assets/default-avatar.svg";
 import "./Comment.scss";
 
 type CommentProps = Comment & {
@@ -11,7 +12,7 @@ type CommentProps = Comment & {
 };
 
 export function Comment({
-  avatar,
+  avatar = defaultAvatar,
   bodyHtml,
   byAdmin,
   byModerator,

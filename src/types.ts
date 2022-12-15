@@ -122,7 +122,7 @@ export type MoreItemsRaw = {
 };
 
 export type Comment = {
-  avatar: string;
+  avatar?: string;
   bodyHtml: string;
   byAdmin: boolean;
   byModerator: boolean;
