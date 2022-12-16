@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAccessToken } from "@services/authorization";
-import { RedditWebAPI } from "@services/reddit-web-api";
+import { RedditWebAPI } from "@services/api";
 import { ClientContext } from "@context";
 
 import { TestPage, HotPage, PostPage } from "@components";

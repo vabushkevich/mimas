@@ -1,4 +1,4 @@
 import { createContext } from "react";
-import { RedditWebAPI } from "@services/reddit-web-api";
+import { RedditWebAPI } from "@services/api";
 
 export const ClientContext = createContext<RedditWebAPI>(null);
