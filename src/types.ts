@@ -2,24 +2,12 @@ export type PostRaw = {
   data: {
     author: string;
     created_utc: number;
-    is_video: boolean;
-    media: null | {
-      reddit_video?: {
-        fallback_url: string;
-      };
-    };
-    name: string;
-    num_comments: number;
-    permalink: string;
-    score: number;
-    selftext_html: string | null;
-    subreddit: string;
-    title: string;
     gallery_data?: {
       items: {
         media_id: string;
       }[];
     };
+    is_video: boolean;
     media_metadata?: Record<string, {
       p: {
         u: string;
@@ -30,6 +18,14 @@ export type PostRaw = {
         u: string;
       };
     }>;
+    media: null | {
+      reddit_video?: {
+        fallback_url: string;
+      };
+    };
+    name: string;
+    num_comments: number;
+    permalink: string;
     post_hint?: "image";
     preview?: {
       images: {
@@ -40,6 +36,10 @@ export type PostRaw = {
         }[];
       }[];
     };
+    score: number;
+    selftext_html: string | null;
+    subreddit: string;
+    title: string;
     url_overridden_by_dest?: string;
   };
 };
@@ -90,6 +90,7 @@ export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
 
 export type CommentRaw = {
   data: {
+    author_fullname?: string;
     author: string;
     body_html: string;
     body: string;
@@ -108,7 +109,6 @@ export type CommentRaw = {
     score_hidden: boolean;
     score: number;
     stickied: boolean;
-    author_fullname?: string;
   };
   kind: "t1";
 };
