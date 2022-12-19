@@ -149,7 +149,7 @@ export type CommentThread = {
 
 export type CommentThreadList = {
   threads: CommentThread[];
-  more: MoreItems;
+  more?: MoreItems;
 };
 
 export type MoreItems = {

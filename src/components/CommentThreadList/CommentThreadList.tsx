@@ -19,6 +19,15 @@ export function CommentThreadList({
   onThreadCollapseToggle,
   onThreadLoadMore,
 }: CommentThreadListProps) {
+  const moreRepliesMessage = (() => {
+    if (!more) return;
+    switch (more.totalCount) {
+      case 0: return "More comments";
+      case 1: return "1 comment";
+      default: return `${more.totalCount} comments`;
+    }
+  })();
+
   return (
     <ol className="comment-thread-list">
       {threads.map((thread) => (
@@ -32,7 +41,7 @@ export function CommentThreadList({
           />
         </li>
       ))}
-      {more.ids.length > 0 && (
+      {more && (
         <li className="comment-thread-list__item">
           <CommentWrapper
             onCollapseButtonClick={() => onThreadLoadMore([], more.ids)}
@@ -41,7 +50,7 @@ export function CommentThreadList({
               className="comment-thread-list__more-replies-btn"
               onClick={() => onThreadLoadMore([], more.ids)}
             >
-              {`${more.totalCount} comment${more.totalCount != 1 ? "s" : ""}`}
+              {moreRepliesMessage}
             </button>
           </CommentWrapper>
         </li>

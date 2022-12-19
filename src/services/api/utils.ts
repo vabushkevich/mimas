@@ -174,13 +174,7 @@ function readThread(commentRaw: CommentRaw): CommentThread {
 function readReplies(
   replies: CommentRaw["data"]["replies"],
 ): CommentThreadList {
-  if (replies == "") return {
-    threads: [],
-    more: {
-      ids: [],
-      totalCount: 0,
-    },
-  };
+  if (replies == "") return { threads: [] };
   return buildThreadList(replies.data.children);
 }
 
@@ -197,12 +191,6 @@ export function buildThreadList(
     || preLastItem.kind == "more"
     || lastItem.data.parent_id != preLastItem.data.name
   );
-  const more: MoreItems = {
-    totalCount: hasMoreComments ? lastItem.data.count : 0,
-    ids: hasMoreComments
-      ? lastItem.data.children.map((s) => "t1_" + s)
-      : [],
-  };
   if (hasMoreComments) commentListItems.pop();
 
   for (const item of commentListItems) {
@@ -225,7 +213,12 @@ export function buildThreadList(
     threadsCache[thread.comment.id] = thread;
   }
 
-  return { threads, more };
+  const threadList: CommentThreadList = { threads };
+  if (hasMoreComments) threadList.more = {
+    ids: lastItem.data.children.map((s) => "t1_" + s),
+    totalCount: lastItem.data.count,
+  };
+  return threadList;
 }
 
 export function readUsers(usersRaw: Record<string, UserRaw>) {

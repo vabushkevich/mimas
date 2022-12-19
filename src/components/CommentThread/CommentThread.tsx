@@ -21,7 +21,7 @@ export function CommentThread({
 }: CommentThreadProps) {
   const collapsed = collapsedThreadIds.includes(comment.id);
   const showReplies = !collapsed && (
-    replies.threads.length > 0 || replies.more.ids.length > 0
+    replies.threads.length > 0 || replies.more
   );
 
   return (

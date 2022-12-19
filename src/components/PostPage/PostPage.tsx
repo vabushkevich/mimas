@@ -44,24 +44,36 @@ export function PostPage() {
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
   const loadMoreReplies = async (path: string[], threadIds: string[]) => {
-    const {
-      threads: newThreads,
-      more: newMore,
-    } = await client.getMoreComments(
-      postId,
-      threadIds,
-      { sort: commentsSorting },
-    );
+    const isDeepReplies = path.length >= 10;
+    const { threads: loadedThreads, more: newMore } = isDeepReplies
+      ? (
+        await client.getComments(
+          postId,
+          {
+            rootCommentId: path.at(-1),
+            excludeRootComment: true,
+            sort: commentsSorting,
+          }
+        )
+      ) : (
+        await client.getMoreComments(
+          postId,
+          threadIds,
+          { sort: commentsSorting },
+        )
+      );
 
     setCommentThreadList((threadList) => {
       if (path.length == 0) return {
-        threads: [...threadList.threads, ...newThreads],
+        threads: [...threadList.threads, ...loadedThreads],
         more: newMore,
       };
 
       return updateThread(threadList, path, (thread) => ({
         replies: {
-          threads: [...thread.replies.threads, ...newThreads],
+          threads: isDeepReplies
+            ? loadedThreads
+            : [...thread.replies.threads, ...loadedThreads],
           more: newMore,
         }
       }));
@@ -185,7 +197,7 @@ export function PostPage() {
                 />
               </Card>
             </div>
-            {commentThreadList?.more.ids.length > 0 && (
+            {commentThreadList?.more?.ids.length > 0 && (
               <IntersectionDetector
                 marginTop={100}
                 onIntersect={() =>
