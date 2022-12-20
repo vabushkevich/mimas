@@ -194,8 +194,9 @@ export function buildThreadList(
   if (hasMoreComments) commentListItems.pop();
 
   for (const item of commentListItems) {
+    const parent = threadsCache[item.data.parent_id];
+
     if (item.kind == "more") {
-      const parent = threadsCache[item.data.parent_id];
       parent.replies.more = {
         ids: item.data.children.map((s) => "t1_" + s),
         totalCount: item.data.count,
@@ -204,7 +205,6 @@ export function buildThreadList(
     }
 
     const thread = readThread(item);
-    const parent = threadsCache[item.data.parent_id];
     if (parent) {
       parent.replies.threads.push(thread);
     } else {
