@@ -198,10 +198,7 @@ export function buildThreadList(
     const parent = threadsCache[item.data.parent_id];
 
     if (item.kind == "more") {
-      parent.replies.more = {
-        ids: item.data.children.map((s) => "t1_" + s),
-        totalCount: item.data.count,
-      };
+      parent.replies.more = readMoreItems(item);
       continue;
     }
 
@@ -215,11 +212,15 @@ export function buildThreadList(
   }
 
   const threadList: CommentThreadList = { threads };
-  if (hasMoreComments) threadList.more = {
-    ids: lastItem.data.children.map((s) => "t1_" + s),
-    totalCount: lastItem.data.count,
-  };
+  if (hasMoreComments) threadList.more = readMoreItems(lastItem);
   return threadList;
+}
+
+function readMoreItems(moreItemsRaw: MoreItemsRaw): MoreItems {
+  return {
+    ids: moreItemsRaw.data.children.map((s) => "t1_" + s),
+    totalCount: moreItemsRaw.data.count,
+  };
 }
 
 export function readUsers(usersRaw: Record<string, UserRaw>) {
