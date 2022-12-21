@@ -126,19 +126,17 @@ export type Comment = {
   avatar?: string;
   bodyHtml: string;
   bodyText: string;
-  byAdmin: boolean;
-  byModerator: boolean;
   bySubmitter: boolean;
   dateCreated: number;
   dateEdited: number;
-  deleted: boolean;
   deletedBy?: "user" | "moderator";
+  distinction?: "moderator" | "admin";
   id: string;
   locked: boolean;
   pinned: boolean;
   score: number;
   scoreHidden: boolean;
-  userId: string | null;
+  userId?: string;
   userName: string;
 };
 

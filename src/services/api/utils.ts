@@ -117,7 +117,7 @@ function commentIsDeleted(commentRaw: CommentRaw) {
 
 function commentIsDeletedBy(commentRaw: CommentRaw) {
   const { body } = commentRaw.data;
-  if (!commentIsDeleted(commentRaw)) return null;
+  if (!commentIsDeleted(commentRaw)) return;
   if (body == "[deleted]") return "user";
   if (body == "[removed]") return "moderator";
 }
@@ -146,22 +146,20 @@ function readThread(commentRaw: CommentRaw): CommentThread {
     avatar: "",
     bodyHtml: decodeEntities(body_html),
     bodyText: body,
-    byAdmin: distinguished == "admin",
-    byModerator: distinguished == "moderator",
     bySubmitter: is_submitter,
     dateCreated: created_utc * 1000,
     dateEdited: edited ? edited * 1000 : 0,
-    deleted: commentIsDeleted(commentRaw),
     id: name,
     locked,
     pinned: stickied,
     score: score,
     scoreHidden: score_hidden,
-    userId: author_fullname || null,
     userName: author,
   };
 
-  if (comment.deleted) {
+  if (author_fullname) comment.userId = author_fullname;
+  if (distinguished) comment.distinction = distinguished;
+  if (commentIsDeleted(commentRaw)) {
     comment.deletedBy = commentIsDeletedBy(commentRaw);
   }
 

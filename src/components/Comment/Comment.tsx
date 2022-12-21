@@ -15,14 +15,12 @@ type CommentProps = Comment & {
 export function Comment({
   avatar = defaultAvatar,
   bodyHtml,
-  byAdmin,
-  byModerator,
   bySubmitter,
   collapsed = false,
   dateCreated,
   dateEdited,
-  deleted,
   deletedBy,
+  distinction,
   locked,
   pinned,
   score,
@@ -31,7 +29,7 @@ export function Comment({
 }: CommentProps) {
   const hasStatusIcons = !!dateEdited || pinned || locked;
 
-  if (deleted) return (
+  if (deletedBy) return (
     <div className="comment comment--deleted">
       {capitalize(deletedBy)} removed comment
     </div>
@@ -52,8 +50,7 @@ export function Comment({
             className={classNames(
               "comment__user-name",
               bySubmitter && "comment__user-name--submitter",
-              byModerator && "comment__user-name--moderator",
-              byAdmin && "comment__user-name--admin",
+              distinction && `comment__user-name--${distinction}`,
             )}
           >
             {userName}
