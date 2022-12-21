@@ -123,6 +123,13 @@ function commentIsDeletedBy(commentRaw: CommentRaw) {
 }
 
 function readThread(commentRaw: CommentRaw): CommentThread {
+  return {
+    comment: readComment(commentRaw),
+    replies: readReplies(commentRaw.data.replies),
+  };
+}
+
+function readComment(commentRaw: CommentRaw): Comment {
   const {
     data: {
       author_fullname,
@@ -135,7 +142,6 @@ function readThread(commentRaw: CommentRaw): CommentThread {
       is_submitter,
       locked,
       name,
-      replies,
       score_hidden,
       score,
       stickied,
@@ -163,10 +169,7 @@ function readThread(commentRaw: CommentRaw): CommentThread {
     comment.deletedBy = commentIsDeletedBy(commentRaw);
   }
 
-  return {
-    comment,
-    replies: readReplies(replies),
-  };
+  return comment;
 }
 
 function readReplies(
