@@ -1,11 +1,7 @@
 import {
-  SubredditData,
-  PostRaw,
-  CommentRaw,
-  MoreItemsRaw,
   CommentSortingMethod,
-  UserRaw,
 } from "@types";
+import * as Raw from "./types";
 import {
   readPost,
   buildThreadList,
@@ -30,12 +26,12 @@ export class RedditWebAPI {
   }
 
   async getPosts(ids: string[]) {
-    const postsRaw: PostRaw[] = await this.#fetchWithAuth(
+    const rawPosts: Raw.Post[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/info?id=${ids}`,
     )
       .then((res) => res.json())
       .then((json) => json.data.children);
-    return postsRaw.map((postRaw) => readPost(postRaw));
+    return rawPosts.map((rawPost) => readPost(rawPost));
   }
 
   async getHotPosts({
@@ -49,16 +45,16 @@ export class RedditWebAPI {
     if (after) params.append("after", after);
     if (limit) params.append("limit", String(limit));
 
-    const postsRaw: PostRaw[] = await this.#fetchWithAuth(
+    const rawPosts: Raw.Post[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/hot?${params}`,
     )
       .then((res) => res.json())
       .then((json) => json.data.children);
 
-    return postsRaw.map((postRaw) => readPost(postRaw));
+    return rawPosts.map((rawPost) => readPost(rawPost));
   }
 
-  async getSubredditInfo(name: string): Promise<SubredditData> {
+  async getSubredditInfo(name: string): Promise<Raw.Subreddit> {
     return await this.#fetchWithAuth(
       `https://oauth.reddit.com/r/${name}/about`,
     )
@@ -85,7 +81,7 @@ export class RedditWebAPI {
     if (rootCommentId) params.set("comment", rootCommentId.split("_").at(-1));
 
     const postIdSuffix = postId.split("_").at(-1);
-    const items: (CommentRaw | MoreItemsRaw)[] = await this.#fetchWithAuth(
+    const items: (Raw.Comment | Raw.MoreItems)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${postIdSuffix}?${params}`,
     )
       .then((res) => res.json())
@@ -114,7 +110,7 @@ export class RedditWebAPI {
     formData.append("link_id", postId);
     if (sort) formData.append("sort", sort);
 
-    const items: (CommentRaw | MoreItemsRaw)[] = await this.#fetchWithAuth(
+    const items: (Raw.Comment | Raw.MoreItems)[] = await this.#fetchWithAuth(
       "https://oauth.reddit.com/api/morechildren",
       { body: formData, method: "POST" },
     )
@@ -125,10 +121,10 @@ export class RedditWebAPI {
   }
 
   async getUsers(ids: string[]) {
-    const usersRaw: Record<string, UserRaw> = await this.#fetchWithAuth(
+    const rawUsers: Record<string, Raw.User> = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}`,
     )
       .then((res) => res.json());
-    return readUsers(usersRaw);
+    return readUsers(rawUsers);
   }
 }

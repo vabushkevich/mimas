@@ -1,20 +1,17 @@
 import {
-  PostRaw,
   Post,
-  CommentRaw,
-  MoreItemsRaw,
   CommentThread,
-  UserRaw,
   User,
   MoreItems,
   CommentThreadList,
   Comment,
 } from "@types";
+import * as Raw from "./types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
 
-function isLinkPost(postRaw: PostRaw) {
-  const { url_overridden_by_dest } = postRaw.data;
+function isLinkPost(rawPost: Raw.Post) {
+  const { url_overridden_by_dest } = rawPost.data;
   if (!url_overridden_by_dest) return false;
   switch (new URL(url_overridden_by_dest).hostname) {
     case "www.reddit.com":
@@ -25,37 +22,37 @@ function isLinkPost(postRaw: PostRaw) {
   return true;
 }
 
-function isTextPost(postRaw: PostRaw) {
-  return typeof postRaw.data.selftext_html == "string";
+function isTextPost(rawPost: Raw.Post) {
+  return typeof rawPost.data.selftext_html == "string";
 }
 
-function isGalleryPost(postRaw: PostRaw) {
-  return "gallery_data" in postRaw.data;
+function isGalleryPost(rawPost: Raw.Post) {
+  return "gallery_data" in rawPost.data;
 }
 
-function isVideoPost(postRaw: PostRaw) {
-  return postRaw.data.is_video === true;
+function isVideoPost(rawPost: Raw.Post) {
+  return rawPost.data.is_video === true;
 }
 
-function isImagePost(postRaw: PostRaw) {
-  return postRaw.data.post_hint === "image";
+function isImagePost(rawPost: Raw.Post) {
+  return rawPost.data.post_hint === "image";
 }
 
-export function readPost(postRaw: PostRaw): Post {
+export function readPost(rawPost: Raw.Post): Post {
   const post = {
     avatar: "",
-    commentCount: postRaw.data.num_comments,
-    dateCreated: postRaw.data.created_utc * 1000,
-    id: postRaw.data.name,
-    score: postRaw.data.score,
-    subreddit: postRaw.data.subreddit,
-    title: decodeEntities(postRaw.data.title),
-    url: postRaw.data.permalink,
-    userName: postRaw.data.author,
+    commentCount: rawPost.data.num_comments,
+    dateCreated: rawPost.data.created_utc * 1000,
+    id: rawPost.data.name,
+    score: rawPost.data.score,
+    subreddit: rawPost.data.subreddit,
+    title: decodeEntities(rawPost.data.title),
+    url: rawPost.data.permalink,
+    userName: rawPost.data.author,
   };
 
-  if (isImagePost(postRaw)) {
-    const images = postRaw.data.preview.images[0].resolutions;
+  if (isImagePost(rawPost)) {
+    const images = rawPost.data.preview.images[0].resolutions;
     const image = findLast(images, (item) => item.width <= 640);
     return {
       ...post,
@@ -64,17 +61,17 @@ export function readPost(postRaw: PostRaw): Post {
     };
   }
 
-  if (isVideoPost(postRaw)) {
+  if (isVideoPost(rawPost)) {
     return {
       ...post,
       type: "video",
-      video: postRaw.data.media.reddit_video.fallback_url,
+      video: rawPost.data.media.reddit_video.fallback_url,
     };
   }
 
-  if (isGalleryPost(postRaw)) {
-    const images = postRaw.data.gallery_data.items.reduce((out, item) => {
-      const images = postRaw.data.media_metadata[item.media_id].p;
+  if (isGalleryPost(rawPost)) {
+    const images = rawPost.data.gallery_data.items.reduce((out, item) => {
+      const images = rawPost.data.media_metadata[item.media_id].p;
       const image = findLast(images, (item) => item.x <= 640);
       out.push(decodeEntities(image.u));
       return out;
@@ -86,19 +83,19 @@ export function readPost(postRaw: PostRaw): Post {
     };
   }
 
-  if (isTextPost(postRaw)) {
+  if (isTextPost(rawPost)) {
     return {
       ...post,
       type: "text",
-      bodyHtml: decodeEntities(postRaw.data.selftext_html),
+      bodyHtml: decodeEntities(rawPost.data.selftext_html),
     };
   }
 
-  if (isLinkPost(postRaw)) {
+  if (isLinkPost(rawPost)) {
     return {
       ...post,
       type: "link",
-      linkUrl: postRaw.data.url_overridden_by_dest,
+      linkUrl: rawPost.data.url_overridden_by_dest,
     };
   }
 
@@ -109,27 +106,27 @@ export function readPost(postRaw: PostRaw): Post {
   };
 }
 
-function commentIsDeleted(commentRaw: CommentRaw) {
-  const { author, body } = commentRaw.data;
+function commentIsDeleted(rawComment: Raw.Comment) {
+  const { author, body } = rawComment.data;
   if (author != "[deleted]") return false;
   return body == "[deleted]" || body == "[removed]";
 }
 
-function commentIsDeletedBy(commentRaw: CommentRaw) {
-  const { body } = commentRaw.data;
-  if (!commentIsDeleted(commentRaw)) return;
+function commentIsDeletedBy(rawComment: Raw.Comment) {
+  const { body } = rawComment.data;
+  if (!commentIsDeleted(rawComment)) return;
   if (body == "[deleted]") return "user";
   if (body == "[removed]") return "moderator";
 }
 
-function readThread(commentRaw: CommentRaw): CommentThread {
+function readThread(rawComment: Raw.Comment): CommentThread {
   return {
-    comment: readComment(commentRaw),
-    replies: readReplies(commentRaw.data.replies),
+    comment: readComment(rawComment),
+    replies: readReplies(rawComment.data.replies),
   };
 }
 
-function readComment(commentRaw: CommentRaw): Comment {
+function readComment(rawComment: Raw.Comment): Comment {
   const {
     data: {
       author_fullname,
@@ -146,7 +143,7 @@ function readComment(commentRaw: CommentRaw): Comment {
       score,
       stickied,
     }
-  } = commentRaw;
+  } = rawComment;
 
   const comment: Comment = {
     avatar: "",
@@ -165,22 +162,22 @@ function readComment(commentRaw: CommentRaw): Comment {
 
   if (author_fullname) comment.userId = author_fullname;
   if (distinguished) comment.distinction = distinguished;
-  if (commentIsDeleted(commentRaw)) {
-    comment.deletedBy = commentIsDeletedBy(commentRaw);
+  if (commentIsDeleted(rawComment)) {
+    comment.deletedBy = commentIsDeletedBy(rawComment);
   }
 
   return comment;
 }
 
 function readReplies(
-  replies: CommentRaw["data"]["replies"],
+  replies: Raw.Comment["data"]["replies"],
 ): CommentThreadList {
   if (replies == "") return { threads: [] };
   return buildThreadList(replies.data.children);
 }
 
 export function buildThreadList(
-  commentListItems: (CommentRaw | MoreItemsRaw)[],
+  commentListItems: (Raw.Comment | Raw.MoreItems)[],
 ): CommentThreadList {
   const threads: CommentThread[] = [];
   const threadsCache: Record<string, CommentThread> = {};
@@ -216,21 +213,21 @@ export function buildThreadList(
   return threadList;
 }
 
-function readMoreItems(moreItemsRaw: MoreItemsRaw): MoreItems {
+function readMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
   return {
-    ids: moreItemsRaw.data.children.map((s) => "t1_" + s),
-    totalCount: moreItemsRaw.data.count,
+    ids: rawMoreItems.data.children.map((s) => "t1_" + s),
+    totalCount: rawMoreItems.data.count,
   };
 }
 
-export function readUsers(usersRaw: Record<string, UserRaw>) {
+export function readUsers(rawUsers: Record<string, Raw.User>) {
   const users: User[] = [];
 
-  for (const userId in usersRaw) {
-    const userRaw = usersRaw[userId];
+  for (const userId in rawUsers) {
+    const rawUser = rawUsers[userId];
     users.push({
       id: userId,
-      avatar: decodeEntities(userRaw.profile_img),
+      avatar: decodeEntities(rawUser.profile_img),
     });
   }
 

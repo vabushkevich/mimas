@@ -1,54 +1,3 @@
-export type PostRaw = {
-  data: {
-    author: string;
-    created_utc: number;
-    gallery_data?: {
-      items: {
-        media_id: string;
-      }[];
-    };
-    is_video: boolean;
-    media_metadata?: Record<string, {
-      p: {
-        u: string;
-        x: number;
-        y: number;
-      }[];
-      s: {
-        u: string;
-      };
-    }>;
-    media: null | {
-      reddit_video?: {
-        fallback_url: string;
-      };
-    };
-    name: string;
-    num_comments: number;
-    permalink: string;
-    post_hint?: "image";
-    preview?: {
-      images: {
-        resolutions: {
-          url: string;
-          width: number;
-          height: number;
-        }[];
-      }[];
-    };
-    score: number;
-    selftext_html: string | null;
-    subreddit: string;
-    title: string;
-    url_overridden_by_dest?: string;
-  };
-};
-
-export type SubredditData = {
-  community_icon: string;
-  icon_img: string;
-};
-
 export type BasePost = {
   avatar: string;
   commentCount: number;
@@ -87,40 +36,6 @@ export type ImagePost = BasePost & {
 };
 
 export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
-
-export type CommentRaw = {
-  data: {
-    author_fullname?: string;
-    author: string;
-    body_html: string;
-    body: string;
-    created_utc: number;
-    distinguished: "moderator" | "admin" | null;
-    edited: number | false;
-    is_submitter: boolean;
-    locked: boolean;
-    name: string;
-    parent_id: string;
-    replies: "" | {
-      data: {
-        children: (CommentRaw | MoreItemsRaw)[];
-      };
-    };
-    score_hidden: boolean;
-    score: number;
-    stickied: boolean;
-  };
-  kind: "t1";
-};
-
-export type MoreItemsRaw = {
-  data: {
-    children: string[];
-    count: number;
-    parent_id: string;
-  };
-  kind: "more";
-};
 
 export type Comment = {
   avatar?: string;
@@ -164,10 +79,6 @@ export type CommentSortingMethod =
   | "random"
   | "qa"
   | "live";
-
-export type UserRaw = {
-  profile_img: string;
-};
 
 export type User = {
   avatar: string;
