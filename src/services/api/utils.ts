@@ -106,7 +106,7 @@ export function readPost(rawPost: Raw.Post): Post {
   };
 }
 
-function commentIsDeleted(rawComment: Raw.Comment) {
+function isCommentDeleted(rawComment: Raw.Comment) {
   const { author, body } = rawComment.data;
   if (author != "[deleted]") return false;
   return body == "[deleted]" || body == "[removed]";
@@ -114,7 +114,7 @@ function commentIsDeleted(rawComment: Raw.Comment) {
 
 function commentIsDeletedBy(rawComment: Raw.Comment) {
   const { body } = rawComment.data;
-  if (!commentIsDeleted(rawComment)) return;
+  if (!isCommentDeleted(rawComment)) return;
   if (body == "[deleted]") return "user";
   if (body == "[removed]") return "moderator";
 }
@@ -162,7 +162,7 @@ function readComment(rawComment: Raw.Comment): Comment {
 
   if (author_fullname) comment.userId = author_fullname;
   if (distinguished) comment.distinction = distinguished;
-  if (commentIsDeleted(rawComment)) {
+  if (isCommentDeleted(rawComment)) {
     comment.deletedBy = commentIsDeletedBy(rawComment);
   }
 
