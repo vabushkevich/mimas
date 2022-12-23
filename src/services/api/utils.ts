@@ -112,7 +112,7 @@ function isCommentDeleted(rawComment: Raw.Comment) {
   return body == "[deleted]" || body == "[removed]";
 }
 
-function commentIsDeletedBy(rawComment: Raw.Comment) {
+function getCommentDeleter(rawComment: Raw.Comment) {
   const { body } = rawComment.data;
   if (!isCommentDeleted(rawComment)) return;
   if (body == "[deleted]") return "user";
@@ -163,7 +163,7 @@ function readComment(rawComment: Raw.Comment): Comment {
   if (author_fullname) comment.userId = author_fullname;
   if (distinguished) comment.distinction = distinguished;
   if (isCommentDeleted(rawComment)) {
-    comment.deletedBy = commentIsDeletedBy(rawComment);
+    comment.deletedBy = getCommentDeleter(rawComment);
   }
 
   return comment;
