@@ -81,7 +81,7 @@ export class RedditWebAPI {
     if (rootCommentId) params.set("comment", rootCommentId.split("_").at(-1));
 
     const postIdSuffix = postId.split("_").at(-1);
-    const items: (Raw.Comment | Raw.MoreItems)[] = await this.#fetchWithAuth(
+    const items: (Raw.CommentListItem)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${postIdSuffix}?${params}`,
     )
       .then((res) => res.json())
@@ -110,7 +110,7 @@ export class RedditWebAPI {
     formData.append("link_id", postId);
     if (sort) formData.append("sort", sort);
 
-    const items: (Raw.Comment | Raw.MoreItems)[] = await this.#fetchWithAuth(
+    const items: (Raw.CommentListItem)[] = await this.#fetchWithAuth(
       "https://oauth.reddit.com/api/morechildren",
       { body: formData, method: "POST" },
     )

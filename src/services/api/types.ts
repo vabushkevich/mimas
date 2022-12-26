@@ -83,6 +83,8 @@ export type MoreItems = {
   kind: "more";
 };
 
+export type CommentListItem = Comment | MoreItems;
+
 export type User = {
   profile_img: string;
 };

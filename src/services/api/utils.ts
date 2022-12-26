@@ -177,7 +177,7 @@ function readReplies(
 }
 
 export function buildThreadList(
-  commentListItems: (Raw.Comment | Raw.MoreItems)[],
+  commentListItems: Raw.CommentListItem[],
 ): CommentThreadList {
   const threads: CommentThread[] = [];
   const threadsCache: Record<string, CommentThread> = {};
