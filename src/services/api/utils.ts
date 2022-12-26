@@ -225,11 +225,15 @@ export function readUsers(rawUsers: Record<string, Raw.User>) {
 
   for (const userId in rawUsers) {
     const rawUser = rawUsers[userId];
-    users.push({
-      id: userId,
-      avatar: decodeEntities(rawUser.profile_img),
-    });
+    users.push(readUser(rawUser, userId));
   }
 
   return users;
+}
+
+function readUser(rawUser: Raw.User, userId: string) {
+  return {
+    id: userId,
+    avatar: decodeEntities(rawUser.profile_img),
+  };
 }
