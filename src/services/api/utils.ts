@@ -179,23 +179,19 @@ function readReplies(
 export function buildThreadList(
   commentListItems: Raw.CommentListItem[],
 ): CommentThreadList {
-  const threads: CommentThread[] = [];
+  const threadList: CommentThreadList = { threads: [] };
   const threadsCache: Record<string, CommentThread> = {};
-
-  const lastItem = commentListItems.at(-1);
-  const preLastItem = commentListItems.at(-2);
-  const hasMoreComments = lastItem?.kind == "more" && (
-    !preLastItem
-    || preLastItem.kind == "more"
-    || lastItem.data.parent_id != preLastItem.data.name
-  );
-  if (hasMoreComments) commentListItems.pop();
 
   for (const item of commentListItems) {
     const parent = threadsCache[item.data.parent_id];
 
     if (item.kind == "more") {
-      parent.replies.more = readMoreItems(item);
+      const more = readMoreItems(item);
+      if (parent) {
+        parent.replies.more = more;
+      } else {
+        threadList.more = more;
+      }
       continue;
     }
 
@@ -203,13 +199,11 @@ export function buildThreadList(
     if (parent) {
       parent.replies.threads.push(thread);
     } else {
-      threads.push(thread);
+      threadList.threads.push(thread);
     }
     threadsCache[thread.comment.id] = thread;
   }
 
-  const threadList: CommentThreadList = { threads };
-  if (hasMoreComments) threadList.more = readMoreItems(lastItem);
   return threadList;
 }
 
