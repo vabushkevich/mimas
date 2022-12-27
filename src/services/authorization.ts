@@ -1,29 +1,29 @@
-type AuthData = {
-  "access_token": string;
-  "token_type": string;
-  "device_id": string;
-  "expires_in": number;
-  "scope": string;
+type RawAuth = {
+  access_token: string;
+  device_id: string;
+  expires_in: number;
+  scope: string;
+  token_type: string;
+};
+
+type Auth = {
+  accessToken: string;
+  expires: number;
 };
 
 export async function getAccessToken(): Promise<string> {
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  let auth: Auth = JSON.parse(localStorage.getItem("auth"));
 
-  if (auth && Date.now() < auth.expires) {
-    return auth.accessToken;
+  if (!auth || Date.now() >= auth.expires) {
+    auth = await requestBasicAccess();
+    localStorage.setItem("auth", JSON.stringify(auth));
   }
 
-  const authData = await requestBasicAccess();
-  localStorage.setItem("auth", JSON.stringify({
-    accessToken: authData.access_token,
-    expires: Date.now() + authData.expires_in * 1000,
-  }));
-
-  return authData.access_token;
+  return auth.accessToken;
 }
 
-async function requestBasicAccess(): Promise<AuthData> {
-  return await fetch(
+async function requestBasicAccess() {
+  const rawAuth: RawAuth = await fetch(
     "https://www.reddit.com/api/v1/access_token",
     {
       method: "POST",
@@ -37,4 +37,12 @@ async function requestBasicAccess(): Promise<AuthData> {
     }
   )
     .then((res) => res.json());
+  return readAuth(rawAuth);
+}
+
+function readAuth(rawAuth: RawAuth): Auth {
+  return {
+    accessToken: rawAuth.access_token,
+    expires: Date.now() + rawAuth.expires_in * 1000,
+  };
 }
