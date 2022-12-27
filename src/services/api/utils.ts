@@ -231,3 +231,7 @@ function readUser(rawUser: Raw.User, userId: string) {
     avatar: decodeEntities(rawUser.profile_img),
   };
 }
+
+export function getIdSuffix(id: string) {
+  return id.split("_").at(-1);
+}

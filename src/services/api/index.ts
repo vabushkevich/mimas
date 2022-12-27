@@ -6,6 +6,7 @@ import {
   readPost,
   buildThreadList,
   readUsers,
+  getIdSuffix,
 } from "./utils";
 
 export class RedditWebAPI {
@@ -78,11 +79,10 @@ export class RedditWebAPI {
   ) {
     const params = new URLSearchParams({ limit: String(limit) });
     if (sort) params.set("sort", sort);
-    if (rootCommentId) params.set("comment", rootCommentId.split("_").at(-1));
+    if (rootCommentId) params.set("comment", getIdSuffix(rootCommentId));
 
-    const postIdSuffix = postId.split("_").at(-1);
     const items: (Raw.CommentListItem)[] = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/comments/${postIdSuffix}?${params}`,
+      `https://oauth.reddit.com/comments/${getIdSuffix(postId)}?${params}`,
     )
       .then((res) => res.json())
       .then((json) => json[1].data.children);
@@ -105,7 +105,7 @@ export class RedditWebAPI {
     formData.append("api_type", "json");
     formData.append(
       "children",
-      commentIds.map((v) => v.split("_").at(-1)).join()
+      commentIds.map((id) => getIdSuffix(id)).join()
     );
     formData.append("link_id", postId);
     if (sort) formData.append("sort", sort);
