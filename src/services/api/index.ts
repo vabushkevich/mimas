@@ -3,11 +3,13 @@ import {
 } from "@types";
 import * as Raw from "./types";
 import {
-  transformPost,
-  buildThreadList,
-  transformUsers,
   getIdSuffix,
 } from "./utils";
+import {
+  buildThreadList,
+  transformPost,
+  transformUsers,
+} from "./transformers";
 
 export class RedditWebAPI {
   #accessToken: string;
