@@ -120,9 +120,12 @@ function getCommentDeleter(rawComment: Raw.Comment) {
 }
 
 function readThread(rawComment: Raw.Comment): CommentThread {
+  const rawReplies = rawComment.data.replies;
   return {
     comment: readComment(rawComment),
-    replies: readReplies(rawComment.data.replies),
+    replies: rawReplies == ""
+      ? { threads: [] }
+      : buildThreadList(rawReplies.data.children),
   };
 }
 
@@ -167,13 +170,6 @@ function readComment(rawComment: Raw.Comment): Comment {
   }
 
   return comment;
-}
-
-function readReplies(
-  replies: Raw.Comment["data"]["replies"],
-): CommentThreadList {
-  if (replies == "") return { threads: [] };
-  return buildThreadList(replies.data.children);
 }
 
 export function buildThreadList(
