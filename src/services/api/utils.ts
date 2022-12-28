@@ -119,7 +119,7 @@ function getCommentDeleter(rawComment: Raw.Comment) {
   if (body == "[removed]") return "moderator";
 }
 
-function readThread(rawComment: Raw.Comment): CommentThread {
+function buildThread(rawComment: Raw.Comment): CommentThread {
   const rawReplies = rawComment.data.replies;
   return {
     comment: readComment(rawComment),
@@ -191,7 +191,7 @@ export function buildThreadList(
       continue;
     }
 
-    const thread = readThread(item);
+    const thread = buildThread(item);
     if (parent) {
       parent.replies.threads.push(thread);
     } else {
