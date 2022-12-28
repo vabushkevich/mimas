@@ -103,7 +103,7 @@ export function PostPage() {
     return threadList;
   }
 
-  const handleThreadCollapseToggle = (id: string) => {
+  const handleThreadToggle = (id: string) => {
     setCollapsedThreadIds((ids) => {
       const newIds = [...ids];
       const i = ids.indexOf(id);
@@ -192,8 +192,8 @@ export function PostPage() {
                   {...commentThreadList}
                   collapsedThreadIds={collapsedThreadIds}
                   users={users}
-                  onThreadCollapseToggle={handleThreadCollapseToggle}
                   onThreadLoadMore={loadMoreReplies}
+                  onThreadToggle={handleThreadToggle}
                 />
               </Card>
             </div>

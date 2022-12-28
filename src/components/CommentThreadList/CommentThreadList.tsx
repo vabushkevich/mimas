@@ -7,8 +7,8 @@ import "./CommentThreadList.scss";
 type CommentThreadListProps = CommentThreadList & {
   collapsedThreadIds: string[];
   users: Record<string, User>;
-  onThreadCollapseToggle: (id: string) => void;
   onThreadLoadMore: (path: string[], threadIds: string[]) => void;
+  onThreadToggle: (id: string) => void;
 };
 
 export function CommentThreadList({
@@ -16,8 +16,8 @@ export function CommentThreadList({
   more,
   threads,
   users,
-  onThreadCollapseToggle,
   onThreadLoadMore,
+  onThreadToggle,
 }: CommentThreadListProps) {
   const moreRepliesMessage = (() => {
     if (!more) return;
@@ -36,8 +36,8 @@ export function CommentThreadList({
             {...thread}
             collapsedThreadIds={collapsedThreadIds}
             users={users}
-            onCollapseToggle={onThreadCollapseToggle}
             onLoadMore={onThreadLoadMore}
+            onToggle={onThreadToggle}
           />
         </li>
       ))}

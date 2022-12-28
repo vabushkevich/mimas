@@ -7,8 +7,8 @@ import "./CommentThread.scss";
 type CommentThreadProps = CommentThread & {
   collapsedThreadIds: string[];
   users: Record<string, User>;
-  onCollapseToggle: (id: string) => void;
   onLoadMore: (path: string[], threadIds: string[]) => void;
+  onToggle: (id: string) => void;
 };
 
 export function CommentThread({
@@ -16,8 +16,8 @@ export function CommentThread({
   comment,
   replies,
   users,
-  onCollapseToggle,
   onLoadMore,
+  onToggle,
 }: CommentThreadProps) {
   const collapsed = collapsedThreadIds.includes(comment.id);
   const showReplies = !collapsed && (
@@ -27,7 +27,7 @@ export function CommentThread({
   return (
     <div className="comment-thread">
       <CommentWrapper
-        onCollapseButtonClick={() => onCollapseToggle(comment.id)}
+        onCollapseButtonClick={() => onToggle(comment.id)}
       >
         <Comment
           {...comment}
@@ -41,10 +41,10 @@ export function CommentThread({
             {...replies}
             collapsedThreadIds={collapsedThreadIds}
             users={users}
-            onThreadCollapseToggle={onCollapseToggle}
             onThreadLoadMore={(path, threadIds) =>
               onLoadMore([comment.id, ...path], threadIds)
             }
+            onThreadToggle={onToggle}
           />
         </div>
       )}
