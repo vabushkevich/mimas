@@ -37,10 +37,10 @@ async function requestBasicAccess() {
     }
   )
     .then((res) => res.json());
-  return readAuth(rawAuth);
+  return transformAuth(rawAuth);
 }
 
-function readAuth(rawAuth: RawAuth): Auth {
+function transformAuth(rawAuth: RawAuth): Auth {
   return {
     accessToken: rawAuth.access_token,
     expires: Date.now() + rawAuth.expires_in * 1000,

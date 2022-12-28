@@ -38,7 +38,7 @@ function isImagePost(rawPost: Raw.Post) {
   return rawPost.data.post_hint === "image";
 }
 
-export function readPost(rawPost: Raw.Post): Post {
+export function transformPost(rawPost: Raw.Post): Post {
   const post = {
     avatar: "",
     commentCount: rawPost.data.num_comments,
@@ -122,14 +122,14 @@ function getCommentDeleter(rawComment: Raw.Comment) {
 function buildThread(rawComment: Raw.Comment): CommentThread {
   const rawReplies = rawComment.data.replies;
   return {
-    comment: readComment(rawComment),
+    comment: transformComment(rawComment),
     replies: rawReplies == ""
       ? { threads: [] }
       : buildThreadList(rawReplies.data.children),
   };
 }
 
-function readComment(rawComment: Raw.Comment): Comment {
+function transformComment(rawComment: Raw.Comment): Comment {
   const {
     data: {
       author_fullname,
@@ -182,7 +182,7 @@ export function buildThreadList(
     const parent = threadsCache[item.data.parent_id];
 
     if (item.kind == "more") {
-      const more = readMoreItems(item);
+      const more = transformMoreItems(item);
       if (parent) {
         parent.replies.more = more;
       } else {
@@ -203,25 +203,25 @@ export function buildThreadList(
   return threadList;
 }
 
-function readMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
+function transformMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
   return {
     ids: rawMoreItems.data.children.map((s) => "t1_" + s),
     totalCount: rawMoreItems.data.count,
   };
 }
 
-export function readUsers(rawUsers: Record<string, Raw.User>) {
+export function transformUsers(rawUsers: Record<string, Raw.User>) {
   const users: User[] = [];
 
   for (const userId in rawUsers) {
     const rawUser = rawUsers[userId];
-    users.push(readUser(rawUser, userId));
+    users.push(transformUser(rawUser, userId));
   }
 
   return users;
 }
 
-function readUser(rawUser: Raw.User, userId: string) {
+function transformUser(rawUser: Raw.User, userId: string) {
   return {
     id: userId,
     avatar: decodeEntities(rawUser.profile_img),

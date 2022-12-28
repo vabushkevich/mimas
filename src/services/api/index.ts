@@ -3,9 +3,9 @@ import {
 } from "@types";
 import * as Raw from "./types";
 import {
-  readPost,
+  transformPost,
   buildThreadList,
-  readUsers,
+  transformUsers,
   getIdSuffix,
 } from "./utils";
 
@@ -32,7 +32,7 @@ export class RedditWebAPI {
     )
       .then((res) => res.json())
       .then((json) => json.data.children);
-    return rawPosts.map((rawPost) => readPost(rawPost));
+    return rawPosts.map((rawPost) => transformPost(rawPost));
   }
 
   async getHotPosts({
@@ -52,7 +52,7 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json.data.children);
 
-    return rawPosts.map((rawPost) => readPost(rawPost));
+    return rawPosts.map((rawPost) => transformPost(rawPost));
   }
 
   async getSubredditInfo(name: string): Promise<Raw.Subreddit> {
@@ -125,6 +125,6 @@ export class RedditWebAPI {
       `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}`,
     )
       .then((res) => res.json());
-    return readUsers(rawUsers);
+    return transformUsers(rawUsers);
   }
 }
