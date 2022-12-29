@@ -43,37 +43,44 @@ export function PostPage() {
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
-  const loadMoreReplies = async (path: string[], threadIds: string[]) => {
-    const isDeepReplies = path.length >= 10;
-    const { threads: loadedThreads, more: newMore } = isDeepReplies
-      ? (
-        await client.getComments(
-          postId,
-          {
-            rootCommentId: path.at(-1),
-            excludeRootComment: true,
-            sort: commentsSorting,
-          }
-        )
-      ) : (
-        await client.getMoreComments(
-          postId,
-          threadIds,
-          { sort: commentsSorting },
-        )
-      );
+  const loadComments = async (path?: string[]) => {
+    const commentId = path?.at(-1);
+    const newThreadList = await client.getComments(
+      postId,
+      {
+        rootCommentId: commentId,
+        excludeRootComment: !!commentId,
+        sort: commentsSorting,
+      }
+    );
 
     setCommentThreadList((threadList) => {
-      if (path.length == 0) return {
+      if (!path) return newThreadList;
+      return updateThread(threadList, path, () => ({
+        replies: newThreadList
+      }));
+    });
+  };
+
+  const loadMoreComments = async (commentIds: string[], path?: string[]) => {
+    const {
+      threads: loadedThreads,
+      more: newMore,
+    } = await client.getMoreComments(
+      postId,
+      commentIds,
+      { sort: commentsSorting },
+    );
+
+    setCommentThreadList((threadList) => {
+      if (!path) return {
         threads: [...threadList.threads, ...loadedThreads],
         more: newMore,
       };
 
       return updateThread(threadList, path, (thread) => ({
         replies: {
-          threads: isDeepReplies
-            ? loadedThreads
-            : [...thread.replies.threads, ...loadedThreads],
+          threads: [...thread.replies.threads, ...loadedThreads],
           more: newMore,
         }
       }));
@@ -101,13 +108,7 @@ export function PostPage() {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      const threadList = await client.getComments(
-        postId,
-        { sort: commentsSorting },
-      );
-      setCommentThreadList(threadList);
-    })();
+    loadComments();
   }, [commentsSorting]);
 
   useEffect(() => {
@@ -169,7 +170,14 @@ export function PostPage() {
                   {...commentThreadList}
                   collapsedThreadIds={collapsedThreadIds}
                   users={users}
-                  onThreadLoadMore={loadMoreReplies}
+                  onThreadLoadMore={(path, commentIds) => {
+                    const isDeep = path.length >= 10;
+                    if (isDeep) {
+                      loadComments(path);
+                    } else {
+                      loadMoreComments(commentIds, path);
+                    }
+                  }}
                   onThreadToggle={handleThreadToggle}
                 />
               </Card>
@@ -178,7 +186,7 @@ export function PostPage() {
               <IntersectionDetector
                 marginTop={100}
                 onIntersect={() =>
-                  loadMoreReplies([], commentThreadList.more.ids)
+                  loadMoreComments(commentThreadList.more.ids)
                 }
               />
             )}
