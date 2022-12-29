@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+import { updateThread } from "@utils";
 import {
   Post as PostType,
-  CommentThread,
   CommentSortingMethod,
   User,
   CommentThreadList as CommentThreadListType,
@@ -79,29 +79,6 @@ export function PostPage() {
       }));
     });
   };
-
-  const updateThread = (
-    threadList: CommentThreadListType,
-    path: string[],
-    updater: (thread: CommentThread) => Partial<CommentThread>,
-  ) => {
-    const threads = [...threadList.threads];
-    const threadId = path[0];
-    const threadIndex = threads
-      .findIndex(({ comment }) => comment.id == threadId);
-    const thread = { ...threads[threadIndex] };
-
-    if (path.length == 1) {
-      Object.assign(thread, updater(thread));
-    } else {
-      thread.replies = updateThread(thread.replies, path.slice(1), updater);
-    }
-
-    threads[threadIndex] = thread;
-    threadList = { ...threadList, threads };
-
-    return threadList;
-  }
 
   const handleThreadToggle = (id: string) => {
     setCollapsedThreadIds((ids) => {

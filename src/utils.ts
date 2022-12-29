@@ -1,3 +1,8 @@
+import {
+  CommentThread,
+  CommentThreadList,
+} from "@types";
+
 const msInSecond = 1000;
 const msInMinute = msInSecond * 60;
 const msInHour = msInMinute * 60;
@@ -32,4 +37,27 @@ export function compactNumber(value: number) {
   return new Intl.NumberFormat("en-US", {
     notation: "compact",
   }).format(value);
+}
+
+export function updateThread(
+  threadList: CommentThreadList,
+  path: string[],
+  updater: (thread: CommentThread) => Partial<CommentThread>,
+) {
+  const threads = [...threadList.threads];
+  const threadId = path[0];
+  const threadIndex = threads
+    .findIndex(({ comment }) => comment.id == threadId);
+  const thread = { ...threads[threadIndex] };
+
+  if (path.length == 1) {
+    Object.assign(thread, updater(thread));
+  } else {
+    thread.replies = updateThread(thread.replies, path.slice(1), updater);
+  }
+
+  threads[threadIndex] = thread;
+  threadList = { ...threadList, threads };
+
+  return threadList;
 }
