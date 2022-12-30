@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { updateThread } from "@utils";
 import {
   Post as PostType,
@@ -86,13 +86,25 @@ export function PostPage() {
     });
   };
 
-  const handleThreadToggle = (path: string[]) => {
+  const handleThreadLoadMore = useCallback((
+    path: string[],
+    commentIds: string[],
+  ) => {
+    const isDeepComment = path.length >= 10;
+    if (isDeepComment) {
+      loadComments(path);
+    } else {
+      loadMoreComments(commentIds, path);
+    }
+  }, []);
+
+  const handleThreadToggle = useCallback((path: string[]) => {
     setCommentThreadList((threadList) =>
       updateThread(threadList, path, (thread) => ({
         collapsed: !thread.collapsed,
       }))
     );
-  };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -163,14 +175,7 @@ export function PostPage() {
                 <CommentThreadList
                   {...commentThreadList}
                   users={users}
-                  onThreadLoadMore={(path, commentIds) => {
-                    const isDeep = path.length >= 10;
-                    if (isDeep) {
-                      loadComments(path);
-                    } else {
-                      loadMoreComments(commentIds, path);
-                    }
-                  }}
+                  onThreadLoadMore={handleThreadLoadMore}
                   onThreadToggle={handleThreadToggle}
                 />
               </Card>
