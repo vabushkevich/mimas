@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { updateThread } from "@utils";
+import { updateThread, traverseThreads } from "@utils";
 import {
   Post as PostType,
   CommentSortingMethod,
@@ -123,15 +123,12 @@ export function PostPage() {
 
       const newUserIds = new Set<string>();
 
-      (function traverseTreads(threadList) {
-        for (const thread of threadList.threads) {
-          const { comment } = thread;
-          if (comment.userId && !(comment.userId in users)) {
-            newUserIds.add(comment.userId);
-          }
-          traverseTreads(thread.replies);
+      traverseThreads(commentThreadList, (thread) => {
+        const { comment } = thread;
+        if (comment.userId && !(comment.userId in users)) {
+          newUserIds.add(comment.userId);
         }
-      })(commentThreadList);
+      });
 
       if (newUserIds.size == 0) return;
 

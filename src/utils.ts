@@ -61,3 +61,13 @@ export function updateThread(
 
   return threadList;
 }
+
+export function traverseThreads(
+  threadList: CommentThreadList,
+  iteratee: (thread: CommentThread) => void,
+) {
+  for (const thread of threadList.threads) {
+    iteratee(thread);
+    traverseThreads(thread.replies, iteratee);
+  }
+}
