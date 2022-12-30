@@ -121,6 +121,7 @@ export function buildThreadList(
 function buildThread(rawComment: Raw.Comment): CommentThread {
   const rawReplies = rawComment.data.replies;
   return {
+    collapsed: false,
     comment: transformComment(rawComment),
     replies: rawReplies == ""
       ? { threads: [] }

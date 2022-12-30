@@ -5,14 +5,12 @@ import { CommentThread, CommentWrapper } from "@components";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = CommentThreadList & {
-  collapsedThreadIds: string[];
   users: Record<string, User>;
   onThreadLoadMore: (path: string[], threadIds: string[]) => void;
-  onThreadToggle: (id: string) => void;
+  onThreadToggle: (path: string[]) => void;
 };
 
 export function CommentThreadList({
-  collapsedThreadIds,
   more,
   threads,
   users,
@@ -34,7 +32,6 @@ export function CommentThreadList({
         <li key={thread.comment.id} className="comment-thread-list__item">
           <CommentThread
             {...thread}
-            collapsedThreadIds={collapsedThreadIds}
             users={users}
             onLoadMore={onThreadLoadMore}
             onToggle={onThreadToggle}

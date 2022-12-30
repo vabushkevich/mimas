@@ -39,7 +39,6 @@ export function PostPage() {
   const [commentsSorting, setCommentsSorting] =
     useState<CommentSortingMethod>("confidence");
   const [users, setUsers] = useState<Record<string, User>>({});
-  const [collapsedThreadIds, setCollapsedThreadIds] = useState<string[]>([]);
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
@@ -87,17 +86,12 @@ export function PostPage() {
     });
   };
 
-  const handleThreadToggle = (id: string) => {
-    setCollapsedThreadIds((ids) => {
-      const newIds = [...ids];
-      const i = ids.indexOf(id);
-      if (i == -1) {
-        newIds.push(id);
-      } else {
-        newIds.splice(i, 1);
-      }
-      return newIds;
-    });
+  const handleThreadToggle = (path: string[]) => {
+    setCommentThreadList((threadList) =>
+      updateThread(threadList, path, (thread) => ({
+        collapsed: !thread.collapsed,
+      }))
+    );
   };
 
   useEffect(() => {
@@ -168,7 +162,6 @@ export function PostPage() {
               <Card>
                 <CommentThreadList
                   {...commentThreadList}
-                  collapsedThreadIds={collapsedThreadIds}
                   users={users}
                   onThreadLoadMore={(path, commentIds) => {
                     const isDeep = path.length >= 10;

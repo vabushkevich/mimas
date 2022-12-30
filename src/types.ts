@@ -56,6 +56,7 @@ export type Comment = {
 };
 
 export type CommentThread = {
+  collapsed: boolean;
   comment: Comment;
   replies: CommentThreadList;
 };

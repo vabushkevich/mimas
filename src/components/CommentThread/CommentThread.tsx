@@ -5,21 +5,19 @@ import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
 type CommentThreadProps = CommentThread & {
-  collapsedThreadIds: string[];
   users: Record<string, User>;
   onLoadMore: (path: string[], threadIds: string[]) => void;
-  onToggle: (id: string) => void;
+  onToggle: (path: string[]) => void;
 };
 
 export function CommentThread({
-  collapsedThreadIds,
+  collapsed,
   comment,
   replies,
   users,
   onLoadMore,
   onToggle,
 }: CommentThreadProps) {
-  const collapsed = collapsedThreadIds.includes(comment.id);
   const showReplies = !collapsed && (
     replies.threads.length > 0 || replies.more
   );
@@ -27,7 +25,7 @@ export function CommentThread({
   return (
     <div className="comment-thread">
       <CommentWrapper
-        onCollapseButtonClick={() => onToggle(comment.id)}
+        onCollapseButtonClick={() => onToggle([comment.id])}
       >
         <Comment
           {...comment}
@@ -39,12 +37,11 @@ export function CommentThread({
         <div className="comment-thread__replies">
           <CommentThreadList
             {...replies}
-            collapsedThreadIds={collapsedThreadIds}
             users={users}
             onThreadLoadMore={(path, threadIds) =>
               onLoadMore([comment.id, ...path], threadIds)
             }
-            onThreadToggle={onToggle}
+            onThreadToggle={(path) => onToggle([comment.id, ...path])}
           />
         </div>
       )}
