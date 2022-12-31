@@ -68,20 +68,18 @@ export class RedditWebAPI {
   async getComments(
     postId: string,
     {
-      excludeRootComment = false,
+      commentId,
       limit = 50,
-      rootCommentId,
       sort,
     }: {
-      excludeRootComment?: boolean,
+      commentId?: string,
       limit?: number;
-      rootCommentId?: string,
       sort?: CommentSortingMethod;
     } = {}
   ) {
     const params = new URLSearchParams({ limit: String(limit) });
     if (sort) params.set("sort", sort);
-    if (rootCommentId) params.set("comment", getIdSuffix(rootCommentId));
+    if (commentId) params.set("comment", getIdSuffix(commentId));
 
     const items: (Raw.CommentListItem)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${getIdSuffix(postId)}?${params}`,
@@ -89,9 +87,7 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json[1].data.children);
 
-    let threadList = buildThreadList(items);
-    if (excludeRootComment) threadList = threadList.threads[0].replies;
-    return threadList;
+    return buildThreadList(items);
   }
 
   async getMoreComments(

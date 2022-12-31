@@ -43,12 +43,10 @@ export function PostPage() {
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
 
   const loadComments = async (path?: string[]) => {
-    const commentId = path?.at(-1);
     const newThreadList = await client.getComments(
       postId,
       {
-        rootCommentId: commentId,
-        excludeRootComment: !!commentId,
+        commentId: path?.at(-1),
         sort: commentsSorting,
       }
     );
@@ -56,7 +54,7 @@ export function PostPage() {
     setCommentThreadList((threadList) => {
       if (!path) return newThreadList;
       return updateThread(threadList, path, () => ({
-        replies: newThreadList
+        replies: newThreadList.threads[0].replies,
       }));
     });
   };
