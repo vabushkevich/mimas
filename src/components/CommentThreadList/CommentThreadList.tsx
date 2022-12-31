@@ -1,11 +1,10 @@
 import React from "react";
-import { User, CommentThreadList } from "@types";
+import { CommentThreadList } from "@types";
 
 import { CommentThread, CommentWrapper } from "@components";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = CommentThreadList & {
-  users: Record<string, User>;
   onThreadLoadMore: (path: string[], threadIds: string[]) => void;
   onThreadToggle: (path: string[]) => void;
 };
@@ -13,7 +12,6 @@ type CommentThreadListProps = CommentThreadList & {
 export function CommentThreadList({
   more,
   threads,
-  users,
   onThreadLoadMore,
   onThreadToggle,
 }: CommentThreadListProps) {
@@ -32,7 +30,6 @@ export function CommentThreadList({
         <li key={thread.comment.id} className="comment-thread-list__item">
           <CommentThread
             {...thread}
-            users={users}
             onLoadMore={onThreadLoadMore}
             onToggle={onThreadToggle}
           />

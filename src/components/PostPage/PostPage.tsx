@@ -6,7 +6,7 @@ import {
   User,
   CommentThreadList as CommentThreadListType,
 } from "@types";
-import { ClientContext } from "@context";
+import { ClientContext, UsersContext } from "@context";
 
 import {
   Post,
@@ -167,12 +167,13 @@ export function PostPage() {
             </div>
             <div className="comments">
               <Card>
-                <CommentThreadList
-                  {...commentThreadList}
-                  users={users}
-                  onThreadLoadMore={handleThreadLoadMore}
-                  onThreadToggle={handleThreadToggle}
-                />
+                <UsersContext.Provider value={users}>
+                  <CommentThreadList
+                    {...commentThreadList}
+                    onThreadLoadMore={handleThreadLoadMore}
+                    onThreadToggle={handleThreadToggle}
+                  />
+                </UsersContext.Provider>
               </Card>
             </div>
             {commentThreadList?.more?.ids.length > 0 && (
