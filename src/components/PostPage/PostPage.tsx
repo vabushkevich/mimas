@@ -85,8 +85,8 @@ export function PostPage() {
   };
 
   const handleThreadLoadMore = useCallback((
-    path: string[],
     commentIds: string[],
+    path: string[],
   ) => {
     const isDeepComment = path.length >= 10;
     if (isDeepComment) {

@@ -5,7 +5,7 @@ import { CommentThread, CommentWrapper } from "@components";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = CommentThreadList & {
-  onThreadLoadMore: (path: string[], threadIds: string[]) => void;
+  onThreadLoadMore: (threadIds: string[], path: string[]) => void;
   onThreadToggle: (path: string[]) => void;
 };
 
@@ -38,11 +38,11 @@ export function CommentThreadList({
       {more && (
         <li className="comment-thread-list__item">
           <CommentWrapper
-            onCollapseButtonClick={() => onThreadLoadMore([], more.ids)}
+            onCollapseButtonClick={() => onThreadLoadMore(more.ids, [])}
           >
             <button
               className="comment-thread-list__more-replies-btn"
-              onClick={() => onThreadLoadMore([], more.ids)}
+              onClick={() => onThreadLoadMore(more.ids, [])}
             >
               {moreRepliesMessage}
             </button>
