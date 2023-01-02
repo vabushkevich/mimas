@@ -6,7 +6,7 @@ import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
 type CommentThreadProps = CommentThreadType & {
-  onLoadMore: (threadIds: string[], path: string[]) => void;
+  onLoadMore: (commentIds: string[], path: string[]) => void;
   onToggle: (path: string[]) => void;
 };
 
@@ -23,8 +23,8 @@ export const CommentThread = memo(function CommentThread({
   );
 
   const handleThreadLoadMore = useCallback(
-    (threadIds: string[], path: string[]) =>
-      onLoadMore(threadIds, [comment.id, ...path]),
+    (commentIds: string[], path: string[]) =>
+      onLoadMore(commentIds, [comment.id, ...path]),
     [comment.id],
   );
 

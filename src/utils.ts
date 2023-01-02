@@ -45,9 +45,9 @@ export function updateThread(
   updater: (thread: CommentThread) => Partial<CommentThread>,
 ) {
   const threads = [...threadList.threads];
-  const threadId = path[0];
+  const commentId = path[0];
   const threadIndex = threads
-    .findIndex(({ comment }) => comment.id == threadId);
+    .findIndex(({ comment }) => comment.id == commentId);
   const thread = { ...threads[threadIndex] };
 
   if (path.length == 1) {

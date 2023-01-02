@@ -5,7 +5,7 @@ import { CommentThread, CommentWrapper } from "@components";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = CommentThreadList & {
-  onThreadLoadMore: (threadIds: string[], path: string[]) => void;
+  onThreadLoadMore: (commentIds: string[], path: string[]) => void;
   onThreadToggle: (path: string[]) => void;
 };
 
