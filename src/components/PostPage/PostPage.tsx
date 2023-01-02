@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import { updateThread, traverseThreads } from "@utils";
+import React, { useState, useEffect, useContext } from "react";
+import { traverseThreads } from "@utils";
 import {
   Post as PostType,
   CommentSortingMethod,
   User,
-  CommentThreadList as CommentThreadListType,
 } from "@types";
 import { ClientContext, UsersContext } from "@context";
+import { useComments } from "./hooks";
 
 import {
   Post,
@@ -34,75 +34,16 @@ const commentsSortingMenu: {
 
 export function PostPage() {
   const [post, setPost] = useState<PostType>();
-  const [commentThreadList, setCommentThreadList] =
-    useState<CommentThreadListType>();
   const [commentsSorting, setCommentsSorting] =
     useState<CommentSortingMethod>("confidence");
   const [users, setUsers] = useState<Record<string, User>>({});
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
-
-  const loadComments = async (path?: string[]) => {
-    const newThreadList = await client.getComments(
-      postId,
-      {
-        commentId: path?.at(-1),
-        sort: commentsSorting,
-      }
-    );
-
-    setCommentThreadList((threadList) => {
-      if (!path) return newThreadList;
-      return updateThread(threadList, path, () => ({
-        replies: newThreadList.threads[0].replies,
-      }));
-    });
-  };
-
-  const loadMoreComments = async (commentIds: string[], path?: string[]) => {
-    const {
-      threads: loadedThreads,
-      more: newMore,
-    } = await client.getMoreComments(
-      postId,
-      commentIds,
-      { sort: commentsSorting },
-    );
-
-    setCommentThreadList((threadList) => {
-      if (!path) return {
-        threads: [...threadList.threads, ...loadedThreads],
-        more: newMore,
-      };
-
-      return updateThread(threadList, path, (thread) => ({
-        replies: {
-          threads: [...thread.replies.threads, ...loadedThreads],
-          more: newMore,
-        }
-      }));
-    });
-  };
-
-  const handleLoadMoreComments = useCallback((
-    commentIds: string[],
-    path?: string[],
-  ) => {
-    const isDeepComment = path?.length >= 10;
-    if (isDeepComment) {
-      loadComments(path);
-    } else {
-      loadMoreComments(commentIds, path);
-    }
-  }, []);
-
-  const handleThreadToggle = useCallback((path: string[]) => {
-    setCommentThreadList((threadList) =>
-      updateThread(threadList, path, (thread) => ({
-        collapsed: !thread.collapsed,
-      }))
-    );
-  }, []);
+  const {
+    commentThreadList,
+    handleLoadMoreComments,
+    handleThreadToggle,
+  } = useComments(postId, commentsSorting);
 
   useEffect(() => {
     (async () => {
@@ -110,10 +51,6 @@ export function PostPage() {
       setPost(post);
     })();
   }, []);
-
-  useEffect(() => {
-    loadComments();
-  }, [commentsSorting]);
 
   useEffect(() => {
     (async () => {
