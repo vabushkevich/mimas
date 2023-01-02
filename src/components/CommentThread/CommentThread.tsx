@@ -1,6 +1,5 @@
-import React, { memo, useCallback, useContext } from "react";
+import React, { memo, useCallback } from "react";
 import { CommentThread as CommentThreadType } from "@types";
-import { UsersContext } from "@context";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
@@ -17,7 +16,6 @@ export const CommentThread = memo(function CommentThread({
   onLoadMore,
   onToggle,
 }: CommentThreadProps) {
-  const users = useContext(UsersContext);
   const showReplies = !collapsed && (
     replies.threads.length > 0 || replies.more
   );
@@ -40,7 +38,6 @@ export const CommentThread = memo(function CommentThread({
       >
         <Comment
           {...comment}
-          avatar={users[comment.userId]?.avatar}
           collapsed={collapsed}
         />
       </CommentWrapper>

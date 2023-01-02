@@ -1,10 +1,12 @@
 import {
   CommentSortingMethod,
+  CommentThreadList,
 } from "@types";
 import * as Raw from "./types";
 import {
   getIdSuffix,
 } from "./utils";
+import { traverseThreads } from "@utils";
 import {
   buildThreadList,
   transformPost,
@@ -87,7 +89,10 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json[1].data.children);
 
-    return buildThreadList(items);
+    const threadList = buildThreadList(items);
+    await this.loadAvatarsToComments(threadList);
+
+    return threadList;
   }
 
   async getMoreComments(
@@ -115,7 +120,10 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json.json.data.things);
 
-    return buildThreadList(items);
+    const threadList = buildThreadList(items);
+    await this.loadAvatarsToComments(threadList);
+
+    return threadList;
   }
 
   async getUsers(ids: string[]) {
@@ -124,5 +132,22 @@ export class RedditWebAPI {
     )
       .then((res) => res.json());
     return transformUsers(rawUsers);
+  }
+
+  async loadAvatarsToComments(threadList: CommentThreadList) {
+    const userIds: string[] = [];
+    traverseThreads(threadList, (thread) => {
+      const { comment } = thread;
+      if (!comment.userId) return;
+      userIds.push(comment.userId);
+    });
+
+    const users = await this.getUsers(userIds);
+    traverseThreads(threadList, (thread) => {
+      const { comment } = thread;
+      if (!comment.userId) return;
+      const user = users.find((user) => user.id == comment.userId);
+      comment.avatar = user.avatar;
+    });
   }
 }

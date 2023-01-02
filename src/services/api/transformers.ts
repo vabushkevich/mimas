@@ -149,7 +149,6 @@ function transformComment(rawComment: Raw.Comment): Comment {
   } = rawComment;
 
   const comment: Comment = {
-    avatar: "",
     bodyHtml: decodeEntities(body_html),
     bodyText: body,
     bySubmitter: is_submitter,

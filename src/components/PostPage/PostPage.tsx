@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { traverseThreads } from "@utils";
 import {
   Post as PostType,
   CommentSortingMethod,
-  User,
 } from "@types";
-import { ClientContext, UsersContext } from "@context";
+import { ClientContext } from "@context";
 import { useComments } from "./hooks";
 
 import {
@@ -36,7 +34,6 @@ export function PostPage() {
   const [post, setPost] = useState<PostType>();
   const [commentsSorting, setCommentsSorting] =
     useState<CommentSortingMethod>("confidence");
-  const [users, setUsers] = useState<Record<string, User>>({});
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
   const {
@@ -51,30 +48,6 @@ export function PostPage() {
       setPost(post);
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (!commentThreadList) return;
-
-      const newUserIds = new Set<string>();
-
-      traverseThreads(commentThreadList, (thread) => {
-        const { comment } = thread;
-        if (comment.userId && !(comment.userId in users)) {
-          newUserIds.add(comment.userId);
-        }
-      });
-
-      if (newUserIds.size == 0) return;
-
-      const newUsers = (await client.getUsers([...newUserIds.values()]))
-        .reduce(
-          (res, user) => (res[user.id] = user, res),
-          {} as Record<string, User>,
-        );
-      setUsers((users) => ({ ...users, ...newUsers }));
-    })();
-  }, [commentThreadList]);
 
   return (
     <Page>
@@ -104,13 +77,11 @@ export function PostPage() {
             </div>
             <div className="comments">
               <Card>
-                <UsersContext.Provider value={users}>
-                  <CommentThreadList
-                    {...commentThreadList}
-                    onThreadLoadMore={handleLoadMoreComments}
-                    onThreadToggle={handleThreadToggle}
-                  />
-                </UsersContext.Provider>
+                <CommentThreadList
+                  {...commentThreadList}
+                  onThreadLoadMore={handleLoadMoreComments}
+                  onThreadToggle={handleThreadToggle}
+                />
               </Card>
             </div>
             {commentThreadList?.more?.ids.length > 0 && (
