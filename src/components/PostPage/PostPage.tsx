@@ -84,11 +84,11 @@ export function PostPage() {
     });
   };
 
-  const handleThreadLoadMore = useCallback((
+  const handleLoadMoreComments = useCallback((
     commentIds: string[],
-    path: string[],
+    path?: string[],
   ) => {
-    const isDeepComment = path.length >= 10;
+    const isDeepComment = path?.length >= 10;
     if (isDeepComment) {
       loadComments(path);
     } else {
@@ -170,7 +170,7 @@ export function PostPage() {
                 <UsersContext.Provider value={users}>
                   <CommentThreadList
                     {...commentThreadList}
-                    onThreadLoadMore={handleThreadLoadMore}
+                    onThreadLoadMore={handleLoadMoreComments}
                     onThreadToggle={handleThreadToggle}
                   />
                 </UsersContext.Provider>
@@ -180,7 +180,7 @@ export function PostPage() {
               <IntersectionDetector
                 marginTop={100}
                 onIntersect={() =>
-                  loadMoreComments(commentThreadList.more.ids)
+                  handleLoadMoreComments(commentThreadList.more.ids)
                 }
               />
             )}
