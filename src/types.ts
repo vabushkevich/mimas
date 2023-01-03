@@ -44,7 +44,7 @@ export type Comment = {
   bySubmitter: boolean;
   childIds: string[];
   dateCreated: number;
-  dateEdited: number;
+  dateEdited?: number;
   deletedBy?: "user" | "moderator";
   depth: number;
   distinction?: "moderator" | "admin";

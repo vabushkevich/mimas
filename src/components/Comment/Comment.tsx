@@ -64,7 +64,7 @@ export function Comment({
         </div>
         {hasStatusIcons && (
           <div className="comment__status-icons">
-            {!!dateEdited && (
+            {dateEdited && (
               <div
                 className="comment__pencil-icon"
                 title={formatDate(dateEdited)}
