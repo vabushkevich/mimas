@@ -58,7 +58,7 @@ export type Comment = {
     created_utc: number;
     depth: number;
     distinguished: "moderator" | "admin" | null;
-    edited: number | false;
+    edited: number | boolean;
     is_submitter: boolean;
     locked: boolean;
     name: string;

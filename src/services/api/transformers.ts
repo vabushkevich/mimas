@@ -155,7 +155,7 @@ function transformComment(rawComment: Raw.Comment): Comment {
 
   if (author_fullname) comment.userId = author_fullname;
   if (distinguished) comment.distinction = distinguished;
-  if (edited) comment.dateEdited = edited * 1000;
+  if (typeof edited == "number") comment.dateEdited = edited * 1000;
   if (isCommentDeleted(rawComment)) {
     comment.deletedBy = getCommentDeleter(rawComment);
   }
