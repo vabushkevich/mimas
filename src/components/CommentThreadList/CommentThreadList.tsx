@@ -1,50 +1,68 @@
-import React from "react";
-import { CommentThreadList } from "@types";
+import React, { useContext } from "react";
+import { MoreItems } from "@types";
+import {
+  CommentsContext,
+  CollapsedThreadsContext,
+  UsersContext,
+} from "@context";
 
 import { CommentThread, CommentWrapper } from "@components";
 import "./CommentThreadList.scss";
 
-type CommentThreadListProps = CommentThreadList & {
-  onThreadLoadMore: (commentIds: string[], path: string[]) => void;
-  onThreadToggle: (path: string[]) => void;
+type CommentThreadListProps = {
+  commentIds: string[];
+  moreComments: MoreItems;
+  parentId?: string;
 };
 
 export function CommentThreadList({
-  more,
-  threads,
-  onThreadLoadMore,
-  onThreadToggle,
+  commentIds,
+  moreComments,
+  parentId,
 }: CommentThreadListProps) {
-  const moreRepliesMessage = (() => {
-    if (!more) return;
-    switch (more.totalCount) {
+  const { comments, loadMoreComments } = useContext(CommentsContext);
+  const {
+    collapsedThreadIds,
+    toggleThread,
+  } = useContext(CollapsedThreadsContext);
+  const users = useContext(UsersContext);
+
+  const moreCommentsMessage = (() => {
+    if (!moreComments) return;
+    switch (moreComments.totalCount) {
       case 0: return "More comments";
       case 1: return "1 comment";
-      default: return `${more.totalCount} comments`;
+      default: return `${moreComments.totalCount} comments`;
     }
   })();
 
   return (
     <ol className="comment-thread-list">
-      {threads.map((thread) => (
-        <li key={thread.comment.id} className="comment-thread-list__item">
-          <CommentThread
-            {...thread}
-            onLoadMore={onThreadLoadMore}
-            onToggle={onThreadToggle}
-          />
-        </li>
-      ))}
-      {more && (
+      {commentIds.map((commentId) => {
+        const comment = comments[commentId];
+        const commentAuthor = users[comment.userId];
+        const collapsed = collapsedThreadIds.includes(commentId);
+        return (
+          <li key={commentId} className="comment-thread-list__item">
+            <CommentThread
+              collapsed={collapsed}
+              comment={comment}
+              commentAuthor={commentAuthor}
+              onToggle={toggleThread}
+            />
+          </li>
+        );
+      })}
+      {moreComments && (
         <li className="comment-thread-list__item">
           <CommentWrapper
-            onCollapseButtonClick={() => onThreadLoadMore(more.ids, [])}
+            onCollapseButtonClick={() => loadMoreComments(parentId)}
           >
             <button
               className="comment-thread-list__more-replies-btn"
-              onClick={() => onThreadLoadMore(more.ids, [])}
+              onClick={() => loadMoreComments(parentId)}
             >
-              {moreRepliesMessage}
+              {moreCommentsMessage}
             </button>
           </CommentWrapper>
         </li>

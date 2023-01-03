@@ -56,17 +56,13 @@ export type Comment = {
     body_html: string;
     body: string;
     created_utc: number;
+    depth: number;
     distinguished: "moderator" | "admin" | null;
     edited: number | false;
     is_submitter: boolean;
     locked: boolean;
     name: string;
     parent_id: string;
-    replies: "" | {
-      data: {
-        children: (Comment | MoreItems)[];
-      };
-    };
     score_hidden: boolean;
     score: number;
     stickied: boolean;

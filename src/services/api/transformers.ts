@@ -9,11 +9,10 @@ import {
 } from "./utils";
 import {
   Post,
-  CommentThread,
   User,
   MoreItems,
-  CommentThreadList,
   Comment,
+  CommentThreadList,
 } from "@types";
 import * as Raw from "./types";
 import { findLast } from "lodash-es";
@@ -87,46 +86,34 @@ export function transformPost(rawPost: Raw.Post): Post {
   };
 }
 
-export function buildThreadList(
-  commentListItems: Raw.CommentListItem[],
+export function transformCommentListItems(
+  items: Raw.CommentListItem[],
+  baseDepth = 0,
 ): CommentThreadList {
-  const threadList: CommentThreadList = { threads: [] };
-  const threadsCache: Record<string, CommentThread> = {};
+  const comments: Record<string, Comment> = {};
+  let moreComments: MoreItems;
 
-  for (const item of commentListItems) {
-    const parent = threadsCache[item.data.parent_id];
-
+  for (const item of items) {
     if (item.kind == "more") {
       const more = transformMoreItems(item);
+      const parent = comments[more.parentId];
       if (parent) {
-        parent.replies.more = more;
+        parent.moreChildren = more;
       } else {
-        threadList.more = more;
+        moreComments = more;
       }
       continue;
     }
 
-    const thread = buildThread(item);
-    if (parent) {
-      parent.replies.threads.push(thread);
-    } else {
-      threadList.threads.push(thread);
+    const comment = transformComment(item);
+    comment.depth += baseDepth;
+    comments[comment.id] = comment;
+    if (comments[comment.parentId]) {
+      comments[comment.parentId].childIds.push(comment.id);
     }
-    threadsCache[thread.comment.id] = thread;
   }
 
-  return threadList;
-}
-
-function buildThread(rawComment: Raw.Comment): CommentThread {
-  const rawReplies = rawComment.data.replies;
-  return {
-    collapsed: false,
-    comment: transformComment(rawComment),
-    replies: rawReplies == ""
-      ? { threads: [] }
-      : buildThreadList(rawReplies.data.children),
-  };
+  return { comments, moreComments };
 }
 
 function transformComment(rawComment: Raw.Comment): Comment {
@@ -137,11 +124,13 @@ function transformComment(rawComment: Raw.Comment): Comment {
       body_html,
       body,
       created_utc,
+      depth,
       distinguished,
       edited,
       is_submitter,
       locked,
       name,
+      parent_id,
       score_hidden,
       score,
       stickied,
@@ -152,10 +141,13 @@ function transformComment(rawComment: Raw.Comment): Comment {
     bodyHtml: decodeEntities(body_html),
     bodyText: body,
     bySubmitter: is_submitter,
+    childIds: [],
     dateCreated: created_utc * 1000,
     dateEdited: edited ? edited * 1000 : 0,
+    depth,
     id: name,
     locked,
+    parentId: parent_id,
     pinned: stickied,
     score: score,
     scoreHidden: score_hidden,
@@ -172,9 +164,18 @@ function transformComment(rawComment: Raw.Comment): Comment {
 }
 
 function transformMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
+  const {
+    data: {
+      children,
+      count,
+      parent_id,
+    }
+  } = rawMoreItems;
+
   return {
-    ids: rawMoreItems.data.children.map((s) => "t1_" + s),
-    totalCount: rawMoreItems.data.count,
+    ids: children.map((s) => "t1_" + s),
+    parentId: parent_id,
+    totalCount: count,
   };
 }
 

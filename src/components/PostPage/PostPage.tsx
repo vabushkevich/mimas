@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useToggleArrayValue } from "@hooks";
+import { useComments, useUsers } from "./hooks";
 import {
   Post as PostType,
   CommentSortingMethod,
 } from "@types";
-import { ClientContext } from "@context";
-import { useComments } from "./hooks";
+import {
+  ClientContext,
+  CollapsedThreadsContext,
+  CommentsContext,
+  UsersContext,
+} from "@context";
 
 import {
   Post,
@@ -37,10 +43,13 @@ export function PostPage() {
   const client = useContext(ClientContext);
   const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
   const {
-    commentThreadList,
-    handleLoadMoreComments,
-    handleThreadToggle,
+    comments,
+    moreComments,
+    rootCommentIds,
+    loadMoreComments,
   } = useComments(postId, commentsSorting);
+  const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
+  const users = useUsers(comments);
 
   useEffect(() => {
     (async () => {
@@ -53,7 +62,7 @@ export function PostPage() {
     <Page>
       <Container>
         {post ? <Post {...post} collapsed={false} /> : <div>Loading...</div>}
-        {commentThreadList?.threads.length > 0 && (
+        {Object.keys(comments).length > 0 && (
           <>
             <div className="comments-sorting">
               <Card>
@@ -77,19 +86,26 @@ export function PostPage() {
             </div>
             <div className="comments">
               <Card>
-                <CommentThreadList
-                  {...commentThreadList}
-                  onThreadLoadMore={handleLoadMoreComments}
-                  onThreadToggle={handleThreadToggle}
-                />
+                <CollapsedThreadsContext.Provider
+                  value={{ collapsedThreadIds, toggleThread }}
+                >
+                  <CommentsContext.Provider
+                    value={{ comments, loadMoreComments }}
+                  >
+                    <UsersContext.Provider value={users}>
+                      <CommentThreadList
+                        commentIds={rootCommentIds}
+                        moreComments={moreComments}
+                      />
+                    </UsersContext.Provider>
+                  </CommentsContext.Provider>
+                </CollapsedThreadsContext.Provider>
               </Card>
             </div>
-            {commentThreadList?.more?.ids.length > 0 && (
+            {moreComments && (
               <IntersectionDetector
                 marginTop={100}
-                onIntersect={() =>
-                  handleLoadMoreComments(commentThreadList.more.ids)
-                }
+                onIntersect={loadMoreComments}
               />
             )}
           </>

@@ -1,16 +1,14 @@
 import {
   CommentSortingMethod,
-  CommentThreadList,
 } from "@types";
 import * as Raw from "./types";
 import {
   getIdSuffix,
 } from "./utils";
-import { traverseThreads } from "@utils";
 import {
-  buildThreadList,
   transformPost,
   transformUsers,
+  transformCommentListItems,
 } from "./transformers";
 
 export class RedditWebAPI {
@@ -70,16 +68,21 @@ export class RedditWebAPI {
   async getComments(
     postId: string,
     {
+      baseDepth,
       commentId,
       limit = 50,
       sort,
     }: {
+      baseDepth?: number,
       commentId?: string,
       limit?: number;
       sort?: CommentSortingMethod;
     } = {}
   ) {
-    const params = new URLSearchParams({ limit: String(limit) });
+    const params = new URLSearchParams({
+      limit: String(limit),
+      threaded: "false",
+    });
     if (sort) params.set("sort", sort);
     if (commentId) params.set("comment", getIdSuffix(commentId));
 
@@ -89,10 +92,7 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json[1].data.children);
 
-    const threadList = buildThreadList(items);
-    await this.loadAvatarsToComments(threadList);
-
-    return threadList;
+    return transformCommentListItems(items, baseDepth);
   }
 
   async getMoreComments(
@@ -120,10 +120,7 @@ export class RedditWebAPI {
       .then((res) => res.json())
       .then((json) => json.json.data.things);
 
-    const threadList = buildThreadList(items);
-    await this.loadAvatarsToComments(threadList);
-
-    return threadList;
+    return transformCommentListItems(items);
   }
 
   async getUsers(ids: string[]) {
@@ -132,22 +129,5 @@ export class RedditWebAPI {
     )
       .then((res) => res.json());
     return transformUsers(rawUsers);
-  }
-
-  async loadAvatarsToComments(threadList: CommentThreadList) {
-    const userIds: string[] = [];
-    traverseThreads(threadList, (thread) => {
-      const { comment } = thread;
-      if (!comment.userId) return;
-      userIds.push(comment.userId);
-    });
-
-    const users = await this.getUsers(userIds);
-    traverseThreads(threadList, (thread) => {
-      const { comment } = thread;
-      if (!comment.userId) return;
-      const user = users.find((user) => user.id == comment.userId);
-      comment.avatar = user.avatar;
-    });
   }
 }

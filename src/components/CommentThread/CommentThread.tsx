@@ -1,52 +1,43 @@
-import React, { memo, useCallback } from "react";
-import { CommentThread as CommentThreadType } from "@types";
+import React, { memo } from "react";
+import { Comment as CommentType, User } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
-type CommentThreadProps = CommentThreadType & {
-  onLoadMore: (commentIds: string[], path: string[]) => void;
-  onToggle: (path: string[]) => void;
+type CommentThreadProps = {
+  collapsed: boolean;
+  comment: CommentType;
+  commentAuthor?: User;
+  onToggle: (commentId: string) => void;
 };
 
 export const CommentThread = memo(function CommentThread({
   collapsed,
   comment,
-  replies,
-  onLoadMore,
+  commentAuthor,
   onToggle,
 }: CommentThreadProps) {
-  const showReplies = !collapsed && (
-    replies.threads.length > 0 || replies.more
-  );
-
-  const handleThreadLoadMore = useCallback(
-    (commentIds: string[], path: string[]) =>
-      onLoadMore(commentIds, [comment.id, ...path]),
-    [comment.id],
-  );
-
-  const handleThreadToggle = useCallback(
-    (path: string[]) => onToggle([comment.id, ...path]),
-    [comment.id],
-  );
+  const { childIds, id, moreChildren } = comment;
+  const avatar = commentAuthor?.avatar;
+  const showReplies = !collapsed && (childIds.length > 0 || moreChildren);
 
   return (
     <div className="comment-thread">
       <CommentWrapper
-        onCollapseButtonClick={() => onToggle([comment.id])}
+        onCollapseButtonClick={() => onToggle(id)}
       >
         <Comment
           {...comment}
+          avatar={avatar}
           collapsed={collapsed}
         />
       </CommentWrapper>
       {showReplies && (
         <div className="comment-thread__replies">
           <CommentThreadList
-            {...replies}
-            onThreadLoadMore={handleThreadLoadMore}
-            onThreadToggle={handleThreadToggle}
+            commentIds={childIds}
+            moreComments={moreChildren}
+            parentId={id}
           />
         </div>
       )}

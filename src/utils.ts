@@ -1,7 +1,4 @@
-import {
-  CommentThread,
-  CommentThreadList,
-} from "@types";
+import { Comment } from "@types";
 
 const msInSecond = 1000;
 const msInMinute = msInSecond * 60;
@@ -39,35 +36,22 @@ export function compactNumber(value: number) {
   }).format(value);
 }
 
-export function updateThread(
-  threadList: CommentThreadList,
-  path: string[],
-  updater: (thread: CommentThread) => Partial<CommentThread>,
+export function getCommentChildIds(
+  comments: Record<string, Comment>,
+  commentId: string,
 ) {
-  const threads = [...threadList.threads];
-  const commentId = path[0];
-  const threadIndex = threads
-    .findIndex(({ comment }) => comment.id == commentId);
-  const thread = { ...threads[threadIndex] };
-
-  if (path.length == 1) {
-    Object.assign(thread, updater(thread));
-  } else {
-    thread.replies = updateThread(thread.replies, path.slice(1), updater);
-  }
-
-  threads[threadIndex] = thread;
-  threadList = { ...threadList, threads };
-
-  return threadList;
+  return Object.values(comments)
+    .filter((comment) => comment.parentId == commentId)
+    .map((comment) => comment.id);
 }
 
-export function traverseThreads(
-  threadList: CommentThreadList,
-  iteratee: (thread: CommentThread) => void,
+export function updateComment(
+  comments: Record<string, Comment>,
+  commentId: string,
+  updater: (comment: Comment) => Partial<Comment>,
 ) {
-  for (const thread of threadList.threads) {
-    iteratee(thread);
-    traverseThreads(thread.replies, iteratee);
-  }
+  const comment = comments[commentId];
+  const newComment = { ...comment, ...updater(comment) };
+  const newComments = { ...comments, [commentId]: newComment };
+  return newComments;
 }

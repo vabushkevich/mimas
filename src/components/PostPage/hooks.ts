@@ -1,8 +1,10 @@
-import { useState, useEffect, useContext, useCallback } from "react";
-import { updateThread } from "@utils";
+import { useState, useEffect, useContext } from "react";
+import { getCommentChildIds, updateComment } from "@utils";
 import {
   CommentSortingMethod,
-  CommentThreadList,
+  Comment,
+  MoreItems,
+  User,
 } from "@types";
 import { ClientContext } from "@context";
 
@@ -10,79 +12,116 @@ export function useComments(
   postId: string,
   commentsSorting: CommentSortingMethod,
 ) {
-  const [commentThreadList, setCommentThreadList] =
-    useState<CommentThreadList>();
+  const [comments, setComments] = useState<Record<string, Comment>>({});
+  const [moreComments, setMoreComments] = useState<MoreItems>();
   const client = useContext(ClientContext);
 
-  const loadComments = async (path?: string[]) => {
-    const newThreadList = await client.getComments(
+  const rootCommentIds = getCommentChildIds(comments, postId);
+
+  const loadComments = async (commentId?: string) => {
+    const baseDepth = comments[commentId]?.depth;
+    const {
+      comments: loadedComments,
+      moreComments: newMoreComments,
+    } = await client.getComments(
       postId,
       {
-        commentId: path?.at(-1),
+        baseDepth,
+        commentId,
         sort: commentsSorting,
       }
     );
 
-    setCommentThreadList((threadList) => {
-      if (!path) return newThreadList;
-      return updateThread(threadList, path, () => ({
-        replies: newThreadList.threads[0].replies,
+    if (commentId) {
+      const newChildIds = getCommentChildIds(loadedComments, commentId);
+      setComments((comments) => ({
+        ...updateComment(comments, commentId, () => ({
+          childIds: newChildIds,
+          moreChildren: newMoreComments,
+        })),
+        ...loadedComments,
       }));
-    });
+      return;
+    }
+
+    setComments(loadedComments);
+    setMoreComments(newMoreComments);
   };
 
-  const loadMoreComments = async (commentIds: string[], path?: string[]) => {
+  const loadMoreCommentsShallow = async (commentId?: string) => {
+    const commentIds = commentId
+      ? comments[commentId].moreChildren.ids
+      : moreComments.ids;
     const {
-      threads: loadedThreads,
-      more: newMore,
+      comments: loadedComments,
+      moreComments: newMoreComments,
     } = await client.getMoreComments(
       postId,
       commentIds,
       { sort: commentsSorting },
     );
 
-    setCommentThreadList((threadList) => {
-      if (!path) return {
-        threads: [...threadList.threads, ...loadedThreads],
-        more: newMore,
-      };
-
-      return updateThread(threadList, path, (thread) => ({
-        replies: {
-          threads: [...thread.replies.threads, ...loadedThreads],
-          more: newMore,
-        }
+    if (commentId) {
+      const newChildIds = getCommentChildIds(loadedComments, commentId);
+      setComments((comments) => ({
+        ...updateComment(comments, commentId, (comment) => ({
+          childIds: comment.childIds.concat(newChildIds),
+          moreChildren: newMoreComments,
+        })),
+        ...loadedComments,
       }));
-    });
+      return;
+    }
+
+    setComments((comments) => ({ ...comments, ...loadedComments }));
+    setMoreComments(newMoreComments);
   };
 
-  const handleLoadMoreComments = useCallback((
-    commentIds: string[],
-    path?: string[],
-  ) => {
-    const isDeepComment = path?.length >= 10;
+  const loadMoreComments = (commentId?: string) => {
+    const isDeepComment = comments[commentId]?.depth >= 9;
     if (isDeepComment) {
-      loadComments(path);
+      loadComments(commentId);
     } else {
-      loadMoreComments(commentIds, path);
+      loadMoreCommentsShallow(commentId);
     }
-  }, []);
-
-  const handleThreadToggle = useCallback((path: string[]) => {
-    setCommentThreadList((threadList) =>
-      updateThread(threadList, path, (thread) => ({
-        collapsed: !thread.collapsed,
-      }))
-    );
-  }, []);
+  };
 
   useEffect(() => {
     loadComments();
   }, [commentsSorting]);
 
   return {
-    commentThreadList,
-    handleLoadMoreComments,
-    handleThreadToggle,
+    comments,
+    moreComments,
+    rootCommentIds,
+    loadMoreComments,
   };
+}
+
+export function useUsers(comments: Record<string, Comment>) {
+  const client = useContext(ClientContext);
+  const [users, setUsers] = useState<Record<string, User>>({});
+
+  useEffect(() => {
+    (async () => {
+      const newUserIds = new Set<string>();
+
+      for (const commentId in comments) {
+        const { userId } = comments[commentId];
+        if (userId && !(userId in users)) newUserIds.add(userId);
+      }
+
+      if (newUserIds.size == 0) return;
+
+      const newUsers = (await client.getUsers([...newUserIds.values()]))
+        .reduce(
+          (res, user) => (res[user.id] = user, res),
+          {} as Record<string, User>,
+        );
+
+      setUsers((users) => ({ ...users, ...newUsers }));
+    })();
+  }, [comments]);
+
+  return users;
 }

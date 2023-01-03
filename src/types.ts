@@ -42,12 +42,16 @@ export type Comment = {
   bodyHtml: string;
   bodyText: string;
   bySubmitter: boolean;
+  childIds: string[];
   dateCreated: number;
   dateEdited: number;
   deletedBy?: "user" | "moderator";
+  depth: number;
   distinction?: "moderator" | "admin";
   id: string;
   locked: boolean;
+  moreChildren?: MoreItems;
+  parentId: string;
   pinned: boolean;
   score: number;
   scoreHidden: boolean;
@@ -55,19 +59,14 @@ export type Comment = {
   userName: string;
 };
 
-export type CommentThread = {
-  collapsed: boolean;
-  comment: Comment;
-  replies: CommentThreadList;
-};
-
 export type CommentThreadList = {
-  threads: CommentThread[];
-  more?: MoreItems;
+  comments: Record<string, Comment>;
+  moreComments?: MoreItems;
 };
 
 export type MoreItems = {
   ids: string[];
+  parentId?: string;
   totalCount: number;
 };
 
