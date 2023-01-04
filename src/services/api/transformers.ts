@@ -19,20 +19,39 @@ import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
 
 export function transformPost(rawPost: Raw.Post): Post {
+  const {
+    data: {
+      author,
+      created_utc,
+      gallery_data,
+      media_metadata,
+      media,
+      name,
+      num_comments,
+      permalink,
+      preview,
+      score,
+      selftext_html,
+      subreddit,
+      title,
+      url_overridden_by_dest,
+    }
+  } = rawPost;
+
   const post = {
     avatar: "",
-    commentCount: rawPost.data.num_comments,
-    dateCreated: rawPost.data.created_utc * 1000,
-    id: rawPost.data.name,
-    score: rawPost.data.score,
-    subreddit: rawPost.data.subreddit,
-    title: decodeEntities(rawPost.data.title),
-    url: rawPost.data.permalink,
-    userName: rawPost.data.author,
+    commentCount: num_comments,
+    dateCreated: created_utc * 1000,
+    id: name,
+    score,
+    subreddit,
+    title: decodeEntities(title),
+    url: permalink,
+    userName: author,
   };
 
   if (isImagePost(rawPost)) {
-    const images = rawPost.data.preview.images[0].resolutions;
+    const images = preview.images[0].resolutions;
     const image = findLast(images, (item) => item.width <= 640);
     return {
       ...post,
@@ -45,13 +64,13 @@ export function transformPost(rawPost: Raw.Post): Post {
     return {
       ...post,
       type: "video",
-      video: rawPost.data.media.reddit_video.fallback_url,
+      video: media.reddit_video.fallback_url,
     };
   }
 
   if (isGalleryPost(rawPost)) {
-    const images = rawPost.data.gallery_data.items.reduce((out, item) => {
-      const images = rawPost.data.media_metadata[item.media_id].p;
+    const images = gallery_data.items.reduce((out, item) => {
+      const images = media_metadata[item.media_id].p;
       const image = findLast(images, (item) => item.x <= 640);
       out.push(decodeEntities(image.u));
       return out;
@@ -67,7 +86,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     return {
       ...post,
       type: "text",
-      bodyHtml: decodeEntities(rawPost.data.selftext_html),
+      bodyHtml: decodeEntities(selftext_html),
     };
   }
 
@@ -75,7 +94,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     return {
       ...post,
       type: "link",
-      linkUrl: rawPost.data.url_overridden_by_dest,
+      linkUrl: url_overridden_by_dest,
     };
   }
 
