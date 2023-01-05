@@ -21,6 +21,7 @@ import {
   MenuItem,
   Card,
   IntersectionDetector,
+  Alert,
 } from "@components";
 import "./PostPage.scss";
 
@@ -51,6 +52,9 @@ export function PostPage() {
   const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
   const users = useUsers(comments);
 
+  const { archived, locked } = post || {};
+  const hasAlerts = archived || locked;
+
   useEffect(() => {
     (async () => {
       const post = (await client.getPosts([postId]))[0];
@@ -62,6 +66,22 @@ export function PostPage() {
     <Page>
       <Container>
         {post ? <Post {...post} collapsed={false} /> : <div>Loading...</div>}
+        {hasAlerts && (
+          <div className="alerts">
+            <Card>
+              {archived && (
+                <div className="alerts__item">
+                  <Alert>Post archived. Commenting and voting are not available.</Alert>
+                </div>
+              )}
+              {locked && (
+                <div className="alerts__item">
+                  <Alert>Post locked. Commenting is not available.</Alert>
+                </div>
+              )}
+            </Card>
+          </div>
+        )}
         {Object.keys(comments).length > 0 && (
           <>
             <div className="comments-sorting">

@@ -1,5 +1,6 @@
 export type Post = {
   data: {
+    archived: boolean;
     author: string;
     created_utc: number;
     gallery_data?: {
@@ -8,6 +9,7 @@ export type Post = {
       }[];
     };
     is_video: boolean;
+    locked: boolean;
     media_metadata?: Record<string, {
       p: {
         u: string;

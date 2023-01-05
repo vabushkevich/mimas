@@ -1,0 +1,8 @@
+@use "@sass/variables" as *;
+
+.alert {
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: hsl(45deg, 95%, 30%);
+  background-color: hsl(45deg, 95%, 85%);
+}

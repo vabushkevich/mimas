@@ -1,4 +1,9 @@
 .comments-sorting,
-.comments {
+.comments,
+.alerts {
   margin-top: 10px;
+}
+
+.alerts__item:not(:first-child) {
+  margin-top: 6px;
 }

@@ -21,9 +21,11 @@ import { decodeEntities } from "@utils";
 export function transformPost(rawPost: Raw.Post): Post {
   const {
     data: {
+      archived,
       author,
       created_utc,
       gallery_data,
+      locked,
       media_metadata,
       media,
       name,
@@ -39,10 +41,12 @@ export function transformPost(rawPost: Raw.Post): Post {
   } = rawPost;
 
   const post = {
+    archived,
     avatar: "",
     commentCount: num_comments,
     dateCreated: created_utc * 1000,
     id: name,
+    locked,
     score,
     subreddit,
     title: decodeEntities(title),

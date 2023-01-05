@@ -1,8 +1,10 @@
 export type BasePost = {
+  archived: boolean;
   avatar: string;
   commentCount: number;
   dateCreated: number;
   id: string;
+  locked: boolean;
   score: number;
   subreddit: string;
   title: string;
