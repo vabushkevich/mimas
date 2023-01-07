@@ -37,6 +37,13 @@ const commentsSortingMenu: {
   { text: "Q&A", value: "qa" },
 ];
 
+const removalReasonMessages: Record<PostType["removalReason"], string> = {
+  "rules-violation": "Post removed by Reddit for violating Reddit's rules.",
+  "spam": "Post removed by Reddit's spam filters.",
+  "user": "Post removed by author.",
+  "moderator": "Post removed by subreddit moderator.",
+};
+
 export function PostPage() {
   const [post, setPost] = useState<PostType>();
   const [commentsSorting, setCommentsSorting] =
@@ -52,8 +59,8 @@ export function PostPage() {
   const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
   const users = useUsers(comments);
 
-  const { archived, locked } = post || {};
-  const hasAlerts = archived || locked;
+  const { archived, locked, removalReason } = post || {};
+  const hasAlerts = archived || locked || removalReason;
 
   useEffect(() => {
     (async () => {
@@ -69,6 +76,11 @@ export function PostPage() {
         {hasAlerts && (
           <div className="alerts">
             <Card>
+              {removalReason && (
+                <div className="alerts__item">
+                  <Alert>{removalReasonMessages[removalReason]}</Alert>
+                </div>
+              )}
               {archived && (
                 <div className="alerts__item">
                   <Alert>Post archived. Commenting and voting are not available.</Alert>

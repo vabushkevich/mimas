@@ -13,10 +13,21 @@ import {
   MoreItems,
   Comment,
   CommentThreadList,
+  BasePost,
 } from "@types";
 import * as Raw from "./types";
 import { findLast } from "lodash-es";
 import { decodeEntities } from "@utils";
+
+const removalReasonMap: Record<
+  Raw.Post["data"]["removed_by_category"],
+  Post["removalReason"]
+> = {
+  content_takedown: "rules-violation",
+  reddit: "spam",
+  deleted: "user",
+  moderator: "moderator",
+};
 
 export function transformPost(rawPost: Raw.Post): Post {
   const {
@@ -32,6 +43,7 @@ export function transformPost(rawPost: Raw.Post): Post {
       num_comments,
       permalink,
       preview,
+      removed_by_category,
       score,
       selftext_html,
       subreddit,
@@ -40,7 +52,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     }
   } = rawPost;
 
-  const post = {
+  const post: BasePost = {
     archived,
     avatar: "",
     commentCount: num_comments,
@@ -53,6 +65,10 @@ export function transformPost(rawPost: Raw.Post): Post {
     url: permalink,
     userName: author,
   };
+
+  if (removed_by_category) {
+    post.removalReason = removalReasonMap[removed_by_category];
+  }
 
   if (isImagePost(rawPost)) {
     const images = preview.images[0].resolutions;

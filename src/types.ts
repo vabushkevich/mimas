@@ -5,6 +5,7 @@ export type BasePost = {
   dateCreated: number;
   id: string;
   locked: boolean;
+  removalReason?: "rules-violation" | "spam" | "user" | "moderator";
   score: number;
   subreddit: string;
   title: string;

@@ -38,6 +38,12 @@ export type Post = {
         }[];
       }[];
     };
+    removed_by_category:
+      | "content_takedown"
+      | "reddit"
+      | "deleted"
+      | "moderator"
+      | null;
     score: number;
     selftext_html: string | null;
     subreddit: string;
