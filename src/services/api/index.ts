@@ -28,6 +28,10 @@ export class RedditWebAPI {
     });
   }
 
+  async getPost(id: string) {
+    return (await this.getPosts([id]))[0];
+  }
+
   async getPosts(ids: string[]) {
     const rawPosts: Raw.Post[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/info?id=${ids}`,

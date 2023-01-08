@@ -64,7 +64,7 @@ export function PostPage() {
 
   useEffect(() => {
     (async () => {
-      const post = (await client.getPosts([postId]))[0];
+      const post = await client.getPost(postId);
       setPost(post);
     })();
   }, []);
