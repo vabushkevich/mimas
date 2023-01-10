@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
 
-import { Menu, DropdownButton } from "@components";
+import { Menu, DropdownButton, MenuItem } from "@components";
 import "./DropdownMenu.scss";
 
-type DropdownMenuProps = {
-  buttonText: string;
-  children: React.ReactNode;
+type MenuItemType<T> = {
+  content: React.ReactNode;
+  value: T;
 };
 
-export function DropdownMenu({
-  buttonText,
-  children,
-}: DropdownMenuProps) {
+type DropdownMenuProps<T> = {
+  items: MenuItemType<T>[],
+  label: (selectedItem: MenuItemType<T>) => React.ReactNode;
+  selectedValue?: T;
+  onSelect: (item: MenuItemType<T>) => void;
+};
+
+export function DropdownMenu<T extends string>({
+  items,
+  label,
+  selectedValue,
+  onSelect,
+}: DropdownMenuProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
+  const selectedItem = items.find((item) => item.value == selectedValue);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -26,11 +36,21 @@ export function DropdownMenu({
       <DropdownButton
         onClick={() => setIsOpen((isOpen) => !isOpen)}
       >
-        {buttonText}
+        {label(selectedItem)}
       </DropdownButton>
       {isOpen && (
         <div className="dropdown-menu__menu">
-          <Menu>{children}</Menu>
+          <Menu>
+            {items.map((item) => (
+              <MenuItem
+                key={item.value}
+                selected={item.value == selectedValue}
+                onClick={() => onSelect(item)}
+              >
+                {item.content}
+              </MenuItem>
+            ))}
+          </Menu>
         </div>
       )}
     </div>

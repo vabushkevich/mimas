@@ -26,15 +26,15 @@ import {
 import "./PostPage.scss";
 
 const commentsSortingMenu: {
-  text: string;
+  content: string;
   value: CommentSortingMethod;
 }[] = [
-  { text: "Best", value: "confidence" },
-  { text: "Top", value: "top" },
-  { text: "New", value: "new" },
-  { text: "Controversial", value: "controversial" },
-  { text: "Old", value: "old" },
-  { text: "Q&A", value: "qa" },
+  { value: "confidence", content: "Best" },
+  { value: "top", content: "Top" },
+  { value: "new", content: "New" },
+  { value: "controversial", content: "Controversial" },
+  { value: "old", content: "Old" },
+  { value: "qa", content: "Q&A" },
 ];
 
 const removalReasonMessages: Record<PostType["removalReason"], string> = {
@@ -99,21 +99,11 @@ export function PostPage() {
             <div className="comments-sorting">
               <Card>
                 <DropdownMenu
-                  buttonText={commentsSortingMenu
-                    .find((item) => item.value == commentsSorting)
-                    .text
-                  }
-                >
-                  {commentsSortingMenu.map(({ value, text }) => (
-                    <MenuItem
-                      key={value}
-                      selected={value == commentsSorting}
-                      onClick={() => setCommentsSorting(value)}
-                    >
-                      {text}
-                    </MenuItem>
-                  ))}
-                </DropdownMenu>
+                  items={commentsSortingMenu}
+                  label={({ content }) => content}
+                  selectedValue={commentsSorting}
+                  onSelect={({ value }) => setCommentsSorting(value)}
+                />
               </Card>
             </div>
             <div className="comments">
