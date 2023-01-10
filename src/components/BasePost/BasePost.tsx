@@ -26,7 +26,7 @@ export function BasePost({
         <div className="post__header">
           <a
             className="post__subreddit"
-            href={`https://www.reddit.com/r/${subreddit}/`}
+            href={`/r/${subreddit}/`}
           >
             <div
               className="post__subreddit-img"

@@ -26,6 +26,7 @@ import { DropdownButton } from "./DropdownButton/DropdownButton";
 import { UserContent } from "./UserContent/UserContent";
 import { CommentWrapper } from "./CommentWrapper/CommentWrapper";
 import { Alert } from "./Alert/Alert";
+import { SubredditPage } from "./SubredditPage/SubredditPage";
 
 export {
   Post,
@@ -56,4 +57,5 @@ export {
   UserContent,
   CommentWrapper,
   Alert,
+  SubredditPage,
 };

@@ -3,17 +3,26 @@ import { getAccessToken } from "@services/authorization";
 import { RedditWebAPI } from "@services/api";
 import { ClientContext } from "@context";
 
-import { TestPage, HotPage, PostPage } from "@components";
+import { TestPage, HotPage, PostPage, SubredditPage } from "@components";
 
 function isPostPage() {
   return /\/comments\/\w+\//.test(location.pathname);
 }
 
+function isSubredditPage() {
+  return /^\/r\/\w+(\/|$)/.test(location.pathname);
+}
+
 export function App() {
-  const SpecificPage = isPostPage() ? PostPage : {
-    "/": TestPage,
-    "/hot": HotPage,
-  }[window.location.pathname];
+  const SpecificPage = (() => {
+    if (isPostPage()) return PostPage;
+    if (isSubredditPage()) return SubredditPage;
+    switch (window.location.pathname) {
+      case "/": return TestPage;
+      case "/hot": return HotPage;
+    }
+  })();
+
   const [client, setClient] = useState<RedditWebAPI>(null);
 
   useEffect(() => {
