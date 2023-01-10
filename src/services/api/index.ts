@@ -1,5 +1,6 @@
 import {
   CommentSortingMethod,
+  PostSortingMethod,
 } from "@types";
 import * as Raw from "./types";
 import {
@@ -41,20 +42,29 @@ export class RedditWebAPI {
     return rawPosts.map((rawPost) => transformPost(rawPost));
   }
 
-  async getHotPosts({
-    after,
-    limit,
-  }: {
-    after?: string;
-    limit?: number;
-  } = {}) {
+  async getFeedPosts(
+    {
+      after,
+      limit,
+      sort = "hot",
+      subreddit,
+    }: {
+      after?: string;
+      limit?: number;
+      sort?: PostSortingMethod;
+      subreddit?: string;
+    }
+  ) {
     const params = new URLSearchParams();
     if (after) params.append("after", after);
     if (limit) params.append("limit", String(limit));
 
-    const rawPosts: Raw.Post[] = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/hot?${params}`,
-    )
+    let url = "https://oauth.reddit.com";
+    if (subreddit) url += `/r/${subreddit}`;
+    if (sort) url += `/${sort}`;
+    url += `?${params}`;
+
+    const rawPosts: Raw.Post[] = await this.#fetchWithAuth(url)
       .then((res) => res.json())
       .then((json) => json.data.children);
 

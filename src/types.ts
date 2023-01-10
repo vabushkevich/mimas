@@ -83,6 +83,13 @@ export type CommentSortingMethod =
   | "qa"
   | "live";
 
+export type PostSortingMethod =
+  | "best"
+  | "hot"
+  | "new"
+  | "top"
+  | "rising";
+
 export type User = {
   avatar: string;
   id: string;

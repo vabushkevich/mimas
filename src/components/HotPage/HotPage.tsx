@@ -9,7 +9,7 @@ export function HotPage() {
   const client = useContext(ClientContext);
 
   const loadMorePosts = async (limit?: number) => {
-    const newPosts = await client.getHotPosts({
+    const newPosts = await client.getFeedPosts({
       after: posts.at(-1)?.id,
       limit,
     });
