@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
+import { useClickOutside } from "@hooks";
 
 import { Menu, DropdownButton, MenuItem } from "@components";
 import "./DropdownMenu.scss";
@@ -22,30 +23,31 @@ export function DropdownMenu<T extends string>({
   onSelect,
 }: DropdownMenuProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const selectedItem = items.find((item) => item.value == selectedValue);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleClick = () => setIsOpen(false);
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, [isOpen]);
+  useClickOutside([buttonRef, menuRef], () => setIsOpen(false));
 
   return (
     <div className="dropdown-menu">
       <DropdownButton
-        onClick={() => setIsOpen((isOpen) => !isOpen)}
+        ref={buttonRef}
+        onClick={() => setIsOpen(!isOpen)}
       >
         {label(selectedItem)}
       </DropdownButton>
       {isOpen && (
-        <div className="dropdown-menu__menu">
+        <div ref={menuRef} className="dropdown-menu__menu">
           <Menu>
             {items.map((item) => (
               <MenuItem
                 key={item.value}
                 selected={item.value == selectedValue}
-                onClick={() => onSelect(item)}
+                onClick={() => {
+                  setIsOpen(false);
+                  onSelect(item);
+                }}
               >
                 {item.content}
               </MenuItem>
