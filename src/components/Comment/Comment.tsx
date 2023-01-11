@@ -40,7 +40,7 @@ export function Comment({
       <div className="comment__header">
         <a
           className="comment__user"
-          href={`https://www.reddit.com/user/${userName}/`}
+          href={`/user/${userName}/`}
         >
           <div
             className="comment__user-img"

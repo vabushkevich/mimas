@@ -36,7 +36,7 @@ export function BasePost({
           </a>
           <a
             className="post__user"
-            href={`https://www.reddit.com/user/${userName}/`}
+            href={`/user/${userName}/`}
           >
             {userName}
           </a>

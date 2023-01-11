@@ -92,5 +92,9 @@ export type PostSortingMethod =
 
 export type User = {
   avatar: string;
+  commentKarma: number;
+  dateCreated: number;
   id: string;
+  name: string;
+  postKarma: number;
 };

@@ -89,6 +89,22 @@ export type MoreItems = {
 
 export type CommentListItem = Comment | MoreItems;
 
-export type User = {
+export type ShortUser = {
+  comment_karma: number;
+  created_utc: number;
+  link_karma: number;
+  name: string;
   profile_img: string;
+};
+
+export type FullUser = {
+  data: {
+    comment_karma: number;
+    created_utc: number;
+    icon_img: string;
+    id: string;
+    link_karma: number;
+    name: string;
+  };
+  kind: "t2";
 };

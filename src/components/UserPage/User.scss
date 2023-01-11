@@ -1,0 +1,29 @@
+.user {
+  $avatar-size: 140px;
+  $offset: $avatar-size * 0.8;
+
+  margin-top: $offset;
+
+  &__avatar {
+    border: 5px solid white;
+    border-radius: 50%;
+    width: $avatar-size;
+    height: $avatar-size;
+    margin-top: -$offset;
+    background-color: white;
+  }
+
+  &__name {
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-weight: 500;
+  }
+
+  &__stats {
+    display: flex;
+
+    >*:not(:last-child) {
+      margin-right: 25px;
+    }
+  }
+}

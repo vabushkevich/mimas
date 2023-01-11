@@ -218,20 +218,59 @@ function transformMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
   };
 }
 
-export function transformUsers(rawUsers: Record<string, Raw.User>) {
+export function transformShortUsers(
+  rawShortUsers: Record<string, Raw.ShortUser>,
+) {
   const users: User[] = [];
 
-  for (const userId in rawUsers) {
-    const rawUser = rawUsers[userId];
-    users.push(transformUser(rawUser, userId));
+  for (const userId in rawShortUsers) {
+    const rawShortUser = rawShortUsers[userId];
+    users.push(transformShortUser(rawShortUser, userId));
   }
 
   return users;
 }
 
-function transformUser(rawUser: Raw.User, userId: string) {
+function transformShortUser(
+  rawShortUser: Raw.ShortUser,
+  userId: string,
+) {
+  const {
+    comment_karma,
+    created_utc,
+    link_karma,
+    name,
+    profile_img,
+  } = rawShortUser;
+
   return {
+    avatar: decodeEntities(profile_img),
+    commentKarma: comment_karma,
+    dateCreated: created_utc * 1000,
     id: userId,
-    avatar: decodeEntities(rawUser.profile_img),
+    name,
+    postKarma: link_karma,
+  };
+}
+
+export function transformFullUser(rawFullUser: Raw.FullUser) {
+  const {
+    data: {
+      comment_karma,
+      created_utc,
+      icon_img,
+      id,
+      link_karma,
+      name,
+    }
+  } = rawFullUser;
+
+  return {
+    avatar: decodeEntities(icon_img),
+    commentKarma: comment_karma,
+    dateCreated: created_utc * 1000,
+    id: `t2_${id}`,
+    name,
+    postKarma: link_karma,
   };
 }

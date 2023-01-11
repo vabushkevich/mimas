@@ -8,8 +8,9 @@ import {
 } from "./utils";
 import {
   transformPost,
-  transformUsers,
+  transformShortUsers,
   transformCommentListItems,
+  transformFullUser,
 } from "./transformers";
 
 export class RedditWebAPI {
@@ -137,11 +138,20 @@ export class RedditWebAPI {
     return transformCommentListItems(items);
   }
 
-  async getUsers(ids: string[]) {
-    const rawUsers: Record<string, Raw.User> = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}`,
+  async getUser(name: string) {
+    const rawFullUser: Raw.FullUser = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/user/${name}/about`,
     )
       .then((res) => res.json());
-    return transformUsers(rawUsers);
+    return transformFullUser(rawFullUser);
+  }
+
+  async getUsers(ids: string[]) {
+    const rawShortUsers: Record<string, Raw.ShortUser> =
+      await this.#fetchWithAuth(
+        `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}`,
+      )
+        .then((res) => res.json());
+    return transformShortUsers(rawShortUsers);
   }
 }

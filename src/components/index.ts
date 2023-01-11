@@ -27,6 +27,8 @@ import { UserContent } from "./UserContent/UserContent";
 import { CommentWrapper } from "./CommentWrapper/CommentWrapper";
 import { Alert } from "./Alert/Alert";
 import { SubredditPage } from "./SubredditPage/SubredditPage";
+import { UserPage } from "./UserPage/UserPage";
+import { Stat } from "./Stat/Stat";
 
 export {
   Post,
@@ -58,4 +60,6 @@ export {
   CommentWrapper,
   Alert,
   SubredditPage,
+  UserPage,
+  Stat,
 };
