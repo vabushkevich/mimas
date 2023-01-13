@@ -57,7 +57,7 @@
       content: "";
       width: 18px;
       height: 18px;
-      -webkit-mask: no-repeat center url(./assets/bubble.svg);
+      mask: no-repeat center url(./assets/bubble.svg);
       background-color: currentcolor;
       margin-right: 6px;
     }
@@ -106,10 +106,10 @@
   }
 
   &__down-btn::after {
-    -webkit-mask: no-repeat center url(./assets/arrow-down.svg);
+    mask: no-repeat center url(./assets/arrow-down.svg);
   }
 
   &__up-btn::after {
-    -webkit-mask: no-repeat center url(./assets/arrow-up.svg);
+    mask: no-repeat center url(./assets/arrow-up.svg);
   }
 }

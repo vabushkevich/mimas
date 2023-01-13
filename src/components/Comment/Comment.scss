@@ -69,15 +69,15 @@
   }
 
   &__pencil-icon {
-    -webkit-mask: no-repeat center url(./assets/pencil.svg);
+    mask: no-repeat center url(./assets/pencil.svg);
   }
 
   &__pin-icon {
-    -webkit-mask: no-repeat center url(./assets/pin.svg);
+    mask: no-repeat center url(./assets/pin.svg);
   }
 
   &__lock-icon {
-    -webkit-mask: no-repeat center url(./assets/lock.svg);
+    mask: no-repeat center url(./assets/lock.svg);
   }
 
   &__body {
@@ -141,11 +141,11 @@
   }
 
   &__down-btn::after {
-    -webkit-mask: no-repeat center url(./assets/arrow-down.svg);
+    mask: no-repeat center url(./assets/arrow-down.svg);
   }
 
   &__up-btn::after {
-    -webkit-mask: no-repeat center url(./assets/arrow-up.svg);
+    mask: no-repeat center url(./assets/arrow-up.svg);
   }
 
   &--deleted {

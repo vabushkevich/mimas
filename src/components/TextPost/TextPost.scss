@@ -2,6 +2,6 @@
   &--collapsed {
     height: 150px;
     overflow: hidden;
-    -webkit-mask: linear-gradient(black 25%, transparent);
+    mask: linear-gradient(black 25%, transparent);
   }
 }
