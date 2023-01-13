@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const devMode = process.env.NODE_ENV !== "production";
 
@@ -27,7 +28,12 @@ module.exports = {
       },
       {
         test: /\.tsx?$/i,
-        use: "babel-loader",
+        use: {
+          loader: "babel-loader",
+          options: {
+            plugins: devMode ? ["react-refresh/babel"] : [],
+          },
+        },
         exclude: /node_modules/,
       },
       {
@@ -50,7 +56,11 @@ module.exports = {
       },
     }),
   ]
-    .concat(devMode ? [] : [new MiniCssExtractPlugin()]),
+    .concat(
+      devMode
+        ? [new ReactRefreshWebpackPlugin()]
+        : [new MiniCssExtractPlugin()]
+    ),
   resolve: {
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
