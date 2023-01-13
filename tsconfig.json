@@ -3,9 +3,11 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "esModuleInterop": true,
+    "isolatedModules": true,
     "jsx": "react",
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "node",
+    "noEmit": true,
     "noImplicitAny": true,
     "outDir": "./dist/",
     "paths": {
@@ -34,7 +36,7 @@
         "src/utils.ts"
       ]
     },
-    "target": "es6",
+    "target": "ESNext",
     "types": []
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Post } from "@types";
+import type { Post } from "@types";
 import { ClientContext } from "@context";
 
 import {

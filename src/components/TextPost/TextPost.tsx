@@ -1,5 +1,5 @@
 import React from "react";
-import { TextPost } from "@types";
+import type { TextPost } from "@types";
 import classNames from "classnames";
 
 import { BasePost, UserContent } from "@components";

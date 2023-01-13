@@ -1,6 +1,6 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { BasePost } from "@types";
+import type { BasePost } from "@types";
 
 import { Card } from "@components";
 import "./BasePost.scss";

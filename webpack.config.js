@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const devMode = process.env.NODE_ENV !== "production";
 
@@ -25,7 +26,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/i,
-        use: "ts-loader",
+        use: "babel-loader",
         exclude: /node_modules/,
       },
       {
@@ -38,6 +39,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "src/assets/index.html",
       title: "Reddit",
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
     }),
   ]
     .concat(devMode ? [] : [new MiniCssExtractPlugin()]),

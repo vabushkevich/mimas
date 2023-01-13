@@ -1,6 +1,6 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { User } from "@types";
+import type { User } from "@types";
 
 import { Card, Stat } from "@components";
 import "./User.scss";

@@ -1,6 +1,6 @@
 import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { Comment } from "@types";
+import type { Comment } from "@types";
 import classNames from "classnames";
 import { capitalize } from "lodash-es";
 
