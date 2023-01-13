@@ -1,0 +1,78 @@
+@use "@sass/variables" as *;
+
+.submission-header {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+
+  > :not(:last-child) {
+    margin-right: 12px;
+  }
+
+  & a:hover {
+    color: $primary-dark;
+  }
+
+  &__primary-author {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+  }
+
+  &__picture {
+    width: 20px;
+    height: 20px;
+    background: no-repeat center / 100%;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+
+  &__primary-author-name {
+    &--submitter,
+    &--moderator,
+    &--admin {
+      padding: 2px 4px;
+      border-radius: 4px;
+      color: white;
+      line-height: 1;
+    }
+
+    &--submitter {
+      background-color: #68b2f3;
+    }
+
+    &--moderator {
+      background-color: #59cc63;
+    }
+
+    &--admin {
+      background-color: #ff8040;
+    }
+  }
+
+  &__status-icons {
+    display: flex;
+
+    >* {
+      width: 12px;
+      height: 12px;
+      background-color: lighten($color: $gray-600, $amount: 10%);
+    }
+
+    > :not(:last-child) {
+      margin-right: 6px;
+    }
+  }
+
+  &__pencil-icon {
+    mask: no-repeat center url(./assets/pencil.svg);
+  }
+
+  &__pin-icon {
+    mask: no-repeat center url(./assets/pin.svg);
+  }
+
+  &__lock-icon {
+    mask: no-repeat center url(./assets/lock.svg);
+  }
+}

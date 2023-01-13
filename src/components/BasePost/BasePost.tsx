@@ -1,8 +1,8 @@
 import React from "react";
-import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
+import { compactNumber } from "@utils";
 import type { BasePost } from "@types";
 
-import { Card } from "@components";
+import { Card, SubmissionHeader } from "@components";
 import "./BasePost.scss";
 
 type BasePostProps = BasePost & {
@@ -23,30 +23,12 @@ export function BasePost({
   return (
     <Card>
       <div className="post">
-        <div className="post__header">
-          <a
-            className="post__subreddit"
-            href={`/r/${subreddit}/`}
-          >
-            <div
-              className="post__subreddit-img"
-              style={avatar ? { backgroundImage: `url("${avatar}")` } : {}}
-            ></div>
-            <div className="post__subreddit-name">{subreddit}</div>
-          </a>
-          <a
-            className="post__user"
-            href={`/user/${userName}/`}
-          >
-            {userName}
-          </a>
-          <div
-            className="post__date"
-            title={formatDate(dateCreated)}
-          >
-            {formatDistanceToNow(dateCreated)}
-          </div>
-        </div>
+        <SubmissionHeader
+          dateCreated={dateCreated}
+          picture={avatar}
+          subreddit={subreddit}
+          userName={userName}
+        />
         <a
           className="post__title"
           href={url}

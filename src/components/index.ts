@@ -29,6 +29,7 @@ import { Alert } from "./Alert/Alert";
 import { SubredditPage } from "./SubredditPage/SubredditPage";
 import { UserPage } from "./UserPage/UserPage";
 import { Stat } from "./Stat/Stat";
+import { SubmissionHeader } from "./SubmissionHeader/SubmissionHeader";
 
 export {
   Post,
@@ -62,4 +63,5 @@ export {
   SubredditPage,
   UserPage,
   Stat,
+  SubmissionHeader,
 };

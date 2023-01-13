@@ -50,7 +50,7 @@ export type Comment = {
   dateEdited?: number;
   deletedBy?: "user" | "moderator";
   depth: number;
-  distinction?: "moderator" | "admin";
+  distinction?: SubmissionDistinction;
   id: string;
   locked: boolean;
   moreChildren?: MoreItems;
@@ -98,3 +98,5 @@ export type User = {
   name: string;
   postKarma: number;
 };
+
+export type SubmissionDistinction = "moderator" | "admin";
