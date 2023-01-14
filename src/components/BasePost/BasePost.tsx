@@ -13,7 +13,9 @@ export function BasePost({
   avatar,
   commentCount,
   dateCreated,
+  dateEdited,
   locked,
+  pinned,
   score,
   subreddit,
   title,
@@ -26,8 +28,10 @@ export function BasePost({
       <div className="post">
         <SubmissionHeader
           dateCreated={dateCreated}
+          dateEdited={dateEdited}
           locked={locked}
           picture={avatar}
+          pinned={pinned}
           subreddit={subreddit}
           userName={userName}
         />

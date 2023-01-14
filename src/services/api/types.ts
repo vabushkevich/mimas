@@ -3,6 +3,7 @@ export type Post = {
     archived: boolean;
     author: string;
     created_utc: number;
+    edited: number | boolean;
     gallery_data?: {
       items: {
         media_id: string;
@@ -46,6 +47,7 @@ export type Post = {
       | null;
     score: number;
     selftext_html: string | null;
+    stickied: boolean;
     subreddit: string;
     title: string;
     url_overridden_by_dest?: string;

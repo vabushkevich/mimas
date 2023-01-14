@@ -72,7 +72,7 @@ export function PostPage() {
   return (
     <Page>
       <Container>
-        {post ? <Post {...post} collapsed={false} /> : <div>Loading...</div>}
+        {post ? <Post {...post} collapsed={false} pinned={false} /> : <div>Loading...</div>}
         {hasAlerts && (
           <div className="alerts">
             <Card>

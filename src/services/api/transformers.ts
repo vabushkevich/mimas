@@ -35,6 +35,7 @@ export function transformPost(rawPost: Raw.Post): Post {
       archived,
       author,
       created_utc,
+      edited,
       gallery_data,
       locked,
       media_metadata,
@@ -46,6 +47,7 @@ export function transformPost(rawPost: Raw.Post): Post {
       removed_by_category,
       score,
       selftext_html,
+      stickied,
       subreddit,
       title,
       url_overridden_by_dest,
@@ -59,6 +61,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     dateCreated: created_utc * 1000,
     id: name,
     locked,
+    pinned: stickied,
     score,
     subreddit,
     title: decodeEntities(title),
@@ -69,6 +72,7 @@ export function transformPost(rawPost: Raw.Post): Post {
   if (removed_by_category) {
     post.removalReason = removalReasonMap[removed_by_category];
   }
+  if (typeof edited == "number") post.dateEdited = edited * 1000;
 
   if (isImagePost(rawPost)) {
     const images = preview.images[0].resolutions;

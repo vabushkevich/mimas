@@ -3,8 +3,10 @@ export type BasePost = {
   avatar: string;
   commentCount: number;
   dateCreated: number;
+  dateEdited?: number;
   id: string;
   locked: boolean;
+  pinned: boolean;
   removalReason?: "rules-violation" | "spam" | "user" | "moderator";
   score: number;
   subreddit: string;
