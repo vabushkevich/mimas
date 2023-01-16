@@ -23,7 +23,7 @@ export function HotPage() {
   return (
     <Page>
       <Container>
-        <PostList posts={posts} />
+        <PostList posts={posts} unmarkPinned />
         {posts.length > 0 && (
           <IntersectionDetector
             marginTop={100}

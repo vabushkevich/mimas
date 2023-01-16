@@ -6,14 +6,18 @@ import "./PostList.scss";
 
 type PostListProps = {
   posts: PostType[];
+  unmarkPinned?: boolean;
 };
 
-export function PostList({ posts }: PostListProps) {
+export function PostList({
+  posts,
+  unmarkPinned = false,
+}: PostListProps) {
   return (
     <ol className="post-list">
       {posts.map((post) => (
         <li key={post.id} className="post-list__item">
-          <Post {...post} />
+          <Post {...post} pinned={post.pinned && !unmarkPinned} />
         </li>
       ))}
     </ol>
