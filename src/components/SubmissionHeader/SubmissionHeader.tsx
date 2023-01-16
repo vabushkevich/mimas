@@ -61,14 +61,14 @@ export function SubmissionHeader({
       </div>
       {hasStatusIcons && (
         <div className="submission-header__status-icons">
+          {pinned && <div className="submission-header__pin-icon"></div>}
+          {locked && <div className="submission-header__lock-icon"></div>}
           {dateEdited && (
             <div
               className="submission-header__pencil-icon"
               title={formatDate(dateEdited)}
             ></div>
           )}
-          {pinned && <div className="submission-header__pin-icon"></div>}
-          {locked && <div className="submission-header__lock-icon"></div>}
         </div>
       )}
     </div>
