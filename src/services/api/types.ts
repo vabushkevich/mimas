@@ -48,6 +48,7 @@ export type Post = {
     score: number;
     selftext_html: string | null;
     stickied: boolean;
+    subreddit_id: string;
     subreddit: string;
     title: string;
     url_overridden_by_dest?: string;

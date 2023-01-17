@@ -10,6 +10,7 @@ export type BasePost = {
   removalReason?: "rules-violation" | "spam" | "user" | "moderator";
   score: number;
   subreddit: string;
+  subredditId: string;
   title: string;
   url: string;
   userName: string;

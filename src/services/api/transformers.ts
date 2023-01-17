@@ -49,6 +49,7 @@ export function transformPost(rawPost: Raw.Post): Post {
       selftext_html,
       stickied,
       subreddit,
+      subreddit_id,
       title,
       url_overridden_by_dest,
     }
@@ -64,6 +65,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     pinned: stickied,
     score,
     subreddit,
+    subredditId: subreddit_id,
     title: decodeEntities(title),
     url: permalink,
     userName: author,
