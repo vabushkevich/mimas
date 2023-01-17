@@ -33,6 +33,7 @@ export function transformPost(rawPost: Raw.Post): Post {
   const {
     data: {
       archived,
+      author_fullname,
       author,
       created_utc,
       edited,
@@ -68,6 +69,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     subredditId: subreddit_id,
     title: decodeEntities(title),
     url: permalink,
+    userId: author_fullname,
     userName: author,
   };
 

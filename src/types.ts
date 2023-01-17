@@ -13,6 +13,7 @@ export type BasePost = {
   subredditId: string;
   title: string;
   url: string;
+  userId: string;
   userName: string;
 };
 
