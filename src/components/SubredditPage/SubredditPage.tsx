@@ -64,7 +64,7 @@ export function SubredditPage() {
             />
           </Card>
         </div>
-        <PostList posts={posts} />
+        <PostList posts={posts} removeSubreddit />
         {posts.length > 0 && (
           <IntersectionDetector
             marginTop={100}

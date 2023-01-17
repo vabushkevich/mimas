@@ -21,9 +21,14 @@ export function Post(initProps: PostProps) {
 
   useEffect(() => {
     (async () => {
-      const subredditData = await client.getSubredditInfo(props.subreddit);
-      const avatar = subredditData.community_icon || subredditData.icon_img;
-      setAvatar(avatar.split("?")[0]);
+      if (props.subreddit) {
+        const subredditData = await client.getSubredditInfo(props.subreddit);
+        const avatar = subredditData.community_icon || subredditData.icon_img;
+        setAvatar(avatar.split("?")[0]);
+      } else {
+        const user = await client.getUser(props.userName);
+        setAvatar(user.avatar);
+      }
     })();
   }, []);
 
