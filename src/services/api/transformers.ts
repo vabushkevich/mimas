@@ -289,6 +289,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit) {
     data: {
       community_icon,
       icon_img,
+      name,
     }
   } = rawSubreddit;
 
@@ -296,5 +297,6 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit) {
 
   return {
     avatar,
+    id: name,
   };
 }

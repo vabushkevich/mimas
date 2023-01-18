@@ -60,6 +60,7 @@ export type Subreddit = {
   data: {
     community_icon: string;
     icon_img: string;
+    name: string;
   };
   kind: "t5";
 };
