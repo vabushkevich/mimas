@@ -109,3 +109,19 @@ export type Subreddit = {
   avatar: string;
   id: string;
 };
+
+export type IdPrefix =
+  | "t1"
+  | "t2"
+  | "t3"
+  | "t4"
+  | "t5"
+  | "t6";
+
+export type IdType =
+  | "comment"
+  | "user"
+  | "post"
+  | "message"
+  | "subreddit"
+  | "award";

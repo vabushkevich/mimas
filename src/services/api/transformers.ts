@@ -18,7 +18,7 @@ import {
 } from "@types";
 import * as Raw from "./types";
 import { findLast } from "lodash-es";
-import { decodeEntities } from "@utils";
+import { decodeEntities, createId } from "@utils";
 
 const removalReasonMap: Record<
   Raw.Post["data"]["removed_by_category"],
@@ -221,7 +221,7 @@ function transformMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
   } = rawMoreItems;
 
   return {
-    ids: children.map((s) => "t1_" + s),
+    ids: children.map((s) => createId(s, "comment")),
     parentId: parent_id,
     totalCount: count,
   };
@@ -278,7 +278,7 @@ export function transformFullUser(rawFullUser: Raw.FullUser) {
     avatar: decodeEntities(icon_img),
     commentKarma: comment_karma,
     dateCreated: created_utc * 1000,
-    id: `t2_${id}`,
+    id: createId(id, "user"),
     name,
     postKarma: link_karma,
   };

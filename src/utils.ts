@@ -1,4 +1,21 @@
-import { Comment } from "@types";
+import { Comment, IdPrefix, IdType } from "@types";
+
+const idPrefixTypePairs: [IdPrefix, IdType][] = [
+  ["t1", "comment"],
+  ["t2", "user"],
+  ["t3", "post"],
+  ["t4", "message"],
+  ["t5", "subreddit"],
+  ["t6", "award"],
+];
+
+const idTypes = Object.fromEntries(
+  idPrefixTypePairs
+) as Record<IdPrefix, IdType>;
+
+const idPrefixes = Object.fromEntries(
+  idPrefixTypePairs.map(([prefix, type]) => [type, prefix])
+) as Record<IdType, IdPrefix>;
 
 const msInSecond = 1000;
 const msInMinute = msInSecond * 60;
@@ -54,4 +71,13 @@ export function updateComment(
   const newComment = { ...comment, ...updater(comment) };
   const newComments = { ...comments, [commentId]: newComment };
   return newComments;
+}
+
+export function getIdType(id: string): IdType {
+  const prefix = id.split("_")[0] as IdPrefix;
+  return idTypes[prefix];
+}
+
+export function createId(string: string, type: IdType) {
+  return `${idPrefixes[type]}_${string}`;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useToggleArrayValue } from "@hooks";
 import { useComments, useUsers } from "./hooks";
+import { createId } from "@utils";
 import {
   Post as PostType,
   CommentSortingMethod,
@@ -49,7 +50,8 @@ export function PostPage() {
   const [commentsSorting, setCommentsSorting] =
     useState<CommentSortingMethod>("confidence");
   const client = useContext(ClientContext);
-  const postId = "t3_" + location.pathname.match(/\/comments\/(\w+)\//)[1];
+  const postIdSuffix = location.pathname.match(/\/comments\/(\w+)\//)[1];
+  const postId = createId(postIdSuffix, "post");
   const {
     comments,
     moreComments,
