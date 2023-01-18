@@ -36,6 +36,7 @@ export class RedditWebAPI {
   }
 
   async getPosts(ids: string[]) {
+    if (ids.length == 0) return [];
     const rawPosts: Raw.Post[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/info?id=${ids}`,
     )
@@ -78,6 +79,7 @@ export class RedditWebAPI {
   }
 
   async getSubreddits(ids: string[]) {
+    if (ids.length == 0) return [];
     const rawSubreddits: Raw.Subreddit[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/info?id=${ids}`,
     )
@@ -155,6 +157,7 @@ export class RedditWebAPI {
   }
 
   async getUsers(ids: string[]) {
+    if (ids.length == 0) return [];
     const rawShortUsers: Record<string, Raw.ShortUser> =
       await this.#fetchWithAuth(
         `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}`,
