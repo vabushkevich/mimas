@@ -14,6 +14,7 @@ import {
   Comment,
   CommentThreadList,
   BasePost,
+  Subreddit,
 } from "@types";
 import * as Raw from "./types";
 import { findLast } from "lodash-es";
@@ -280,5 +281,20 @@ export function transformFullUser(rawFullUser: Raw.FullUser) {
     id: `t2_${id}`,
     name,
     postKarma: link_karma,
+  };
+}
+
+export function transformSubreddit(rawSubreddit: Raw.Subreddit) {
+  const {
+    data: {
+      community_icon,
+      icon_img,
+    }
+  } = rawSubreddit;
+
+  const avatar = (community_icon || icon_img).split("?")[0];
+
+  return {
+    avatar,
   };
 }

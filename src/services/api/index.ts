@@ -11,6 +11,7 @@ import {
   transformShortUsers,
   transformCommentListItems,
   transformFullUser,
+  transformSubreddit,
 } from "./transformers";
 
 export class RedditWebAPI {
@@ -72,12 +73,19 @@ export class RedditWebAPI {
     return rawPosts.map((rawPost) => transformPost(rawPost));
   }
 
-  async getSubredditInfo(name: string): Promise<Raw.Subreddit> {
-    return await this.#fetchWithAuth(
-      `https://oauth.reddit.com/r/${name}/about`,
+  async getSubreddit(id: string) {
+    return (await this.getSubreddits([id]))[0];
+  }
+
+  async getSubreddits(ids: string[]) {
+    const rawSubreddits: Raw.Subreddit[] = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/api/info?id=${ids}`,
     )
       .then((res) => res.json())
-      .then((json) => json.data);
+      .then((json) => json.data.children);
+    return rawSubreddits.map(
+      (rawSubreddit) => transformSubreddit(rawSubreddit)
+    );
   }
 
   async getComments(

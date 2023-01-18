@@ -22,9 +22,8 @@ export function Post(initProps: PostProps) {
   useEffect(() => {
     (async () => {
       if (props.subreddit) {
-        const subredditData = await client.getSubredditInfo(props.subreddit);
-        const avatar = subredditData.community_icon || subredditData.icon_img;
-        setAvatar(avatar.split("?")[0]);
+        const subreddit = await client.getSubreddit(props.subredditId);
+        setAvatar(subreddit.avatar);
       } else {
         const user = await client.getUser(props.userName);
         setAvatar(user.avatar);

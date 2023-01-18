@@ -104,3 +104,7 @@ export type User = {
 };
 
 export type SubmissionDistinction = "moderator" | "admin";
+
+export type Subreddit = {
+  avatar: string;
+};

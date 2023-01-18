@@ -57,8 +57,11 @@ export type Post = {
 };
 
 export type Subreddit = {
-  community_icon: string;
-  icon_img: string;
+  data: {
+    community_icon: string;
+    icon_img: string;
+  };
+  kind: "t5";
 };
 
 export type Comment = {
