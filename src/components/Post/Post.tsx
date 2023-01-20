@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import type { Post } from "@types";
-import { ClientContext } from "@context";
 
 import {
   LinkPost,
@@ -14,23 +13,7 @@ type PostProps = Post & {
   collapsed?: boolean;
 };
 
-export function Post(initProps: PostProps) {
-  const client = useContext(ClientContext);
-  const [avatar, setAvatar] = useState("");
-  const props = { ...initProps, avatar };
-
-  useEffect(() => {
-    (async () => {
-      if (props.subreddit) {
-        const subreddit = await client.getSubreddit(props.subredditId);
-        setAvatar(subreddit.avatar);
-      } else {
-        const user = await client.getUser(props.userName);
-        setAvatar(user.avatar);
-      }
-    })();
-  }, []);
-
+export function Post(props: PostProps) {
   switch (props.type) {
     case "gallery":
       return <GalleryPost {...props} />;

@@ -1,4 +1,10 @@
-import { Comment, IdPrefix, IdType } from "@types";
+import {
+  AuthorType,
+  Comment,
+  IdPrefix,
+  IdType,
+  Submission,
+} from "@types";
 
 const idPrefixTypePairs: [IdPrefix, IdType][] = [
   ["t1", "comment"],
@@ -80,4 +86,21 @@ export function getIdType(id: string): IdType {
 
 export function createId(string: string, type: IdType) {
   return `${idPrefixes[type]}_${string}`;
+}
+
+export function getSubmissionAuthorIds(
+  submissions: Submission[],
+  postAuthorType: AuthorType = "subreddit",
+) {
+  const ids = new Set<string>;
+
+  for (const submission of submissions) {
+    const isPost = "title" in submission;
+    const isSubredditId = isPost && postAuthorType == "subreddit";
+    const id = isSubredditId ? submission.subredditId : submission.userId;
+    if (!id || ids.has(id)) continue;
+    ids.add(id);
+  }
+
+  return [...ids];
 }

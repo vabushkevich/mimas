@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Comment as CommentType, User } from "@types";
+import { Comment as CommentType } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
@@ -7,18 +7,17 @@ import "./CommentThread.scss";
 type CommentThreadProps = {
   collapsed: boolean;
   comment: CommentType;
-  commentAuthor?: User;
+  commentAuthorAvatar?: string;
   onToggle: (commentId: string) => void;
 };
 
 export const CommentThread = memo(function CommentThread({
   collapsed,
   comment,
-  commentAuthor,
+  commentAuthorAvatar,
   onToggle,
 }: CommentThreadProps) {
   const { childIds, id, moreChildren } = comment;
-  const avatar = commentAuthor?.avatar;
   const showReplies = !collapsed && (childIds.length > 0 || moreChildren);
 
   return (
@@ -28,7 +27,7 @@ export const CommentThread = memo(function CommentThread({
       >
         <Comment
           {...comment}
-          avatar={avatar}
+          avatar={commentAuthorAvatar}
           collapsed={collapsed}
         />
       </CommentWrapper>

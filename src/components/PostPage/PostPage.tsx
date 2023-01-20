@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useToggleArrayValue } from "@hooks";
-import { useComments, useUsers } from "./hooks";
+import { useComments } from "./hooks";
+import { useAvatars } from "@hooks";
 import { createId } from "@utils";
 import {
   Post as PostType,
   CommentSortingMethod,
+  Submission,
 } from "@types";
 import {
   ClientContext,
   CollapsedThreadsContext,
   CommentsContext,
-  UsersContext,
+  useAvatarsContext,
 } from "@context";
 
 import {
@@ -59,7 +61,11 @@ export function PostPage() {
     loadMoreComments,
   } = useComments(postId, commentsSorting);
   const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
-  const users = useUsers(comments);
+
+  const submissions: Submission[] = Object.values(comments);
+  if (post) submissions.push(post);
+  const avatars = useAvatars(submissions);
+  const { addAvatars } = useAvatarsContext();
 
   const { archived, locked, removalReason } = post || {};
   const hasAlerts = archived || locked || removalReason;
@@ -71,10 +77,21 @@ export function PostPage() {
     })();
   }, []);
 
+  useEffect(() => {
+    addAvatars(avatars);
+  }, [avatars]);
+
   return (
     <Page>
       <Container>
-        {post ? <Post {...post} collapsed={false} pinned={false} /> : <div>Loading...</div>}
+        {post ? (
+          <Post
+            {...post}
+            collapsed={false}
+            pinned={false}
+            avatar={avatars[post.subredditId]}
+          />
+        ) : <div>Loading...</div>}
         {hasAlerts && (
           <div className="alerts">
             <Card>
@@ -116,12 +133,10 @@ export function PostPage() {
                   <CommentsContext.Provider
                     value={{ comments, loadMoreComments }}
                   >
-                    <UsersContext.Provider value={users}>
-                      <CommentThreadList
-                        commentIds={rootCommentIds}
-                        moreComments={moreComments}
-                      />
-                    </UsersContext.Provider>
+                    <CommentThreadList
+                      commentIds={rootCommentIds}
+                      moreComments={moreComments}
+                    />
                   </CommentsContext.Provider>
                 </CollapsedThreadsContext.Provider>
               </Card>

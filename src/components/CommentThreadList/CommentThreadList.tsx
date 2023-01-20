@@ -3,7 +3,7 @@ import { MoreItems } from "@types";
 import {
   CommentsContext,
   CollapsedThreadsContext,
-  UsersContext,
+  useAvatarsContext,
 } from "@context";
 
 import { CommentThread, CommentWrapper } from "@components";
@@ -25,7 +25,7 @@ export function CommentThreadList({
     collapsedThreadIds,
     toggleThread,
   } = useContext(CollapsedThreadsContext);
-  const users = useContext(UsersContext);
+  const { avatars } = useAvatarsContext();
 
   const moreCommentsMessage = (() => {
     if (!moreComments) return;
@@ -40,14 +40,14 @@ export function CommentThreadList({
     <ol className="comment-thread-list">
       {commentIds.map((commentId) => {
         const comment = comments[commentId];
-        const commentAuthor = users[comment.userId];
+        const commentAuthorAvatar = avatars[comment.userId];
         const collapsed = collapsedThreadIds.includes(commentId);
         return (
           <li key={commentId} className="comment-thread-list__item">
             <CommentThread
               collapsed={collapsed}
               comment={comment}
-              commentAuthor={commentAuthor}
+              commentAuthorAvatar={commentAuthorAvatar}
               onToggle={toggleThread}
             />
           </li>

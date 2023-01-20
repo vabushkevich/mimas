@@ -4,7 +4,6 @@ import {
   CommentSortingMethod,
   Comment,
   MoreItems,
-  User,
 } from "@types";
 import { ClientContext } from "@context";
 
@@ -96,32 +95,4 @@ export function useComments(
     rootCommentIds,
     loadMoreComments,
   };
-}
-
-export function useUsers(comments: Record<string, Comment>) {
-  const client = useContext(ClientContext);
-  const [users, setUsers] = useState<Record<string, User>>({});
-
-  useEffect(() => {
-    (async () => {
-      const newUserIds = new Set<string>();
-
-      for (const commentId in comments) {
-        const { userId } = comments[commentId];
-        if (userId && !(userId in users)) newUserIds.add(userId);
-      }
-
-      if (newUserIds.size == 0) return;
-
-      const newUsers = (await client.getUsers([...newUserIds.values()]))
-        .reduce(
-          (res, user) => (res[user.id] = user, res),
-          {} as Record<string, User>,
-        );
-
-      setUsers((users) => ({ ...users, ...newUsers }));
-    })();
-  }, [comments]);
-
-  return users;
 }

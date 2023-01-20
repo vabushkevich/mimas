@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAccessToken } from "@services/authorization";
 import { RedditWebAPI } from "@services/api";
-import { ClientContext } from "@context";
+import { ClientContext, AvatarsContextProvider } from "@context";
 
 import {
   TestPage,
@@ -47,7 +47,9 @@ export function App() {
 
   return client && (
     <ClientContext.Provider value={client}>
-      <SpecificPage />
+      <AvatarsContextProvider>
+        <SpecificPage />
+      </AvatarsContextProvider>
     </ClientContext.Provider>
   );
 }

@@ -1,11 +1,15 @@
 import { ClientContext } from "./ClientContext";
 import { CommentsContext } from "./CommentsContext";
 import { CollapsedThreadsContext } from "./CollapsedThreadsContext";
-import { UsersContext } from "./UsersContext";
+import {
+  AvatarsContextProvider,
+  useAvatarsContext,
+} from "./AvatarsContext";
 
 export {
   ClientContext,
   CommentsContext,
   CollapsedThreadsContext,
-  UsersContext,
+  AvatarsContextProvider,
+  useAvatarsContext,
 };

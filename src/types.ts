@@ -66,6 +66,8 @@ export type Comment = {
   userName: string;
 };
 
+export type Submission = Post | Comment;
+
 export type CommentThreadList = {
   comments: Record<string, Comment>;
   moreComments?: MoreItems;
@@ -125,3 +127,5 @@ export type IdType =
   | "message"
   | "subreddit"
   | "award";
+
+export type AuthorType = "user" | "subreddit";
