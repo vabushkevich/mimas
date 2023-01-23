@@ -1,3 +1,4 @@
+import { findLast } from "lodash-es";
 import {
   AuthorType,
   Comment,
@@ -30,6 +31,15 @@ const msInDay = msInHour * 24;
 const msInMonth = msInDay * 30;
 const msInYear = msInMonth * 12;
 
+const durationUnits = [
+  { name: "s", ms: msInSecond },
+  { name: "m", ms: msInMinute },
+  { name: "h", ms: msInHour },
+  { name: "d", ms: msInDay },
+  { name: "mo", ms: msInMonth },
+  { name: "y", ms: msInYear },
+];
+
 export function decodeEntities(str: string) {
   const textarea = document.createElement("textarea");
   textarea.innerHTML = str;
@@ -38,12 +48,14 @@ export function decodeEntities(str: string) {
 
 export function formatDistanceToNow(date: Date | number) {
   const distance = Math.abs(Date.now() - Number(date));
-  if (distance < msInMinute) return `${Math.floor(distance / msInSecond)}s`;
-  if (distance < msInHour) return `${Math.floor(distance / msInMinute)}m`;
-  if (distance < msInDay) return `${Math.floor(distance / msInHour)}h`;
-  if (distance < msInMonth) return `${Math.floor(distance / msInDay)}d`;
-  if (distance < msInYear) return `${Math.floor(distance / msInMonth)}mo`;
-  return `${Math.floor(distance / msInYear)}y`;
+  return formatDuration(distance);
+}
+
+function formatDuration(duration: number) {
+  const unit = findLast(durationUnits, (unit) => unit.ms <= duration)
+    || durationUnits[0];
+  const value = Math.floor(duration / unit.ms);
+  return `${value}${unit.name}`;
 }
 
 export function formatDate(date: Date | number) {
