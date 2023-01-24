@@ -9,6 +9,14 @@ const commentSortingMethods = [
   "live",
 ] as const;
 
+const postSortingMethods = [
+  "best",
+  "hot",
+  "new",
+  "top",
+  "rising",
+] as const;
+
 export type BasePost = {
   archived: boolean;
   avatar: string;
@@ -92,12 +100,7 @@ export type MoreItems = {
 
 export type CommentSortingMethod = typeof commentSortingMethods[number];
 
-export type PostSortingMethod =
-  | "best"
-  | "hot"
-  | "new"
-  | "top"
-  | "rising";
+export type PostSortingMethod = typeof postSortingMethods[number];
 
 export type User = {
   avatar: string;
@@ -137,4 +140,10 @@ export function isCommentSortingMethod(
   value: any,
 ): value is CommentSortingMethod {
   return commentSortingMethods.includes(value);
+}
+
+export function isPostSortingMethod(
+  value: any,
+): value is PostSortingMethod {
+  return postSortingMethods.includes(value);
 }
