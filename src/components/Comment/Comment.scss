@@ -1,11 +1,6 @@
 @use "@sass/variables" as *;
 
 .comment {
-  &__reply-btn:hover,
-  & a:not(&__title):hover {
-    color: $primary-dark;
-  }
-
   &__body {
     margin: 6px 0;
   }
@@ -22,6 +17,10 @@
     padding: 0px;
     cursor: pointer;
     font: inherit;
+
+    &:hover {
+      color: $color-inline-action-hover;
+    }
   }
 
   &__voting {

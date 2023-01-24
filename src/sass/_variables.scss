@@ -13,6 +13,8 @@ $gray-900: #212529;
 $primary: $blue;
 $primary-dark: darken($primary, 15%);
 
+$color-inline-action-hover: $primary-dark;
+
 $focus-box-shadow: 0 0 0 3px #add2ff;
 
 $screen-sm: 576px;
