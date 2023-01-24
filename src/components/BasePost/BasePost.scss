@@ -1,33 +1,6 @@
 @use "@sass/variables" as *;
 
 .post {
-  &__header {
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-
-    > :not(:last-child) {
-      margin-right: 14px;
-    }
-  }
-
-  &__subreddit {
-    display: flex;
-    align-items: center;
-  }
-
-  &__subreddit-img {
-    width: 20px;
-    height: 20px;
-    background: url("./assets/default-avatar.svg") no-repeat center / 100%;
-    border-radius: 50%;
-    margin-right: 4px;
-  }
-
-  &__subreddit-name {
-    font-weight: 500;
-  }
-
   &__title {
     display: block;
     font-size: 20px;
