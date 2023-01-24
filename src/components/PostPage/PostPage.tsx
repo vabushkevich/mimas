@@ -7,6 +7,7 @@ import {
   Post as PostType,
   CommentSortingMethod,
   Submission,
+  isCommentSortingMethod,
 } from "@types";
 import {
   ClientContext,
@@ -48,9 +49,12 @@ const removalReasonMessages: Record<PostType["removalReason"], string> = {
 };
 
 export function PostPage() {
+  const sortQueryParam = new URLSearchParams(location.search).get("sort");
+
   const [post, setPost] = useState<PostType>();
-  const [commentsSorting, setCommentsSorting] =
-    useState<CommentSortingMethod>("confidence");
+  const [commentsSorting, setCommentsSorting] = useState<CommentSortingMethod>(
+    isCommentSortingMethod(sortQueryParam) ? sortQueryParam : "confidence"
+  );
   const client = useContext(ClientContext);
   const postIdSuffix = location.pathname.match(/\/comments\/(\w+)\//)[1];
   const postId = createId(postIdSuffix, "post");
@@ -121,7 +125,12 @@ export function PostPage() {
                   items={commentsSortingMenu}
                   label={({ content }) => content}
                   selectedValue={commentsSorting}
-                  onSelect={({ value }) => setCommentsSorting(value)}
+                  onSelect={({ value }) => {
+                    const url = new URL(location.href);
+                    url.searchParams.set("sort", value);
+                    history.replaceState(null, "", url);
+                    setCommentsSorting(value);
+                  }}
                 />
               </Card>
             </div>

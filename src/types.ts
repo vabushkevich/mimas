@@ -1,3 +1,14 @@
+const commentSortingMethods = [
+  "confidence",
+  "top",
+  "new",
+  "controversial",
+  "old",
+  "random",
+  "qa",
+  "live",
+] as const;
+
 export type BasePost = {
   archived: boolean;
   avatar: string;
@@ -79,15 +90,7 @@ export type MoreItems = {
   totalCount: number;
 };
 
-export type CommentSortingMethod =
-  | "confidence"
-  | "top"
-  | "new"
-  | "controversial"
-  | "old"
-  | "random"
-  | "qa"
-  | "live";
+export type CommentSortingMethod = typeof commentSortingMethods[number];
 
 export type PostSortingMethod =
   | "best"
@@ -129,3 +132,9 @@ export type IdType =
   | "award";
 
 export type AuthorType = "user" | "subreddit";
+
+export function isCommentSortingMethod(
+  value: any,
+): value is CommentSortingMethod {
+  return commentSortingMethods.includes(value);
+}
