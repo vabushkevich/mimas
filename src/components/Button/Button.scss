@@ -1,6 +1,9 @@
 @use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .button {
+  @include reset-button;
+
   display: inline-flex;
   align-items: center;
   height: 36px;
@@ -9,9 +12,7 @@
   background-color: $gray-200;
   font-size: 1rem;
   font-weight: 500;
-  border: none;
   border-radius: 6px;
-  cursor: pointer;
   transition-property: box-shadow, background-color;
 
   &:hover {

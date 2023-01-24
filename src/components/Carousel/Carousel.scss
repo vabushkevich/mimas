@@ -1,3 +1,5 @@
+@use "@sass/mixins" as *;
+
 .carousel {
   width: 100%;
   height: 100%;
@@ -29,16 +31,15 @@
   }
 
   &__indicator {
+    @include reset-button;
+
     width: 16px;
     height: 16px;
     align-items: center;
     background-color: rgba($color: black, $alpha: 0.2);
     border-radius: 50%;
-    border: none;
-    cursor: pointer;
     display: flex;
     justify-content: center;
-    padding: 0px;
 
     &:hover {
       background-color: rgba($color: black, $alpha: 0.3);
@@ -55,13 +56,13 @@
 
   &__prev-btn,
   &__next-btn {
+    @include reset-button;
+
     width: 50px;
     height: 50px;
     background: no-repeat 55% center / 50% url(./assets/arrow-right.svg),
       rgba($color: black, $alpha: 0.2);
     border-radius: 50%;
-    border: none;
-    cursor: pointer;
 
     &:hover {
       background-color: rgba($color: black, $alpha: 0.3);

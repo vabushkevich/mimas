@@ -9,12 +9,8 @@
   }
 
   &__more-replies-btn {
-    color: unset;
-    background-color: transparent;
-    border: none;
-    padding: 0px;
-    cursor: pointer;
-    font: inherit;
+    @include reset-button;
+
     font-weight: 500;
 
     &:hover {

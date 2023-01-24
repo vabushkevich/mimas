@@ -1,16 +1,16 @@
 @use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .comment-wrapper {
   display: flex;
 
   &__collapse-btn {
+    @include reset-button;
+
     flex-shrink: 0;
     position: relative;
     width: 2px;
-    padding: 0px;
-    border: none;
     background-color: $gray-400;
-    cursor: pointer;
 
     &::before {
       $offset: 5px;

@@ -3,3 +3,12 @@
   margin: 0;
   padding: 0;
 }
+
+@mixin reset-button {
+  padding: 0px;
+  border: none;
+  font-family: inherit;
+  color: unset;
+  background-color: transparent;
+  cursor: pointer;
+}
