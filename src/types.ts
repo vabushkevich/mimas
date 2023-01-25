@@ -15,6 +15,7 @@ const postSortingMethods = [
   "new",
   "top",
   "rising",
+  "controversial",
 ] as const;
 
 const idPrefixes = [

@@ -16,10 +16,12 @@ const postSortingMenu: {
   content: string;
   value: PostSortingMethod;
 }[] = [
+  { value: "best", content: "Best" },
   { value: "hot", content: "Hot" },
   { value: "top", content: "Top" },
   { value: "new", content: "New" },
   { value: "rising", content: "Rising" },
+  { value: "controversial", content: "Controversial" },
 ];
 
 export function SubredditPage() {
