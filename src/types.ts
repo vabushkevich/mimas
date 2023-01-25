@@ -17,6 +17,15 @@ const postSortingMethods = [
   "rising",
 ] as const;
 
+const idPrefixes = [
+  "t1",
+  "t2",
+  "t3",
+  "t4",
+  "t5",
+  "t6",
+] as const;
+
 export type BasePost = {
   archived: boolean;
   avatar: string;
@@ -118,13 +127,7 @@ export type Subreddit = {
   id: string;
 };
 
-export type IdPrefix =
-  | "t1"
-  | "t2"
-  | "t3"
-  | "t4"
-  | "t5"
-  | "t6";
+export type IdPrefix = typeof idPrefixes[number];
 
 export type IdType =
   | "comment"
@@ -146,4 +149,10 @@ export function isPostSortingMethod(
   value: any,
 ): value is PostSortingMethod {
   return postSortingMethods.includes(value);
+}
+
+export function isIdPrefix(
+  value: any,
+): value is IdPrefix {
+  return idPrefixes.includes(value);
 }

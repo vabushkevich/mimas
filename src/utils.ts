@@ -5,6 +5,7 @@ import {
   IdPrefix,
   IdType,
   Submission,
+  isIdPrefix,
 } from "@types";
 
 const idPrefixTypePairs: [IdPrefix, IdType][] = [
@@ -92,7 +93,8 @@ export function updateComment(
 }
 
 export function getIdType(id: string): IdType {
-  const prefix = id.split("_")[0] as IdPrefix;
+  const prefix = id.split("_")[0];
+  assert(isIdPrefix(prefix), `Invalid id prefix. Got: "${prefix}".`);
   return idTypes[prefix];
 }
 
@@ -115,4 +117,8 @@ export function getSubmissionAuthorIds(
   }
 
   return [...ids];
+}
+
+export function assert(value: unknown, message: string): asserts value {
+  if (!value) throw new Error(message);
 }
