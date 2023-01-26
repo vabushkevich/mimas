@@ -27,6 +27,15 @@ const idPrefixes = [
   "t6",
 ] as const;
 
+const sortTimeIntervals = [
+  "hour",
+  "day",
+  "week",
+  "month",
+  "year",
+  "all",
+] as const;
+
 export type BasePost = {
   archived: boolean;
   avatar: string;
@@ -140,6 +149,8 @@ export type IdType =
 
 export type AuthorType = "user" | "subreddit";
 
+export type SortTimeInterval = typeof sortTimeIntervals[number];
+
 export function isCommentSortingMethod(
   value: any,
 ): value is CommentSortingMethod {
@@ -156,4 +167,14 @@ export function isIdPrefix(
   value: any,
 ): value is IdPrefix {
   return idPrefixes.includes(value);
+}
+
+export function isSortTimeInterval(
+  value: any,
+): value is SortTimeInterval {
+  return sortTimeIntervals.includes(value);
+}
+
+export function isSortRequiresTimeInterval(sort: PostSortingMethod) {
+  return sort === "top" || sort === "controversial";
 }

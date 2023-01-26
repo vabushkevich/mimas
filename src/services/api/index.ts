@@ -1,11 +1,14 @@
 import {
   CommentSortingMethod,
   PostSortingMethod,
+  SortTimeInterval,
+  isSortRequiresTimeInterval,
 } from "@types";
 import * as Raw from "./types";
 import {
   getIdSuffix,
 } from "./utils";
+
 import {
   transformPost,
   transformShortUsers,
@@ -50,17 +53,22 @@ export class RedditWebAPI {
       after,
       limit,
       sort = "hot",
+      sortTimeInterval = "day",
       subreddit,
     }: {
       after?: string;
       limit?: number;
       sort?: PostSortingMethod;
+      sortTimeInterval?: SortTimeInterval;
       subreddit?: string;
     }
   ) {
     const params = new URLSearchParams();
     if (after) params.append("after", after);
     if (limit) params.append("limit", String(limit));
+    if (sortTimeInterval && isSortRequiresTimeInterval(sort)) {
+      params.append("t", sortTimeInterval);
+    }
 
     let url = "https://oauth.reddit.com";
     if (subreddit) url += `/r/${subreddit}`;
