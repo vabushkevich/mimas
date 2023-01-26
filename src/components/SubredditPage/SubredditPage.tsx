@@ -57,29 +57,25 @@ export function SubredditPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const client = useContext(ClientContext);
 
-  const loadPosts = async (limit?: number) => {
+  const loadPosts = async ({
+    limit,
+    more = false,
+  }: {
+    limit?: number;
+    more?: boolean;
+  }) => {
     const newPosts = await client.getFeedPosts({
+      after: more ? posts.at(-1)?.id : null,
       limit,
       sort: postSorting,
       sortTimeInterval,
       subreddit,
     });
-    setPosts(newPosts);
-  };
-
-  const loadMorePosts = async (limit?: number) => {
-    const newPosts = await client.getFeedPosts({
-      after: posts.at(-1)?.id,
-      limit,
-      sort: postSorting,
-      sortTimeInterval,
-      subreddit,
-    });
-    setPosts((posts) => [...posts, ...newPosts]);
+    setPosts(more ? (posts) => [...posts, ...newPosts] : newPosts);
   };
 
   useEffect(() => {
-    loadPosts(5);
+    loadPosts({ limit: 5 });
   }, [postSorting, sortTimeInterval]);
 
   return (
@@ -122,7 +118,7 @@ export function SubredditPage() {
         {posts.length > 0 && (
           <IntersectionDetector
             marginTop={100}
-            onIntersect={() => loadMorePosts(5)}
+            onIntersect={() => loadPosts({ limit: 5, more: true })}
           />
         )}
       </Container>
