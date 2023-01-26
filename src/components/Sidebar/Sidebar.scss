@@ -1,0 +1,33 @@
+@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
+
+.sidebar {
+  position: sticky;
+  width: 220px;
+  height: calc(100vh - 50px);
+  padding: 10px;
+  top: 50px;
+
+  ul {
+    @include reset-list;
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 5px;
+  }
+
+  &__item {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+
+    &--active {
+      background-color: $gray-100;
+      font-weight: 500;
+    }
+
+    &:not(&--active):hover {
+      background-color: $gray-200;
+    }
+  }
+}

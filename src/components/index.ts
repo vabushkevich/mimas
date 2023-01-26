@@ -30,6 +30,7 @@ import { SubredditPage } from "./SubredditPage/SubredditPage";
 import { UserPage } from "./UserPage/UserPage";
 import { Stat } from "./Stat/Stat";
 import { SubmissionHeader } from "./SubmissionHeader/SubmissionHeader";
+import { Sidebar } from "./Sidebar/Sidebar";
 
 export {
   Post,
@@ -64,4 +65,5 @@ export {
   UserPage,
   Stat,
   SubmissionHeader,
+  Sidebar,
 };

@@ -1,37 +1,17 @@
 @use "@sass/variables" as *;
-@use "@sass/mixins" as *;
 
 .site-nav {
+  position: sticky;
   display: flex;
   align-items: center;
-  background-color: $gray-600;
+  justify-content: space-between;
+  background-color: $gray-500;
   height: 50px;
   padding: 0px 20px;
-  margin-bottom: 20px;
+  top: 0px;
 
-  ul {
-    @include reset-list;
-
-    display: flex;
-  }
-
-  li:not(:last-child) {
-    margin-right: 5px;
-  }
-
-  &__item {
-    display: block;
-    padding: 3px 6px;
-    border-radius: 6px;
-    color: $gray-100;
-
-    &--active {
-      color: currentcolor;
-      background-color: $gray-100;
-    }
-
-    &:not(&--active):hover {
-      background-color: lighten($color: $gray-600, $amount: 10%);
-    }
+  &__logo {
+    font-size: 22px;
+    font-weight: 500;
   }
 }

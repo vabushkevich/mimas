@@ -1,0 +1,9 @@
+.page {
+  &__layout {
+    display: flex;
+  }
+
+  &__content {
+    margin: 20px auto;
+  }
+}

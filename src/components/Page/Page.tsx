@@ -1,21 +1,22 @@
 import React from "react";
 
-import { Navbar } from "@components";
+import { Navbar, Sidebar } from "@components";
+import "./Page.scss";
 
 type PageProps = {
   children: React.ReactNode;
 };
 
 export function Page({ children }: PageProps) {
-  const navItems = [
-    { text: "Test", href: "/" },
-    { text: "Hot", href: "/hot" },
-  ];
-
   return (
-    <>
-      <Navbar items={navItems} />
-      {children}
-    </>
+    <div className="page">
+      <Navbar />
+      <div className="page__layout">
+        <Sidebar />
+        <div className="page__content">
+          {children}
+        </div>
+      </div>
+    </div>
   );
 }
