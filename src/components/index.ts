@@ -31,6 +31,7 @@ import { UserPage } from "./UserPage/UserPage";
 import { Stat } from "./Stat/Stat";
 import { SubmissionHeader } from "./SubmissionHeader/SubmissionHeader";
 import { Sidebar } from "./Sidebar/Sidebar";
+import { Feed } from "./Feed/Feed";
 
 export {
   Post,
@@ -66,4 +67,5 @@ export {
   Stat,
   SubmissionHeader,
   Sidebar,
+  Feed,
 };

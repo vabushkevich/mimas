@@ -1,0 +1,10 @@
+.feed {
+  &__sort {
+    margin-bottom: 15px;
+
+  }
+
+  &__sort-items>*:not(:last-child) {
+    margin-right: 6px;
+  }
+}
