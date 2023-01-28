@@ -12,7 +12,7 @@ export function SubredditPage() {
   return (
     <Page>
       <Container>
-        <Feed subreddit={subreddit} />
+        <Feed subreddit={subreddit} removeSubreddit />
       </Container>
     </Page>
   );

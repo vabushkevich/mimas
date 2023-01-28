@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { getAccessToken } from "@services/authorization";
 import { RedditWebAPI } from "@services/api";
 import { ClientContext, AvatarsContextProvider } from "@context";
+import { isPostSortingMethod, FeedPageType } from "@types";
 
 import {
   TestPage,
-  HotPage,
   PostPage,
   SubredditPage,
   UserPage,
+  FeedPage,
 } from "@components";
 
 function isPostPage() {
@@ -23,18 +24,28 @@ function isUserPage() {
   return /^\/user\/[\w-]+/.test(location.pathname);
 }
 
-export function App() {
-  const SpecificPage = (() => {
-    if (isPostPage()) return PostPage;
-    if (isUserPage()) return UserPage;
-    if (isSubredditPage()) return SubredditPage;
-    switch (window.location.pathname) {
-      case "/": return TestPage;
-      case "/hot": return HotPage;
-    }
-  })();
+function isFeedPage() {
+  return !!getFeedPageType(location.href);
+}
 
+function getFeedPageType(href: string): FeedPageType {
+  const { pathname } = new URL(href);
+  const pathParts = pathname.split("/");
+  if (pathParts[1] == "" || isPostSortingMethod(pathParts[1])) return "user";
+  if (pathParts[2] == "all" || pathParts[2] == "popular") return pathParts[2];
+}
+
+function getPage() {
+  if (location.pathname == "/") return <TestPage />;
+  if (isFeedPage()) return <FeedPage type={getFeedPageType(location.href)} />;
+  if (isPostPage()) return <PostPage />;
+  if (isUserPage()) return <UserPage />;
+  if (isSubredditPage()) return <SubredditPage />;
+}
+
+export function App() {
   const [client, setClient] = useState<RedditWebAPI>(null);
+  const page = getPage();
 
   useEffect(() => {
     (async () => {
@@ -48,7 +59,7 @@ export function App() {
   return client && (
     <ClientContext.Provider value={client}>
       <AvatarsContextProvider>
-        <SpecificPage />
+        {page}
       </AvatarsContextProvider>
     </ClientContext.Provider>
   );

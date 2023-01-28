@@ -178,3 +178,5 @@ export function isSortTimeInterval(
 export function isSortRequiresTimeInterval(sort: PostSortingMethod) {
   return sort === "top" || sort === "controversial";
 }
+
+export type FeedPageType = "user" | "all" | "popular";

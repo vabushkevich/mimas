@@ -8,15 +8,22 @@ const navItems: {
   href: string;
 }[] = [
   { text: "Test", href: "/" },
-  { text: "Hot", href: "/hot" },
+  { text: "Popular", href: "/r/popular/" },
+  { text: "All Posts", href: "/r/all/" },
 ];
+
+function isCurrentPage(href: string) {
+  const { pathname } = location;
+  if (href == "/") return pathname == href;
+  return pathname.startsWith(href);
+}
 
 export function Sidebar() {
   return (
     <nav className="sidebar">
       <ul>
         {navItems.map(({ text, href }) => {
-          const active = location.pathname == href;
+          const active = isCurrentPage(href);
           return (
             <li key={href}>
               <a

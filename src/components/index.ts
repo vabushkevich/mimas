@@ -10,7 +10,6 @@ import { GalleryPost } from "./GalleryPost/GalleryPost";
 import { VideoPost } from "./VideoPost/VideoPost";
 import { ImagePost } from "./ImagePost/ImagePost";
 import { Navbar } from "./Navbar/Navbar";
-import { HotPage } from "./HotPage/HotPage";
 import { PostPage } from "./PostPage/PostPage";
 import { Page } from "./Page/Page";
 import { IntersectionDetector } from "./IntersectionDetector/IntersectionDetector";
@@ -32,6 +31,7 @@ import { Stat } from "./Stat/Stat";
 import { SubmissionHeader } from "./SubmissionHeader/SubmissionHeader";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Feed } from "./Feed/Feed";
+import { FeedPage } from "./FeedPage/FeedPage";
 
 export {
   Post,
@@ -46,7 +46,6 @@ export {
   VideoPost,
   ImagePost,
   Navbar,
-  HotPage,
   PostPage,
   Page,
   IntersectionDetector,
@@ -68,4 +67,5 @@ export {
   SubmissionHeader,
   Sidebar,
   Feed,
+  FeedPage,
 };

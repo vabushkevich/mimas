@@ -42,10 +42,11 @@ const sortTimeIntervalMenu: {
 ];
 
 type FeedProps = {
+  removeSubreddit?: boolean;
   subreddit?: string;
 };
 
-export function Feed({ subreddit }: FeedProps) {
+export function Feed({ removeSubreddit, subreddit }: FeedProps) {
   const sortRouteParam = location.pathname.split("/").filter(Boolean).at(-1);
   const timeQueryParam = new URLSearchParams(location.search).get("t");
 
@@ -114,7 +115,7 @@ export function Feed({ subreddit }: FeedProps) {
           </div>
         </Card>
       </div>
-      <PostList posts={posts} removeSubreddit />
+      <PostList posts={posts} removeSubreddit={removeSubreddit} />
       {posts.length > 0 && (
         <IntersectionDetector
           marginTop={100}
