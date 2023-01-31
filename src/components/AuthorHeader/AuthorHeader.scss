@@ -1,10 +1,10 @@
-.user {
+.author-header {
   $avatar-size: 140px;
   $offset: $avatar-size * 0.8;
 
-  margin-top: $offset;
+  margin-top: $offset - 10px;
 
-  &__avatar {
+  &__picture {
     border: 5px solid white;
     border-radius: 50%;
     width: $avatar-size;
@@ -17,6 +17,10 @@
     margin-bottom: 10px;
     font-size: 30px;
     font-weight: 500;
+  }
+
+  &__description {
+    margin-bottom: 16px;
   }
 
   &__stats {

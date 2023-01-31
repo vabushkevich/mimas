@@ -32,6 +32,7 @@ import { SubmissionHeader } from "./SubmissionHeader/SubmissionHeader";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Feed } from "./Feed/Feed";
 import { FeedPage } from "./FeedPage/FeedPage";
+import { AuthorHeader } from "./AuthorHeader/AuthorHeader";
 
 export {
   Post,
@@ -68,4 +69,5 @@ export {
   Sidebar,
   Feed,
   FeedPage,
+  AuthorHeader,
 };

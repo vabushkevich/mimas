@@ -58,9 +58,14 @@ export type Post = {
 
 export type Subreddit = {
   data: {
+    active_user_count: number;
     community_icon: string;
+    created_utc: number;
+    display_name: string;
     icon_img: string;
     name: string;
+    public_description: string;
+    subscribers: number;
   };
   kind: "t5";
 };

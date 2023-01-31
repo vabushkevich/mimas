@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { User as UserType } from "@types";
+import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
+import { User } from "@types";
 import { ClientContext } from "@context";
 
-import { Container, Page } from "@components";
-import { User } from "./User";
+import { Container, Page, AuthorHeader } from "@components";
 
 export function UserPage() {
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<User>();
   const client = useContext(ClientContext);
   const userName = location.pathname.match(/\/user\/([\w-]+)/)[1];
 
@@ -20,7 +20,27 @@ export function UserPage() {
   return (
     <Page>
       <Container>
-        {user ? <User {...user} /> : <div>Loading...</div>}
+        {user ? (
+          <AuthorHeader
+            name={user.name}
+            picture={user.avatar}
+            stats={[
+              {
+                label: "Comment Carma",
+                value: compactNumber(user.commentKarma),
+              },
+              {
+                label: "Post Carma",
+                value: compactNumber(user.postKarma),
+              },
+              {
+                label: "Account Age",
+                title: formatDate(user.dateCreated),
+                value: formatDistanceToNow(user.dateCreated),
+              },
+            ]}
+          />
+        ) : <div>Loading...</div>}
       </Container>
     </Page>
   );

@@ -98,6 +98,14 @@ export class RedditWebAPI {
     );
   }
 
+  async getSubredditByName(name: string) {
+    const rawSubreddit: Raw.Subreddit = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/r/${name}/about`,
+    )
+      .then((res) => res.json());
+    return transformSubreddit(rawSubreddit);
+  }
+
   async getComments(
     postId: string,
     {

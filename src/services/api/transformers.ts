@@ -287,16 +287,26 @@ export function transformFullUser(rawFullUser: Raw.FullUser) {
 export function transformSubreddit(rawSubreddit: Raw.Subreddit) {
   const {
     data: {
+      active_user_count,
       community_icon,
+      created_utc,
+      display_name,
       icon_img,
       name,
+      public_description,
+      subscribers,
     }
   } = rawSubreddit;
 
   const avatar = (community_icon || icon_img).split("?")[0];
 
   return {
+    activeUserCount: active_user_count,
     avatar,
+    dateCreated: created_utc * 1000,
+    description: public_description,
     id: name,
+    name: display_name,
+    subscribers,
   };
 }

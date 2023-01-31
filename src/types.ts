@@ -133,8 +133,13 @@ export type User = {
 export type SubmissionDistinction = "moderator" | "admin";
 
 export type Subreddit = {
+  activeUserCount: number;
   avatar: string;
+  dateCreated: number;
+  description: string;
   id: string;
+  name: string;
+  subscribers: number;
 };
 
 export type IdPrefix = typeof idPrefixes[number];
