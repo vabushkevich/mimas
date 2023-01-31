@@ -26,6 +26,7 @@ export function IntersectionDetector({
 
   useEffect(() => {
     const isIntersecting = () => {
+      if (!elemRef.current) return;
       const elemRect = elemRef.current.getBoundingClientRect();
       const { clientWidth, clientHeight } = document.documentElement;
       return elemRect.right + marginRight > 0
