@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import type { BasePost } from "@types";
 
@@ -35,20 +36,20 @@ export function BasePost({
           subreddit={subreddit}
           userName={userName}
         />
-        <a
+        <Link
           className="post__title"
-          href={url}
+          to={url}
         >
           {title}
-        </a>
+        </Link>
         <div className="post__body">{children}</div>
         <div className="post__footer">
-          <a
+          <Link
             className="post__comments-btn"
-            href={url}
+            to={url}
           >
             {compactNumber(commentCount)}
-          </a>
+          </Link>
           <div className="post__voting">
             <button className="post__down-btn"></button>
             <div className="post__score">{compactNumber(score)}</div>

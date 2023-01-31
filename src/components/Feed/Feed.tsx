@@ -1,4 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
+import {
+  useHistory,
+  useLocation,
+  useParams,
+  useRouteMatch,
+  generatePath,
+} from "react-router-dom";
 import { ClientContext } from "@context";
 import {
   Post,
@@ -47,17 +54,21 @@ type FeedProps = {
 };
 
 export function Feed({ removeSubreddit, subreddit }: FeedProps) {
-  const sortRouteParam = location.pathname.split("/").filter(Boolean).at(-1);
-  const timeQueryParam = new URLSearchParams(location.search).get("t");
+  const { sort: sortRouteParam } = useParams<{ sort: string }>();
+  const postSorting = isPostSortingMethod(sortRouteParam)
+    ? sortRouteParam
+    : "hot";
 
-  const [postSorting, setPostSorting] = useState<PostSortingMethod>(
-    isPostSortingMethod(sortRouteParam) ? sortRouteParam : "hot"
-  );
-  const [sortTimeInterval, setSortTimeInterval] = useState<SortTimeInterval>(
-    isSortTimeInterval(timeQueryParam) ? timeQueryParam : "day"
-  );
+  const { search } = useLocation();
+  const timeQueryParam = new URLSearchParams(search).get("t");
+  const sortTimeInterval = isSortTimeInterval(timeQueryParam)
+    ? timeQueryParam
+    : "day";
+
   const [posts, setPosts] = useState<Post[]>([]);
   const client = useContext(ClientContext);
+  const history = useHistory();
+  const match = useRouteMatch();
 
   const loadPosts = async ({
     limit,
@@ -90,13 +101,11 @@ export function Feed({ removeSubreddit, subreddit }: FeedProps) {
               label={({ content }) => content}
               selectedValue={postSorting}
               onSelect={({ value }) => {
-                const url = new URL(location.href);
-                const path = url.pathname.split("/").filter(Boolean);
-                if (isPostSortingMethod(path.at(-1))) path.pop();
-                path.push(value);
-                url.pathname = path.join("/");
-                history.replaceState(null, "", url);
-                setPostSorting(value);
+                const pathname = generatePath(match.path, {
+                  sort: value,
+                  subreddit,
+                });
+                history.replace({ pathname });
               }}
             />
             {isSortRequiresTimeInterval(postSorting) && (
@@ -105,10 +114,7 @@ export function Feed({ removeSubreddit, subreddit }: FeedProps) {
                 label={({ content }) => content}
                 selectedValue={sortTimeInterval}
                 onSelect={({ value }) => {
-                  const url = new URL(location.href);
-                  url.searchParams.set("t", value);
-                  history.replaceState(null, "", url);
-                  setSortTimeInterval(value);
+                  history.replace({ search: `?t=${value}` });
                 }}
               />
             )}

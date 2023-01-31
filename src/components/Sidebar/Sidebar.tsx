@@ -1,5 +1,5 @@
 import React from "react";
-import classNames from "classnames";
+import { NavLink } from "react-router-dom";
 
 import "./Sidebar.scss";
 
@@ -12,32 +12,22 @@ const navItems: {
   { text: "All Posts", href: "/r/all/" },
 ];
 
-function isCurrentPage(href: string) {
-  const { pathname } = location;
-  if (href == "/") return pathname == href;
-  return pathname.startsWith(href);
-}
-
 export function Sidebar() {
   return (
     <nav className="sidebar">
       <ul>
-        {navItems.map(({ text, href }) => {
-          const active = isCurrentPage(href);
-          return (
-            <li key={href}>
-              <a
-                className={classNames(
-                  "sidebar__item",
-                  active && "sidebar__item--active",
-                )}
-                href={href}
-              >
-                {text}
-              </a>
-            </li>
-          );
-        })}
+        {navItems.map(({ text, href }) => (
+          <li key={href}>
+            <NavLink
+              activeClassName="sidebar__item--active"
+              className="sidebar__item"
+              exact={href == "/"}
+              to={href}
+            >
+              {text}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );

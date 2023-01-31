@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 import {
   Container,
@@ -7,7 +8,7 @@ import {
 } from "@components";
 
 export function SubredditPage() {
-  const subreddit = location.pathname.match(/\/r\/(\w+)/)[1];
+  const { subreddit } = useParams<{ subreddit: string }>();
 
   return (
     <Page>

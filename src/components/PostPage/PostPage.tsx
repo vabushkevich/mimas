@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useToggleArrayValue } from "@hooks";
 import { useComments } from "./hooks";
 import { useAvatars } from "@hooks";
@@ -49,12 +50,13 @@ const removalReasonMessages: Record<PostType["removalReason"], string> = {
 };
 
 export function PostPage() {
-  const sortQueryParam = new URLSearchParams(location.search).get("sort");
+  const { search } = useLocation();
+  const sortQueryParam = new URLSearchParams(search).get("sort");
+  const commentsSorting = isCommentSortingMethod(sortQueryParam)
+    ? sortQueryParam
+    : "confidence";
 
   const [post, setPost] = useState<PostType>();
-  const [commentsSorting, setCommentsSorting] = useState<CommentSortingMethod>(
-    isCommentSortingMethod(sortQueryParam) ? sortQueryParam : "confidence"
-  );
   const client = useContext(ClientContext);
   const postIdSuffix = location.pathname.match(/\/comments\/(\w+)\//)[1];
   const postId = createId(postIdSuffix, "post");
@@ -65,6 +67,7 @@ export function PostPage() {
     loadMoreComments,
   } = useComments(postId, commentsSorting);
   const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
+  const history = useHistory();
 
   const submissions: Submission[] = Object.values(comments);
   if (post) submissions.push(post);
@@ -126,10 +129,7 @@ export function PostPage() {
                   label={({ content }) => content}
                   selectedValue={commentsSorting}
                   onSelect={({ value }) => {
-                    const url = new URL(location.href);
-                    url.searchParams.set("sort", value);
-                    history.replaceState(null, "", url);
-                    setCommentsSorting(value);
+                    history.replace({ search: `?sort=${value}` });
                   }}
                 />
               </Card>

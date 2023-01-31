@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { Button } from "@components";
 import "./Navbar.scss";
@@ -6,9 +7,9 @@ import "./Navbar.scss";
 export function Navbar() {
   return (
     <nav className="site-nav">
-      <a className="site-nav__logo" href="/">
+      <Link className="site-nav__logo" to="/">
         reddit-client
-      </a>
+      </Link>
       <div className="site-nav__login-btn">
         <Button>Sign in with Reddit</Button>
       </div>

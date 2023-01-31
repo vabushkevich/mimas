@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { getAccessToken } from "@services/authorization";
 import { RedditWebAPI } from "@services/api";
 import { ClientContext, AvatarsContextProvider } from "@context";
-import { isPostSortingMethod, FeedPageType } from "@types";
 
 import {
   TestPage,
@@ -12,40 +12,8 @@ import {
   FeedPage,
 } from "@components";
 
-function isPostPage() {
-  return /\/comments\/\w+\//.test(location.pathname);
-}
-
-function isSubredditPage() {
-  return /^\/r\/\w+(\/|$)/.test(location.pathname);
-}
-
-function isUserPage() {
-  return /^\/user\/[\w-]+/.test(location.pathname);
-}
-
-function isFeedPage() {
-  return !!getFeedPageType(location.href);
-}
-
-function getFeedPageType(href: string): FeedPageType {
-  const { pathname } = new URL(href);
-  const pathParts = pathname.split("/");
-  if (pathParts[1] == "" || isPostSortingMethod(pathParts[1])) return "user";
-  if (pathParts[2] == "all" || pathParts[2] == "popular") return pathParts[2];
-}
-
-function getPage() {
-  if (location.pathname == "/") return <TestPage />;
-  if (isFeedPage()) return <FeedPage type={getFeedPageType(location.href)} />;
-  if (isPostPage()) return <PostPage />;
-  if (isUserPage()) return <UserPage />;
-  if (isSubredditPage()) return <SubredditPage />;
-}
-
 export function App() {
   const [client, setClient] = useState<RedditWebAPI>(null);
-  const page = getPage();
 
   useEffect(() => {
     (async () => {
@@ -59,7 +27,28 @@ export function App() {
   return client && (
     <ClientContext.Provider value={client}>
       <AvatarsContextProvider>
-        {page}
+        <Router>
+          <Switch>
+            <Route path="/r/popular/:sort?">
+              <FeedPage type="popular" />
+            </Route>
+            <Route path="/r/all/:sort?">
+              <FeedPage type="all" />
+            </Route>
+            <Route path="/r/:subreddit/comments/:id">
+              <PostPage />
+            </Route>
+            <Route path="/r/:subreddit/:sort?">
+              <SubredditPage />
+            </Route>
+            <Route path="/user/:name">
+              <UserPage />
+            </Route>
+            <Route path="/">
+              <TestPage />
+            </Route>
+          </Switch>
+        </Router>
       </AvatarsContextProvider>
     </ClientContext.Provider>
   );

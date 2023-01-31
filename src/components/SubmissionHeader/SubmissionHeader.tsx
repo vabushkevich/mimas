@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { formatDistanceToNow, formatDate } from "@utils";
 import { SubmissionDistinction } from "@types";
 import classNames from "classnames";
@@ -34,9 +35,9 @@ export function SubmissionHeader({
 
   return (
     <div className="submission-header">
-      <a
+      <Link
         className="submission-header__primary-author"
-        href={`/${subreddit ? "r" : "user"}/${primaryAuthor}/`}
+        to={`/${subreddit ? "r" : "user"}/${primaryAuthor}/`}
       >
         <div
           className="submission-header__picture"
@@ -51,8 +52,8 @@ export function SubmissionHeader({
         >
           {primaryAuthor}
         </div>
-      </a>
-      {subreddit && <a href={`/user/${userName}/`}>{userName}</a>}
+      </Link>
+      {subreddit && <Link to={`/user/${userName}/`}>{userName}</Link>}
       <div
         className="submission-header__date"
         title={formatDate(dateCreated)}
