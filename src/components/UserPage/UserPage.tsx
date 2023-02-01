@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { User } from "@types";
 import { ClientContext } from "@context";
@@ -8,7 +9,7 @@ import { Container, Page, AuthorHeader } from "@components";
 export function UserPage() {
   const [user, setUser] = useState<User>();
   const client = useContext(ClientContext);
-  const userName = location.pathname.match(/\/user\/([\w-]+)/)[1];
+  const { name: userName } = useParams<{ name: string }>();
 
   useEffect(() => {
     (async () => {
