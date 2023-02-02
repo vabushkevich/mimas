@@ -54,9 +54,9 @@ type FeedProps = {
 };
 
 export function Feed({ removeSubreddit, subreddit }: FeedProps) {
-  const { sort: sortRouteParam } = useParams<{ sort: string }>();
-  const postSorting = isPostSortingMethod(sortRouteParam)
-    ? sortRouteParam
+  const params = useParams<{ sort: string }>();
+  const postSorting = isPostSortingMethod(params.sort)
+    ? params.sort
     : "hot";
 
   const query = useQuery<{ t: string }>();

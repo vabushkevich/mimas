@@ -57,8 +57,8 @@ export function PostPage() {
 
   const [post, setPost] = useState<PostType>();
   const client = useContext(ClientContext);
-  const { id: postIdSuffix } = useParams<{ id: string }>();
-  const postId = createId(postIdSuffix, "post");
+  const params = useParams<{ id: string }>();
+  const postId = createId(params.id, "post");
   const {
     comments,
     moreComments,
