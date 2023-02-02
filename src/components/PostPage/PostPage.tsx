@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useToggleArrayValue } from "@hooks";
 import { useComments } from "./hooks";
-import { useAvatars } from "@hooks";
+import { useAvatars, useQuery } from "@hooks";
 import { createId } from "@utils";
 import {
   Post as PostType,
@@ -50,10 +50,9 @@ const removalReasonMessages: Record<PostType["removalReason"], string> = {
 };
 
 export function PostPage() {
-  const { search } = useLocation();
-  const sortQueryParam = new URLSearchParams(search).get("sort");
-  const commentsSorting = isCommentSortingMethod(sortQueryParam)
-    ? sortQueryParam
+  const query = useQuery<{ sort: string }>();
+  const commentsSorting = isCommentSortingMethod(query.sort)
+    ? query.sort
     : "confidence";
 
   const [post, setPost] = useState<PostType>();

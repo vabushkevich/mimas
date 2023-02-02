@@ -5,7 +5,9 @@ import {
   RefObject,
   useRef,
   useContext,
+  useMemo,
 } from "react";
+import { useLocation } from "react-router-dom";
 import { groupBy } from "lodash-es";
 import { ClientContext } from "@context";
 import { AuthorType, Submission } from "@types";
@@ -110,4 +112,12 @@ export function useAvatars(
   }, [newAuthorIds]);
 
   return avatars;
+}
+
+export function useQuery<T extends { [key: string]: string }>(): T {
+  const { search } = useLocation();
+  return useMemo(
+    () => Object.fromEntries(new URLSearchParams(search)) as T,
+    [search],
+  );
 }

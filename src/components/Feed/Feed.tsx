@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   useHistory,
-  useLocation,
   useParams,
   useRouteMatch,
   generatePath,
@@ -15,6 +14,7 @@ import {
   isSortTimeInterval,
   isSortRequiresTimeInterval,
 } from "@types";
+import { useQuery } from "@hooks";
 
 import {
   PostList,
@@ -59,10 +59,9 @@ export function Feed({ removeSubreddit, subreddit }: FeedProps) {
     ? sortRouteParam
     : "hot";
 
-  const { search } = useLocation();
-  const timeQueryParam = new URLSearchParams(search).get("t");
-  const sortTimeInterval = isSortTimeInterval(timeQueryParam)
-    ? timeQueryParam
+  const query = useQuery<{ t: string }>();
+  const sortTimeInterval = isSortTimeInterval(query.t)
+    ? query.t
     : "day";
 
   const [posts, setPosts] = useState<Post[]>([]);
