@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useToggleArrayValue } from "@hooks";
 import { useComments } from "./hooks";
 import { useAvatars } from "@hooks";
@@ -58,7 +58,7 @@ export function PostPage() {
 
   const [post, setPost] = useState<PostType>();
   const client = useContext(ClientContext);
-  const postIdSuffix = location.pathname.match(/\/comments\/(\w+)\//)[1];
+  const { id: postIdSuffix } = useParams<{ id: string }>();
   const postId = createId(postIdSuffix, "post");
   const {
     comments,
