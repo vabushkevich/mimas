@@ -1,8 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import {
+  generatePath,
+  useHistory,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { Subreddit } from "@types";
+import { isPostSortingMethod, isSortTimeInterval, Subreddit } from "@types";
 import { ClientContext } from "@context";
+import { useQuery } from "@hooks";
 
 import {
   Container,
@@ -13,9 +19,21 @@ import {
 import "./SubredditPage.scss";
 
 export function SubredditPage() {
+  const params = useParams<{ sort: string }>();
+  const postSorting = isPostSortingMethod(params.sort)
+    ? params.sort
+    : "hot";
+
+  const query = useQuery<{ t: string }>();
+  const sortTimeInterval = isSortTimeInterval(query.t)
+    ? query.t
+    : "day";
+
   const [subreddit, setSubreddit] = useState<Subreddit>();
   const client = useContext(ClientContext);
   const { subreddit: subredditName } = useParams<{ subreddit: string }>();
+  const history = useHistory();
+  const match = useRouteMatch();
 
   useEffect(() => {
     (async () => {
@@ -51,7 +69,22 @@ export function SubredditPage() {
             />
           </div>
         )}
-        <Feed subreddit={subredditName} removeSubreddit />
+        <Feed
+          removeSubreddit
+          sort={postSorting}
+          sortTimeInterval={sortTimeInterval}
+          subreddit={subredditName}
+          onSortChange={(sort) => {
+            const pathname = generatePath(match.path, {
+              sort,
+              subreddit: subredditName,
+            });
+            history.replace({ pathname });
+          }}
+          onSortTimeIntervalChange={(sortTimeInterval) => {
+            history.replace({ search: `?t=${sortTimeInterval}` });
+          }}
+        />
       </Container>
     </Page>
   );

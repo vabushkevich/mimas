@@ -1,20 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  useHistory,
-  useParams,
-  useRouteMatch,
-  generatePath,
-} from "react-router-dom";
 import { ClientContext } from "@context";
 import {
   Post,
   PostSortingMethod,
-  isPostSortingMethod,
   SortTimeInterval,
-  isSortTimeInterval,
   isSortRequiresTimeInterval,
 } from "@types";
-import { useQuery } from "@hooks";
 
 import {
   PostList,
@@ -50,24 +41,23 @@ const sortTimeIntervalMenu: {
 
 type FeedProps = {
   removeSubreddit?: boolean;
+  sort?: PostSortingMethod;
+  sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
+  onSortChange?: (v: PostSortingMethod) => void;
+  onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
 };
 
-export function Feed({ removeSubreddit, subreddit }: FeedProps) {
-  const params = useParams<{ sort: string }>();
-  const postSorting = isPostSortingMethod(params.sort)
-    ? params.sort
-    : "hot";
-
-  const query = useQuery<{ t: string }>();
-  const sortTimeInterval = isSortTimeInterval(query.t)
-    ? query.t
-    : "day";
-
+export function Feed({
+  removeSubreddit,
+  sort,
+  sortTimeInterval,
+  subreddit,
+  onSortChange = () => { },
+  onSortTimeIntervalChange = () => { },
+}: FeedProps) {
   const [posts, setPosts] = useState<Post[]>([]);
   const client = useContext(ClientContext);
-  const history = useHistory();
-  const match = useRouteMatch();
 
   const loadPosts = async ({
     limit,
@@ -79,7 +69,7 @@ export function Feed({ removeSubreddit, subreddit }: FeedProps) {
     const newPosts = await client.getFeedPosts({
       after: more ? posts.at(-1)?.id : null,
       limit,
-      sort: postSorting,
+      sort,
       sortTimeInterval,
       subreddit,
     });
@@ -88,7 +78,7 @@ export function Feed({ removeSubreddit, subreddit }: FeedProps) {
 
   useEffect(() => {
     loadPosts({ limit: 5 });
-  }, [postSorting, sortTimeInterval]);
+  }, [sort, sortTimeInterval]);
 
   return (
     <div className="feed">
@@ -98,23 +88,15 @@ export function Feed({ removeSubreddit, subreddit }: FeedProps) {
             <DropdownMenu
               items={postSortingMenu}
               label={({ content }) => content}
-              selectedValue={postSorting}
-              onSelect={({ value }) => {
-                const pathname = generatePath(match.path, {
-                  sort: value,
-                  subreddit,
-                });
-                history.replace({ pathname });
-              }}
+              selectedValue={sort}
+              onSelect={({ value }) => onSortChange(value)}
             />
-            {isSortRequiresTimeInterval(postSorting) && (
+            {isSortRequiresTimeInterval(sort) && (
               <DropdownMenu
                 items={sortTimeIntervalMenu}
                 label={({ content }) => content}
                 selectedValue={sortTimeInterval}
-                onSelect={({ value }) => {
-                  history.replace({ search: `?t=${value}` });
-                }}
+                onSelect={({ value }) => onSortTimeIntervalChange(value)}
               />
             )}
           </div>
