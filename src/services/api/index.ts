@@ -55,12 +55,14 @@ export class RedditWebAPI {
       sort = "hot",
       sortTimeInterval = "day",
       subreddit,
+      userName,
     }: {
       after?: string;
       limit?: number;
       sort?: PostSortingMethod;
       sortTimeInterval?: SortTimeInterval;
       subreddit?: string;
+      userName?: string;
     }
   ) {
     const params = new URLSearchParams();
@@ -69,10 +71,15 @@ export class RedditWebAPI {
     if (sortTimeInterval && isSortRequiresTimeInterval(sort)) {
       params.append("t", sortTimeInterval);
     }
+    if (sort && userName) params.append("sort", sort);
 
     let url = "https://oauth.reddit.com";
-    if (subreddit) url += `/r/${subreddit}`;
-    if (sort) url += `/${sort}`;
+    if (userName) {
+      url += `/user/${userName}/submitted`;
+    } else if (subreddit) {
+      url += `/r/${subreddit}`;
+      if (sort) url += `/${sort}`;
+    }
     url += `?${params}`;
 
     const rawPosts: Raw.Post[] = await this.#fetchWithAuth(url)

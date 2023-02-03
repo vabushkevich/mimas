@@ -44,6 +44,7 @@ type FeedProps = {
   sort?: PostSortingMethod;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
+  userName?: string;
   onSortChange?: (v: PostSortingMethod) => void;
   onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
 };
@@ -53,6 +54,7 @@ export function Feed({
   sort,
   sortTimeInterval,
   subreddit,
+  userName,
   onSortChange = () => { },
   onSortTimeIntervalChange = () => { },
 }: FeedProps) {
@@ -72,6 +74,7 @@ export function Feed({
       sort,
       sortTimeInterval,
       subreddit,
+      userName,
     });
     setPosts(more ? (posts) => [...posts, ...newPosts] : newPosts);
   };
