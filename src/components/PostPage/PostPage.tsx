@@ -111,7 +111,7 @@ export function PostPage() {
                   <Alert>Post archived. Commenting and voting are not available.</Alert>
                 </div>
               )}
-              {locked && (
+              {locked && !archived && (
                 <div className="alerts__item">
                   <Alert>Post locked. Commenting is not available.</Alert>
                 </div>
