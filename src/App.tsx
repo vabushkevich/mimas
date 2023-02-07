@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { getAccessToken } from "@services/authorization";
 import { RedditWebAPI } from "@services/api";
 import { ClientContext, AvatarsContextProvider } from "@context";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
 
 import {
   TestPage,
@@ -11,6 +15,16 @@ import {
   UserPage,
   FeedPage,
 } from "@components";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export function App() {
   const [client, setClient] = useState<RedditWebAPI>(null);
@@ -25,31 +39,33 @@ export function App() {
   }, []);
 
   return client && (
-    <ClientContext.Provider value={client}>
-      <AvatarsContextProvider>
-        <Router>
-          <Switch>
-            <Route path="/r/popular/:sort?">
-              <FeedPage type="popular" />
-            </Route>
-            <Route path="/r/all/:sort?">
-              <FeedPage type="all" />
-            </Route>
-            <Route path="/r/:subreddit/comments/:id">
-              <PostPage />
-            </Route>
-            <Route path="/r/:subreddit/:sort?">
-              <SubredditPage />
-            </Route>
-            <Route path="/user/:name">
-              <UserPage />
-            </Route>
-            <Route path="/">
-              <TestPage />
-            </Route>
-          </Switch>
-        </Router>
-      </AvatarsContextProvider>
-    </ClientContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <ClientContext.Provider value={client}>
+        <AvatarsContextProvider>
+          <Router>
+            <Switch>
+              <Route path="/r/popular/:sort?">
+                <FeedPage type="popular" />
+              </Route>
+              <Route path="/r/all/:sort?">
+                <FeedPage type="all" />
+              </Route>
+              <Route path="/r/:subreddit/comments/:id">
+                <PostPage />
+              </Route>
+              <Route path="/r/:subreddit/:sort?">
+                <SubredditPage />
+              </Route>
+              <Route path="/user/:name">
+                <UserPage />
+              </Route>
+              <Route path="/">
+                <TestPage />
+              </Route>
+            </Switch>
+          </Router>
+        </AvatarsContextProvider>
+      </ClientContext.Provider>
+    </QueryClientProvider>
   );
 }

@@ -8,6 +8,8 @@ import * as Raw from "./types";
 import {
   getIdSuffix,
 } from "./utils";
+import { getAccessToken } from "@services/authorization";
+import { useQuery } from "react-query";
 
 import {
   transformPost,
@@ -191,4 +193,17 @@ export class RedditWebAPI {
         .then((res) => res.json());
     return transformShortUsers(rawShortUsers);
   }
+}
+
+const client = new RedditWebAPI(getAccessToken);
+
+export function usePosts(ids: string[]) {
+  return useQuery(
+    ["posts", ...ids],
+    () => client.getPosts(ids),
+    {
+      enabled: ids.length > 0,
+      placeholderData: [],
+    }
+  );
 }
