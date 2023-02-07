@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useToggleArrayValue } from "@hooks";
 import { useComments } from "./hooks";
@@ -11,11 +11,11 @@ import {
   isCommentSortingMethod,
 } from "@types";
 import {
-  ClientContext,
   CollapsedThreadsContext,
   CommentsContext,
   useAvatarsContext,
 } from "@context";
+import { usePost } from "@services/api";
 
 import {
   Post,
@@ -55,10 +55,9 @@ export function PostPage() {
     ? query.sort
     : "confidence";
 
-  const [post, setPost] = useState<PostType>();
-  const client = useContext(ClientContext);
   const params = useParams<{ id: string }>();
   const postId = createId(params.id, "post");
+  const { data: post, isLoading } = usePost(postId);
   const {
     comments,
     moreComments,
@@ -77,27 +76,21 @@ export function PostPage() {
   const hasAlerts = archived || locked || removalReason;
 
   useEffect(() => {
-    (async () => {
-      const post = await client.getPost(postId);
-      setPost(post);
-    })();
-  }, []);
-
-  useEffect(() => {
     addAvatars(avatars);
   }, [avatars]);
 
   return (
     <Page>
       <Container>
-        {post ? (
+        {post && (
           <Post
             {...post}
             collapsed={false}
             pinned={false}
             avatar={avatars[post.subredditId]}
           />
-        ) : <div>Loading...</div>}
+        )}
+        {isLoading && <div>Loading...</div>}
         {hasAlerts && (
           <div className="alerts">
             <Card>

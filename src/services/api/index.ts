@@ -207,3 +207,7 @@ export function usePosts(ids: string[]) {
     }
   );
 }
+
+export function usePost(id: string) {
+  return useQuery(["post", id], () => client.getPost(id));
+}
