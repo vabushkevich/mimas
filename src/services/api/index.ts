@@ -18,18 +18,21 @@ import {
 } from "./transformers";
 
 export class RedditWebAPI {
-  #accessToken: string;
+  #getAccessToken: () => Promise<string>;
 
-  constructor(accessToken: string) {
-    this.#accessToken = accessToken;
+  constructor(accessToken: string)
+  constructor(getAccessToken: () => Promise<string>)
+  constructor(arg: string | (() => Promise<string>)) {
+    this.#getAccessToken = typeof arg == "string" ? async () => arg : arg;
   }
 
   async #fetchWithAuth(...[input, init = {}]: Parameters<typeof fetch>) {
+    const accessToken = await this.#getAccessToken();
     return await fetch(input, {
       ...init,
       headers: {
         ...(init.headers || {}),
-        "Authorization": `Bearer ${this.#accessToken}`,
+        "Authorization": `Bearer ${accessToken}`,
       }
     });
   }
