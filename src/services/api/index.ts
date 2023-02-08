@@ -45,10 +45,10 @@ export class RedditWebAPI {
 
   async getPosts(ids: string[]) {
     if (ids.length == 0) return [];
-    const rawPosts: Raw.Post[] = await this.#fetchWithAuth(
+    const rawPosts = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/info?id=${ids}`,
     )
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<Raw.Listing<Raw.Post>>)
       .then((json) => json.data.children);
     return rawPosts.map((rawPost) => transformPost(rawPost));
   }
@@ -87,8 +87,8 @@ export class RedditWebAPI {
     }
     url += `?${params}`;
 
-    const rawPosts: Raw.Post[] = await this.#fetchWithAuth(url)
-      .then((res) => res.json())
+    const rawPosts = await this.#fetchWithAuth(url)
+      .then((res) => res.json() as Promise<Raw.Listing<Raw.Post>>)
       .then((json) => json.data.children);
 
     return rawPosts.map((rawPost) => transformPost(rawPost));
@@ -100,10 +100,10 @@ export class RedditWebAPI {
 
   async getSubreddits(ids: string[]) {
     if (ids.length == 0) return [];
-    const rawSubreddits: Raw.Subreddit[] = await this.#fetchWithAuth(
+    const rawSubreddits = await this.#fetchWithAuth(
       `https://oauth.reddit.com/api/info?id=${ids}`,
     )
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
       .then((json) => json.data.children);
     return rawSubreddits.map(
       (rawSubreddit) => transformSubreddit(rawSubreddit)
@@ -111,10 +111,10 @@ export class RedditWebAPI {
   }
 
   async getSubredditByName(name: string) {
-    const rawSubreddit: Raw.Subreddit = await this.#fetchWithAuth(
+    const rawSubreddit = await this.#fetchWithAuth(
       `https://oauth.reddit.com/r/${name}/about`,
     )
-      .then((res) => res.json());
+      .then((res) => res.json() as Promise<Raw.Subreddit>)
     return transformSubreddit(rawSubreddit);
   }
 
@@ -139,10 +139,11 @@ export class RedditWebAPI {
     if (sort) params.set("sort", sort);
     if (commentId) params.set("comment", getIdSuffix(commentId));
 
+    type JSONType = [Raw.Listing<Raw.Post>, Raw.Listing<Raw.CommentListItem>];
     const items: (Raw.CommentListItem)[] = await this.#fetchWithAuth(
       `https://oauth.reddit.com/comments/${getIdSuffix(postId)}?${params}`,
     )
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<JSONType>)
       .then((json) => json[1].data.children);
 
     return transformCommentListItems(items, baseDepth);
@@ -166,31 +167,31 @@ export class RedditWebAPI {
     formData.append("link_id", postId);
     if (sort) formData.append("sort", sort);
 
-    const items: (Raw.CommentListItem)[] = await this.#fetchWithAuth(
+    const items = await this.#fetchWithAuth(
       "https://oauth.reddit.com/api/morechildren",
       { body: formData, method: "POST" },
     )
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<Raw.Things<Raw.CommentListItem>>)
       .then((json) => json.json.data.things);
 
     return transformCommentListItems(items);
   }
 
   async getUser(name: string) {
-    const rawFullUser: Raw.FullUser = await this.#fetchWithAuth(
+    const rawFullUser = await this.#fetchWithAuth(
       `https://oauth.reddit.com/user/${name}/about`,
     )
-      .then((res) => res.json());
+      .then((res) => res.json() as Promise<Raw.FullUser>);
     return transformFullUser(rawFullUser);
   }
 
   async getUsers(ids: string[]) {
     if (ids.length == 0) return [];
-    const rawShortUsers: Record<string, Raw.ShortUser> =
+    const rawShortUsers =
       await this.#fetchWithAuth(
         `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}`,
       )
-        .then((res) => res.json());
+        .then((res) => res.json() as Promise<Record<string, Raw.ShortUser>>);
     return transformShortUsers(rawShortUsers);
   }
 }

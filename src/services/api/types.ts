@@ -121,3 +121,17 @@ export type FullUser = {
   };
   kind: "t2";
 };
+
+export type Listing<T> = {
+  data: {
+    children: T[];
+  };
+};
+
+export type Things<T> = {
+  json: {
+    data: {
+      things: T[];
+    };
+  };
+};
