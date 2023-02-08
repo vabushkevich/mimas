@@ -229,7 +229,7 @@ function transformMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
 
 export function transformShortUsers(
   rawShortUsers: Record<string, Raw.ShortUser>,
-) {
+): User[] {
   const users: User[] = [];
 
   for (const userId in rawShortUsers) {
@@ -243,7 +243,7 @@ export function transformShortUsers(
 function transformShortUser(
   rawShortUser: Raw.ShortUser,
   userId: string,
-) {
+): User {
   const {
     comment_karma,
     created_utc,
@@ -262,7 +262,7 @@ function transformShortUser(
   };
 }
 
-export function transformFullUser(rawFullUser: Raw.FullUser) {
+export function transformFullUser(rawFullUser: Raw.FullUser): User {
   const {
     data: {
       comment_karma,
@@ -284,7 +284,7 @@ export function transformFullUser(rawFullUser: Raw.FullUser) {
   };
 }
 
-export function transformSubreddit(rawSubreddit: Raw.Subreddit) {
+export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
   const {
     data: {
       active_user_count,
