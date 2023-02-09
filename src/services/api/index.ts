@@ -9,7 +9,7 @@ import {
   getIdSuffix,
 } from "./utils";
 import { getAccessToken } from "@services/authorization";
-import { useQuery } from "react-query";
+import { useQuery, useInfiniteQuery } from "react-query";
 
 import {
   transformPost,
@@ -211,4 +211,29 @@ export function usePosts(ids: string[]) {
 
 export function usePost(id: string) {
   return useQuery(["post", id], () => client.getPost(id));
+}
+
+export function useFeedPosts(options: {
+  limit?: number;
+  sort?: PostSortingMethod;
+  sortTimeInterval?: SortTimeInterval;
+  subreddit?: string;
+  userName?: string;
+}) {
+  const {
+    limit,
+    sort,
+    sortTimeInterval,
+    subreddit,
+    userName,
+  } = options;
+
+  return useInfiniteQuery(
+    [subreddit || userName, limit, sort, sortTimeInterval],
+    ({ pageParam }) => client.getFeedPosts({ ...options, after: pageParam }),
+    {
+      getNextPageParam: ((lastPosts) => lastPosts.at(-1)?.id),
+      placeholderData: { pages: [], pageParams: [] },
+    }
+  );
 }

@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ClientContext } from "@context";
+import React from "react";
 import {
-  Post,
   PostSortingMethod,
   SortTimeInterval,
   isSortRequiresTimeInterval,
 } from "@types";
+import { useFeedPosts } from "@services/api";
 
 import {
   PostList,
@@ -58,30 +57,14 @@ export function Feed({
   onSortChange = () => { },
   onSortTimeIntervalChange = () => { },
 }: FeedProps) {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const client = useContext(ClientContext);
-
-  const loadPosts = async ({
-    limit,
-    more = false,
-  }: {
-    limit?: number;
-    more?: boolean;
-  }) => {
-    const newPosts = await client.getFeedPosts({
-      after: more ? posts.at(-1)?.id : null,
-      limit,
-      sort,
-      sortTimeInterval,
-      subreddit,
-      userName,
-    });
-    setPosts(more ? (posts) => [...posts, ...newPosts] : newPosts);
-  };
-
-  useEffect(() => {
-    loadPosts({ limit: 5 });
-  }, [sort, sortTimeInterval]);
+  const { data: { pages }, fetchNextPage, hasNextPage } = useFeedPosts({
+    limit: 5,
+    sort,
+    sortTimeInterval,
+    subreddit,
+    userName,
+  });
+  const posts = pages.flat();
 
   return (
     <div className="feed">
@@ -106,10 +89,10 @@ export function Feed({
         </Card>
       </div>
       <PostList posts={posts} removeSubreddit={removeSubreddit} />
-      {posts.length > 0 && (
+      {hasNextPage && (
         <IntersectionDetector
           marginTop={100}
-          onIntersect={() => loadPosts({ limit: 5, more: true })}
+          onIntersect={fetchNextPage}
         />
       )}
     </div>
