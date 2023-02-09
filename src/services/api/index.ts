@@ -237,3 +237,7 @@ export function useFeedPosts(options: {
     }
   );
 }
+
+export function useSubredditByName(name: string) {
+  return useQuery(["subreddit", name], () => client.getSubredditByName(name));
+}

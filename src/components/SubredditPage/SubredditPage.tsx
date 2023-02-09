@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import {
   generatePath,
   useHistory,
@@ -6,9 +6,9 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { isPostSortingMethod, isSortTimeInterval, Subreddit } from "@types";
-import { ClientContext } from "@context";
+import { isPostSortingMethod, isSortTimeInterval } from "@types";
 import { useQuery } from "@hooks";
+import { useSubredditByName } from "@services/api";
 
 import {
   Container,
@@ -29,18 +29,10 @@ export function SubredditPage() {
     ? query.t
     : "day";
 
-  const [subreddit, setSubreddit] = useState<Subreddit>();
-  const client = useContext(ClientContext);
   const { subreddit: subredditName } = useParams<{ subreddit: string }>();
+  const { data: subreddit } = useSubredditByName(subredditName);
   const history = useHistory();
   const match = useRouteMatch();
-
-  useEffect(() => {
-    (async () => {
-      const subreddit = await client.getSubredditByName(subredditName);
-      setSubreddit(subreddit);
-    })();
-  }, [subredditName]);
 
   return (
     <Page>
