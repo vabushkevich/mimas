@@ -241,3 +241,7 @@ export function useFeedPosts(options: {
 export function useSubredditByName(name: string) {
   return useQuery(["subreddit", name], () => client.getSubredditByName(name));
 }
+
+export function useUserByName(name: string) {
+  return useQuery(["user", name], () => client.getUserByName(name));
+}

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { isPostSortingMethod, isSortTimeInterval, User } from "@types";
-import { ClientContext } from "@context";
+import { isPostSortingMethod, isSortTimeInterval } from "@types";
 import { useQuery } from "@hooks";
+import { useUserByName } from "@services/api";
 
 import { Container, Page, AuthorHeader, Feed } from "@components";
 import "./UserPage.scss";
@@ -13,17 +13,9 @@ export function UserPage() {
   const sort = isPostSortingMethod(query.sort) ? query.sort : "hot";
   const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
 
-  const [user, setUser] = useState<User>();
-  const client = useContext(ClientContext);
   const { name: userName } = useParams<{ name: string }>();
+  const { data: user } = useUserByName(userName);
   const history = useHistory();
-
-  useEffect(() => {
-    (async () => {
-      const user = await client.getUserByName(userName);
-      setUser(user);
-    })();
-  }, [userName]);
 
   return (
     <Page>
