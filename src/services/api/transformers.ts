@@ -136,9 +136,11 @@ export function transformPost(rawPost: Raw.Post): Post {
 
 export function transformCommentListItems(
   items: Raw.CommentListItem[],
+  parentId: string,
   baseDepth = 0,
 ): CommentThreadList {
   const comments: Record<string, Comment> = {};
+  const rootCommentIds: string[] = [];
   let moreComments: MoreItems;
 
   for (const item of items) {
@@ -159,9 +161,10 @@ export function transformCommentListItems(
     if (comments[comment.parentId]) {
       comments[comment.parentId].childIds.push(comment.id);
     }
+    if (comment.parentId == parentId) rootCommentIds.push(comment.id);
   }
 
-  return { comments, moreComments };
+  return { comments, moreComments, rootCommentIds };
 }
 
 function transformComment(rawComment: Raw.Comment): Comment {

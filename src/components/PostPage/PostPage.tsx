@@ -1,21 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useToggleArrayValue } from "@hooks";
-import { useComments } from "./hooks";
-import { useAvatars, useQuery } from "@hooks";
+import { useQuery } from "@hooks";
 import { createId } from "@utils";
 import {
   Post as PostType,
   CommentSortingMethod,
-  Submission,
   isCommentSortingMethod,
 } from "@types";
 import {
   CollapsedThreadsContext,
   CommentsContext,
-  useAvatarsContext,
 } from "@context";
-import { usePost } from "@services/api";
+import { usePost, usePostComments } from "@services/api";
 
 import {
   Post,
@@ -59,25 +56,14 @@ export function PostPage() {
   const postId = createId(params.id, "post");
   const { data: post, isLoading } = usePost(postId);
   const {
-    comments,
-    moreComments,
-    rootCommentIds,
+    data: threadList,
     loadMoreComments,
-  } = useComments(postId, commentsSorting);
+  } = usePostComments(postId, { sort: commentsSorting });
   const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
   const history = useHistory();
 
-  const submissions: Submission[] = Object.values(comments);
-  if (post) submissions.push(post);
-  const avatars = useAvatars(submissions);
-  const { addAvatars } = useAvatarsContext();
-
   const { archived, locked, removalReason } = post || {};
   const hasAlerts = archived || locked || removalReason;
-
-  useEffect(() => {
-    addAvatars(avatars);
-  }, [avatars]);
 
   return (
     <Page>
@@ -87,7 +73,6 @@ export function PostPage() {
             {...post}
             collapsed={false}
             pinned={false}
-            avatar={avatars[post.subredditId]}
           />
         )}
         {isLoading && <div>Loading...</div>}
@@ -112,7 +97,7 @@ export function PostPage() {
             </Card>
           </div>
         )}
-        {Object.keys(comments).length > 0 && (
+        {threadList && (
           <>
             <div className="comments-sorting">
               <Card>
@@ -132,17 +117,17 @@ export function PostPage() {
                   value={{ collapsedThreadIds, toggleThread }}
                 >
                   <CommentsContext.Provider
-                    value={{ comments, loadMoreComments }}
+                    value={{ loadMoreComments }}
                   >
                     <CommentThreadList
-                      commentIds={rootCommentIds}
-                      moreComments={moreComments}
+                      commentIds={threadList.rootCommentIds}
+                      moreComments={threadList.moreComments}
                     />
                   </CommentsContext.Provider>
                 </CollapsedThreadsContext.Provider>
               </Card>
             </div>
-            {moreComments && (
+            {threadList.moreComments && (
               <IntersectionDetector
                 marginTop={100}
                 onIntersect={loadMoreComments}

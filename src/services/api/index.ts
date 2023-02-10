@@ -1,15 +1,22 @@
+import { useCallback } from "react";
 import {
   CommentSortingMethod,
   PostSortingMethod,
   SortTimeInterval,
   isSortRequiresTimeInterval,
+  CommentThreadList,
 } from "@types";
 import * as Raw from "./types";
 import {
   getIdSuffix,
 } from "./utils";
 import { getAccessToken } from "@services/authorization";
-import { useQuery, useInfiniteQuery } from "react-query";
+import {
+  useQuery,
+  useInfiniteQuery,
+  useQueryClient,
+  useMutation,
+} from "react-query";
 
 import {
   transformPost,
@@ -146,15 +153,17 @@ export class RedditWebAPI {
       .then((res) => res.json() as Promise<JSONType>)
       .then((json) => json[1].data.children);
 
-    return transformCommentListItems(items, baseDepth);
+    return transformCommentListItems(items, commentId || postId, baseDepth);
   }
 
   async getMoreComments(
     postId: string,
     commentIds: string[],
     {
+      commentId,
       sort,
     }: {
+      commentId?: string,
       sort?: CommentSortingMethod,
     } = {}
   ) {
@@ -174,7 +183,7 @@ export class RedditWebAPI {
       .then((res) => res.json() as Promise<Raw.Things<Raw.CommentListItem>>)
       .then((json) => json.json.data.things);
 
-    return transformCommentListItems(items);
+    return transformCommentListItems(items, commentId || postId);
   }
 
   async getUserByName(name: string) {
@@ -245,4 +254,141 @@ export function useSubredditByName(name: string) {
 
 export function useUserByName(name: string) {
   return useQuery(["user", name], () => client.getUserByName(name));
+}
+
+export function usePostComments(
+  postId: string,
+  {
+    limit,
+    sort,
+  }: {
+    limit?: number;
+    sort?: CommentSortingMethod;
+  } = {},
+) {
+  const { mutate } = useLoadMoreComments(postId, { limit, sort });
+
+  const queryResult = useQuery(
+    ["post-comments", postId, { limit, sort }],
+    () => client.getComments(postId, { limit, sort }),
+  );
+
+  return {
+    ...queryResult,
+    loadMoreComments: (commentId?: string) => {
+      mutate({ commentId });
+    },
+  };
+}
+
+export function useComment(id: string) {
+  const queryClient = useQueryClient();
+
+  const getComment = useCallback(() => {
+    const comments = queryClient.getQueryData<CommentThreadList>(
+      ["post-comments"],
+      {
+        active: true,
+        exact: false,
+      },
+    );
+    const comment = comments.comments[id];
+    return comment;
+  }, [id]);
+
+  return useQuery(["comments", "detail", id], {
+    initialData: getComment,
+    queryFn: getComment,
+  });
+}
+
+export function useLoadMoreComments(
+  postId: string,
+  {
+    limit,
+    sort,
+  }: {
+    limit?: number;
+    sort?: CommentSortingMethod;
+  } = {},
+) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ commentId }: { commentId?: string }) => {
+      const comments = queryClient.getQueryData<CommentThreadList>(
+        ["post-comments"],
+        { active: true, exact: false },
+      );
+      const commentIds = commentId
+        ? comments.comments[commentId]?.moreChildren.ids
+        : comments?.moreComments.ids;
+      const commentDepth = comments.comments[commentId]?.depth;
+      const isDeepComment = commentDepth >= 9;
+
+      if (isDeepComment) {
+        const threadList = await client.getComments(postId, {
+          baseDepth: commentDepth,
+          commentId,
+          limit,
+          sort,
+        });
+        delete threadList.comments[commentId];
+        return threadList;
+      }
+
+      return client.getMoreComments(postId, commentIds, { commentId, sort });
+    },
+    onSuccess: (data, { commentId }) => {
+      queryClient.setQueryData<CommentThreadList>(
+        ["post-comments", postId, { limit, sort }],
+        (prev) => {
+          return {
+            ...prev,
+            comments: {
+              ...prev.comments,
+              ...data.comments,
+            },
+          };
+        },
+      );
+
+      if (commentId) {
+        queryClient.setQueryData<CommentThreadList>(
+          ["post-comments", postId, { limit, sort }],
+          (prev) => {
+            return {
+              ...prev,
+              comments: {
+                ...prev.comments,
+                [commentId]: {
+                  ...prev.comments[commentId],
+                  childIds: [
+                    ...prev.comments[commentId].childIds,
+                    ...data.rootCommentIds,
+                  ],
+                  moreChildren: data.moreComments,
+                },
+              },
+            };
+          },
+        );
+        queryClient.invalidateQueries(["comments", "detail", commentId]);
+      } else {
+        queryClient.setQueryData<CommentThreadList>(
+          ["post-comments", postId, { limit, sort }],
+          (prev) => {
+            return {
+              ...prev,
+              rootCommentIds: [
+                ...prev.rootCommentIds,
+                ...data.rootCommentIds,
+              ],
+              moreComments: data.moreComments,
+            };
+          },
+        );
+      }
+    },
+  });
 }

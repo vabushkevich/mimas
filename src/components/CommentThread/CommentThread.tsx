@@ -1,29 +1,30 @@
 import React, { memo } from "react";
-import { Comment as CommentType } from "@types";
+import { useComment } from "@services/api";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
 type CommentThreadProps = {
   collapsed: boolean;
-  comment: CommentType;
   commentAuthorAvatar?: string;
+  commentId: string;
   onToggle: (commentId: string) => void;
 };
 
 export const CommentThread = memo(function CommentThread({
   collapsed,
-  comment,
   commentAuthorAvatar,
+  commentId,
   onToggle,
 }: CommentThreadProps) {
-  const { childIds, id, moreChildren } = comment;
+  const { data: comment } = useComment(commentId);
+  const { childIds, moreChildren } = comment;
   const showReplies = !collapsed && (childIds.length > 0 || moreChildren);
 
   return (
     <div className="comment-thread">
       <CommentWrapper
-        onCollapseButtonClick={() => onToggle(id)}
+        onCollapseButtonClick={() => onToggle(commentId)}
       >
         <Comment
           {...comment}
@@ -36,7 +37,7 @@ export const CommentThread = memo(function CommentThread({
           <CommentThreadList
             commentIds={childIds}
             moreComments={moreChildren}
-            parentId={id}
+            parentId={commentId}
           />
         </div>
       )}

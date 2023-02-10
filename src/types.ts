@@ -109,6 +109,7 @@ export type Submission = Post | Comment;
 export type CommentThreadList = {
   comments: Record<string, Comment>;
   moreComments?: MoreItems;
+  rootCommentIds: string[];
 };
 
 export type MoreItems = {
