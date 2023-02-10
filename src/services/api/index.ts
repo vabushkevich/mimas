@@ -177,7 +177,7 @@ export class RedditWebAPI {
     return transformCommentListItems(items);
   }
 
-  async getUser(name: string) {
+  async getUserByName(name: string) {
     const rawFullUser = await this.#fetchWithAuth(
       `https://oauth.reddit.com/user/${name}/about`,
     )

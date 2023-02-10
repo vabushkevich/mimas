@@ -20,7 +20,7 @@ export function UserPage() {
 
   useEffect(() => {
     (async () => {
-      const user = await client.getUser(userName);
+      const user = await client.getUserByName(userName);
       setUser(user);
     })();
   }, [userName]);
