@@ -232,6 +232,7 @@ export function useFeedPosts(options: {
     [subreddit || userName, limit, sort, sortTimeInterval],
     ({ pageParam }) => client.getFeedPosts({ ...options, after: pageParam }),
     {
+      cacheTime: 0,
       getNextPageParam: ((lastPosts) => lastPosts.at(-1)?.id),
       placeholderData: { pages: [], pageParams: [] },
     }
