@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { MoreItems } from "@types";
 import {
-  CommentsContext,
   CollapsedThreadsContext,
 } from "@context";
+import { useLoadMoreComments } from "@services/api";
 
 import { CommentThread, CommentWrapper } from "@components";
 import "./CommentThreadList.scss";
@@ -19,7 +19,9 @@ export function CommentThreadList({
   moreComments,
   parentId,
 }: CommentThreadListProps) {
-  const { loadMoreComments } = useContext(CommentsContext);
+  const {
+    mutate: loadMoreComments,
+  } = useLoadMoreComments({ commentId: parentId });
   const {
     collapsedThreadIds,
     toggleThread,
@@ -50,11 +52,11 @@ export function CommentThreadList({
       {moreComments && (
         <li className="comment-thread-list__item">
           <CommentWrapper
-            onCollapseButtonClick={() => loadMoreComments(parentId)}
+            onCollapseButtonClick={() => loadMoreComments()}
           >
             <button
               className="comment-thread-list__more-replies-btn"
-              onClick={() => loadMoreComments(parentId)}
+              onClick={() => loadMoreComments()}
             >
               {moreCommentsMessage}
             </button>

@@ -1,5 +1,4 @@
 import { ClientContext } from "./ClientContext";
-import { CommentsContext } from "./CommentsContext";
 import { CollapsedThreadsContext } from "./CollapsedThreadsContext";
 import {
   AvatarsContextProvider,
@@ -8,7 +7,6 @@ import {
 
 export {
   ClientContext,
-  CommentsContext,
   CollapsedThreadsContext,
   AvatarsContextProvider,
   useAvatarsContext,

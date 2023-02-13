@@ -17,6 +17,7 @@ import {
   useQueryClient,
   useMutation,
 } from "react-query";
+import { usePostParams } from "@hooks";
 
 import {
   transformPost,
@@ -266,19 +267,10 @@ export function usePostComments(
     sort?: CommentSortingMethod;
   } = {},
 ) {
-  const { mutate } = useLoadMoreComments(postId, { limit, sort });
-
-  const queryResult = useQuery(
+  return useQuery(
     ["post-comments", postId, { limit, sort }],
     () => client.getComments(postId, { limit, sort }),
   );
-
-  return {
-    ...queryResult,
-    loadMoreComments: (commentId?: string) => {
-      mutate({ commentId });
-    },
-  };
 }
 
 export function useComment(id: string) {
@@ -303,19 +295,19 @@ export function useComment(id: string) {
 }
 
 export function useLoadMoreComments(
-  postId: string,
   {
+    commentId,
     limit,
-    sort,
   }: {
+    commentId?: string
     limit?: number;
-    sort?: CommentSortingMethod;
   } = {},
 ) {
+  const { postId, sort } = usePostParams();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ commentId }: { commentId?: string }) => {
+    mutationFn: async () => {
       const comments = queryClient.getQueryData<CommentThreadList>(
         ["post-comments"],
         { active: true, exact: false },
@@ -339,7 +331,7 @@ export function useLoadMoreComments(
 
       return client.getMoreComments(postId, commentIds, { commentId, sort });
     },
-    onSuccess: (data, { commentId }) => {
+    onSuccess: (data) => {
       queryClient.setQueryData<CommentThreadList>(
         ["post-comments", postId, { limit, sort }],
         (prev) => {

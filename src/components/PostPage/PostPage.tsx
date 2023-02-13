@@ -10,9 +10,8 @@ import {
 } from "@types";
 import {
   CollapsedThreadsContext,
-  CommentsContext,
 } from "@context";
-import { usePost, usePostComments } from "@services/api";
+import { usePost, usePostComments, useLoadMoreComments } from "@services/api";
 
 import {
   Post,
@@ -57,10 +56,13 @@ export function PostPage() {
   const { data: post, isLoading } = usePost(postId);
   const {
     data: threadList,
-    loadMoreComments,
   } = usePostComments(postId, { sort: commentsSorting });
   const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
   const history = useHistory();
+
+  const {
+    mutate: loadMoreComments,
+  } = useLoadMoreComments();
 
   const { archived, locked, removalReason } = post || {};
   const hasAlerts = archived || locked || removalReason;
@@ -116,14 +118,10 @@ export function PostPage() {
                 <CollapsedThreadsContext.Provider
                   value={{ collapsedThreadIds, toggleThread }}
                 >
-                  <CommentsContext.Provider
-                    value={{ loadMoreComments }}
-                  >
-                    <CommentThreadList
-                      commentIds={threadList.rootCommentIds}
-                      moreComments={threadList.moreComments}
-                    />
-                  </CommentsContext.Provider>
+                  <CommentThreadList
+                    commentIds={threadList.rootCommentIds}
+                    moreComments={threadList.moreComments}
+                  />
                 </CollapsedThreadsContext.Provider>
               </Card>
             </div>

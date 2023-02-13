@@ -7,11 +7,11 @@ import {
   useContext,
   useMemo,
 } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { groupBy } from "lodash-es";
 import { ClientContext } from "@context";
-import { AuthorType, Submission } from "@types";
-import { getIdType, getSubmissionAuthorIds } from "@utils";
+import { AuthorType, Submission, isCommentSortingMethod } from "@types";
+import { getIdType, getSubmissionAuthorIds, createId } from "@utils";
 
 export function useToggleArrayValue<T = any>(): [T[], (value: T) => void] {
   const [array, setArray] = useState<T[]>([]);
@@ -120,4 +120,14 @@ export function useQuery<T extends { [key: string]: string }>(): T {
     () => Object.fromEntries(new URLSearchParams(search)) as T,
     [search],
   );
+}
+
+export function usePostParams() {
+  const params = useParams<{ id: string }>();
+  const query = useQuery<{ sort: string }>();
+
+  const postId = createId(params.id, "post");
+  const sort = isCommentSortingMethod(query.sort) ? query.sort : "confidence";
+
+  return { postId, sort };
 }
