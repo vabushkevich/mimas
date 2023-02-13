@@ -10,7 +10,7 @@ import "./CommentThreadList.scss";
 
 type CommentThreadListProps = {
   commentIds: string[];
-  moreComments: MoreItems;
+  moreComments?: MoreItems;
   parentId?: string;
 };
 
