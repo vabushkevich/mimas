@@ -14,6 +14,13 @@ type CommentThreadListProps = {
   parentId?: string;
 };
 
+function getMoreCommentsMessage(moreComments: MoreItems) {
+  const count = moreComments.totalCount;
+  if (count > 1) return `${count} comments`;
+  if (count == 1) return "1 comment";
+  return "More comments";
+}
+
 export function CommentThreadList({
   commentIds,
   moreComments,
@@ -26,14 +33,6 @@ export function CommentThreadList({
     collapsedThreadIds,
     toggleThread,
   } = useContext(CollapsedThreadsContext);
-  const moreCommentsMessage = (() => {
-    if (!moreComments) return;
-    switch (moreComments.totalCount) {
-      case 0: return "More comments";
-      case 1: return "1 comment";
-      default: return `${moreComments.totalCount} comments`;
-    }
-  })();
 
   return (
     <ol className="comment-thread-list">
@@ -58,7 +57,7 @@ export function CommentThreadList({
               className="comment-thread-list__more-replies-btn"
               onClick={() => loadMoreComments()}
             >
-              {moreCommentsMessage}
+              {getMoreCommentsMessage(moreComments)}
             </button>
           </CommentWrapper>
         </li>
