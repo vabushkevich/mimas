@@ -70,10 +70,10 @@ export function transformPost(rawPost: Raw.Post): Post {
     subredditId: subreddit_id,
     title: decodeEntities(title),
     url: permalink,
-    userId: author_fullname,
     userName: author,
   };
 
+  if (author_fullname) post.userId = author_fullname;
   if (removed_by_category) {
     post.removalReason = removalReasonMap[removed_by_category];
   }

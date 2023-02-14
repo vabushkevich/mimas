@@ -1,7 +1,7 @@
 export type Post = {
   data: {
     archived: boolean;
-    author_fullname: string;
+    author_fullname?: string;
     author: string;
     created_utc: number;
     edited: number | boolean;
