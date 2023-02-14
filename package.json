@@ -11,6 +11,7 @@
   "dependencies": {
     "@redux-devtools/extension": "^3.2.3",
     "classnames": "^2.3.2",
+    "immer": "^9.0.19",
     "lodash-es": "^4.17.21",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",

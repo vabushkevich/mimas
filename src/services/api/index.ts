@@ -18,6 +18,7 @@ import {
   useMutation,
 } from "react-query";
 import { usePostParams } from "@hooks";
+import produce from "immer";
 
 import {
   transformPost,
@@ -334,52 +335,21 @@ export function useLoadMoreComments(
     onSuccess: (data) => {
       queryClient.setQueryData<CommentThreadList>(
         ["post-comments", postId, { limit, sort }],
-        (prev) => {
-          return {
-            ...prev,
-            comments: {
-              ...prev.comments,
-              ...data.comments,
-            },
-          };
-        },
+        (threadList) => produce(threadList, (draft) => {
+          Object.assign(draft.comments, data.comments);
+          if (commentId) {
+            const comment = draft.comments[commentId];
+            comment.childIds.push(...data.rootCommentIds);
+            comment.moreChildren = data.moreComments;
+          } else {
+            draft.rootCommentIds.push(...data.rootCommentIds);
+            draft.moreComments = data.moreComments;
+          }
+        }),
       );
 
       if (commentId) {
-        queryClient.setQueryData<CommentThreadList>(
-          ["post-comments", postId, { limit, sort }],
-          (prev) => {
-            return {
-              ...prev,
-              comments: {
-                ...prev.comments,
-                [commentId]: {
-                  ...prev.comments[commentId],
-                  childIds: [
-                    ...prev.comments[commentId].childIds,
-                    ...data.rootCommentIds,
-                  ],
-                  moreChildren: data.moreComments,
-                },
-              },
-            };
-          },
-        );
         queryClient.invalidateQueries(["comments", "detail", commentId]);
-      } else {
-        queryClient.setQueryData<CommentThreadList>(
-          ["post-comments", postId, { limit, sort }],
-          (prev) => {
-            return {
-              ...prev,
-              rootCommentIds: [
-                ...prev.rootCommentIds,
-                ...data.rootCommentIds,
-              ],
-              moreComments: data.moreComments,
-            };
-          },
-        );
       }
     },
   });
