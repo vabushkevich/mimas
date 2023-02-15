@@ -1,25 +1,24 @@
 import React, { memo } from "react";
-import { useComment } from "@services/api";
+import { useComment, useAvatar } from "@services/api";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
 type CommentThreadProps = {
   collapsed: boolean;
-  commentAuthorAvatar?: string;
   commentId: string;
   onToggle: (commentId: string) => void;
 };
 
 export const CommentThread = memo(function CommentThread({
   collapsed,
-  commentAuthorAvatar,
   commentId,
   onToggle,
 }: CommentThreadProps) {
   const { data: comment } = useComment(commentId);
   const { childIds, moreChildren } = comment;
   const showReplies = !collapsed && (childIds.length > 0 || moreChildren);
+  const commentAuthorAvatar = useAvatar(comment.userId);
 
   return (
     <div className="comment-thread">

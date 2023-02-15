@@ -1,6 +1,5 @@
 import { findLast } from "lodash-es";
 import {
-  AuthorType,
   Comment,
   IdPrefix,
   IdType,
@@ -102,18 +101,13 @@ export function createId(string: string, type: IdType) {
   return `${idPrefixes[type]}_${string}`;
 }
 
-export function getSubmissionAuthorIds(
-  submissions: Submission[],
-  postAuthorType: AuthorType = "subreddit",
-) {
+export function getSubmissionAuthorIds(submissions: Submission[]) {
   const ids = new Set<string>;
 
   for (const submission of submissions) {
     const isPost = "title" in submission;
-    const isSubredditId = isPost && postAuthorType == "subreddit";
-    const id = isSubredditId ? submission.subredditId : submission.userId;
-    if (!id || ids.has(id)) continue;
-    ids.add(id);
+    if (isPost) ids.add(submission.subredditId);
+    if (submission.userId) ids.add(submission.userId);
   }
 
   return [...ids];

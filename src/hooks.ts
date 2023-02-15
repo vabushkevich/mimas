@@ -4,14 +4,11 @@ import {
   useEffect,
   RefObject,
   useRef,
-  useContext,
   useMemo,
 } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { groupBy } from "lodash-es";
-import { ClientContext } from "@context";
-import { AuthorType, Submission, isCommentSortingMethod } from "@types";
-import { getIdType, getSubmissionAuthorIds, createId } from "@utils";
+import { isCommentSortingMethod } from "@types";
+import { createId } from "@utils";
 
 export function useToggleArrayValue<T = any>(): [T[], (value: T) => void] {
   const [array, setArray] = useState<T[]>([]);
@@ -63,55 +60,6 @@ export function useClickOutside(
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
   }, refs);
-}
-
-export function useNewValues<T>(array: T[]) {
-  const ref = useRef<Set<T>>(new Set());
-  const prevValues = ref.current;
-  const newValues = [];
-
-  for (const v of array) {
-    if (prevValues.has(v)) continue;
-    newValues.push(v);
-    prevValues.add(v);
-  }
-
-  return newValues;
-}
-
-export function useAvatars(
-  submissions: Submission[],
-  postAuthorType: AuthorType = "subreddit",
-) {
-  const client = useContext(ClientContext);
-  const [avatars, setAvatars] = useState<Record<string, string>>({});
-  const authorIds = getSubmissionAuthorIds(submissions, postAuthorType);
-  const newAuthorIds = useNewValues(authorIds);
-
-  useEffect(() => {
-    (async () => {
-      if (newAuthorIds.length == 0) return;
-
-      const {
-        user: userIds = [],
-        subreddit: subredditIds = [],
-      } = groupBy(newAuthorIds, getIdType);
-
-      const authors = [
-        ...await client.getUsers(userIds),
-        ...await client.getSubreddits(subredditIds),
-      ];
-
-      const newAvatars = authors.reduce(
-        (res, author) => (res[author.id] = author.avatar, res),
-        {} as Record<string, string>,
-      );
-
-      setAvatars((avatars) => ({ ...avatars, ...newAvatars }));
-    })();
-  }, [newAuthorIds]);
-
-  return avatars;
 }
 
 export function useQuery<T extends { [key: string]: string }>(): T {

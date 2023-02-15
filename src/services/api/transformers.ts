@@ -59,7 +59,6 @@ export function transformPost(rawPost: Raw.Post): Post {
 
   const post: BasePost = {
     archived,
-    avatar: "",
     commentCount: num_comments,
     dateCreated: created_utc * 1000,
     id: name,

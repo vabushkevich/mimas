@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import type { BasePost } from "@types";
+import { useAvatar } from "@services/api";
 
 import { Card, SubmissionHeader } from "@components";
 import "./BasePost.scss";
@@ -11,7 +12,6 @@ type BasePostProps = BasePost & {
 };
 
 export function BasePost({
-  avatar,
   commentCount,
   dateCreated,
   dateEdited,
@@ -19,11 +19,14 @@ export function BasePost({
   pinned,
   score,
   subreddit,
+  subredditId,
   title,
   url,
+  userId,
   userName,
   children,
 }: BasePostProps) {
+  const avatar = useAvatar(subredditId || userId);
   return (
     <Card>
       <div className="post">

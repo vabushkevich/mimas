@@ -7,6 +7,7 @@ import { UserContent, SubmissionHeader } from "@components";
 import "./Comment.scss";
 
 type CommentProps = Comment & {
+  avatar?: string;
   collapsed?: boolean;
 };
 

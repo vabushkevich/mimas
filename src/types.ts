@@ -38,7 +38,6 @@ const sortTimeIntervals = [
 
 export type BasePost = {
   archived: boolean;
-  avatar: string;
   commentCount: number;
   dateCreated: number;
   dateEdited?: number;
@@ -83,7 +82,6 @@ export type ImagePost = BasePost & {
 export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
 
 export type Comment = {
-  avatar?: string;
   bodyHtml: string;
   bodyText: string;
   bySubmitter: boolean;

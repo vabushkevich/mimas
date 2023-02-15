@@ -5,6 +5,7 @@ import {
   SortTimeInterval,
   isSortRequiresTimeInterval,
   CommentThreadList,
+  Submission,
 } from "@types";
 import * as Raw from "./types";
 import {
@@ -19,6 +20,8 @@ import {
 } from "react-query";
 import { usePostParams } from "@hooks";
 import produce from "immer";
+import { groupBy } from "lodash-es";
+import { getIdType, getSubmissionAuthorIds } from "@utils";
 
 import {
   transformPost,
@@ -205,6 +208,25 @@ export class RedditWebAPI {
         .then((res) => res.json() as Promise<Record<string, Raw.ShortUser>>);
     return transformShortUsers(rawShortUsers);
   }
+
+  async getAvatars(authorIds: string[]) {
+    const {
+      user: userIds = [],
+      subreddit: subredditIds = [],
+    } = groupBy(authorIds, getIdType);
+
+    const authors = [
+      ...await this.getUsers(userIds),
+      ...await this.getSubreddits(subredditIds),
+    ];
+
+    const avatars = authors.reduce(
+      (res, author) => (res[author.id] = author.avatar, res),
+      {} as Record<string, string>,
+    );
+
+    return avatars;
+  }
 }
 
 const client = new RedditWebAPI(getAccessToken);
@@ -221,7 +243,12 @@ export function usePosts(ids: string[]) {
 }
 
 export function usePost(id: string) {
-  return useQuery(["post", id], () => client.getPost(id));
+  const loadAvatars = useLoadAvatars();
+  return useQuery(["post", id], async () => {
+    const post = await client.getPost(id);
+    loadAvatars([post]);
+    return post;
+  });
 }
 
 export function useFeedPosts(options: {
@@ -231,6 +258,7 @@ export function useFeedPosts(options: {
   subreddit?: string;
   userName?: string;
 }) {
+  const loadAvatars = useLoadAvatars();
   const {
     limit,
     sort,
@@ -241,7 +269,14 @@ export function useFeedPosts(options: {
 
   return useInfiniteQuery(
     [subreddit || userName, limit, sort, sortTimeInterval],
-    ({ pageParam }) => client.getFeedPosts({ ...options, after: pageParam }),
+    async ({ pageParam }) => {
+      const posts = await client.getFeedPosts({
+        ...options,
+        after: pageParam,
+      });
+      loadAvatars(posts);
+      return posts;
+    },
     {
       cacheTime: 0,
       getNextPageParam: ((lastPosts) => lastPosts.at(-1)?.id),
@@ -268,9 +303,14 @@ export function usePostComments(
     sort?: CommentSortingMethod;
   } = {},
 ) {
+  const loadAvatars = useLoadAvatars();
   return useQuery(
     ["post-comments", postId, { limit, sort }],
-    () => client.getComments(postId, { limit, sort }),
+    async () => {
+      const threadList = await client.getComments(postId, { limit, sort });
+      loadAvatars(Object.values(threadList.comments));
+      return threadList;
+    },
   );
 }
 
@@ -306,6 +346,7 @@ export function useLoadMoreComments(
 ) {
   const { postId, sort } = usePostParams();
   const queryClient = useQueryClient();
+  const loadAvatars = useLoadAvatars();
 
   return useMutation({
     mutationFn: async () => {
@@ -318,19 +359,26 @@ export function useLoadMoreComments(
         : comments?.moreComments.ids;
       const commentDepth = comments.comments[commentId]?.depth;
       const isDeepComment = commentDepth >= 9;
+      let threadList: CommentThreadList;
 
       if (isDeepComment) {
-        const threadList = await client.getComments(postId, {
+        threadList = await client.getComments(postId, {
           baseDepth: commentDepth,
           commentId,
           limit,
           sort,
         });
         delete threadList.comments[commentId];
-        return threadList;
+      } else {
+        threadList = await client.getMoreComments(
+          postId,
+          commentIds,
+          { commentId, sort },
+        );
       }
 
-      return client.getMoreComments(postId, commentIds, { commentId, sort });
+      loadAvatars(Object.values(threadList.comments));
+      return threadList;
     },
     onSuccess: (data) => {
       queryClient.setQueryData<CommentThreadList>(
@@ -353,4 +401,36 @@ export function useLoadMoreComments(
       }
     },
   });
+}
+
+function useLoadAvatars() {
+  const queryClient = useQueryClient();
+
+  return useCallback(async (submissions: Submission[]) => {
+    const authorIds = getSubmissionAuthorIds(submissions);
+    const newAuthorIds = authorIds.filter((id) =>
+      !queryClient.getQueryData(["avatars", "detail", id])
+    );
+    const newAvatars = await client.getAvatars(newAuthorIds);
+
+    for (const authorId in newAvatars) {
+      const avatar = newAvatars[authorId];
+      queryClient.setQueryData(["avatars", "detail", authorId], avatar);
+    }
+  }, [queryClient]);
+}
+
+export function useAvatar(authorId: string) {
+  const queryClient = useQueryClient();
+  const { data } = useQuery(["avatars", "detail", authorId], {
+    queryFn: () => {
+      const avatars = queryClient.getQueryData<Record<string, string>>(
+        ["avatars"],
+      );
+      const avatar = avatars?.[authorId];
+      return avatar;
+    },
+  });
+
+  return data;
 }
