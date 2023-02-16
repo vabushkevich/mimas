@@ -423,6 +423,7 @@ function useLoadAvatars() {
 export function useAvatar(authorId: string) {
   const queryClient = useQueryClient();
   const { data } = useQuery(["avatars", "detail", authorId], {
+    cacheTime: Infinity,
     queryFn: () => {
       const avatars = queryClient.getQueryData<Record<string, string>>(
         ["avatars"],
