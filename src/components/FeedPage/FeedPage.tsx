@@ -6,7 +6,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { FeedPageType, isPostSortingMethod, isSortTimeInterval } from "@types";
-import { useQuery } from "@hooks";
+import { useQueryString } from "@hooks";
 
 import {
   Container,
@@ -24,7 +24,7 @@ export function FeedPage({ type }: FeedPageProps) {
     ? params.sort
     : "hot";
 
-  const query = useQuery<{ t: string }>();
+  const query = useQueryString<{ t: string }>();
   const sortTimeInterval = isSortTimeInterval(query.t)
     ? query.t
     : "day";

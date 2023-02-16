@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useToggleArrayValue } from "@hooks";
-import { useQuery } from "@hooks";
+import { useQueryString } from "@hooks";
 import { createId } from "@utils";
 import {
   Post as PostType,
@@ -46,7 +46,7 @@ const removalReasonMessages: Record<PostType["removalReason"], string> = {
 };
 
 export function PostPage() {
-  const query = useQuery<{ sort: string }>();
+  const query = useQueryString<{ sort: string }>();
   const commentsSorting = isCommentSortingMethod(query.sort)
     ? query.sort
     : "confidence";

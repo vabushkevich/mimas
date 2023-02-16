@@ -2,14 +2,14 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { isPostSortingMethod, isSortTimeInterval } from "@types";
-import { useQuery } from "@hooks";
+import { useQueryString } from "@hooks";
 import { useUserByName } from "@services/api";
 
 import { Container, Page, AuthorHeader, Feed } from "@components";
 import "./UserPage.scss";
 
 export function UserPage() {
-  const query = useQuery<{ sort: string, t: string }>();
+  const query = useQueryString<{ sort: string, t: string }>();
   const sort = isPostSortingMethod(query.sort) ? query.sort : "hot";
   const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
 

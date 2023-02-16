@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { isPostSortingMethod, isSortTimeInterval } from "@types";
-import { useQuery } from "@hooks";
+import { useQueryString } from "@hooks";
 import { useSubredditByName } from "@services/api";
 
 import {
@@ -24,7 +24,7 @@ export function SubredditPage() {
     ? params.sort
     : "hot";
 
-  const query = useQuery<{ t: string }>();
+  const query = useQueryString<{ t: string }>();
   const sortTimeInterval = isSortTimeInterval(query.t)
     ? query.t
     : "day";

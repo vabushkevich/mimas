@@ -62,7 +62,7 @@ export function useClickOutside(
   }, refs);
 }
 
-export function useQuery<T extends { [key: string]: string }>(): T {
+export function useQueryString<T extends { [key: string]: string }>(): T {
   const { search } = useLocation();
   return useMemo(
     () => Object.fromEntries(new URLSearchParams(search)) as T,
@@ -72,7 +72,7 @@ export function useQuery<T extends { [key: string]: string }>(): T {
 
 export function usePostParams() {
   const params = useParams<{ id: string }>();
-  const query = useQuery<{ sort: string }>();
+  const query = useQueryString<{ sort: string }>();
 
   const postId = createId(params.id, "post");
   const sort = isCommentSortingMethod(query.sort) ? query.sort : "confidence";
