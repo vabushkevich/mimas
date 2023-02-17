@@ -23,6 +23,7 @@ import {
   Card,
   IntersectionDetector,
   Alert,
+  PostSkeleton,
 } from "@components";
 import "./PostPage.scss";
 
@@ -77,7 +78,7 @@ export function PostPage() {
             pinned={false}
           />
         )}
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <PostSkeleton />}
         {hasAlerts && (
           <div className="alerts">
             <Card>
