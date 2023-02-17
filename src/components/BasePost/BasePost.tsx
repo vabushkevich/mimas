@@ -39,12 +39,9 @@ export function BasePost({
           subreddit={subreddit}
           userName={userName}
         />
-        <Link
-          className="post__title"
-          to={url}
-        >
-          {title}
-        </Link>
+        <h3 className="post__title">
+          <Link to={url}>{title}</Link>
+        </h3>
         <div className="post__body">{children}</div>
         <div className="post__footer">
           <Link
