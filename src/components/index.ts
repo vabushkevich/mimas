@@ -33,6 +33,7 @@ import { Sidebar } from "./Sidebar/Sidebar";
 import { Feed } from "./Feed/Feed";
 import { FeedPage } from "./FeedPage/FeedPage";
 import { AuthorHeader } from "./AuthorHeader/AuthorHeader";
+import { Spinner } from "./Spinner/Spinner";
 
 export {
   Post,
@@ -70,4 +71,5 @@ export {
   Feed,
   FeedPage,
   AuthorHeader,
+  Spinner,
 };

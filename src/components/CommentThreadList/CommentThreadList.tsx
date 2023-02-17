@@ -5,7 +5,7 @@ import {
 } from "@context";
 import { useLoadMoreComments } from "@services/api";
 
-import { CommentThread, CommentWrapper } from "@components";
+import { CommentThread, CommentWrapper, Spinner } from "@components";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = {
@@ -28,6 +28,7 @@ export function CommentThreadList({
 }: CommentThreadListProps) {
   const {
     mutate: loadMoreComments,
+    isLoading,
   } = useLoadMoreComments({ commentId: parentId });
   const {
     collapsedThreadIds,
@@ -58,6 +59,11 @@ export function CommentThreadList({
               onClick={() => loadMoreComments()}
             >
               {getMoreCommentsMessage(moreComments)}
+              {isLoading && (
+                <span className="comment-thread-list__spinner">
+                  <Spinner />
+                </span>
+              )}
             </button>
           </CommentWrapper>
         </li>

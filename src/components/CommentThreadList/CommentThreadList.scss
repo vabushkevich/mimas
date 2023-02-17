@@ -17,4 +17,9 @@
       color: $color-inline-action-hover;
     }
   }
+
+  &__spinner {
+    margin-left: 0.5em;
+    vertical-align: -13%;
+  }
 }
