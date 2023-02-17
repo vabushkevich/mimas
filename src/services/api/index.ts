@@ -304,14 +304,15 @@ export function usePostComments(
   } = {},
 ) {
   const loadAvatars = useLoadAvatars();
-  return useQuery(
-    ["post-comments", postId, { limit, sort }],
-    async () => {
+  return useQuery({
+    queryKey: ["post-comments", postId, { limit, sort }],
+    queryFn: async () => {
       const threadList = await client.getComments(postId, { limit, sort });
       loadAvatars(Object.values(threadList.comments));
       return threadList;
     },
-  );
+    cacheTime: 0,
+  });
 }
 
 export function useComment(id: string) {
@@ -329,9 +330,11 @@ export function useComment(id: string) {
     return comment;
   }, [id]);
 
-  return useQuery(["comments", "detail", id], {
+  return useQuery({
+    queryKey: ["comments", "detail", id],
     initialData: getComment,
     queryFn: getComment,
+    cacheTime: 0,
   });
 }
 
