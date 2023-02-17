@@ -1,6 +1,7 @@
 import { Post } from "./Post/Post";
 import { PostSkeleton } from "./Post/PostSkeleton";
 import { PostList } from "./PostList/PostList";
+import { PostListSkeleton } from "./PostList/PostListSkeleton";
 import { Container } from "./Container/Container";
 import { TestPage } from "./TestPage/TestPage";
 import { BasePost } from "./BasePost/BasePost";
@@ -43,6 +44,7 @@ export {
   Post,
   PostSkeleton,
   PostList,
+  PostListSkeleton,
   Container,
   TestPage,
   BasePost,

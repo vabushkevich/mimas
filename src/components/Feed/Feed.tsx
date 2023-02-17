@@ -11,6 +11,7 @@ import {
   IntersectionDetector,
   Card,
   DropdownMenu,
+  PostListSkeleton,
 } from "@components";
 import "./Feed.scss";
 
@@ -57,7 +58,12 @@ export function Feed({
   onSortChange = () => { },
   onSortTimeIntervalChange = () => { },
 }: FeedProps) {
-  const { data: { pages }, fetchNextPage, hasNextPage } = useFeedPosts({
+  const {
+    data: { pages },
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = useFeedPosts({
     limit: 5,
     sort,
     sortTimeInterval,
@@ -89,6 +95,7 @@ export function Feed({
         </Card>
       </div>
       <PostList posts={posts} removeSubreddit={removeSubreddit} />
+      {isFetching && <PostListSkeleton />}
       {hasNextPage && (
         <IntersectionDetector
           marginTop={100}
