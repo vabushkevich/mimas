@@ -5,7 +5,13 @@ import { isPostSortingMethod, isSortTimeInterval } from "@types";
 import { useQueryString } from "@hooks";
 import { useUserByName } from "@services/api";
 
-import { Container, Page, AuthorHeader, Feed } from "@components";
+import {
+  Container,
+  Page,
+  AuthorHeader,
+  Feed,
+  AuthorHeaderSkeleton,
+} from "@components";
 import "./UserPage.scss";
 
 export function UserPage() {
@@ -14,14 +20,15 @@ export function UserPage() {
   const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
 
   const { name: userName } = useParams<{ name: string }>();
-  const { data: user } = useUserByName(userName);
+  const { data: user, isLoading } = useUserByName(userName);
   const history = useHistory();
 
   return (
     <Page>
       <Container>
-        {user ? (
-          <div className="user-page__header">
+        <div className="user-page__header">
+          {isLoading && <AuthorHeaderSkeleton />}
+          {user && (
             <AuthorHeader
               name={user.name}
               picture={user.avatar}
@@ -41,8 +48,8 @@ export function UserPage() {
                 },
               ]}
             />
-          </div>
-        ) : <div>Loading...</div>}
+          )}
+        </div>
         <Feed
           sort={sort}
           sortTimeInterval={sortTimeInterval}

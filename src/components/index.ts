@@ -31,12 +31,14 @@ import { Alert } from "./Alert/Alert";
 import { SubredditPage } from "./SubredditPage/SubredditPage";
 import { UserPage } from "./UserPage/UserPage";
 import { Stat } from "./Stat/Stat";
+import { StatSkeleton } from "./Stat/StatSkeleton";
 import { SubmissionHeader } from "./SubmissionHeader/SubmissionHeader";
 import { SubmissionHeaderSkeleton } from "./SubmissionHeader/SubmissionHeaderSkeleton";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Feed } from "./Feed/Feed";
 import { FeedPage } from "./FeedPage/FeedPage";
 import { AuthorHeader } from "./AuthorHeader/AuthorHeader";
+import { AuthorHeaderSkeleton } from "./AuthorHeader/AuthorHeaderSkeleton";
 import { Spinner } from "./Spinner/Spinner";
 import { Skeleton } from "./Skeleton/Skeleton";
 
@@ -74,12 +76,14 @@ export {
   SubredditPage,
   UserPage,
   Stat,
+  StatSkeleton,
   SubmissionHeader,
   SubmissionHeaderSkeleton,
   Sidebar,
   Feed,
   FeedPage,
   AuthorHeader,
+  AuthorHeaderSkeleton,
   Spinner,
   Skeleton,
 };

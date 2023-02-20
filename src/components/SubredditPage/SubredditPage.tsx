@@ -15,6 +15,7 @@ import {
   Page,
   Feed,
   AuthorHeader,
+  AuthorHeaderSkeleton,
 } from "@components";
 import "./SubredditPage.scss";
 
@@ -30,15 +31,16 @@ export function SubredditPage() {
     : "day";
 
   const { subreddit: subredditName } = useParams<{ subreddit: string }>();
-  const { data: subreddit } = useSubredditByName(subredditName);
+  const { data: subreddit, isLoading } = useSubredditByName(subredditName);
   const history = useHistory();
   const match = useRouteMatch();
 
   return (
     <Page>
       <Container>
-        {subreddit && (
-          <div className="subreddit-page__header">
+        <div className="subreddit-page__header">
+          {isLoading && <AuthorHeaderSkeleton />}
+          {subreddit && (
             <AuthorHeader
               description={subreddit.description}
               name={subreddit.name}
@@ -59,8 +61,8 @@ export function SubredditPage() {
                 },
               ]}
             />
-          </div>
-        )}
+          )}
+        </div>
         <Feed
           removeSubreddit
           sort={postSorting}
