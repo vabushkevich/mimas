@@ -23,7 +23,7 @@ export function Skeleton({
   }, [rows]);
 
   if (rows) return (
-    <div className="skeleton-rows">
+    <>
       {rowWidths.map((width, i) => (
         <div
           key={i}
@@ -31,7 +31,7 @@ export function Skeleton({
           style={{ width: `${width}%` }}
         ></div>
       ))}
-    </div>
+    </>
   );
 
   return (

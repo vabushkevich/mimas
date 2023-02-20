@@ -1,8 +1,11 @@
 @use "@sass/variables" as *;
 
 .skeleton {
+  display: inline-block;
+  width: 100%;
   height: 1em;
   border-radius: 0.2em;
+  vertical-align: -6%;
   background-color: darken($color: $gray-300, $amount: 1%);
   animation: skeleton-pulse 1.2s ease-in-out infinite;
 
@@ -20,10 +23,6 @@ h6 {
   .skeleton {
     font-size: 1.2em;
   }
-}
-
-.skeleton-rows .skeleton:not(:last-child) {
-  margin-bottom: 0.6em;
 }
 
 @keyframes skeleton-pulse {
