@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { useComment, useAvatar } from "@services/api";
+import classNames from "classnames";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
@@ -17,7 +18,7 @@ export const CommentThread = memo(function CommentThread({
 }: CommentThreadProps) {
   const { data: comment } = useComment(commentId);
   const { childIds, moreChildren } = comment;
-  const showReplies = !collapsed && (childIds.length > 0 || moreChildren);
+  const renderReplies = childIds.length > 0 || moreChildren;
   const commentAuthorAvatar = useAvatar(comment.userId);
 
   return (
@@ -31,8 +32,13 @@ export const CommentThread = memo(function CommentThread({
           collapsed={collapsed}
         />
       </CommentWrapper>
-      {showReplies && (
-        <div className="comment-thread__replies">
+      {renderReplies && (
+        <div
+          className={classNames(
+            "comment-thread__replies",
+            collapsed && "comment-thread__replies--collapsed",
+          )}
+        >
           <CommentThreadList
             commentIds={childIds}
             moreComments={moreChildren}
