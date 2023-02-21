@@ -23,11 +23,10 @@ export function AuthorHeader({
   return (
     <div className="author-header">
       <Card>
-        <img
+        <div
           className="author-header__picture"
-          src={picture}
-          alt="Author avatar"
-        />
+          style={{ backgroundImage: `url("${picture}")` }}
+        ></div>
         <div className="author-header__name">{name}</div>
         {description && (
           <div className="author-header__description">
