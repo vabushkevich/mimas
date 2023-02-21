@@ -3,25 +3,22 @@
 .skeleton {
   display: inline-block;
   width: 100%;
-  height: 1em;
-  border-radius: 0.2em;
-  vertical-align: -6%;
+  line-height: 1em;
+  border-radius: 3px;
   background-color: darken($color: $gray-300, $amount: 1%);
   animation: skeleton-pulse 1.2s ease-in-out infinite;
+
+  &::before {
+    content: "";
+    display: inline-block;
+  }
 
   &--circle {
     border-radius: 50%;
   }
-}
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  .skeleton {
-    font-size: 1.2em;
+  &--block {
+    display: block;
   }
 }
 

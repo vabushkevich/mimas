@@ -5,6 +5,7 @@ import { random } from "lodash-es";
 import "./Skeleton.scss";
 
 type SkeletonProps = {
+  block?: boolean;
   circle?: boolean;
   height?: number | string;
   rows?: number;
@@ -12,6 +13,7 @@ type SkeletonProps = {
 };
 
 export function Skeleton({
+  block,
   circle,
   height,
   rows,
@@ -38,9 +40,14 @@ export function Skeleton({
     <div
       className={classNames(
         "skeleton",
+        block && "skeleton--block",
         circle && "skeleton--circle",
       )}
-      style={{ width, height }}
+      style={{
+        width,
+        height: block ? height : undefined,
+        lineHeight: !block ? height : undefined,
+      }}
     ></div>
   );
 }

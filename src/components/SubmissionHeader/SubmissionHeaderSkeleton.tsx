@@ -8,7 +8,7 @@ export function SubmissionHeaderSkeleton() {
     <div className="submission-header">
       <span className="submission-header__primary-author">
         <div className="submission-header__picture">
-          <Skeleton width={20} height={20} circle />
+          <Skeleton width={20} height={20} circle block />
         </div>
         <div className="submission-header__primary-author-name">
           <Skeleton width={60} />
