@@ -10,7 +10,7 @@ export function StatSkeleton() {
         <Skeleton width={35} />
       </div>
       <div className="stat__label">
-        <Skeleton width={70} />
+        <Skeleton width={62} />
       </div>
     </div>
   );
