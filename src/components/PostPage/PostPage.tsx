@@ -24,6 +24,7 @@ import {
   IntersectionDetector,
   Alert,
   PostSkeleton,
+  CommentThreadListSkeleton,
 } from "@components";
 import "./PostPage.scss";
 
@@ -54,19 +55,26 @@ export function PostPage() {
 
   const params = useParams<{ id: string }>();
   const postId = createId(params.id, "post");
-  const { data: post, isLoading } = usePost(postId);
+  const {
+    data: post,
+    isLoading: isPostLoading,
+  } = usePost(postId);
   const {
     data: threadList,
+    isLoading: isPostCommentsLoading,
   } = usePostComments(postId, { sort: commentsSorting });
   const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
   const history = useHistory();
 
   const {
     mutate: loadMoreComments,
+    isLoading: isMoreCommentsLoading,
   } = useLoadMoreComments();
 
+  const isCommentsLoading = isPostCommentsLoading || isMoreCommentsLoading;
+
   const { archived, locked, removalReason } = post || {};
-  const hasAlerts = archived || locked || removalReason;
+  const hasAlerts = archived || locked || removalReason; 
 
   return (
     <Page>
@@ -78,7 +86,7 @@ export function PostPage() {
             pinned={false}
           />
         )}
-        {isLoading && <PostSkeleton />}
+        {isPostLoading && <PostSkeleton />}
         {hasAlerts && (
           <div className="alerts">
             <Card>
@@ -100,7 +108,7 @@ export function PostPage() {
             </Card>
           </div>
         )}
-        {threadList && (
+        {(threadList || isCommentsLoading) && (
           <>
             <div className="comments-sorting">
               <Card>
@@ -116,22 +124,26 @@ export function PostPage() {
             </div>
             <div className="comments">
               <Card>
-                <CollapsedThreadsContext.Provider
-                  value={{ collapsedThreadIds, toggleThread }}
-                >
-                  <CommentThreadList
-                    commentIds={threadList.rootCommentIds}
-                    moreComments={threadList.moreComments}
+                {threadList && (
+                  <CollapsedThreadsContext.Provider
+                    value={{ collapsedThreadIds, toggleThread }}
+                  >
+                    <CommentThreadList
+                      commentIds={threadList.rootCommentIds}
+                      hideLoadMoreButton
+                      moreComments={threadList.moreComments}
+                    />
+                  </CollapsedThreadsContext.Provider>
+                )}
+                {isCommentsLoading && <CommentThreadListSkeleton />}
+                {threadList?.moreComments && !isCommentsLoading && (
+                  <IntersectionDetector
+                    marginTop={100}
+                    onIntersect={loadMoreComments}
                   />
-                </CollapsedThreadsContext.Provider>
+                )}
               </Card>
             </div>
-            {threadList.moreComments && (
-              <IntersectionDetector
-                marginTop={100}
-                onIntersect={loadMoreComments}
-              />
-            )}
           </>
         )}
       </Container>

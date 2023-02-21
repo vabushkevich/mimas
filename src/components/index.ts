@@ -17,8 +17,10 @@ import { PostPage } from "./PostPage/PostPage";
 import { Page } from "./Page/Page";
 import { IntersectionDetector } from "./IntersectionDetector/IntersectionDetector";
 import { Comment } from "./Comment/Comment";
+import { CommentSkeleton } from "./Comment/CommentSkeleton";
 import { CommentThread } from "./CommentThread/CommentThread";
 import { CommentThreadList } from "./CommentThreadList/CommentThreadList";
+import { CommentThreadListSkeleton } from "./CommentThreadList/CommentThreadListSkeleton";
 import { Card } from "./Card/Card";
 import { Button } from "./Button/Button";
 import { Menu } from "./Menu/Menu";
@@ -62,8 +64,10 @@ export {
   Page,
   IntersectionDetector,
   Comment,
+  CommentSkeleton,
   CommentThread,
   CommentThreadList,
+  CommentThreadListSkeleton,
   Card,
   Button,
   Menu,

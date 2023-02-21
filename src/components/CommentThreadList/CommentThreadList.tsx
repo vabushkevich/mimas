@@ -10,6 +10,7 @@ import "./CommentThreadList.scss";
 
 type CommentThreadListProps = {
   commentIds: string[];
+  hideLoadMoreButton?: boolean;
   moreComments?: MoreItems;
   parentId?: string;
 };
@@ -23,6 +24,7 @@ function getMoreCommentsMessage(moreComments: MoreItems) {
 
 export function CommentThreadList({
   commentIds,
+  hideLoadMoreButton,
   moreComments,
   parentId,
 }: CommentThreadListProps) {
@@ -49,7 +51,7 @@ export function CommentThreadList({
           </li>
         );
       })}
-      {moreComments && (
+      {!hideLoadMoreButton && moreComments && (
         <li className="comment-thread-list__item">
           <CommentWrapper
             onCollapseButtonClick={() => loadMoreComments()}
