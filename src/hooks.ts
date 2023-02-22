@@ -9,6 +9,8 @@ import {
 import { useLocation, useParams } from "react-router-dom";
 import { isCommentSortingMethod } from "@types";
 import { createId } from "@utils";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
+import type { RootState } from "./store";
 
 export function useToggleArrayValue<T = any>(): [T[], (value: T) => void] {
   const [array, setArray] = useState<T[]>([]);
@@ -79,3 +81,5 @@ export function usePostParams() {
 
   return { postId, sort };
 }
+
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

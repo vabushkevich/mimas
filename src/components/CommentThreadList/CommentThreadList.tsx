@@ -1,8 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import { MoreItems } from "@types";
-import {
-  CollapsedThreadsContext,
-} from "@context";
 import { useLoadMoreComments } from "@services/api";
 
 import { CommentThread, CommentWrapper, Spinner } from "@components";
@@ -32,22 +29,13 @@ export function CommentThreadList({
     mutate: loadMoreComments,
     isLoading,
   } = useLoadMoreComments({ commentId: parentId });
-  const {
-    collapsedThreadIds,
-    toggleThread,
-  } = useContext(CollapsedThreadsContext);
 
   return (
     <ol className="comment-thread-list">
       {commentIds.map((commentId) => {
-        const collapsed = collapsedThreadIds.includes(commentId);
         return (
           <li key={commentId} className="comment-thread-list__item">
-            <CommentThread
-              collapsed={collapsed}
-              commentId={commentId}
-              onToggle={toggleThread}
-            />
+            <CommentThread commentId={commentId} />
           </li>
         );
       })}

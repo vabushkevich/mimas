@@ -4,6 +4,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 import {
   TestPage,
@@ -25,29 +27,31 @@ const queryClient = new QueryClient({
 
 export function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Switch>
-          <Route path="/r/popular/:sort?">
-            <FeedPage type="popular" />
-          </Route>
-          <Route path="/r/all/:sort?">
-            <FeedPage type="all" />
-          </Route>
-          <Route path="/r/:subreddit/comments/:id">
-            <PostPage />
-          </Route>
-          <Route path="/r/:subreddit/:sort?">
-            <SubredditPage />
-          </Route>
-          <Route path="/user/:name">
-            <UserPage />
-          </Route>
-          <Route path="/">
-            <TestPage />
-          </Route>
-        </Switch>
-      </Router>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Switch>
+            <Route path="/r/popular/:sort?">
+              <FeedPage type="popular" />
+            </Route>
+            <Route path="/r/all/:sort?">
+              <FeedPage type="all" />
+            </Route>
+            <Route path="/r/:subreddit/comments/:id">
+              <PostPage />
+            </Route>
+            <Route path="/r/:subreddit/:sort?">
+              <SubredditPage />
+            </Route>
+            <Route path="/user/:name">
+              <UserPage />
+            </Route>
+            <Route path="/">
+              <TestPage />
+            </Route>
+          </Switch>
+        </Router>
+      </QueryClientProvider>
+    </Provider>
   );
 }

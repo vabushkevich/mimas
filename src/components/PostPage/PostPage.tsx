@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useToggleArrayValue } from "@hooks";
 import { useQueryString } from "@hooks";
 import { createId } from "@utils";
 import {
@@ -8,9 +7,6 @@ import {
   CommentSortingMethod,
   isCommentSortingMethod,
 } from "@types";
-import {
-  CollapsedThreadsContext,
-} from "@context";
 import { usePost, usePostComments, useLoadMoreComments } from "@services/api";
 
 import {
@@ -63,7 +59,6 @@ export function PostPage() {
     data: threadList,
     isLoading: isPostCommentsLoading,
   } = usePostComments(postId, { sort: commentsSorting });
-  const [collapsedThreadIds, toggleThread] = useToggleArrayValue<string>();
   const history = useHistory();
 
   const {
@@ -74,7 +69,7 @@ export function PostPage() {
   const isCommentsLoading = isPostCommentsLoading || isMoreCommentsLoading;
 
   const { archived, locked, removalReason } = post || {};
-  const hasAlerts = archived || locked || removalReason; 
+  const hasAlerts = archived || locked || removalReason;
 
   return (
     <Page>
@@ -125,15 +120,11 @@ export function PostPage() {
             <div className="comments">
               <Card>
                 {threadList && (
-                  <CollapsedThreadsContext.Provider
-                    value={{ collapsedThreadIds, toggleThread }}
-                  >
-                    <CommentThreadList
-                      commentIds={threadList.rootCommentIds}
-                      hideLoadMoreButton
-                      moreComments={threadList.moreComments}
-                    />
-                  </CollapsedThreadsContext.Provider>
+                  <CommentThreadList
+                    commentIds={threadList.rootCommentIds}
+                    hideLoadMoreButton
+                    moreComments={threadList.moreComments}
+                  />
                 )}
                 {isCommentsLoading && <CommentThreadListSkeleton />}
                 {threadList?.moreComments && !isCommentsLoading && (
