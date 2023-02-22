@@ -438,3 +438,10 @@ export function useAvatar(authorId: string) {
 
   return data;
 }
+
+export function useSubreddits(ids: string[]) {
+  return useQuery(
+    ["subreddits", ...ids],
+    () => client.getSubreddits(ids),
+  );
+}
