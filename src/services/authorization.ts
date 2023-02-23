@@ -23,7 +23,7 @@ export async function getAccessToken(): Promise<string> {
 }
 
 async function requestBasicAccess() {
-  const rawAuth: RawAuth = await fetch(
+  const rawAuth = await fetch(
     "https://www.reddit.com/api/v1/access_token",
     {
       method: "POST",
@@ -36,7 +36,7 @@ async function requestBasicAccess() {
       },
     }
   )
-    .then((res) => res.json());
+    .then((res) => res.json() as Promise<RawAuth>);
   return transformAuth(rawAuth);
 }
 
