@@ -11,7 +11,7 @@ import * as Raw from "./types";
 import {
   getIdSuffix,
 } from "./utils";
-import { getAccessToken } from "@services/authorization";
+import { getAccessToken } from "@services/auth";
 import {
   useQuery,
   useInfiniteQuery,
