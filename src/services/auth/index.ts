@@ -1,48 +1,64 @@
-type RawAuth = {
-  access_token: string;
-  device_id: string;
-  expires_in: number;
-  scope: string;
-  token_type: string;
-};
-
-type Auth = {
-  accessToken: string;
-  expires: number;
-};
+import { useCallback, useContext } from "react";
+import { useQueryString } from "@hooks";
+import {
+  readAuth,
+  refreshAuth,
+  requestAuth,
+  revokeAuth,
+  writeAuth,
+} from "./utils";
+import { AuthContext } from "./context";
 
 export async function getAccessToken(): Promise<string> {
-  let auth: Auth = JSON.parse(localStorage.getItem("auth"));
+  let auth = readAuth();
 
   if (!auth || Date.now() >= auth.expires) {
-    auth = await requestBasicAccess();
-    localStorage.setItem("auth", JSON.stringify(auth));
+    auth = auth?.refreshToken
+      ? await refreshAuth(auth.refreshToken)
+      : await requestAuth();
+    writeAuth(auth);
   }
 
   return auth.accessToken;
 }
 
-async function requestBasicAccess() {
-  const rawAuth = await fetch(
-    "https://www.reddit.com/api/v1/access_token",
-    {
-      method: "POST",
-      body: new URLSearchParams([
-        ["grant_type", "https://oauth.reddit.com/grants/installed_client"],
-        ["device_id", "DO_NOT_TRACK_THIS_DEVICE"],
-      ]),
-      headers: {
-        "Authorization": "Basic CREDENTIALS",
-      },
-    }
-  )
-    .then((res) => res.json() as Promise<RawAuth>);
-  return transformAuth(rawAuth);
+export function useAuth() {
+  const { authorized, setAuthorized } = useContext(AuthContext);
+
+  const authorize = useCallback(async (code: string) => {
+    const auth = await requestAuth(code);
+    writeAuth(auth);
+    setAuthorized(true);
+  }, []);
+
+  const unauthorize = useCallback(() => {
+    const auth = readAuth();
+    revokeAuth(auth?.refreshToken);
+    writeAuth(null);
+    setAuthorized(false);
+  }, []);
+
+  return { authorized, authorize, unauthorize };
 }
 
-function transformAuth(rawAuth: RawAuth): Auth {
-  return {
-    accessToken: rawAuth.access_token,
-    expires: Date.now() + rawAuth.expires_in * 1000,
-  };
+export function getAuthURL() {
+  const params = new URLSearchParams({
+    client_id: "CLIENT_ID",
+    response_type: "code",
+    state: `${Date.now()}${location.pathname}${location.search}`,
+    redirect_uri: "http://localhost:8080/auth",
+    duration: "permanent",
+    scope: "edit history mysubreddits privatemessages read save submit subscribe vote",
+  });
+
+  return `https://www.reddit.com/api/v1/authorize.compact?${params}`;
 }
+
+export function useRedirectURLParams() {
+  const { code, state } = useQueryString<{ code: string, state: string }>();
+  const redirectTo = state.match(/\d+(.+)/)[1];
+
+  return { code, redirectTo };
+}
+
+export { AuthContextProvider } from "./context";

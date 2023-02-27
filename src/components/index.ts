@@ -43,6 +43,7 @@ import { AuthorHeader } from "./AuthorHeader/AuthorHeader";
 import { AuthorHeaderSkeleton } from "./AuthorHeader/AuthorHeaderSkeleton";
 import { Spinner } from "./Spinner/Spinner";
 import { Skeleton } from "./Skeleton/Skeleton";
+import { AuthPage } from "./AuthPage/AuthPage";
 
 export {
   Post,
@@ -90,4 +91,5 @@ export {
   AuthorHeaderSkeleton,
   Spinner,
   Skeleton,
+  AuthPage,
 };
