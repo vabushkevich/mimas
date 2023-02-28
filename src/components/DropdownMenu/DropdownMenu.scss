@@ -2,10 +2,15 @@
 
 .dropdown-menu {
   display: inline-block;
+  position: relative;
 
   &__menu {
     position: absolute;
     margin-top: 6px;
     z-index: $z-index-dropdown;
+
+    &--align-right {
+      right: 0;
+    }
   }
 }

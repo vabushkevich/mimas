@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useClickOutside } from "@hooks";
+import classNames from "classnames";
 
 import { Menu, DropdownButton, MenuItem } from "@components";
 import "./DropdownMenu.scss";
@@ -10,6 +11,7 @@ type MenuItemType<T> = {
 };
 
 type DropdownMenuProps<T> = {
+  align?: "left" | "right";
   button?: React.ReactNode;
   items: MenuItemType<T>[],
   label: (selectedItem: MenuItemType<T>) => React.ReactNode;
@@ -18,6 +20,7 @@ type DropdownMenuProps<T> = {
 };
 
 export function DropdownMenu<T extends string>({
+  align = "left",
   button,
   items,
   label,
@@ -37,7 +40,13 @@ export function DropdownMenu<T extends string>({
         {button || <DropdownButton>{label(selectedItem)}</DropdownButton>}
       </div>
       {isOpen && (
-        <div ref={menuRef} className="dropdown-menu__menu">
+        <div
+          ref={menuRef}
+          className={classNames(
+            "dropdown-menu__menu",
+            align == "right" && "dropdown-menu__menu--align-right",
+          )}
+        >
           <Menu>
             {items.map((item) => (
               <MenuItem
