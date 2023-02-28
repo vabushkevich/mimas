@@ -8,6 +8,7 @@
   padding: 6px 10px;
   border-radius: 4px;
   text-align: left;
+  white-space: nowrap;
 
   &:hover {
     background-color: lighten($color: $gray-200, $amount: 2%);
