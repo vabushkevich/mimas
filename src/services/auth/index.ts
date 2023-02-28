@@ -48,7 +48,7 @@ export function getAuthURL() {
     state: `${Date.now()}${location.pathname}${location.search}`,
     redirect_uri: "http://localhost:8080/auth",
     duration: "permanent",
-    scope: "edit history mysubreddits privatemessages read save submit subscribe vote",
+    scope: "edit history identity mysubreddits privatemessages read save submit subscribe vote",
   });
 
   return `https://www.reddit.com/api/v1/authorize.compact?${params}`;
