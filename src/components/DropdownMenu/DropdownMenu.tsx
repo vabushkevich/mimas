@@ -10,6 +10,7 @@ type MenuItemType<T> = {
 };
 
 type DropdownMenuProps<T> = {
+  button?: React.ReactNode;
   items: MenuItemType<T>[],
   label: (selectedItem: MenuItemType<T>) => React.ReactNode;
   selectedValue?: T;
@@ -17,13 +18,14 @@ type DropdownMenuProps<T> = {
 };
 
 export function DropdownMenu<T extends string>({
+  button,
   items,
   label,
   selectedValue,
   onSelect,
 }: DropdownMenuProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const selectedItem = items.find((item) => item.value == selectedValue);
 
@@ -31,12 +33,9 @@ export function DropdownMenu<T extends string>({
 
   return (
     <div className="dropdown-menu">
-      <DropdownButton
-        ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {label(selectedItem)}
-      </DropdownButton>
+      <div ref={buttonRef} onClick={() => setIsOpen(!isOpen)}>
+        {button || <DropdownButton>{label(selectedItem)}</DropdownButton>}
+      </div>
       {isOpen && (
         <div ref={menuRef} className="dropdown-menu__menu">
           <Menu>
