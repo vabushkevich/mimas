@@ -1,34 +1,36 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSidebarSubreddits } from "./hooks";
+import { useAuth } from "@services/auth";
 
 import { SidebarItemsSkeleton } from "./SidebarItemsSkeleton";
 import "./Sidebar.scss";
 
-const navItems: {
-  text: string;
-  href: string;
-}[] = [
-  { text: "Test", href: "/" },
-  { text: "Popular", href: "/r/popular/" },
-  { text: "All Posts", href: "/r/all/" },
-];
-
 export function Sidebar() {
+  const { authorized } = useAuth();
   const { data: subreddits, isLoading } = useSidebarSubreddits();
+
+  const navItems: {
+    text: string;
+    href: string;
+  }[] = [
+    authorized ? { text: "My Feed", href: "/" } : null,
+    { text: "Popular", href: "/r/popular/" },
+    { text: "All Posts", href: "/r/all/" },
+  ];
 
   return (
     <nav className="sidebar">
       <ul>
-        {navItems.map(({ text, href }) => (
-          <li key={href}>
+        {navItems.map((item) => item && (
+          <li key={item.href}>
             <NavLink
               activeClassName="sidebar__item--active"
               className="sidebar__item"
-              exact={href == "/"}
-              to={href}
+              exact={item.href == "/"}
+              to={item.href}
             >
-              {text}
+              {item.text}
             </NavLink>
           </li>
         ))}

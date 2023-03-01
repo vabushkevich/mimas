@@ -51,6 +51,9 @@ export function App() {
               <Route path="/auth">
                 <AuthPage />
               </Route>
+              <Route path="/">
+                <FeedPage type="user" />
+              </Route>
             </Switch>
           </Router>
         </AuthContextProvider>
