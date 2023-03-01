@@ -3,7 +3,6 @@ import { PostSkeleton } from "./Post/PostSkeleton";
 import { PostList } from "./PostList/PostList";
 import { PostListSkeleton } from "./PostList/PostListSkeleton";
 import { Container } from "./Container/Container";
-import { TestPage } from "./TestPage/TestPage";
 import { BasePost } from "./BasePost/BasePost";
 import { BasePostSkeleton } from "./BasePost/BasePostSkeleton";
 import { LinkPost } from "./LinkPost/LinkPost";
@@ -51,7 +50,6 @@ export {
   PostList,
   PostListSkeleton,
   Container,
-  TestPage,
   BasePost,
   BasePostSkeleton,
   LinkPost,

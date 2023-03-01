@@ -9,7 +9,6 @@ import { store } from "./store";
 import { AuthContextProvider } from "@services/auth";
 
 import {
-  TestPage,
   PostPage,
   SubredditPage,
   UserPage,
@@ -51,9 +50,6 @@ export function App() {
               </Route>
               <Route path="/auth">
                 <AuthPage />
-              </Route>
-              <Route path="/">
-                <TestPage />
               </Route>
             </Switch>
           </Router>
