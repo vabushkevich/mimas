@@ -235,6 +235,18 @@ export class RedditWebAPI {
         .then((res) => res.json() as Promise<Raw.Identity>)
     return transformIdentity(rawIdentity);
   }
+
+  async getMySubscriptions() {
+    const rawSubreddits =
+      await this.#fetchWithAuth(
+        "https://oauth.reddit.com/subreddits/mine/subscriber"
+      )
+        .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
+        .then((json) => json.data.children);
+    return rawSubreddits.map(
+      (rawSubreddit) => transformSubreddit(rawSubreddit)
+    );
+  }
 }
 
 const client = new RedditWebAPI(getAccessToken);
@@ -447,11 +459,12 @@ export function useAvatar(authorId: string) {
   return data;
 }
 
-export function useSubreddits(ids: string[]) {
-  return useQuery(
-    ["subreddits", ...ids],
-    () => client.getSubreddits(ids),
-  );
+export function useSubreddits(ids: string[], { enabled = true } = {}) {
+  return useQuery({
+    enabled,
+    queryFn: () => client.getSubreddits(ids),
+    queryKey: ["subreddits", ...ids],
+  });
 }
 
 export function useIdentity({ enabled = true } = {}) {
@@ -459,5 +472,13 @@ export function useIdentity({ enabled = true } = {}) {
     enabled,
     queryFn: async () => client.getIdentity(),
     queryKey: ["identity"],
+  });
+}
+
+export function useMySubscriptions({ enabled = true } = {}) {
+  return useQuery({
+    enabled,
+    queryFn: () => client.getMySubscriptions(),
+    queryKey: ["my-subscriptions"],
   });
 }
