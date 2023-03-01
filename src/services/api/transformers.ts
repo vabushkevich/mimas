@@ -15,6 +15,7 @@ import {
   CommentThreadList,
   BasePost,
   Subreddit,
+  Identity,
 } from "@types";
 import * as Raw from "./types";
 import { findLast } from "lodash-es";
@@ -265,16 +266,18 @@ function transformShortUser(
 }
 
 export function transformFullUser(rawFullUser: Raw.FullUser): User {
+  return transformFullUserData(rawFullUser.data);
+}
+
+function transformFullUserData(rawFullUserData: Raw.FullUser["data"]): User {
   const {
-    data: {
-      comment_karma,
-      created_utc,
-      icon_img,
-      id,
-      link_karma,
-      name,
-    }
-  } = rawFullUser;
+    comment_karma,
+    created_utc,
+    icon_img,
+    id,
+    link_karma,
+    name,
+  } = rawFullUserData;
 
   return {
     avatar: decodeEntities(icon_img),
@@ -311,4 +314,10 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
     name: display_name,
     subscribers,
   };
+}
+
+export function transformIdentity(rawIdentity: Raw.Identity): Identity {
+  return {
+    user: transformFullUserData(rawIdentity),
+  }
 }

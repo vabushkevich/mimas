@@ -189,3 +189,7 @@ export type MenuItem = {
   content: React.ReactNode;
   value: string;
 };
+
+export type Identity = {
+  user: User;
+};

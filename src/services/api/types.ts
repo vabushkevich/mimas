@@ -135,3 +135,7 @@ export type Things<T> = {
     };
   };
 };
+
+export type Identity = FullUser["data"] & {
+  // Some other fields...
+};

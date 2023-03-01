@@ -1,4 +1,5 @@
 @use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .site-nav {
   position: sticky;
@@ -13,5 +14,28 @@
   &__logo {
     font-size: 22px;
     font-weight: 500;
+  }
+}
+
+.user-menu-btn {
+  @include reset-button;
+
+  display: flex;
+  align-items: center;
+
+  &__picture {
+    width: 30px;
+    height: 30px;
+    background: no-repeat center / 100% white;
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 15%);
+  }
+
+  &__icon {
+    width: 12px;
+    height: 12px;
+    background-color: currentcolor;
+    mask: no-repeat center url(./assets/arrow-down.svg);
   }
 }

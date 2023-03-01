@@ -29,6 +29,7 @@ import {
   transformCommentListItems,
   transformFullUser,
   transformSubreddit,
+  transformIdentity,
 } from "./transformers";
 
 export class RedditWebAPI {
@@ -226,6 +227,13 @@ export class RedditWebAPI {
     );
 
     return avatars;
+  }
+
+  async getIdentity() {
+    const rawIdentity =
+      await this.#fetchWithAuth("https://oauth.reddit.com/api/v1/me")
+        .then((res) => res.json() as Promise<Raw.Identity>)
+    return transformIdentity(rawIdentity);
   }
 }
 
@@ -444,4 +452,12 @@ export function useSubreddits(ids: string[]) {
     ["subreddits", ...ids],
     () => client.getSubreddits(ids),
   );
+}
+
+export function useIdentity({ enabled = true } = {}) {
+  return useQuery({
+    enabled,
+    queryFn: async () => client.getIdentity(),
+    queryKey: ["identity"],
+  });
 }
