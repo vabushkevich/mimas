@@ -4,7 +4,6 @@ import { useQueryString } from "@hooks";
 import { createId } from "@utils";
 import {
   Post as PostType,
-  CommentSortingMethod,
   isCommentSortingMethod,
 } from "@types";
 import { usePost, usePostComments, useLoadMoreComments } from "@services/api";
@@ -23,18 +22,6 @@ import {
   CommentThreadListSkeleton,
 } from "@components";
 import "./PostPage.scss";
-
-const commentsSortingMenu: {
-  content: string;
-  value: CommentSortingMethod;
-}[] = [
-  { value: "confidence", content: "Best" },
-  { value: "top", content: "Top" },
-  { value: "new", content: "New" },
-  { value: "controversial", content: "Controversial" },
-  { value: "old", content: "Old" },
-  { value: "qa", content: "Q&A" },
-];
 
 const removalReasonMessages: Record<PostType["removalReason"], string> = {
   "rules-violation": "Post removed by Reddit for violating Reddit's rules.",
@@ -108,13 +95,20 @@ export function PostPage() {
             <div className="comments-sorting">
               <Card>
                 <DropdownMenu
-                  items={commentsSortingMenu}
-                  label={({ content }) => content}
-                  selectedValue={commentsSorting}
-                  onSelect={({ value }) => {
+                  defaultValue={commentsSorting}
+                  label={(selectedItem) => selectedItem?.content}
+                  selectable
+                  onSelect={(value) => {
                     history.replace({ search: `?sort=${value}` });
                   }}
-                />
+                >
+                  <MenuItem value="confidence">Best</MenuItem>
+                  <MenuItem value="top">Top</MenuItem>
+                  <MenuItem value="new">New</MenuItem>
+                  <MenuItem value="controversial">Controversial</MenuItem>
+                  <MenuItem value="old">Old</MenuItem>
+                  <MenuItem value="qa">Q&A</MenuItem>
+                </DropdownMenu>
               </Card>
             </div>
             <div className="comments">

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { MenuContext } from "@context";
 
 import "./Menu.scss";
 
@@ -7,11 +8,9 @@ type MenuProps = {
 };
 
 export function Menu({ children }: MenuProps) {
-  return (
-    <div className="menu">
-      {React.Children.map(children, (child) =>
-        <div className="menu__item">{child}</div>
-      )}
-    </div>
-  );
+  const { onMenuRender } = useContext(MenuContext);
+
+  useEffect(onMenuRender);
+
+  return <div className="menu">{children}</div>;
 }

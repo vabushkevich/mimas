@@ -3,6 +3,8 @@ import {
   PostSortingMethod,
   SortTimeInterval,
   isSortRequiresTimeInterval,
+  isPostSortingMethod,
+  isSortTimeInterval,
 } from "@types";
 import { useFeedPosts } from "@services/api";
 
@@ -12,32 +14,9 @@ import {
   Card,
   DropdownMenu,
   PostListSkeleton,
+  MenuItem,
 } from "@components";
 import "./Feed.scss";
-
-const postSortingMenu: {
-  content: string;
-  value: PostSortingMethod;
-}[] = [
-  { value: "best", content: "Best" },
-  { value: "hot", content: "Hot" },
-  { value: "top", content: "Top" },
-  { value: "new", content: "New" },
-  { value: "rising", content: "Rising" },
-  { value: "controversial", content: "Controversial" },
-];
-
-const sortTimeIntervalMenu: {
-  content: string;
-  value: SortTimeInterval;
-}[] = [
-  { value: "hour", content: "Hour" },
-  { value: "day", content: "Day" },
-  { value: "week", content: "Week" },
-  { value: "month", content: "Month" },
-  { value: "year", content: "Year" },
-  { value: "all", content: "All Time" },
-];
 
 type FeedProps = {
   removeSubreddit?: boolean;
@@ -78,18 +57,38 @@ export function Feed({
         <Card>
           <div className="feed__sort-items">
             <DropdownMenu
-              items={postSortingMenu}
-              label={({ content }) => content}
-              selectedValue={sort}
-              onSelect={({ value }) => onSortChange(value)}
-            />
+              defaultValue={sort}
+              label={(selectedItem) => selectedItem?.content}
+              selectable
+              onSelect={(value) => {
+                if (isPostSortingMethod(value)) onSortChange(value);
+              }}
+            >
+              <MenuItem value="best">Best</MenuItem>
+              <MenuItem value="hot">Hot</MenuItem>
+              <MenuItem value="top">Top</MenuItem>
+              <MenuItem value="new">New</MenuItem>
+              <MenuItem value="rising">Rising</MenuItem>
+              <MenuItem value="controversial">Controversial</MenuItem>
+            </DropdownMenu>
             {isSortRequiresTimeInterval(sort) && (
               <DropdownMenu
-                items={sortTimeIntervalMenu}
-                label={({ content }) => content}
-                selectedValue={sortTimeInterval}
-                onSelect={({ value }) => onSortTimeIntervalChange(value)}
-              />
+                defaultValue={sortTimeInterval}
+                label={(selectedItem) => selectedItem?.content}
+                selectable
+                onSelect={(value) => {
+                  if (isSortTimeInterval(value)) {
+                    onSortTimeIntervalChange(value);
+                  }
+                }}
+              >
+                <MenuItem value="hour">Hour</MenuItem>
+                <MenuItem value="day">Day</MenuItem>
+                <MenuItem value="week">Week</MenuItem>
+                <MenuItem value="month">Month</MenuItem>
+                <MenuItem value="year">Year</MenuItem>
+                <MenuItem value="all">All Time</MenuItem>
+              </DropdownMenu>
             )}
           </div>
         </Card>
