@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useAuth } from "@services/auth";
 
 import {
   PostPage,
@@ -10,6 +11,8 @@ import {
 } from "@components";
 
 export function App() {
+  const { authorized } = useAuth();
+
   return (
     <Router>
       <Switch>
@@ -32,7 +35,7 @@ export function App() {
           <AuthPage />
         </Route>
         <Route path="/">
-          <FeedPage type="user" />
+          <FeedPage type={authorized ? "user" : "popular"} />
         </Route>
       </Switch>
     </Router>
