@@ -25,6 +25,26 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    &--vote-up {
+      .comment__score {
+        color: $orange;
+      }
+
+      .comment__up-btn::after {
+        background-color: $orange;
+      }
+    }
+
+    &--vote-down {
+      .comment__score {
+        color: $indigo;
+      }
+
+      .comment__down-btn::after {
+        background-color: $indigo;
+      }
+    }
   }
 
   &__score {

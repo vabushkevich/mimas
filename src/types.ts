@@ -101,6 +101,7 @@ export type Comment = {
   scoreHidden: boolean;
   userId?: string;
   userName: string;
+  vote?: "up" | "down";
 };
 
 export type Submission = Post | Comment;

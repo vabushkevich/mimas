@@ -82,6 +82,7 @@ export type Comment = {
     distinguished: "moderator" | "admin" | null;
     edited: number | boolean;
     is_submitter: boolean;
+    likes: boolean | null;
     locked: boolean;
     name: string;
     parent_id: string;

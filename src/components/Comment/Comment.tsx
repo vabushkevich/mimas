@@ -2,6 +2,7 @@ import React from "react";
 import { compactNumber } from "@utils";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
+import classNames from "classnames";
 
 import { UserContent, SubmissionHeader } from "@components";
 import "./Comment.scss";
@@ -25,6 +26,7 @@ export function Comment({
   score,
   scoreHidden,
   userName,
+  vote,
 }: CommentProps) {
   if (deletedBy) return (
     <div className="comment comment--deleted">
@@ -51,7 +53,12 @@ export function Comment({
           </div>
           <div className="comment__footer">
             {!locked && <button className="comment__reply-btn">Reply</button>}
-            <div className="comment__voting">
+            <div
+              className={classNames(
+                "comment__voting",
+                vote && `comment__voting--vote-${vote}`
+              )}
+            >
               <button className="comment__down-btn"></button>
               <div className="comment__score">
                 {scoreHidden ? "–" : compactNumber(score)}

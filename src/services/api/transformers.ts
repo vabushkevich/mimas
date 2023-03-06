@@ -181,6 +181,7 @@ function transformComment(rawComment: Raw.Comment): Comment {
       distinguished,
       edited,
       is_submitter,
+      likes,
       locked,
       name,
       parent_id,
@@ -212,6 +213,7 @@ function transformComment(rawComment: Raw.Comment): Comment {
   if (isCommentDeleted(rawComment)) {
     comment.deletedBy = getCommentDeleter(rawComment);
   }
+  if (likes != null) comment.vote = likes ? "up" : "down";
 
   return comment;
 }
