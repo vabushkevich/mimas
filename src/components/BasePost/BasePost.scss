@@ -40,6 +40,26 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    &--vote-up {
+      .post__score {
+        color: $orange;
+      }
+
+      .post__up-btn::after {
+        background-color: $orange;
+      }
+    }
+
+    &--vote-down {
+      .post__score {
+        color: $indigo;
+      }
+
+      .post__down-btn::after {
+        background-color: $indigo;
+      }
+    }
   }
 
   &__score {

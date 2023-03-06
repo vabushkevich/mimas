@@ -52,6 +52,7 @@ export type BasePost = {
   url: string;
   userId?: string;
   userName: string;
+  vote?: "up" | "down";
 };
 
 export type LinkPost = BasePost & {

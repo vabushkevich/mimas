@@ -40,6 +40,7 @@ export function transformPost(rawPost: Raw.Post): Post {
       created_utc,
       edited,
       gallery_data,
+      likes,
       locked,
       media_metadata,
       media,
@@ -78,6 +79,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     post.removalReason = removalReasonMap[removed_by_category];
   }
   if (typeof edited == "number") post.dateEdited = edited * 1000;
+  if (likes != null) post.vote = likes ? "up" : "down";
 
   if (isImagePost(rawPost)) {
     const images = preview.images[0].resolutions;

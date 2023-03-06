@@ -11,6 +11,7 @@ export type Post = {
       }[];
     };
     is_video: boolean;
+    likes: boolean | null;
     locked: boolean;
     media_metadata?: Record<string, {
       p: {

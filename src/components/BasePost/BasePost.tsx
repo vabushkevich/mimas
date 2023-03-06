@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import type { BasePost } from "@types";
 import { useAvatar } from "@services/api";
+import classNames from "classnames";
 
 import { Card, SubmissionHeader } from "@components";
 import "./BasePost.scss";
@@ -24,6 +25,7 @@ export function BasePost({
   url,
   userId,
   userName,
+  vote,
   children,
 }: BasePostProps) {
   const avatar = useAvatar(subredditId || userId);
@@ -50,7 +52,12 @@ export function BasePost({
           >
             {compactNumber(commentCount)}
           </Link>
-          <div className="post__voting">
+          <div
+            className={classNames(
+              "post__voting",
+              vote && `post__voting--vote-${vote}`
+            )}
+          >
             <button className="post__down-btn"></button>
             <div className="post__score">{compactNumber(score)}</div>
             <button className="post__up-btn"></button>
