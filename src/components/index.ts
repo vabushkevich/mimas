@@ -43,6 +43,8 @@ import { AuthorHeaderSkeleton } from "./AuthorHeader/AuthorHeaderSkeleton";
 import { Spinner } from "./Spinner/Spinner";
 import { Skeleton } from "./Skeleton/Skeleton";
 import { AuthPage } from "./AuthPage/AuthPage";
+import { Voting } from "./Voting/Voting";
+import { VotingSkeleton } from "./Voting/VotingSkeleton";
 
 export {
   Post,
@@ -90,4 +92,6 @@ export {
   Spinner,
   Skeleton,
   AuthPage,
+  Voting,
+  VotingSkeleton,
 };

@@ -1,6 +1,11 @@
 import React from "react";
 
-import { Card, SubmissionHeaderSkeleton, Skeleton } from "@components";
+import {
+  Card,
+  SubmissionHeaderSkeleton,
+  Skeleton,
+  VotingSkeleton,
+} from "@components";
 import "./BasePost.scss";
 
 export function BasePostSkeleton() {
@@ -19,11 +24,7 @@ export function BasePostSkeleton() {
             <Skeleton width={30} />
           </span>
           <div className="post__voting">
-            <button className="post__down-btn"></button>
-            <div className="post__score">
-              <Skeleton width={30} />
-            </div>
-            <button className="post__up-btn"></button>
+            <VotingSkeleton />
           </div>
         </div>
       </div>

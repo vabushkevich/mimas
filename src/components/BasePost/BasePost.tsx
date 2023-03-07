@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import type { BasePost } from "@types";
 import { useAvatar } from "@services/api";
-import classNames from "classnames";
 
-import { Card, SubmissionHeader } from "@components";
+import { Card, SubmissionHeader, Voting } from "@components";
 import "./BasePost.scss";
 
 type BasePostProps = BasePost & {
@@ -52,15 +51,8 @@ export function BasePost({
           >
             {compactNumber(commentCount)}
           </Link>
-          <div
-            className={classNames(
-              "post__voting",
-              vote && `post__voting--vote-${vote}`
-            )}
-          >
-            <button className="post__down-btn"></button>
-            <div className="post__score">{compactNumber(score)}</div>
-            <button className="post__up-btn"></button>
+          <div className="post__voting">
+            <Voting score={score} vote={vote} />
           </div>
         </div>
       </div>

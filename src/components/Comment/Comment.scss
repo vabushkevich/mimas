@@ -22,70 +22,7 @@
   }
 
   &__voting {
-    display: flex;
-    align-items: center;
     margin-left: auto;
-
-    &--vote-up {
-      .comment__score {
-        color: $orange;
-      }
-
-      .comment__up-btn::after {
-        background-color: $orange;
-      }
-    }
-
-    &--vote-down {
-      .comment__score {
-        color: $indigo;
-      }
-
-      .comment__down-btn::after {
-        background-color: $indigo;
-      }
-    }
-  }
-
-  &__score {
-    margin: 0px 6px;
-  }
-
-  &__down-btn,
-  &__up-btn {
-    @include reset-button;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &::before {
-      content: "";
-      position: absolute;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-    }
-
-    &::after {
-      content: "";
-      display: block;
-      width: 18px;
-      height: 18px;
-      background-color: currentcolor;
-    }
-
-    &:hover::before {
-      background-color: rgba($color: black, $alpha: 0.07);
-    }
-  }
-
-  &__down-btn::after {
-    mask: no-repeat center url(./assets/arrow-down.svg);
-  }
-
-  &__up-btn::after {
-    mask: no-repeat center url(./assets/arrow-up.svg);
   }
 
   &--deleted {

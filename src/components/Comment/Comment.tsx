@@ -1,10 +1,8 @@
 import React from "react";
-import { compactNumber } from "@utils";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
-import classNames from "classnames";
 
-import { UserContent, SubmissionHeader } from "@components";
+import { UserContent, SubmissionHeader, Voting } from "@components";
 import "./Comment.scss";
 
 type CommentProps = Comment & {
@@ -53,17 +51,8 @@ export function Comment({
           </div>
           <div className="comment__footer">
             {!locked && <button className="comment__reply-btn">Reply</button>}
-            <div
-              className={classNames(
-                "comment__voting",
-                vote && `comment__voting--vote-${vote}`
-              )}
-            >
-              <button className="comment__down-btn"></button>
-              <div className="comment__score">
-                {scoreHidden ? "–" : compactNumber(score)}
-              </div>
-              <button className="comment__up-btn"></button>
+            <div className="comment__voting">
+              <Voting score={score} scoreHidden={scoreHidden} vote={vote} />
             </div>
           </div>
         </>
