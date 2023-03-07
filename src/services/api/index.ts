@@ -216,10 +216,10 @@ export class RedditWebAPI {
       subreddit: subredditIds = [],
     } = groupBy(authorIds, getIdType);
 
-    const authors = [
-      ...await this.getUsers(userIds),
-      ...await this.getSubreddits(subredditIds),
-    ];
+    const authors = (await Promise.all([
+      this.getUsers(userIds),
+      this.getSubreddits(subredditIds),
+    ])).flat();
 
     const avatars = authors.reduce(
       (res, author) => (res[author.id] = author.avatar, res),
