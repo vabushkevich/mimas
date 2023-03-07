@@ -72,6 +72,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     title: decodeEntities(title),
     url: permalink,
     userName: author,
+    voteDirection: likes != null ? (likes ? 1 : -1) : 0,
   };
 
   if (author_fullname) post.userId = author_fullname;
@@ -79,7 +80,6 @@ export function transformPost(rawPost: Raw.Post): Post {
     post.removalReason = removalReasonMap[removed_by_category];
   }
   if (typeof edited == "number") post.dateEdited = edited * 1000;
-  if (likes != null) post.vote = likes ? "up" : "down";
 
   if (isImagePost(rawPost)) {
     const images = preview.images[0].resolutions;
@@ -205,6 +205,7 @@ function transformComment(rawComment: Raw.Comment): Comment {
     score: score,
     scoreHidden: score_hidden,
     userName: author,
+    voteDirection: likes != null ? (likes ? 1 : -1) : 0,
   };
 
   if (author_fullname) comment.userId = author_fullname;
@@ -213,7 +214,6 @@ function transformComment(rawComment: Raw.Comment): Comment {
   if (isCommentDeleted(rawComment)) {
     comment.deletedBy = getCommentDeleter(rawComment);
   }
-  if (likes != null) comment.vote = likes ? "up" : "down";
 
   return comment;
 }

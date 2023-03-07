@@ -24,7 +24,7 @@ export function BasePost({
   url,
   userId,
   userName,
-  vote,
+  voteDirection,
   children,
 }: BasePostProps) {
   const avatar = useAvatar(subredditId || userId);
@@ -52,7 +52,7 @@ export function BasePost({
             {compactNumber(commentCount)}
           </Link>
           <div className="post__voting">
-            <Voting score={score} vote={vote} />
+            <Voting score={score} voteDirection={voteDirection} />
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ export type BasePost = {
   url: string;
   userId?: string;
   userName: string;
-  vote?: "up" | "down";
+  voteDirection: VoteDirection,
 };
 
 export type LinkPost = BasePost & {
@@ -101,7 +101,7 @@ export type Comment = {
   scoreHidden: boolean;
   userId?: string;
   userName: string;
-  vote?: "up" | "down";
+  voteDirection: VoteDirection,
 };
 
 export type Submission = Post | Comment;
@@ -195,3 +195,5 @@ export type MenuItem = {
 export type Identity = {
   user: User;
 };
+
+export type VoteDirection = -1 | 0 | 1;

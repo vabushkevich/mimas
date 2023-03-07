@@ -24,7 +24,7 @@ export function Comment({
   score,
   scoreHidden,
   userName,
-  vote,
+  voteDirection,
 }: CommentProps) {
   if (deletedBy) return (
     <div className="comment comment--deleted">
@@ -52,7 +52,11 @@ export function Comment({
           <div className="comment__footer">
             {!locked && <button className="comment__reply-btn">Reply</button>}
             <div className="comment__voting">
-              <Voting score={score} scoreHidden={scoreHidden} vote={vote} />
+              <Voting
+                score={score}
+                scoreHidden={scoreHidden}
+                voteDirection={voteDirection}
+              />
             </div>
           </div>
         </>
