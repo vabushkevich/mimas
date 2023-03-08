@@ -6,6 +6,8 @@ import {
   isSortRequiresTimeInterval,
   CommentThreadList,
   Submission,
+  Post,
+  VoteDirection,
 } from "@types";
 import * as Raw from "./types";
 import {
@@ -17,11 +19,13 @@ import {
   useInfiniteQuery,
   useQueryClient,
   useMutation,
+  InfiniteData,
 } from "react-query";
 import { usePostParams } from "@hooks";
 import produce from "immer";
 import { groupBy } from "lodash-es";
 import { getIdType, getSubmissionAuthorIds } from "@utils";
+import { queryClient } from "@services/query-client";
 
 import {
   transformPost,
@@ -247,6 +251,14 @@ export class RedditWebAPI {
       (rawSubreddit) => transformSubreddit(rawSubreddit)
     );
   }
+
+  async vote(id: string, direction: number) {
+    const params = new URLSearchParams({ id, dir: String(direction) });
+    await this.#fetchWithAuth(
+      `https://oauth.reddit.com/api/vote?${params}`,
+      { method: "POST" },
+    );
+  }
 }
 
 const client = new RedditWebAPI(getAccessToken);
@@ -288,7 +300,7 @@ export function useFeedPosts(options: {
   } = options;
 
   return useInfiniteQuery(
-    [subreddit || userName, limit, sort, sortTimeInterval],
+    ["post-feed", subreddit ?? userName, limit, sort, sortTimeInterval],
     async ({ pageParam }) => {
       const posts = await client.getFeedPosts({
         ...options,
@@ -480,5 +492,44 @@ export function useMySubscriptions({ enabled = true } = {}) {
     enabled,
     queryFn: () => client.getMySubscriptions(),
     queryKey: ["my-subscriptions"],
+  });
+}
+
+function updatePostInCache(id: string, updater: (v: Post) => Post) {
+  queryClient.setQueriesData<Post>(
+    ["post", id],
+    (post) => updater(post),
+  );
+
+  queryClient.setQueriesData<InfiniteData<Post[]>>(
+    {
+      exact: false,
+      queryKey: ["post-feed"],
+    },
+    (data) => produce(data, (draft) => {
+      for (const posts of draft.pages) {
+        for (const post of posts) {
+          if (post.id == id) {
+            Object.assign(post, updater(post));
+            return;
+          }
+        }
+      }
+    }),
+  );
+}
+
+export function useVote(id: string) {
+  return useMutation({
+    mutationFn: ({ direction }: { direction: VoteDirection }) => (
+      client.vote(id, direction)
+    ),
+    onSuccess: (_, { direction }) => {
+      updatePostInCache(id, (post) => ({
+        ...post,
+        score: post.score + (direction - post.voteDirection),
+        voteDirection: direction,
+      }));
+    },
   });
 }

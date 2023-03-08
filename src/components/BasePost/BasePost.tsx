@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import type { BasePost, PostProps } from "@types";
-import { useAvatar } from "@services/api";
+import { useAvatar, useVote } from "@services/api";
 
 import { Card, SubmissionHeader, Voting } from "@components";
 import "./BasePost.scss";
@@ -21,6 +21,7 @@ export function BasePost({
     commentCount,
     dateCreated,
     dateEdited,
+    id,
     locked,
     pinned,
     score,
@@ -36,6 +37,7 @@ export function BasePost({
     ? subredditId
     : userId;
   const avatar = useAvatar(primaryAuthorId);
+  const { mutate: vote } = useVote(id);
 
   return (
     <Card>
@@ -62,7 +64,11 @@ export function BasePost({
             {compactNumber(commentCount)}
           </Link>
           <div className="post__voting">
-            <Voting score={score} voteDirection={voteDirection} />
+            <Voting
+              score={score}
+              voteDirection={voteDirection}
+              onVote={(direction) => vote({ direction })}
+            />
           </div>
         </div>
       </div>

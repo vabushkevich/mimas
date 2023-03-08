@@ -9,6 +9,7 @@ type VotingProps = {
   score: number;
   scoreHidden?: boolean;
   voteDirection: VoteDirection,
+  onVote?: (direction: VoteDirection) => void;
 };
 
 function getVoteType(voteDirection: VoteDirection) {
@@ -20,8 +21,12 @@ export function Voting({
   score,
   scoreHidden = false,
   voteDirection,
+  onVote,
 }: VotingProps) {
   const voteType = getVoteType(voteDirection);
+  const handleVote = (direction: VoteDirection) => {
+    if (onVote) onVote(direction == voteDirection ? 0 : direction);
+  };
 
   return (
     <div
@@ -30,11 +35,17 @@ export function Voting({
         voteType && `voting--vote-${voteType}`
       )}
     >
-      <button className="voting__down-btn"></button>
+      <button
+        className="voting__down-btn"
+        onClick={() => handleVote(-1)}
+      ></button>
       <div className="voting__score">
         {scoreHidden ? "–" : compactNumber(score)}
       </div>
-      <button className="voting__up-btn"></button>
+      <button
+        className="voting__up-btn"
+        onClick={() => handleVote(1)}
+      ></button>
     </div>
   );
 }
