@@ -1,14 +1,14 @@
 import React from "react";
-import { ImagePost as ImagePostProps } from "@types";
+import type { ImagePost, PostProps } from "@types";
 
 import { BasePost } from "@components";
 import "./ImagePost.scss";
 
-export function ImagePost(props: ImagePostProps) {
+export function ImagePost(props: PostProps<ImagePost>) {
   return (
     <BasePost {...props}>
-      <a className="image-post-body" href={props.image}>
-        <img src={props.image} alt="" />
+      <a className="image-post-body" href={props.post.image}>
+        <img src={props.post.image} alt="" />
       </a>
     </BasePost>
   );

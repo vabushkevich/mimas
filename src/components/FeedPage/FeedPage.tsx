@@ -40,6 +40,7 @@ export function FeedPage({ type }: FeedPageProps) {
           sort={postSorting}
           sortTimeInterval={sortTimeInterval}
           subreddit={subreddit}
+          unmarkPinned
           onSortChange={(sort) => {
             const pathname = generatePath(match.path, { sort });
             history.replace({ pathname });

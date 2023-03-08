@@ -1,33 +1,42 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
-import type { BasePost } from "@types";
+import type { BasePost, PostProps } from "@types";
 import { useAvatar } from "@services/api";
 
 import { Card, SubmissionHeader, Voting } from "@components";
 import "./BasePost.scss";
 
-type BasePostProps = BasePost & {
+type BasePostProps = PostProps<BasePost> & {
   children?: React.ReactNode;
 };
 
 export function BasePost({
-  commentCount,
-  dateCreated,
-  dateEdited,
-  locked,
-  pinned,
-  score,
-  subreddit,
-  subredditId,
-  title,
-  url,
-  userId,
-  userName,
-  voteDirection,
+  hidePin = false,
+  post,
+  primaryAuthorType = "subreddit",
   children,
 }: BasePostProps) {
-  const avatar = useAvatar(subredditId || userId);
+  const {
+    commentCount,
+    dateCreated,
+    dateEdited,
+    locked,
+    pinned,
+    score,
+    subreddit,
+    subredditId,
+    title,
+    url,
+    userId,
+    userName,
+    voteDirection,
+  } = post;
+  const primaryAuthorId = primaryAuthorType == "subreddit"
+    ? subredditId
+    : userId;
+  const avatar = useAvatar(primaryAuthorId);
+
   return (
     <Card>
       <div className="post">
@@ -36,7 +45,8 @@ export function BasePost({
           dateEdited={dateEdited}
           locked={locked}
           picture={avatar}
-          pinned={pinned}
+          pinned={!hidePin && pinned}
+          primaryAuthorType={primaryAuthorType}
           subreddit={subreddit}
           userName={userName}
         />

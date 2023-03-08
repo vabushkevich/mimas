@@ -1,14 +1,14 @@
 import React from "react";
-import { VideoPost as VideoPostProps } from "@types";
+import type { VideoPost, PostProps } from "@types";
 
 import { BasePost } from "@components";
 import "./VideoPost.scss";
 
-export function VideoPost(props: VideoPostProps) {
+export function VideoPost(props: PostProps<VideoPost>) {
   return (
     <BasePost {...props}>
       <div className="video-post-body">
-        <video src={props.video} controls></video>
+        <video src={props.post.video} controls></video>
       </div>
     </BasePost>
   );

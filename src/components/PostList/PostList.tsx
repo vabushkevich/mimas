@@ -1,35 +1,31 @@
 import React from "react";
-import { Post as PostType } from "@types";
+import { Post as PostType, AuthorType } from "@types";
 
 import { Post } from "@components";
 import "./PostList.scss";
 
 type PostListProps = {
   posts: PostType[];
-  removeSubreddit?: boolean;
+  primaryAuthorType?: AuthorType;
   unmarkPinned?: boolean;
 };
 
 export function PostList({
   posts,
-  removeSubreddit = false,
+  primaryAuthorType,
   unmarkPinned = false,
 }: PostListProps) {
   return (
     <ol className="post-list">
-      {posts.map((post) => {
-        const { id, pinned, subreddit, subredditId } = post;
-        return (
-          <li key={id} className="post-list__item">
-            <Post
-              {...post}
-              pinned={pinned && !unmarkPinned}
-              subreddit={removeSubreddit ? undefined : subreddit}
-              subredditId={removeSubreddit ? undefined : subredditId}
-            />
-          </li>
-        );
-      })}
+      {posts.map((post) => (
+        <li key={post.id} className="post-list__item">
+          <Post
+            hidePin={unmarkPinned}
+            post={post}
+            primaryAuthorType={primaryAuthorType}
+          />
+        </li>
+      ))}
     </ol>
   );
 }

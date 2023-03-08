@@ -82,6 +82,13 @@ export type ImagePost = BasePost & {
 
 export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
 
+export type PostProps<T extends BasePost> = {
+  collapsed?: boolean;
+  hidePin?: boolean;
+  post: T;
+  primaryAuthorType?: AuthorType;
+};
+
 export type Comment = {
   bodyHtml: string;
   bodyText: string;

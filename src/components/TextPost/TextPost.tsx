@@ -1,19 +1,16 @@
 import React from "react";
-import type { TextPost } from "@types";
+import type { TextPost, PostProps } from "@types";
 import classNames from "classnames";
 
 import { BasePost, UserContent } from "@components";
 import "./TextPost.scss";
 
-type TextPostProps = TextPost & {
-  collapsed?: boolean;
-};
-
-export function TextPost(props: TextPostProps) {
+export function TextPost(props: PostProps<TextPost>) {
   const {
-    bodyHtml,
-    collapsed = false,
+    post,
+    collapsed = post.bodyHtml.length > 500,
   } = props;
+  const { bodyHtml } = post;
 
   return (
     <BasePost {...props}>

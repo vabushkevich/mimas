@@ -63,9 +63,9 @@ export function PostPage() {
       <Container>
         {post && (
           <Post
-            {...post}
+            post={post}
             collapsed={false}
-            pinned={false}
+            hidePin
           />
         )}
         {isPostLoading && <PostSkeleton />}

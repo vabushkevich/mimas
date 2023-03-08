@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, formatDate } from "@utils";
-import { SubmissionDistinction } from "@types";
+import { SubmissionDistinction, AuthorType } from "@types";
 import classNames from "classnames";
 
 import defaultAvatar from "./assets/default-avatar.svg";
@@ -15,6 +15,7 @@ type SubmissionHeaderProps = {
   locked?: boolean;
   picture: string;
   pinned?: boolean;
+  primaryAuthorType?: AuthorType;
   subreddit?: string;
   userName: string;
 };
@@ -27,17 +28,19 @@ export function SubmissionHeader({
   locked,
   picture = defaultAvatar,
   pinned,
+  primaryAuthorType = "user",
   subreddit,
   userName,
 }: SubmissionHeaderProps) {
-  const primaryAuthor = subreddit || userName;
+  const subredditIsPrimaryAuthor =
+    primaryAuthorType == "subreddit" && subreddit;
   const hasStatusIcons = !!dateEdited || pinned || locked;
 
   return (
     <div className="submission-header">
       <Link
         className="submission-header__primary-author"
-        to={`/${subreddit ? "r" : "user"}/${primaryAuthor}/`}
+        to={subredditIsPrimaryAuthor ? `/r/${subreddit}` : `/user/${userName}`}
       >
         <div
           className="submission-header__picture"
@@ -50,10 +53,12 @@ export function SubmissionHeader({
             distinction && `submission-header__primary-author-name--${distinction}`,
           )}
         >
-          {primaryAuthor}
+          {subredditIsPrimaryAuthor ? subreddit : userName}
         </div>
       </Link>
-      {subreddit && <Link to={`/user/${userName}/`}>{userName}</Link>}
+      {subredditIsPrimaryAuthor && (
+        <Link to={`/user/${userName}/`}>{userName}</Link>
+      )}
       <div
         className="submission-header__date"
         title={formatDate(dateCreated)}

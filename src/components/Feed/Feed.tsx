@@ -5,6 +5,7 @@ import {
   isSortRequiresTimeInterval,
   isPostSortingMethod,
   isSortTimeInterval,
+  AuthorType,
 } from "@types";
 import { useFeedPosts } from "@services/api";
 
@@ -19,20 +20,22 @@ import {
 import "./Feed.scss";
 
 type FeedProps = {
-  removeSubreddit?: boolean;
+  primaryAuthorType?: AuthorType;
   sort?: PostSortingMethod;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
+  unmarkPinned?: boolean;
   userName?: string;
   onSortChange?: (v: PostSortingMethod) => void;
   onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
 };
 
 export function Feed({
-  removeSubreddit,
+  primaryAuthorType,
   sort,
   sortTimeInterval,
   subreddit,
+  unmarkPinned,
   userName,
   onSortChange = () => { },
   onSortTimeIntervalChange = () => { },
@@ -93,7 +96,11 @@ export function Feed({
           </div>
         </Card>
       </div>
-      <PostList posts={posts} removeSubreddit={removeSubreddit} />
+      <PostList
+        posts={posts}
+        primaryAuthorType={primaryAuthorType}
+        unmarkPinned={unmarkPinned}
+      />
       {isFetching && <PostListSkeleton />}
       {hasNextPage && (
         <IntersectionDetector

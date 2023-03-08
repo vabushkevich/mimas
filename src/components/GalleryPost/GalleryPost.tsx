@@ -1,14 +1,14 @@
 import React from "react";
-import { GalleryPost as GalleryPostProps } from "@types";
+import type { GalleryPost, PostProps } from "@types";
 
 import { BasePost, Carousel } from "@components";
 import "./GalleryPost.scss";
 
-export function GalleryPost(props: GalleryPostProps) {
+export function GalleryPost(props: PostProps<GalleryPost>) {
   return (
     <BasePost {...props}>
       <div className="gallery-post-body">
-        <Carousel images={props.images} />
+        <Carousel images={props.post.images} />
       </div>
     </BasePost>
   );

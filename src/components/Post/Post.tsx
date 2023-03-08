@@ -1,5 +1,5 @@
 import React from "react";
-import type { Post } from "@types";
+import type { Post, PostProps } from "@types";
 
 import {
   LinkPost,
@@ -9,26 +9,17 @@ import {
   ImagePost,
 } from "@components";
 
-type PostProps = Post & {
-  collapsed?: boolean;
-};
-
-export function Post(props: PostProps) {
-  switch (props.type) {
+export function Post({ post, ...rest }: PostProps<Post>) {
+  switch (post.type) {
     case "gallery":
-      return <GalleryPost {...props} />;
+      return <GalleryPost post={post} {...rest} />;
     case "image":
-      return <ImagePost {...props} />;
+      return <ImagePost post={post} {...rest} />;
     case "link":
-      return <LinkPost {...props} />;
+      return <LinkPost post={post} {...rest} />;
     case "text":
-      return (
-        <TextPost
-          {...props}
-          collapsed={props.collapsed ?? props.bodyHtml.length > 500}
-        />
-      );
+      return <TextPost post={post} {...rest} />;
     case "video":
-      return <VideoPost {...props} />;
+      return <VideoPost post={post} {...rest} />;
   }
 }

@@ -64,7 +64,7 @@ export function SubredditPage() {
           )}
         </div>
         <Feed
-          removeSubreddit
+          primaryAuthorType="user"
           sort={postSorting}
           sortTimeInterval={sortTimeInterval}
           subreddit={subredditName}
