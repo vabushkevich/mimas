@@ -5,27 +5,32 @@ import { capitalize } from "lodash-es";
 import { UserContent, SubmissionHeader, Voting } from "@components";
 import "./Comment.scss";
 
-type CommentProps = Comment & {
+type CommentProps = {
   avatar?: string;
   collapsed?: boolean;
+  comment: Comment;
 };
 
 export function Comment({
   avatar,
-  bodyHtml,
-  bySubmitter,
   collapsed = false,
-  dateCreated,
-  dateEdited,
-  deletedBy,
-  distinction,
-  locked,
-  pinned,
-  score,
-  scoreHidden,
-  userName,
-  voteDirection,
+  comment,
 }: CommentProps) {
+  const {
+    bodyHtml,
+    bySubmitter,
+    dateCreated,
+    dateEdited,
+    deletedBy,
+    distinction,
+    locked,
+    pinned,
+    score,
+    scoreHidden,
+    userName,
+    voteDirection,
+  } = comment;
+
   if (deletedBy) return (
     <div className="comment comment--deleted">
       {capitalize(deletedBy)} removed comment

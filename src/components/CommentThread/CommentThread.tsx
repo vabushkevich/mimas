@@ -28,9 +28,9 @@ export const CommentThread = memo(function CommentThread({
         onCollapseButtonClick={() => dispatch(toggleThread(commentId))}
       >
         <Comment
-          {...comment}
           avatar={commentAuthorAvatar}
           collapsed={collapsed}
+          comment={comment}
         />
       </CommentWrapper>
       {renderReplies && (
