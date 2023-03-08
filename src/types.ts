@@ -104,6 +104,7 @@ export type Comment = {
   moreChildren?: MoreItems;
   parentId: string;
   pinned: boolean;
+  postId: string;
   score: number;
   scoreHidden: boolean;
   userId?: string;

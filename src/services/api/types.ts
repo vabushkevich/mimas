@@ -83,6 +83,7 @@ export type Comment = {
     edited: number | boolean;
     is_submitter: boolean;
     likes: boolean | null;
+    link_id: string;
     locked: boolean;
     name: string;
     parent_id: string;
