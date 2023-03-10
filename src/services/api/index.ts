@@ -8,6 +8,7 @@ import {
   Submission,
   Post,
   VoteDirection,
+  Comment,
 } from "@types";
 import * as Raw from "./types";
 import {
@@ -495,7 +496,7 @@ export function useMySubscriptions({ enabled = true } = {}) {
   });
 }
 
-function updatePostInCache(id: string, updater: (v: Post) => Post) {
+function updatePostInCache({ id }: Post, updater: (v: Post) => Post) {
   queryClient.setQueriesData<Post>(
     ["post", id],
     (post) => updater(post),
@@ -519,17 +520,44 @@ function updatePostInCache(id: string, updater: (v: Post) => Post) {
   );
 }
 
-export function useVote(id: string) {
+function updateCommentInCache(
+  { id, postId }: Comment,
+  updater: (v: Comment) => Comment,
+) {
+  queryClient.setQueriesData<Comment>(
+    ["comments", "detail", id],
+    (comment) => updater(comment),
+  );
+
+  queryClient.setQueriesData<CommentThreadList>(
+    {
+      exact: false,
+      queryKey: ["post-comments", postId],
+    },
+    (data) => produce(data, (draft) => {
+      const comment = draft.comments[id];
+      if (comment) Object.assign(comment, updater(comment));
+    }),
+  );
+}
+
+export function useVote(submission: Submission) {
   return useMutation({
     mutationFn: ({ direction }: { direction: VoteDirection }) => (
-      client.vote(id, direction)
+      client.vote(submission.id, direction)
     ),
     onSuccess: (_, { direction }) => {
-      updatePostInCache(id, (post) => ({
-        ...post,
-        score: post.score + (direction - post.voteDirection),
+      const updater = <T extends Submission>(submission: T): T => ({
+        ...submission,
+        score: submission.score + (direction - submission.voteDirection),
         voteDirection: direction,
-      }));
+      });
+
+      if ("commentCount" in submission) {
+        updatePostInCache(submission, updater);
+      } else {
+        updateCommentInCache(submission, updater);
+      }
     },
   });
 }

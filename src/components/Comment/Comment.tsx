@@ -1,6 +1,7 @@
 import React from "react";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
+import { useVote } from "@services/api";
 
 import { UserContent, SubmissionHeader, Voting } from "@components";
 import "./Comment.scss";
@@ -30,6 +31,7 @@ export function Comment({
     userName,
     voteDirection,
   } = comment;
+  const { mutate: vote } = useVote(comment);
 
   if (deletedBy) return (
     <div className="comment comment--deleted">
@@ -61,6 +63,7 @@ export function Comment({
                 score={score}
                 scoreHidden={scoreHidden}
                 voteDirection={voteDirection}
+                onVote={(direction) => vote({ direction })}
               />
             </div>
           </div>

@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
-import type { BasePost, PostProps } from "@types";
+import type { Post, PostProps } from "@types";
 import { useAvatar, useVote } from "@services/api";
 
 import { Card, SubmissionHeader, Voting } from "@components";
 import "./BasePost.scss";
 
-type BasePostProps = PostProps<BasePost> & {
+type BasePostProps = PostProps<Post> & {
   children?: React.ReactNode;
 };
 
@@ -37,7 +37,7 @@ export function BasePost({
     ? subredditId
     : userId;
   const avatar = useAvatar(primaryAuthorId);
-  const { mutate: vote } = useVote(id);
+  const { mutate: vote } = useVote(post);
 
   return (
     <Card>
