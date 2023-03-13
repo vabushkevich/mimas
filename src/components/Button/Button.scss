@@ -16,6 +16,11 @@
   transition-property: box-shadow, background-color;
   user-select: none;
 
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   &:hover {
     background-color: $gray-300;
   }
