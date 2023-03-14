@@ -35,6 +35,7 @@ import {
   transformFullUser,
   transformSubreddit,
   transformIdentity,
+  transformComment,
 } from "./transformers";
 
 export class RedditWebAPI {
@@ -259,6 +260,23 @@ export class RedditWebAPI {
       `https://oauth.reddit.com/api/vote?${params}`,
       { method: "POST" },
     );
+  }
+
+  async comment(parentId: string, text: string) {
+    const params = new URLSearchParams({
+      api_type: "json",
+      text,
+      thing_id: parentId,
+    });
+
+    const rawComment = await this.#fetchWithAuth(
+      "https://oauth.reddit.com/api/comment",
+      { body: params, method: "POST" },
+    )
+      .then((res) => res.json() as Promise<Raw.Things<Raw.Comment>>)
+      .then((json) => json.json.data.things[0]);
+
+    return transformComment(rawComment);
   }
 }
 
@@ -541,6 +559,19 @@ function updateCommentInCache(
   );
 }
 
+function addCommentInCache(comment: Comment) {
+  queryClient.setQueriesData<CommentThreadList>(
+    {
+      exact: false,
+      queryKey: ["post-comments", comment.postId],
+    },
+    (threadList) => produce(threadList, (draft) => {
+      draft.comments[comment.id] = comment;
+      draft.rootCommentIds.unshift(comment.id);
+    }),
+  );
+}
+
 export function useVote(submission: Submission) {
   return useMutation({
     mutationFn: ({ direction }: { direction: VoteDirection }) => (
@@ -558,6 +589,16 @@ export function useVote(submission: Submission) {
       } else {
         updateCommentInCache(submission, updater);
       }
+    },
+  });
+}
+
+export function usePostComment() {
+  return useMutation({
+    mutationFn: ({ parentId, text }: { parentId: string, text: string }) =>
+      client.comment(parentId, text),
+    onSuccess: (comment) => {
+      addCommentInCache(comment);
     },
   });
 }

@@ -169,7 +169,7 @@ export function transformCommentListItems(
   return { comments, moreComments, rootCommentIds };
 }
 
-function transformComment(rawComment: Raw.Comment): Comment {
+export function transformComment(rawComment: Raw.Comment): Comment {
   const {
     data: {
       author_fullname,

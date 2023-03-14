@@ -1,0 +1,20 @@
+@use "@sass/variables" as *;
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+
+  textarea {
+    margin-bottom: 10px;
+    border: 1px solid $gray-500;
+    border-radius: 4px;
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    resize: vertical;
+  }
+
+  &__button {
+    align-self: flex-end;
+  }
+}

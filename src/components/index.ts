@@ -45,6 +45,7 @@ import { Skeleton } from "./Skeleton/Skeleton";
 import { AuthPage } from "./AuthPage/AuthPage";
 import { Voting } from "./Voting/Voting";
 import { VotingSkeleton } from "./Voting/VotingSkeleton";
+import { CommentForm } from "./CommentForm/CommentForm";
 
 export {
   Post,
@@ -94,4 +95,5 @@ export {
   AuthPage,
   Voting,
   VotingSkeleton,
+  CommentForm,
 };

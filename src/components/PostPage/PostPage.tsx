@@ -6,7 +6,12 @@ import {
   Post as PostType,
   isCommentSortingMethod,
 } from "@types";
-import { usePost, usePostComments, useLoadMoreComments } from "@services/api";
+import {
+  usePost,
+  usePostComments,
+  useLoadMoreComments,
+  usePostComment,
+} from "@services/api";
 
 import {
   Post,
@@ -20,6 +25,7 @@ import {
   Alert,
   PostSkeleton,
   CommentThreadListSkeleton,
+  CommentForm,
 } from "@components";
 import "./PostPage.scss";
 
@@ -52,6 +58,8 @@ export function PostPage() {
     mutate: loadMoreComments,
     isLoading: isMoreCommentsLoading,
   } = useLoadMoreComments();
+
+  const { mutateAsync: postComment } = usePostComment();
 
   const isCommentsLoading = isPostCommentsLoading || isMoreCommentsLoading;
 
@@ -109,6 +117,13 @@ export function PostPage() {
                   <MenuItem value="old">Old</MenuItem>
                   <MenuItem value="qa">Q&A</MenuItem>
                 </DropdownMenu>
+              </Card>
+            </div>
+            <div className="post-comment-form">
+              <Card>
+                <CommentForm
+                  onSubmit={(text) => postComment({ text, parentId: postId })}
+                />
               </Card>
             </div>
             <div className="comments">
