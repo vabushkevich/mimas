@@ -560,14 +560,24 @@ function updateCommentInCache(
 }
 
 function addCommentInCache(comment: Comment) {
+  const { id, parentId, postId } = comment;
+
   queryClient.setQueriesData<CommentThreadList>(
     {
       exact: false,
-      queryKey: ["post-comments", comment.postId],
+      queryKey: ["post-comments", postId],
     },
     (threadList) => produce(threadList, (draft) => {
-      draft.comments[comment.id] = comment;
-      draft.rootCommentIds.unshift(comment.id);
+      draft.comments[id] = comment;
+      if (parentId == postId) {
+        draft.rootCommentIds.unshift(id);
+      } else {
+        const parentComment = draft.comments[parentId];
+        updateCommentInCache(parentComment, (comment) => ({
+          ...comment,
+          childIds: [id, ...comment.childIds],
+        }));
+      }
     }),
   );
 }

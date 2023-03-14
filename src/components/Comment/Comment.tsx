@@ -10,12 +10,14 @@ type CommentProps = {
   avatar?: string;
   collapsed?: boolean;
   comment: Comment;
+  onReplyButtonClick?: () => void;
 };
 
 export function Comment({
   avatar,
   collapsed = false,
   comment,
+  onReplyButtonClick,
 }: CommentProps) {
   const {
     bodyHtml,
@@ -57,7 +59,14 @@ export function Comment({
             <UserContent html={bodyHtml} />
           </div>
           <div className="comment__footer">
-            {!locked && <button className="comment__reply-btn">Reply</button>}
+            {!locked && (
+              <button
+                className="comment__reply-btn"
+                onClick={onReplyButtonClick}
+              >
+                Reply
+              </button>
+            )}
             <div className="comment__voting">
               <Voting
                 score={score}

@@ -4,23 +4,25 @@ import { Button } from "@components";
 import "./CommentForm.scss";
 
 type CommentFormProps = {
-  onSubmit?: (text: string) => Promise<unknown>;
+  onSubmit?: (text: string) => void;
+  onSuccess?: () => void;
 };
 
-export function CommentForm({ onSubmit }: CommentFormProps) {
+export function CommentForm({ onSubmit, onSuccess }: CommentFormProps) {
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <form
       className="comment-form"
-      onSubmit={async (e) => {
+      onSubmit={(e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        if (onSubmit) onSubmit(text)
+        (async () => onSubmit?.(text))()
           .then(() => setText(""))
-          .catch(() => { })
-          .finally(() => setIsSubmitting(false));
+          .finally(() => setIsSubmitting(false))
+          .then(onSuccess)
+          .catch(() => { });
       }}
     >
       <textarea
