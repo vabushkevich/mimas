@@ -1,3 +1,14 @@
+import { InfiniteData } from "react-query";
+import produce from "immer";
+import { getSubmissionAuthorIds } from "@utils";
+import { queryClient } from "@services/query-client";
+import { client } from "./client";
+import {
+  CommentThreadList,
+  Submission,
+  Post,
+  Comment,
+} from "@types";
 import * as Raw from "./types";
 
 export function isLinkPost(rawPost: Raw.Post) {
@@ -43,4 +54,91 @@ export function getCommentDeleter(rawComment: Raw.Comment) {
 
 export function getIdSuffix(id: string) {
   return id.split("_").at(-1);
+}
+
+export function updatePostInCache({ id }: Post, updater: (v: Post) => Post) {
+  queryClient.setQueriesData<Post>(
+    ["post", id],
+    (post) => updater(post),
+  );
+
+  queryClient.setQueriesData<InfiniteData<Post[]>>(
+    {
+      exact: false,
+      queryKey: ["post-feed"],
+    },
+    (data) => produce(data, (draft) => {
+      for (const posts of draft.pages) {
+        for (const post of posts) {
+          if (post.id == id) {
+            Object.assign(post, updater(post));
+            return;
+          }
+        }
+      }
+    }),
+  );
+}
+
+export function updateCommentInCache(
+  { id, postId }: Comment,
+  updater: (v: Comment) => Comment,
+) {
+  queryClient.setQueriesData<Comment>(
+    ["comments", "detail", id],
+    (comment) => updater(comment),
+  );
+
+  queryClient.setQueriesData<CommentThreadList>(
+    {
+      exact: false,
+      queryKey: ["post-comments", postId],
+    },
+    (data) => produce(data, (draft) => {
+      const comment = draft.comments[id];
+      if (comment) Object.assign(comment, updater(comment));
+    }),
+  );
+}
+
+export function addCommentInCache(comment: Comment) {
+  const { id, parentId, postId } = comment;
+
+  queryClient.setQueriesData<CommentThreadList>(
+    {
+      exact: false,
+      queryKey: ["post-comments", postId],
+    },
+    (threadList) => produce(threadList, (draft) => {
+      draft.comments[id] = comment;
+      if (parentId == postId) {
+        draft.rootCommentIds.unshift(id);
+      } else {
+        const parentComment = draft.comments[parentId];
+        updateCommentInCache(parentComment, (comment) => ({
+          ...comment,
+          childIds: [id, ...comment.childIds],
+        }));
+      }
+    }),
+  );
+}
+
+export function prefetchAvatars(submissions: Submission[]) {
+  const authorIds = getSubmissionAuthorIds(submissions);
+  const newAuthorIds = authorIds.filter((id) =>
+    !queryClient.getQueryData(["avatars", "detail", id])
+  );
+  const newAvatarsPromise = client.getAvatars(newAuthorIds);
+
+  for (const authorId of authorIds) {
+    queryClient.prefetchQuery({
+      queryFn: async () => {
+        const newAvatars = await newAvatarsPromise;
+        return newAvatars[authorId];
+      },
+      queryKey: ["avatars", "detail", authorId],
+      staleTime: Infinity,
+    });
+  }
 }

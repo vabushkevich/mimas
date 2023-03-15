@@ -5,22 +5,23 @@ import {
   SortTimeInterval,
   CommentThreadList,
   Submission,
-  Post,
   VoteDirection,
-  Comment,
 } from "@types";
 import {
   useQuery,
   useInfiniteQuery,
   useQueryClient,
   useMutation,
-  InfiniteData,
 } from "react-query";
 import { usePostParams } from "@hooks";
 import produce from "immer";
-import { getSubmissionAuthorIds } from "@utils";
-import { queryClient } from "@services/query-client";
 import { client } from "./client";
+import {
+  addCommentInCache,
+  prefetchAvatars,
+  updateCommentInCache,
+  updatePostInCache,
+} from "./utils";
 
 export function usePosts(ids: string[]) {
   return useQuery(
@@ -193,25 +194,6 @@ export function useLoadMoreComments(
   });
 }
 
-function prefetchAvatars(submissions: Submission[]) {
-  const authorIds = getSubmissionAuthorIds(submissions);
-  const newAuthorIds = authorIds.filter((id) =>
-    !queryClient.getQueryData(["avatars", "detail", id])
-  );
-  const newAvatarsPromise = client.getAvatars(newAuthorIds);
-
-  for (const authorId of authorIds) {
-    queryClient.prefetchQuery({
-      queryFn: async () => {
-        const newAvatars = await newAvatarsPromise;
-        return newAvatars[authorId];
-      },
-      queryKey: ["avatars", "detail", authorId],
-      staleTime: Infinity,
-    });
-  }
-}
-
 export function useAvatar(authorId: string) {
   const { data } = useQuery({
     queryFn: async () => {
@@ -248,74 +230,6 @@ export function useMySubscriptions({ enabled = true } = {}) {
     queryFn: () => client.getMySubscriptions(),
     queryKey: ["my-subscriptions"],
   });
-}
-
-function updatePostInCache({ id }: Post, updater: (v: Post) => Post) {
-  queryClient.setQueriesData<Post>(
-    ["post", id],
-    (post) => updater(post),
-  );
-
-  queryClient.setQueriesData<InfiniteData<Post[]>>(
-    {
-      exact: false,
-      queryKey: ["post-feed"],
-    },
-    (data) => produce(data, (draft) => {
-      for (const posts of draft.pages) {
-        for (const post of posts) {
-          if (post.id == id) {
-            Object.assign(post, updater(post));
-            return;
-          }
-        }
-      }
-    }),
-  );
-}
-
-function updateCommentInCache(
-  { id, postId }: Comment,
-  updater: (v: Comment) => Comment,
-) {
-  queryClient.setQueriesData<Comment>(
-    ["comments", "detail", id],
-    (comment) => updater(comment),
-  );
-
-  queryClient.setQueriesData<CommentThreadList>(
-    {
-      exact: false,
-      queryKey: ["post-comments", postId],
-    },
-    (data) => produce(data, (draft) => {
-      const comment = draft.comments[id];
-      if (comment) Object.assign(comment, updater(comment));
-    }),
-  );
-}
-
-function addCommentInCache(comment: Comment) {
-  const { id, parentId, postId } = comment;
-
-  queryClient.setQueriesData<CommentThreadList>(
-    {
-      exact: false,
-      queryKey: ["post-comments", postId],
-    },
-    (threadList) => produce(threadList, (draft) => {
-      draft.comments[id] = comment;
-      if (parentId == postId) {
-        draft.rootCommentIds.unshift(id);
-      } else {
-        const parentComment = draft.comments[parentId];
-        updateCommentInCache(parentComment, (comment) => ({
-          ...comment,
-          childIds: [id, ...comment.childIds],
-        }));
-      }
-    }),
-  );
 }
 
 export function useVote(submission: Submission) {
