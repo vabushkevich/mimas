@@ -17,7 +17,7 @@ import { usePostParams } from "@hooks";
 import produce from "immer";
 import { client } from "./client";
 import {
-  addCommentInCache,
+  addCommentToCache,
   prefetchAvatars,
   updateCommentInCache,
   updatePostInCache,
@@ -258,7 +258,7 @@ export function usePostComment() {
     mutationFn: ({ parentId, text }: { parentId: string, text: string }) =>
       client.comment(parentId, text),
     onSuccess: (comment) => {
-      addCommentInCache(comment);
+      addCommentToCache(comment);
     },
   });
 }

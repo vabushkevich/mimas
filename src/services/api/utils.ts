@@ -101,7 +101,7 @@ export function updateCommentInCache(
   );
 }
 
-export function addCommentInCache(comment: Comment) {
+export function addCommentToCache(comment: Comment) {
   const { id, parentId, postId } = comment;
 
   queryClient.setQueriesData<CommentThreadList>(
