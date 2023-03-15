@@ -294,10 +294,9 @@ export function usePosts(ids: string[]) {
 }
 
 export function usePost(id: string) {
-  const loadAvatars = useLoadAvatars();
   return useQuery(["post", id], async () => {
     const post = await client.getPost(id);
-    loadAvatars([post]);
+    prefetchAvatars([post]);
     return post;
   });
 }
@@ -309,7 +308,6 @@ export function useFeedPosts(options: {
   subreddit?: string;
   userName?: string;
 }) {
-  const loadAvatars = useLoadAvatars();
   const {
     limit,
     sort,
@@ -325,7 +323,7 @@ export function useFeedPosts(options: {
         ...options,
         after: pageParam,
       });
-      loadAvatars(posts);
+      prefetchAvatars(posts);
       return posts;
     },
     {
@@ -354,12 +352,11 @@ export function usePostComments(
     sort?: CommentSortingMethod;
   } = {},
 ) {
-  const loadAvatars = useLoadAvatars();
   return useQuery({
     queryKey: ["post-comments", postId, { limit, sort }],
     queryFn: async () => {
       const threadList = await client.getComments(postId, { limit, sort });
-      loadAvatars(Object.values(threadList.comments));
+      prefetchAvatars(Object.values(threadList.comments));
       return threadList;
     },
     cacheTime: 0,
@@ -400,7 +397,6 @@ export function useLoadMoreComments(
 ) {
   const { postId, sort } = usePostParams();
   const queryClient = useQueryClient();
-  const loadAvatars = useLoadAvatars();
 
   return useMutation({
     mutationFn: async () => {
@@ -431,7 +427,7 @@ export function useLoadMoreComments(
         );
       }
 
-      loadAvatars(Object.values(threadList.comments));
+      prefetchAvatars(Object.values(threadList.comments));
       return threadList;
     },
     onSuccess: (data) => {
@@ -457,34 +453,34 @@ export function useLoadMoreComments(
   });
 }
 
-function useLoadAvatars() {
-  const queryClient = useQueryClient();
+function prefetchAvatars(submissions: Submission[]) {
+  const authorIds = getSubmissionAuthorIds(submissions);
+  const newAuthorIds = authorIds.filter((id) =>
+    !queryClient.getQueryData(["avatars", "detail", id])
+  );
+  const newAvatarsPromise = client.getAvatars(newAuthorIds);
 
-  return useCallback(async (submissions: Submission[]) => {
-    const authorIds = getSubmissionAuthorIds(submissions);
-    const newAuthorIds = authorIds.filter((id) =>
-      !queryClient.getQueryData(["avatars", "detail", id])
-    );
-    const newAvatars = await client.getAvatars(newAuthorIds);
-
-    for (const authorId in newAvatars) {
-      const avatar = newAvatars[authorId];
-      queryClient.setQueryData(["avatars", "detail", authorId], avatar);
-    }
-  }, [queryClient]);
+  for (const authorId of authorIds) {
+    queryClient.prefetchQuery({
+      queryFn: async () => {
+        const newAvatars = await newAvatarsPromise;
+        return newAvatars[authorId];
+      },
+      queryKey: ["avatars", "detail", authorId],
+      staleTime: Infinity,
+    });
+  }
 }
 
 export function useAvatar(authorId: string) {
-  const queryClient = useQueryClient();
-  const { data } = useQuery(["avatars", "detail", authorId], {
-    cacheTime: Infinity,
-    queryFn: () => {
-      const avatars = queryClient.getQueryData<Record<string, string>>(
-        ["avatars"],
-      );
-      const avatar = avatars?.[authorId];
-      return avatar;
+  const { data } = useQuery({
+    queryFn: async () => {
+      const avatars = await client.getAvatars([authorId]);
+      return avatars[authorId];
     },
+    queryKey: ["avatars", "detail", authorId],
+    enabled: !!authorId,
+    cacheTime: Infinity,
   });
 
   return data;
