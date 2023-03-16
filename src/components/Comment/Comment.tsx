@@ -2,6 +2,7 @@ import React from "react";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
 import { useVote } from "@services/api";
+import { useProtection } from "@hooks";
 
 import { UserContent, SubmissionHeader, Voting } from "@components";
 import "./Comment.scss";
@@ -33,7 +34,9 @@ export function Comment({
     userName,
     voteDirection,
   } = comment;
-  const { mutate: vote } = useVote(comment);
+  const { mutate: mutateVote } = useVote(comment);
+  const vote = useProtection(mutateVote);
+  const handleReplyButtonClick = useProtection(onReplyButtonClick);
 
   if (deletedBy) return (
     <div className="comment comment--deleted">
@@ -62,7 +65,7 @@ export function Comment({
             {!locked && (
               <button
                 className="comment__reply-btn"
-                onClick={onReplyButtonClick}
+                onClick={handleReplyButtonClick}
               >
                 Reply
               </button>
