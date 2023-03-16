@@ -12,6 +12,7 @@ import {
   useLoadMoreComments,
   usePostComment,
 } from "@services/api";
+import { useAuth, getAuthURL } from "@services/auth";
 
 import {
   Post,
@@ -26,6 +27,7 @@ import {
   PostSkeleton,
   CommentThreadListSkeleton,
   CommentForm,
+  Button,
 } from "@components";
 import "./PostPage.scss";
 
@@ -53,6 +55,7 @@ export function PostPage() {
     isLoading: isPostCommentsLoading,
   } = usePostComments(postId, { sort: commentsSorting });
   const history = useHistory();
+  const { authorized } = useAuth();
 
   const {
     mutate: loadMoreComments,
@@ -119,13 +122,30 @@ export function PostPage() {
                 </DropdownMenu>
               </Card>
             </div>
-            <div className="post-comment-form">
-              <Card>
-                <CommentForm
-                  onSubmit={(text) => postComment({ text, parentId: postId })}
-                />
-              </Card>
-            </div>
+            {authorized ? (
+              <div className="post-comment-form">
+                <Card>
+                  <CommentForm
+                    onSubmit={(text) => postComment({ text, parentId: postId })}
+                  />
+                </Card>
+              </div>
+            ) : (
+              <div className="auth-to-comment">
+                <Card>
+                  <div className="auth-to-comment__body">
+                    <div className="auth-to-comment__message">
+                      Sign in to post comments
+                    </div>
+                    <div className="auth-to-comment__button">
+                      <Button onClick={() => location.assign(getAuthURL())}>
+                        Sign in with Reddit
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            )}
             <div className="comments">
               <Card>
                 {threadList && (
