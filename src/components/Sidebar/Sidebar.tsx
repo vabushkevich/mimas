@@ -37,21 +37,23 @@ export function Sidebar() {
       </ul>
       {subreddits && (
         <ul>
-          {subreddits.map(({ avatar, name }) => (
-            <li key={name}>
-              <NavLink
-                activeClassName="sidebar__item--active"
-                className="sidebar__item"
-                to={`/r/${name}`}
-              >
-                <div
-                  className="sidebar__item-icon"
-                  style={{ backgroundImage: `url("${avatar}")` }}
-                ></div>
-                <div className="sidebar__item-text">{name}</div>
-              </NavLink>
-            </li>
-          ))}
+          {subreddits
+            .sort((a, b) => a.name > b.name ? 1 : -1)
+            .map(({ avatar, name }) => (
+              <li key={name}>
+                <NavLink
+                  activeClassName="sidebar__item--active"
+                  className="sidebar__item"
+                  to={`/r/${name}`}
+                >
+                  <div
+                    className="sidebar__item-icon"
+                    style={{ backgroundImage: `url("${avatar}")` }}
+                  ></div>
+                  <div className="sidebar__item-text">{name}</div>
+                </NavLink>
+              </li>
+            ))}
         </ul>
       )}
       {isLoading && <SidebarItemsSkeleton count={5} />}
