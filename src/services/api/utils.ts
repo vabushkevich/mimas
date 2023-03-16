@@ -111,17 +111,19 @@ export function addCommentToCache(comment: Comment) {
     },
     (threadList) => produce(threadList, (draft) => {
       draft.comments[id] = comment;
-      if (parentId == postId) {
-        draft.rootCommentIds.unshift(id);
-      } else {
-        const parentComment = draft.comments[parentId];
-        updateCommentInCache(parentComment, (comment) => ({
-          ...comment,
-          childIds: [id, ...comment.childIds],
-        }));
-      }
+      if (parentId == postId) draft.rootCommentIds.unshift(id);
     }),
   );
+
+  if (parentId != postId) {
+    const parentComment = queryClient.getQueryData<Comment>(
+      ["comments", "detail", parentId]
+    );
+    updateCommentInCache(parentComment, (comment) => ({
+      ...comment,
+      childIds: [id, ...comment.childIds],
+    }));
+  }
 }
 
 export function prefetchAvatars(submissions: Submission[]) {
