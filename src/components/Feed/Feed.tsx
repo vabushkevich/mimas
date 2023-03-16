@@ -37,8 +37,8 @@ export function Feed({
   subreddit,
   unmarkPinned,
   userName,
-  onSortChange = () => { },
-  onSortTimeIntervalChange = () => { },
+  onSortChange,
+  onSortTimeIntervalChange,
 }: FeedProps) {
   const {
     data: { pages },
@@ -64,7 +64,7 @@ export function Feed({
               label={(selectedItem) => selectedItem?.content}
               selectable
               onSelect={(value) => {
-                if (isPostSortingMethod(value)) onSortChange(value);
+                if (isPostSortingMethod(value)) onSortChange?.(value);
               }}
             >
               <MenuItem value="best">Best</MenuItem>
@@ -81,7 +81,7 @@ export function Feed({
                 selectable
                 onSelect={(value) => {
                   if (isSortTimeInterval(value)) {
-                    onSortTimeIntervalChange(value);
+                    onSortTimeIntervalChange?.(value);
                   }
                 }}
               >

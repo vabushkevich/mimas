@@ -42,7 +42,7 @@ export function DropdownMenu({
   const shouldMenuInitialize = shouldSelectDefaultItem && !menuInitialized;
 
   const onItemClick = useCallback((value: string) => {
-    if (onSelect) onSelect(value);
+    onSelect?.(value);
     setIsOpen(false);
   }, [onSelect]);
 

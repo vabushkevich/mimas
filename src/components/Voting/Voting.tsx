@@ -25,7 +25,7 @@ export function Voting({
 }: VotingProps) {
   const voteType = getVoteType(voteDirection);
   const handleVote = (direction: VoteDirection) => {
-    if (onVote) onVote(direction == voteDirection ? 0 : direction);
+    onVote?.(direction == voteDirection ? 0 : direction);
   };
 
   return (

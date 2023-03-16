@@ -28,7 +28,7 @@ export function MenuItem({
   selected ??= value != null && value == selectedItem?.value;
 
   useEffect(() => {
-    onItemRender({ value, content: children });
+    onItemRender?.({ value, content: children });
   });
 
   return (
@@ -39,7 +39,7 @@ export function MenuItem({
       )}
       onClick={() => {
         if (selectable) setSelectedItem({ value, content: children });
-        if (onClick) onClick(value);
+        onClick?.(value);
         onItemClick(value);
       }}
     >
