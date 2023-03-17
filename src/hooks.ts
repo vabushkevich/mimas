@@ -12,6 +12,7 @@ import { createId } from "@utils";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import type { RootState } from "./store";
 import { useAuth } from "@services/auth";
+import toast from "react-hot-toast";
 
 export function useToggleArrayValue<T = any>(): [T[], (value: T) => void] {
   const [array, setArray] = useState<T[]>([]);
@@ -90,6 +91,6 @@ export function useProtection<F extends (...args: any[]) => any>(fn?: F): F {
 
   return useCallback(<F>((...args: any[]) => {
     if (authorized) return fn?.(...args);
-    alert("Sign in to perform this action");
+    toast.error("Sign in to perform this action");
   }), [authorized, fn]);
 }
