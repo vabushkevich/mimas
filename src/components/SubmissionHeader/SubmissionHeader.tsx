@@ -39,19 +39,18 @@ export function SubmissionHeader({
   return (
     <div className="submission-header">
       <Link
-        className="submission-header__primary-author"
+        className={classNames([
+          "primary-author",
+          bySubmitter && "primary-author--submitter",
+          distinction && `primary-author--${distinction}`,
+          (bySubmitter || distinction) && "primary-author--highlighted",
+        ])}
         to={subredditIsPrimaryAuthor ? `/r/${subreddit}` : `/user/${userName}`}
       >
-        <div className="submission-header__picture">
+        <div className="primary-author__picture">
           <Avatar picture={picture} size="xs" />
         </div>
-        <div
-          className={classNames(
-            "submission-header__primary-author-name",
-            bySubmitter && "submission-header__primary-author-name--submitter",
-            distinction && `submission-header__primary-author-name--${distinction}`,
-          )}
-        >
+        <div className="primary-author__name">
           {subredditIsPrimaryAuthor ? subreddit : userName}
         </div>
       </Link>

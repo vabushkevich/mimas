@@ -13,39 +13,6 @@
     color: $color-inline-action-hover;
   }
 
-  &__primary-author {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-  }
-
-  &__picture {
-    margin-right: 4px;
-  }
-
-  &__primary-author-name {
-    &--submitter,
-    &--moderator,
-    &--admin {
-      padding: 2px 4px;
-      border-radius: 4px;
-      color: white;
-      line-height: 1;
-    }
-
-    &--submitter {
-      background-color: #68b2f3;
-    }
-
-    &--moderator {
-      background-color: #59cc63;
-    }
-
-    &--admin {
-      background-color: #ff8040;
-    }
-  }
-
   &__status-icons {
     display: flex;
 
@@ -70,5 +37,38 @@
 
   &__lock-icon {
     mask: no-repeat center url(./assets/lock.svg);
+  }
+}
+
+.primary-author {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+
+  &__picture {
+    margin-right: 4px;
+  }
+
+  &--highlighted &__name {
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: white;
+    line-height: 1;
+  }
+
+  &--highlighted:hover &__name {
+    opacity: 0.8;
+  }
+
+  &--submitter &__name {
+    background-color: #68b2f3;
+  }
+
+  &--moderator &__name {
+    background-color: #59cc63;
+  }
+
+  &--admin &__name {
+    background-color: #ff8040;
   }
 }
