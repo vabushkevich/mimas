@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSidebarSubreddits } from "./hooks";
 import { useAuth } from "@services/auth";
 
+import { Avatar } from "@components";
 import { SidebarItemsSkeleton } from "./SidebarItemsSkeleton";
 import "./Sidebar.scss";
 
@@ -46,10 +47,9 @@ export function Sidebar() {
                   className="sidebar__item"
                   to={`/r/${name}`}
                 >
-                  <div
-                    className="sidebar__item-icon"
-                    style={{ backgroundImage: `url("${avatar}")` }}
-                  ></div>
+                  <div className="sidebar__item-icon">
+                    <Avatar picture={avatar} size="sm" />
+                  </div>
                   <div className="sidebar__item-text">{name}</div>
                 </NavLink>
               </li>

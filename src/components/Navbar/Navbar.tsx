@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth, getAuthURL } from "@services/auth";
 import { useIdentity } from "@services/api";
 
-import { Button, DropdownMenu, MenuItem } from "@components";
+import { Button, DropdownMenu, MenuItem, Avatar } from "@components";
 import "./Navbar.scss";
 
 export function Navbar() {
@@ -23,10 +23,9 @@ export function Navbar() {
             alignRight
             button={(
               <button className="user-menu-btn">
-                <span
-                  className="user-menu-btn__picture"
-                  style={{ backgroundImage: `url("${user.avatar}")` }}
-                ></span>
+                <span className="user-menu-btn__picture">
+                  <Avatar picture={user.avatar} size="md" />
+                </span>
                 <span className="user-menu-btn__icon"></span>
               </button>
             )}

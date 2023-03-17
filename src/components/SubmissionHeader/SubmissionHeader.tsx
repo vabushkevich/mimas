@@ -4,7 +4,7 @@ import { formatDistanceToNow, formatDate } from "@utils";
 import { SubmissionDistinction, AuthorType } from "@types";
 import classNames from "classnames";
 
-import defaultAvatar from "./assets/default-avatar.svg";
+import { Avatar } from "@components";
 import "./SubmissionHeader.scss";
 
 type SubmissionHeaderProps = {
@@ -13,7 +13,7 @@ type SubmissionHeaderProps = {
   dateEdited?: number;
   distinction?: SubmissionDistinction;
   locked?: boolean;
-  picture: string;
+  picture?: string;
   pinned?: boolean;
   primaryAuthorType?: AuthorType;
   subreddit?: string;
@@ -26,7 +26,7 @@ export function SubmissionHeader({
   dateEdited,
   distinction,
   locked,
-  picture = defaultAvatar,
+  picture,
   pinned,
   primaryAuthorType = "user",
   subreddit,
@@ -42,10 +42,9 @@ export function SubmissionHeader({
         className="submission-header__primary-author"
         to={subredditIsPrimaryAuthor ? `/r/${subreddit}` : `/user/${userName}`}
       >
-        <div
-          className="submission-header__picture"
-          style={{ backgroundImage: `url("${picture}")` }}
-        ></div>
+        <div className="submission-header__picture">
+          <Avatar picture={picture} size="xs" />
+        </div>
         <div
           className={classNames(
             "submission-header__primary-author-name",

@@ -46,6 +46,7 @@ import { AuthPage } from "./AuthPage/AuthPage";
 import { Voting } from "./Voting/Voting";
 import { VotingSkeleton } from "./Voting/VotingSkeleton";
 import { CommentForm } from "./CommentForm/CommentForm";
+import { Avatar } from "./Avatar/Avatar";
 
 export {
   Post,
@@ -96,4 +97,5 @@ export {
   Voting,
   VotingSkeleton,
   CommentForm,
+  Avatar,
 };

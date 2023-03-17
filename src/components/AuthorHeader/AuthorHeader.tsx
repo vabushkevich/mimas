@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, Stat } from "@components";
+import { Card, Stat, Avatar } from "@components";
 import "./AuthorHeader.scss";
 
 type AuthorHeaderProps = {
@@ -23,10 +23,9 @@ export function AuthorHeader({
   return (
     <div className="author-header">
       <Card>
-        <div
-          className="author-header__picture"
-          style={{ backgroundImage: `url("${picture}")` }}
-        ></div>
+        <div className="author-header__picture">
+          <Avatar picture={picture} />
+        </div>
         <div className="author-header__name">{name}</div>
         {description && (
           <div className="author-header__description">

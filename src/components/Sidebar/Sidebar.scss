@@ -39,13 +39,7 @@
   }
 
   &__item-icon {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
     margin-right: 12px;
-    background: no-repeat center / 100% white;
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 15%);
   }
 
   &__item-text {

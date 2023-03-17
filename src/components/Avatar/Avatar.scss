@@ -1,0 +1,31 @@
+.avatar {
+  $size-xs: 20px;
+  $size-sm: 24px;
+  $size-md: 30px;
+
+  width: 100%;
+  height: 100%;
+  background: no-repeat center / 100%;
+  border-radius: 50%;
+
+  &--size_xs,
+  &--size_sm,
+  &--size_md {
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 15%);
+  }
+
+  &--size_xs {
+    width: $size-xs;
+    height: $size-xs;
+  }
+
+  &--size_sm {
+    width: $size-sm;
+    height: $size-sm;
+  }
+
+  &--size_md {
+    width: $size-md;
+    height: $size-md;
+  }
+}
