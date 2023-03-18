@@ -2,7 +2,7 @@ import React from "react";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
 import { useVote } from "@services/api";
-import { useProtection } from "@hooks";
+import { useAuthGuard } from "@hooks";
 
 import { UserContent, SubmissionHeader, Voting } from "@components";
 import "./Comment.scss";
@@ -35,8 +35,8 @@ export function Comment({
     voteDirection,
   } = comment;
   const { mutate: mutateVote } = useVote(comment);
-  const vote = useProtection(mutateVote);
-  const handleReplyButtonClick = useProtection(onReplyButtonClick);
+  const vote = useAuthGuard(mutateVote);
+  const handleReplyButtonClick = useAuthGuard(onReplyButtonClick);
 
   if (deletedBy) return (
     <div className="comment comment--deleted">

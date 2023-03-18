@@ -86,7 +86,7 @@ export function usePostParams() {
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export function useProtection<F extends (...args: any[]) => any>(fn?: F): F {
+export function useAuthGuard<F extends (...args: any[]) => any>(fn?: F): F {
   const { authorized } = useAuth();
 
   return useCallback(<F>((...args: any[]) => {

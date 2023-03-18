@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import type { Post, PostProps } from "@types";
 import { useAvatar, useVote } from "@services/api";
-import { useProtection } from "@hooks";
+import { useAuthGuard } from "@hooks";
 
 import { Card, SubmissionHeader, Voting } from "@components";
 import "./BasePost.scss";
@@ -39,7 +39,7 @@ export function BasePost({
     : userId;
   const avatar = useAvatar(primaryAuthorId);
   const { mutate: mutateVote } = useVote(post);
-  const vote = useProtection(mutateVote);
+  const vote = useAuthGuard(mutateVote);
 
   return (
     <Card>
