@@ -62,14 +62,13 @@ export function Comment({
             <UserContent html={bodyHtml} />
           </div>
           <div className="comment__footer">
-            {!locked && (
-              <button
-                className="comment__reply-btn"
-                onClick={handleReplyButtonClick}
-              >
-                Reply
-              </button>
-            )}
+            <button
+              className="comment__reply-btn"
+              disabled={locked}
+              onClick={handleReplyButtonClick}
+            >
+              Reply
+            </button>
             <div className="comment__voting">
               <Voting
                 score={score}
