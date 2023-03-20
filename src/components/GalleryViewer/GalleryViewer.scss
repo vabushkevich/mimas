@@ -1,0 +1,113 @@
+@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
+
+.gallery-viewer {
+  $padding: 60px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: $padding;
+  color: white;
+  z-index: $z-index-fixed;
+
+  &__background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: black, $alpha: 0.8);
+    cursor: pointer;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-height: 100%;
+  }
+
+  &__view-area {
+    display: flex;
+    align-self: stretch;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__prev-page-btn,
+  &__next-page-btn {
+    @include reset-button;
+
+    position: absolute;
+    width: 33%;
+    height: 100%;
+    opacity: 0.3;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  &__prev-page-btn {
+    background: no-repeat left 30px center / 40px url(./assets/arrow-left.svg);
+  }
+
+  &__next-page-btn {
+    right: 0;
+    background: no-repeat right 30px center / 40px url(./assets/arrow-right.svg);
+  }
+
+  &__image {
+    flex-grow: 1;
+    max-width: 100%;
+    cursor: pointer;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__caption {
+    margin-top: 20px;
+    max-width: 60%;
+  }
+
+  &__counter {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    height: $padding;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  &__close-btn {
+    @include reset-button;
+
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    width: 22px;
+    height: 22px;
+    background: no-repeat center / 100% url(./assets/cross.svg);
+    opacity: 0.4;
+  }
+
+  &__close-btn:hover,
+  &__background:hover~&__close-btn {
+    opacity: 0.9;
+  }
+}

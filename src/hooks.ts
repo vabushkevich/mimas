@@ -94,3 +94,74 @@ export function useAuthGuard<F extends (...args: any[]) => any>(fn?: F): F {
     toast.error("Sign in to perform this action");
   }), [authorized, fn]);
 }
+
+export function useCounter({
+  initialCount,
+  min = -Infinity,
+  max = Infinity,
+}: {
+  initialCount: number;
+  min?: number;
+  max?: number;
+}) {
+  const [count, setCount] = useState(initialCount);
+
+  const decrement = () => {
+    setCount(Math.max(min, count - 1));
+  };
+
+  const increment = () => {
+    setCount(Math.min(count + 1, max));
+  };
+
+  const set = (value: number) => {
+    setCount(Math.min(Math.max(min, value), max));
+  };
+
+  const reset = () => {
+    setCount(initialCount);
+  };
+
+  return { count, decrement, increment, set, reset };
+}
+
+export function usePagination({
+  initialPage,
+  pageCount,
+  infinite = false,
+}: {
+  initialPage: number;
+  pageCount: number;
+  infinite?: boolean;
+}) {
+  const firstPage = 0;
+  const lastPage = pageCount - 1;
+  const {
+    count: page,
+    decrement: decrementPage,
+    increment: incrementPage,
+    set: setPage,
+  } = useCounter({
+    initialCount: initialPage,
+    min: firstPage,
+    max: lastPage,
+  });
+
+  const prevPage = () => {
+    if (infinite && page <= firstPage) {
+      setPage(lastPage);
+    } else {
+      decrementPage();
+    }
+  };
+
+  const nextPage = () => {
+    if (infinite && page >= lastPage) {
+      setPage(firstPage);
+    } else {
+      incrementPage();
+    }
+  };
+
+  return { page, prevPage, nextPage, setPage };
+}
