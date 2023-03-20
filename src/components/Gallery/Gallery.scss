@@ -1,0 +1,72 @@
+@use "@sass/mixins" as *;
+
+.gallery {
+  display: grid;
+  position: relative;
+  height: 100%;
+  gap: 5px;
+
+  &__more-count {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    line-height: 1;
+    color: white;
+    background-color: rgba($color: black, $alpha: 0.4);
+    pointer-events: none;
+  }
+
+  &--item-count_2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &--item-count_3 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    .gallery-item:nth-child(1) {
+      grid-row: span 2;
+    }
+  }
+
+  &--item-count_4 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  &--item-count_5 {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr 1fr;
+
+    .gallery-item:nth-child(1),
+    .gallery-item:nth-child(2) {
+      grid-column: span 3;
+    }
+
+    .gallery-item:nth-child(n+3) {
+      grid-column: span 2;
+    }
+  }
+
+  &--item-count_6 {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+.gallery-item {
+  @include reset-button;
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

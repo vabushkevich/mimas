@@ -100,16 +100,27 @@ export function transformPost(rawPost: Raw.Post): Post {
   }
 
   if (isGalleryPost(rawPost)) {
-    const images = gallery_data.items.reduce((out, item) => {
-      const images = media_metadata[item.media_id].p;
-      const image = findLast(images, (item) => item.x <= 640);
-      out.push(decodeEntities(image.u));
-      return out;
-    }, []);
+    const galleryItems = gallery_data.items.map(({ media_id, caption }) => {
+      const { p: rawSizes, s: rawSource } = media_metadata[media_id];
+      return {
+        id: media_id,
+        caption,
+        source: {
+          width: rawSource.x,
+          height: rawSource.y,
+          src: decodeEntities(rawSource.u),
+        },
+        sizes: rawSizes.map((rawSize) => ({
+          width: rawSize.x,
+          height: rawSize.y,
+          src: decodeEntities(rawSize.u),
+        })),
+      };
+    });
     return {
       ...post,
       type: "gallery",
-      images,
+      gallery: { items: galleryItems },
     };
   }
 

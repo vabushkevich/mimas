@@ -47,6 +47,7 @@ import { Voting } from "./Voting/Voting";
 import { VotingSkeleton } from "./Voting/VotingSkeleton";
 import { CommentForm } from "./CommentForm/CommentForm";
 import { Avatar } from "./Avatar/Avatar";
+import { Gallery } from "./Gallery/Gallery";
 
 export {
   Post,
@@ -98,4 +99,5 @@ export {
   VotingSkeleton,
   CommentForm,
   Avatar,
+  Gallery,
 };

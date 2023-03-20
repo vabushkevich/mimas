@@ -67,7 +67,7 @@ export type TextPost = BasePost & {
 
 export type GalleryPost = BasePost & {
   type: "gallery";
-  images: string[];
+  gallery: Gallery;
 };
 
 export type VideoPost = BasePost & {
@@ -205,3 +205,18 @@ export type Identity = {
 };
 
 export type VoteDirection = -1 | 0 | 1;
+
+export type Image = {
+  height: number;
+  src: string;
+  width: number;
+};
+
+export type Gallery = {
+  items: {
+    caption?: string;
+    id: string;
+    sizes: Image[];
+    source: Image;
+  }[];
+};

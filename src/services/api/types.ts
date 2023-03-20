@@ -7,6 +7,7 @@ export type Post = {
     edited: number | boolean;
     gallery_data?: {
       items: {
+        caption?: string;
         media_id: string;
       }[];
     };
@@ -21,6 +22,8 @@ export type Post = {
       }[];
       s: {
         u: string;
+        x: number;
+        y: number;
       };
     }>;
     media: null | {
