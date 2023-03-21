@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { findLast } from "lodash-es";
 import type { ImagePost, PostProps } from "@types";
 
-import { BasePost } from "@components";
+import { BasePost, GalleryViewer } from "@components";
 import "./ImagePost.scss";
 
 export function ImagePost(props: PostProps<ImagePost>) {
-  const { sizes, source } = props.post.image;
-  const preview = findLast(sizes, ({ width }) => width <= 960);
+  const { image } = props.post;
+  const preview = findLast(image.sizes, ({ width }) => width <= 960);
+  const gallery = { items: [{ id: "0", image }] };
+  const [showViewer, setShowViewer] = useState(false);
 
   return (
     <BasePost {...props}>
-      <a className="image-post-body" href={source.src}>
-        <img src={preview.src} alt="" />
-      </a>
+      <div className="image-post-body">
+        <button
+          className="image-post-body__image-btn"
+          onClick={() => setShowViewer(true)}
+        >
+          <img className="image-post-body__image" src={preview.src} alt="" />
+        </button>
+        {showViewer && (
+          <GalleryViewer
+            gallery={gallery}
+            onClose={() => setShowViewer(false)}
+          />
+        )}
+      </div>
     </BasePost>
   );
 }
