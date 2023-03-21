@@ -7,7 +7,6 @@ import { BasePost } from "./BasePost/BasePost";
 import { BasePostSkeleton } from "./BasePost/BasePostSkeleton";
 import { LinkPost } from "./LinkPost/LinkPost";
 import { TextPost } from "./TextPost/TextPost";
-import { Carousel } from "./Carousel/Carousel";
 import { GalleryPost } from "./GalleryPost/GalleryPost";
 import { VideoPost } from "./VideoPost/VideoPost";
 import { ImagePost } from "./ImagePost/ImagePost";
@@ -60,7 +59,6 @@ export {
   BasePostSkeleton,
   LinkPost,
   TextPost,
-  Carousel,
   GalleryPost,
   VideoPost,
   ImagePost,
