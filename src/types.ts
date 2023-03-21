@@ -77,7 +77,7 @@ export type VideoPost = BasePost & {
 
 export type ImagePost = BasePost & {
   type: "image";
-  image: string;
+  image: ResponsiveImage;
 };
 
 export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
@@ -212,11 +212,15 @@ export type Image = {
   width: number;
 };
 
+export type ResponsiveImage = {
+  sizes: Image[];
+  source: Image;
+};
+
 export type Gallery = {
   items: {
     caption?: string;
     id: string;
-    sizes: Image[];
-    source: Image;
+    image: ResponsiveImage;
   }[];
 };

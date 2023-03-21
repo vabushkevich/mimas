@@ -18,7 +18,6 @@ import {
   Identity,
 } from "@types";
 import * as Raw from "./types";
-import { findLast } from "lodash-es";
 import { decodeEntities, createId } from "@utils";
 
 const removalReasonMap: Record<
@@ -82,12 +81,24 @@ export function transformPost(rawPost: Raw.Post): Post {
   if (typeof edited == "number") post.dateEdited = edited * 1000;
 
   if (isImagePost(rawPost)) {
-    const images = preview.images[0].resolutions;
-    const image = findLast(images, (item) => item.width <= 640);
+    const { resolutions: rawSizes, source: rawSource } = preview.images[0];
+    const image = {
+      sizes: rawSizes.map(({ height, url, width }) => ({
+        height,
+        src: decodeEntities(url),
+        width,
+      })),
+      source: {
+        height: rawSource.height,
+        src: decodeEntities(rawSource.url),
+        width: rawSource.width,
+      },
+    };
+
     return {
       ...post,
       type: "image",
-      image: decodeEntities(image.url),
+      image,
     };
   }
 
@@ -105,16 +116,18 @@ export function transformPost(rawPost: Raw.Post): Post {
       return {
         id: media_id,
         caption,
-        source: {
-          width: rawSource.x,
-          height: rawSource.y,
-          src: decodeEntities(rawSource.u),
+        image: {
+          source: {
+            width: rawSource.x,
+            height: rawSource.y,
+            src: decodeEntities(rawSource.u),
+          },
+          sizes: rawSizes.map((rawSize) => ({
+            width: rawSize.x,
+            height: rawSize.y,
+            src: decodeEntities(rawSize.u),
+          })),
         },
-        sizes: rawSizes.map((rawSize) => ({
-          width: rawSize.x,
-          height: rawSize.y,
-          src: decodeEntities(rawSize.u),
-        })),
       };
     });
     return {

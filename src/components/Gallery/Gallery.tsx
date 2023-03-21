@@ -17,7 +17,7 @@ export function Gallery({ gallery, onItemClick }: GalleryProps) {
 
   return (
     <div className={`gallery gallery--item-count_${displayedItems.length}`}>
-      {displayedItems.map(({ caption, id, sizes }) => {
+      {displayedItems.map(({ caption, id, image: { sizes } }) => {
         const { src } = findLast(sizes, ({ width }) => width <= 640);
         return (
           <button

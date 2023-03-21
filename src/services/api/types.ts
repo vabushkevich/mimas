@@ -42,6 +42,11 @@ export type Post = {
           width: number;
           height: number;
         }[];
+        source: {
+          height: number;
+          url: string;
+          width: number;
+        };
       }[];
     };
     removed_by_category:
