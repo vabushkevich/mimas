@@ -51,10 +51,6 @@ export function GalleryViewer({
       <div className="gallery-viewer__background" onClick={onClose}></div>
       <div className="gallery-viewer__body">
         <div className="gallery-viewer__view-area">
-          <button
-            className="gallery-viewer__prev-page-btn"
-            onClick={prevPage}
-          ></button>
           <div className="gallery-viewer__image">
             <img
               src={image.src}
@@ -64,10 +60,18 @@ export function GalleryViewer({
               onClick={onClose}
             />
           </div>
-          <button
-            className="gallery-viewer__next-page-btn"
-            onClick={nextPage}
-          ></button>
+          {pageCount > 1 && (
+            <>
+              <button
+                className="gallery-viewer__prev-page-btn"
+                onClick={prevPage}
+              ></button>
+              <button
+                className="gallery-viewer__next-page-btn"
+                onClick={nextPage}
+              ></button>
+            </>
+          )}
         </div>
         {caption && (
           <div className="gallery-viewer__caption">
@@ -75,9 +79,11 @@ export function GalleryViewer({
           </div>
         )}
       </div>
-      <div className="gallery-viewer__counter">
-        {page + 1} of {pageCount}
-      </div>
+      {pageCount > 1 && (
+        <div className="gallery-viewer__counter">
+          {page + 1} of {pageCount}
+        </div>
+      )}
       <button className="gallery-viewer__close-btn" onClick={onClose}></button>
     </div>
   );
