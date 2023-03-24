@@ -15,10 +15,10 @@ export function ImagePost(props: PostProps<ImagePost>) {
     <BasePost {...props}>
       <div className="image-post-body">
         <button
-          className="image-post-body__image-btn"
+          className="image-post-body__image"
           onClick={() => setShowViewer(true)}
         >
-          <img className="image-post-body__image" src={preview.src} />
+          <img src={preview.src} />
         </button>
         {showViewer && (
           <GalleryViewer
