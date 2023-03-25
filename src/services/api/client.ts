@@ -243,8 +243,8 @@ class RedditWebAPI {
   async vote(id: string, direction: number) {
     const params = new URLSearchParams({ id, dir: String(direction) });
     await this.#fetchWithAuth(
-      `https://oauth.reddit.com/api/vote?${params}`,
-      { method: "POST" },
+      "https://oauth.reddit.com/api/vote",
+      { body: params, method: "POST" },
     );
   }
 
