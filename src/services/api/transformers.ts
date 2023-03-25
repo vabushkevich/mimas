@@ -18,7 +18,7 @@ import {
   Identity,
 } from "@types";
 import * as Raw from "./types";
-import { decodeEntities, createId } from "@utils";
+import { createId } from "@utils";
 
 const removalReasonMap: Record<
   Raw.Post["data"]["removed_by_category"],
@@ -68,7 +68,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     score,
     subreddit,
     subredditId: subreddit_id,
-    title: decodeEntities(title),
+    title: title,
     url: permalink,
     userName: author,
     voteDirection: likes != null ? (likes ? 1 : -1) : 0,
@@ -85,12 +85,12 @@ export function transformPost(rawPost: Raw.Post): Post {
     const image = {
       sizes: rawSizes.map(({ height, url, width }) => ({
         height,
-        src: decodeEntities(url),
+        src: url,
         width,
       })),
       source: {
         height: rawSource.height,
-        src: decodeEntities(rawSource.url),
+        src: rawSource.url,
         width: rawSource.width,
       },
     };
@@ -120,12 +120,12 @@ export function transformPost(rawPost: Raw.Post): Post {
           source: {
             width: rawSource.x,
             height: rawSource.y,
-            src: decodeEntities(rawSource.u),
+            src: rawSource.u,
           },
           sizes: rawSizes.map((rawSize) => ({
             width: rawSize.x,
             height: rawSize.y,
-            src: decodeEntities(rawSize.u),
+            src: rawSize.u,
           })),
         },
       };
@@ -141,7 +141,7 @@ export function transformPost(rawPost: Raw.Post): Post {
     return {
       ...post,
       type: "text",
-      bodyHtml: decodeEntities(selftext_html),
+      bodyHtml: selftext_html,
     };
   }
 
@@ -217,7 +217,7 @@ export function transformComment(rawComment: Raw.Comment): Comment {
   } = rawComment;
 
   const comment: Comment = {
-    bodyHtml: decodeEntities(body_html),
+    bodyHtml: body_html,
     bodyText: body,
     bySubmitter: is_submitter,
     childIds: [],
@@ -286,7 +286,7 @@ function transformShortUser(
   } = rawShortUser;
 
   return {
-    avatar: decodeEntities(profile_img),
+    avatar: profile_img,
     commentKarma: comment_karma,
     dateCreated: created_utc * 1000,
     id: userId,
@@ -310,7 +310,7 @@ function transformFullUserData(rawFullUserData: Raw.FullUser["data"]): User {
   } = rawFullUserData;
 
   return {
-    avatar: decodeEntities(icon_img),
+    avatar: icon_img,
     commentKarma: comment_karma,
     dateCreated: created_utc * 1000,
     id: createId(id, "user"),

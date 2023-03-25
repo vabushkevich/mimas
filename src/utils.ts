@@ -40,12 +40,6 @@ const durationUnits = [
   { name: "y", ms: msInYear },
 ];
 
-export function decodeEntities(str: string) {
-  const textarea = document.createElement("textarea");
-  textarea.innerHTML = str;
-  return textarea.value;
-}
-
 export function formatDistanceToNow(date: Date | number) {
   const distance = Math.abs(Date.now() - Number(date));
   return formatDuration(distance);
