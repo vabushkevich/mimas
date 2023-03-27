@@ -194,11 +194,10 @@ class RedditWebAPI {
 
   async getUsers(ids: string[]) {
     if (ids.length == 0) return [];
-    const rawShortUsers =
-      await this.#fetchWithAuth(
-        `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}&raw_json=1`,
-      )
-        .then((res) => res.json() as Promise<Record<string, Raw.ShortUser>>);
+    const rawShortUsers = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}&raw_json=1`,
+    )
+      .then((res) => res.json() as Promise<Record<string, Raw.ShortUser>>);
     return transformShortUsers(rawShortUsers);
   }
 
@@ -222,19 +221,19 @@ class RedditWebAPI {
   }
 
   async getIdentity() {
-    const rawIdentity =
-      await this.#fetchWithAuth("https://oauth.reddit.com/api/v1/me?raw_json=1")
-        .then((res) => res.json() as Promise<Raw.Identity>)
+    const rawIdentity = await this.#fetchWithAuth(
+      "https://oauth.reddit.com/api/v1/me?raw_json=1"
+    )
+      .then((res) => res.json() as Promise<Raw.Identity>)
     return transformIdentity(rawIdentity);
   }
 
   async getMySubscriptions() {
-    const rawSubreddits =
-      await this.#fetchWithAuth(
-        "https://oauth.reddit.com/subreddits/mine/subscriber"
-      )
-        .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
-        .then((json) => json.data.children);
+    const rawSubreddits = await this.#fetchWithAuth(
+      "https://oauth.reddit.com/subreddits/mine/subscriber"
+    )
+      .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
+      .then((json) => json.data.children);
     return rawSubreddits.map(
       (rawSubreddit) => transformSubreddit(rawSubreddit)
     );
