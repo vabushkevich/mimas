@@ -49,6 +49,7 @@ import { Avatar } from "./Avatar/Avatar";
 import { Gallery } from "./Gallery/Gallery";
 import { GalleryViewer } from "./GalleryViewer/GalleryViewer";
 import { Video } from "./Video/Video";
+import { GIFPost } from "./GIFPost/GIFPost";
 
 export {
   Post,
@@ -102,4 +103,5 @@ export {
   Gallery,
   GalleryViewer,
   Video,
+  GIFPost,
 };

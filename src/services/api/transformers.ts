@@ -6,6 +6,7 @@ import {
   isLinkPost,
   isTextPost,
   isVideoPost,
+  isGIFPost,
 } from "./utils";
 import {
   Post,
@@ -16,7 +17,7 @@ import {
   BasePost,
   Subreddit,
   Identity,
-  ResponsiveImage,
+  ResponsiveMedia,
 } from "@types";
 import * as Raw from "./types";
 import { createId } from "@utils";
@@ -81,9 +82,26 @@ export function transformPost(rawPost: Raw.Post): Post {
   }
   if (typeof edited == "number") post.dateEdited = edited * 1000;
 
+  if (isGIFPost(rawPost)) {
+    const rawResponsiveMedia = preview.images[0];
+    const image = transformResponsiveMediaLong(rawResponsiveMedia);
+    const video = transformResponsiveMediaLong(
+      rawResponsiveMedia.variants.mp4
+    );
+
+    return {
+      ...post,
+      type: "gif",
+      gif: {
+        preview: image,
+        video,
+      },
+    };
+  }
+
   if (isImagePost(rawPost)) {
     const rawResponsiveImage = preview.images[0];
-    const image = transformResponsiveImageLong(rawResponsiveImage);
+    const image = transformResponsiveMediaLong(rawResponsiveImage);
 
     return {
       ...post,
@@ -94,7 +112,7 @@ export function transformPost(rawPost: Raw.Post): Post {
 
   if (isVideoPost(rawPost)) {
     const rawResponsiveImage = preview.images[0];
-    const image = transformResponsiveImageLong(rawResponsiveImage);
+    const image = transformResponsiveMediaLong(rawResponsiveImage);
 
     return {
       ...post,
@@ -112,7 +130,7 @@ export function transformPost(rawPost: Raw.Post): Post {
       return {
         id: media_id,
         caption,
-        image: transformResponsiveImageShort(rawResponsiveImage),
+        image: transformResponsiveMediaShort(rawResponsiveImage),
       };
     });
 
@@ -338,11 +356,11 @@ export function transformIdentity(rawIdentity: Raw.Identity): Identity {
   }
 }
 
-function transformResponsiveImageLong(
-  rawResponsiveImage: Raw.ResponsiveImageLong,
-): ResponsiveImage {
-  const rawSizes = rawResponsiveImage.resolutions;
-  const rawSource = rawResponsiveImage.source;
+function transformResponsiveMediaLong(
+  rawResponsiveMedia: Raw.ResponsiveMediaLong,
+): ResponsiveMedia {
+  const rawSizes = rawResponsiveMedia.resolutions;
+  const rawSource = rawResponsiveMedia.source;
 
   return {
     sizes: rawSizes.map((rawSize) => ({
@@ -358,11 +376,11 @@ function transformResponsiveImageLong(
   };
 }
 
-function transformResponsiveImageShort(
-  rawResponsiveImage: Raw.ResponsiveImageShort,
-): ResponsiveImage {
-  const rawSizes = rawResponsiveImage.p;
-  const rawSource = rawResponsiveImage.s;
+function transformResponsiveMediaShort(
+  rawResponsiveMedia: Raw.ResponsiveMediaShort,
+): ResponsiveMedia {
+  const rawSizes = rawResponsiveMedia.p;
+  const rawSource = rawResponsiveMedia.s;
 
   return {
     sizes: rawSizes.map((rawSize) => ({

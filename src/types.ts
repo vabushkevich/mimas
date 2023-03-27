@@ -77,10 +77,21 @@ export type VideoPost = BasePost & {
 
 export type ImagePost = BasePost & {
   type: "image";
-  image: ResponsiveImage;
+  image: ResponsiveMedia;
 };
 
-export type Post = ImagePost | VideoPost | GalleryPost | LinkPost | TextPost;
+export type GIFPost = BasePost & {
+  type: "gif";
+  gif: GIF;
+};
+
+export type Post =
+  | ImagePost
+  | VideoPost
+  | GalleryPost
+  | LinkPost
+  | TextPost
+  | GIFPost;
 
 export type PostProps<T extends BasePost> = {
   collapsed?: boolean;
@@ -206,26 +217,31 @@ export type Identity = {
 
 export type VoteDirection = -1 | 0 | 1;
 
-export type Image = {
+export type Media = {
   height: number;
   src: string;
   width: number;
 };
 
-export type ResponsiveImage = {
-  sizes: Image[];
-  source: Image;
+export type ResponsiveMedia = {
+  sizes: Media[];
+  source: Media;
 };
 
 export type Gallery = {
   items: {
     caption?: string;
     id: string;
-    image: ResponsiveImage;
+    image: ResponsiveMedia;
   }[];
 };
 
 export type Video = {
-  preview: ResponsiveImage;
+  preview: ResponsiveMedia;
   src: string;
+};
+
+export type GIF = {
+  preview: ResponsiveMedia;
+  video: ResponsiveMedia;
 };

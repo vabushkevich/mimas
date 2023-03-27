@@ -14,7 +14,7 @@ export type Post = {
     is_video: boolean;
     likes: boolean | null;
     locked: boolean;
-    media_metadata?: Record<string, ResponsiveImageShort>;
+    media_metadata?: Record<string, ResponsiveMediaShort>;
     media: null | {
       reddit_video?: {
         hls_url: string;
@@ -25,7 +25,7 @@ export type Post = {
     permalink: string;
     post_hint?: "image";
     preview?: {
-      images: ResponsiveImageLong[];
+      images: ResponsiveMediaLong[];
     };
     removed_by_category:
       | "content_takedown"
@@ -129,7 +129,7 @@ export type Identity = FullUser["data"] & {
   // Some other fields...
 };
 
-export type ResponsiveImageShort = {
+export type ResponsiveMediaShort = {
   p: {
     u: string;
     x: number;
@@ -142,7 +142,7 @@ export type ResponsiveImageShort = {
   };
 };
 
-export type ResponsiveImageLong = {
+export type ResponsiveMediaLong = {
   resolutions: {
     height: number;
     url: string;
@@ -152,5 +152,8 @@ export type ResponsiveImageLong = {
     height: number;
     url: string;
     width: number;
+  };
+  variants?: {
+    mp4?: ResponsiveMediaLong;
   };
 };

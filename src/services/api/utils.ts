@@ -39,6 +39,10 @@ export function isImagePost(rawPost: Raw.Post) {
   return rawPost.data.post_hint === "image";
 }
 
+export function isGIFPost(rawPost: Raw.Post) {
+  return !!rawPost.data.preview?.images[0].variants?.mp4;
+}
+
 export function isCommentDeleted(rawComment: Raw.Comment) {
   const { author, body } = rawComment.data;
   if (author != "[deleted]") return false;

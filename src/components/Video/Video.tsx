@@ -4,12 +4,12 @@ import Hls from "hls.js";
 import "./Video.scss";
 
 type VideoProps = {
+  hls?: boolean;
   poster?: string;
   src: string;
-  onClick?: () => void;
 };
 
-export function Video({ poster, src }: VideoProps) {
+export function Video({ hls, poster, src }: VideoProps) {
   const [started, setStarted] = useState(false);
   const ref = useRef<HTMLVideoElement>();
 
@@ -17,6 +17,12 @@ export function Video({ poster, src }: VideoProps) {
     if (!started) return;
 
     const video = ref.current;
+
+    if (!hls) {
+      video.src = src;
+      video.play();
+      return;
+    }
 
     if (Hls.isSupported()) {
       const hls = new Hls();
@@ -27,13 +33,14 @@ export function Video({ poster, src }: VideoProps) {
     }
 
     video.play();
-  }, [started]);
+  }, [hls, src, started]);
 
   return (
     <div className="video">
       <video
         ref={ref}
         controls={started}
+        loop
         muted
         playsInline
         poster={poster}
