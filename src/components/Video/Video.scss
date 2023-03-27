@@ -1,0 +1,24 @@
+@use "@sass/mixins" as *;
+
+.video {
+  position: relative;
+  width: 100%;
+
+  video {
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-height: 100%;
+  }
+
+  &__play-btn {
+    @include reset-button;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: no-repeat center / 60px url(./assets/play-btn.svg);
+  }
+}

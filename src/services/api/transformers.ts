@@ -16,6 +16,7 @@ import {
   BasePost,
   Subreddit,
   Identity,
+  ResponsiveImage,
 } from "@types";
 import * as Raw from "./types";
 import { createId } from "@utils";
@@ -81,19 +82,8 @@ export function transformPost(rawPost: Raw.Post): Post {
   if (typeof edited == "number") post.dateEdited = edited * 1000;
 
   if (isImagePost(rawPost)) {
-    const { resolutions: rawSizes, source: rawSource } = preview.images[0];
-    const image = {
-      sizes: rawSizes.map(({ height, url, width }) => ({
-        height,
-        src: url,
-        width,
-      })),
-      source: {
-        height: rawSource.height,
-        src: rawSource.url,
-        width: rawSource.width,
-      },
-    };
+    const rawResponsiveImage = preview.images[0];
+    const image = transformResponsiveImageLong(rawResponsiveImage);
 
     return {
       ...post,
@@ -103,33 +93,29 @@ export function transformPost(rawPost: Raw.Post): Post {
   }
 
   if (isVideoPost(rawPost)) {
+    const rawResponsiveImage = preview.images[0];
+    const image = transformResponsiveImageLong(rawResponsiveImage);
+
     return {
       ...post,
       type: "video",
-      video: media.reddit_video.fallback_url,
+      video: {
+        preview: image,
+        src: media.reddit_video.hls_url,
+      },
     };
   }
 
   if (isGalleryPost(rawPost)) {
     const galleryItems = gallery_data.items.map(({ media_id, caption }) => {
-      const { p: rawSizes, s: rawSource } = media_metadata[media_id];
+      const rawResponsiveImage = media_metadata[media_id];
       return {
         id: media_id,
         caption,
-        image: {
-          source: {
-            width: rawSource.x,
-            height: rawSource.y,
-            src: rawSource.u,
-          },
-          sizes: rawSizes.map((rawSize) => ({
-            width: rawSize.x,
-            height: rawSize.y,
-            src: rawSize.u,
-          })),
-        },
+        image: transformResponsiveImageShort(rawResponsiveImage),
       };
     });
+
     return {
       ...post,
       type: "gallery",
@@ -350,4 +336,44 @@ export function transformIdentity(rawIdentity: Raw.Identity): Identity {
   return {
     user: transformFullUserData(rawIdentity),
   }
+}
+
+function transformResponsiveImageLong(
+  rawResponsiveImage: Raw.ResponsiveImageLong,
+): ResponsiveImage {
+  const rawSizes = rawResponsiveImage.resolutions;
+  const rawSource = rawResponsiveImage.source;
+
+  return {
+    sizes: rawSizes.map((rawSize) => ({
+      height: rawSize.height,
+      src: rawSize.url,
+      width: rawSize.width,
+    })),
+    source: {
+      height: rawSource.height,
+      src: rawSource.url,
+      width: rawSource.width,
+    },
+  };
+}
+
+function transformResponsiveImageShort(
+  rawResponsiveImage: Raw.ResponsiveImageShort,
+): ResponsiveImage {
+  const rawSizes = rawResponsiveImage.p;
+  const rawSource = rawResponsiveImage.s;
+
+  return {
+    sizes: rawSizes.map((rawSize) => ({
+      height: rawSize.y,
+      src: rawSize.u,
+      width: rawSize.x,
+    })),
+    source: {
+      height: rawSource.y,
+      src: rawSource.u,
+      width: rawSource.x,
+    },
+  };
 }

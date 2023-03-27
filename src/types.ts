@@ -72,7 +72,7 @@ export type GalleryPost = BasePost & {
 
 export type VideoPost = BasePost & {
   type: "video";
-  video: string;
+  video: Video;
 };
 
 export type ImagePost = BasePost & {
@@ -223,4 +223,9 @@ export type Gallery = {
     id: string;
     image: ResponsiveImage;
   }[];
+};
+
+export type Video = {
+  preview: ResponsiveImage;
+  src: string;
 };

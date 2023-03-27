@@ -14,21 +14,10 @@ export type Post = {
     is_video: boolean;
     likes: boolean | null;
     locked: boolean;
-    media_metadata?: Record<string, {
-      p: {
-        u: string;
-        x: number;
-        y: number;
-      }[];
-      s: {
-        u: string;
-        x: number;
-        y: number;
-      };
-    }>;
+    media_metadata?: Record<string, ResponsiveImageShort>;
     media: null | {
       reddit_video?: {
-        fallback_url: string;
+        hls_url: string;
       };
     };
     name: string;
@@ -36,18 +25,7 @@ export type Post = {
     permalink: string;
     post_hint?: "image";
     preview?: {
-      images: {
-        resolutions: {
-          url: string;
-          width: number;
-          height: number;
-        }[];
-        source: {
-          height: number;
-          url: string;
-          width: number;
-        };
-      }[];
+      images: ResponsiveImageLong[];
     };
     removed_by_category:
       | "content_takedown"
@@ -149,4 +127,30 @@ export type Things<T> = {
 
 export type Identity = FullUser["data"] & {
   // Some other fields...
+};
+
+export type ResponsiveImageShort = {
+  p: {
+    u: string;
+    x: number;
+    y: number;
+  }[];
+  s: {
+    u: string;
+    x: number;
+    y: number;
+  };
+};
+
+export type ResponsiveImageLong = {
+  resolutions: {
+    height: number;
+    url: string;
+    width: number;
+  }[];
+  source: {
+    height: number;
+    url: string;
+    width: number;
+  };
 };

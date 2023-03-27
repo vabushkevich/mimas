@@ -48,6 +48,7 @@ import { CommentForm } from "./CommentForm/CommentForm";
 import { Avatar } from "./Avatar/Avatar";
 import { Gallery } from "./Gallery/Gallery";
 import { GalleryViewer } from "./GalleryViewer/GalleryViewer";
+import { Video } from "./Video/Video";
 
 export {
   Post,
@@ -100,4 +101,5 @@ export {
   Avatar,
   Gallery,
   GalleryViewer,
+  Video,
 };
