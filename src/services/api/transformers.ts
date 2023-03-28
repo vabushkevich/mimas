@@ -18,6 +18,12 @@ import {
   Subreddit,
   Identity,
   ResponsiveMedia,
+  VideoPost,
+  GalleryPost,
+  GIFPost,
+  ImagePost,
+  LinkPost,
+  TextPost,
 } from "@types";
 import * as Raw from "./types";
 import { createId } from "@utils";
@@ -33,6 +39,21 @@ const removalReasonMap: Record<
 };
 
 export function transformPost(rawPost: Raw.Post): Post {
+  if (isVideoPost(rawPost)) return transformVideoPost(rawPost);
+  if (isGalleryPost(rawPost)) return transformGalleryPost(rawPost);
+  if (isGIFPost(rawPost)) return transformGIFPost(rawPost);
+  if (isImagePost(rawPost)) return transformImagePost(rawPost);
+  if (isLinkPost(rawPost)) return transformLinkPost(rawPost);
+  if (isTextPost(rawPost)) return transformTextPost(rawPost);
+
+  return {
+    ...transformBasePost(rawPost),
+    type: "text",
+    bodyHtml: "",
+  };
+}
+
+export function transformBasePost(rawPost: Raw.BasePost): BasePost {
   const {
     data: {
       archived,
@@ -40,27 +61,21 @@ export function transformPost(rawPost: Raw.Post): Post {
       author,
       created_utc,
       edited,
-      gallery_data,
       likes,
       locked,
-      media_metadata,
-      media,
       name,
       num_comments,
       permalink,
-      preview,
       removed_by_category,
       score,
-      selftext_html,
       stickied,
       subreddit,
       subreddit_id,
       title,
-      url_overridden_by_dest,
     }
   } = rawPost;
 
-  const post: BasePost = {
+  const basePost: BasePost = {
     archived,
     commentCount: num_comments,
     dateCreated: created_utc * 1000,
@@ -76,91 +91,96 @@ export function transformPost(rawPost: Raw.Post): Post {
     voteDirection: likes != null ? (likes ? 1 : -1) : 0,
   };
 
-  if (author_fullname) post.userId = author_fullname;
+  if (author_fullname) basePost.userId = author_fullname;
   if (removed_by_category) {
-    post.removalReason = removalReasonMap[removed_by_category];
+    basePost.removalReason = removalReasonMap[removed_by_category];
   }
-  if (typeof edited == "number") post.dateEdited = edited * 1000;
+  if (typeof edited == "number") basePost.dateEdited = edited * 1000;
 
-  if (isGIFPost(rawPost)) {
-    const rawResponsiveMedia = preview.images[0];
-    const image = transformResponsiveMediaLong(rawResponsiveMedia);
-    const video = transformResponsiveMediaLong(
-      rawResponsiveMedia.variants.mp4
-    );
+  return basePost;
+}
 
-    return {
-      ...post,
-      type: "gif",
-      gif: {
-        preview: image,
-        video,
-      },
-    };
-  }
-
-  if (isImagePost(rawPost)) {
-    const rawResponsiveImage = preview.images[0];
-    const image = transformResponsiveMediaLong(rawResponsiveImage);
-
-    return {
-      ...post,
-      type: "image",
-      image,
-    };
-  }
-
-  if (isVideoPost(rawPost)) {
-    const rawResponsiveImage = preview.images[0];
-    const image = transformResponsiveMediaLong(rawResponsiveImage);
-
-    return {
-      ...post,
-      type: "video",
-      video: {
-        preview: image,
-        src: media.reddit_video.hls_url,
-      },
-    };
-  }
-
-  if (isGalleryPost(rawPost)) {
-    const galleryItems = gallery_data.items.map(({ media_id, caption }) => {
-      const rawResponsiveImage = media_metadata[media_id];
-      return {
-        id: media_id,
-        caption,
-        image: transformResponsiveMediaShort(rawResponsiveImage),
-      };
-    });
-
-    return {
-      ...post,
-      type: "gallery",
-      gallery: { items: galleryItems },
-    };
-  }
-
-  if (isTextPost(rawPost)) {
-    return {
-      ...post,
-      type: "text",
-      bodyHtml: selftext_html,
-    };
-  }
-
-  if (isLinkPost(rawPost)) {
-    return {
-      ...post,
-      type: "link",
-      linkUrl: url_overridden_by_dest,
-    };
-  }
+export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
+  const {
+    preview: {
+      images: [rawPreview],
+    },
+    media,
+  } = rawPost.data;
 
   return {
-    ...post,
+    ...transformBasePost(rawPost),
+    type: "video",
+    video: {
+      preview: transformResponsiveMedia(rawPreview),
+      src: media.reddit_video.hls_url,
+    },
+  };
+}
+
+export function transformGalleryPost(rawPost: Raw.GalleryPost): GalleryPost {
+  const { gallery_data, media_metadata } = rawPost.data;
+
+  const galleryItems = gallery_data.items.map(({ media_id, caption }) => {
+    const rawResponsiveImage = media_metadata[media_id];
+    return {
+      id: media_id,
+      caption,
+      image: transformResponsiveMediaShort(rawResponsiveImage),
+    };
+  });
+
+  return {
+    ...transformBasePost(rawPost),
+    type: "gallery",
+    gallery: { items: galleryItems },
+  };
+}
+
+export function transformGIFPost(rawPost: Raw.GIFPost): GIFPost {
+  const {
+    preview: {
+      images: [rawPreview],
+    },
+  } = rawPost.data;
+
+  return {
+    ...transformBasePost(rawPost),
+    type: "gif",
+    gif: {
+      preview: transformResponsiveMedia(rawPreview),
+      video: transformResponsiveMedia(rawPreview.variants.mp4),
+    },
+  };
+}
+
+export function transformImagePost(rawPost: Raw.ImagePost): ImagePost {
+  const {
+    preview: {
+      images: [rawPreview],
+    },
+  } = rawPost.data;
+
+  return {
+    ...transformBasePost(rawPost),
+    type: "image",
+    image: transformResponsiveMedia(rawPreview),
+  };
+}
+
+export function transformLinkPost(rawPost: Raw.LinkPost): LinkPost {
+  return {
+    ...transformBasePost(rawPost),
+    type: "link",
+    linkUrl: rawPost.data.url_overridden_by_dest,
+  };
+}
+
+export function transformTextPost(rawPost: Raw.TextPost): TextPost {
+  return {
+    ...transformBasePost(rawPost),
     type: "text",
-    bodyHtml: "",
+    bodyHtml: rawPost.data.selftext_html,
   };
 }
 
@@ -356,8 +376,8 @@ export function transformIdentity(rawIdentity: Raw.Identity): Identity {
   }
 }
 
-function transformResponsiveMediaLong(
-  rawResponsiveMedia: Raw.ResponsiveMediaLong,
+function transformResponsiveMedia(
+  rawResponsiveMedia: Raw.ResponsiveMedia,
 ): ResponsiveMedia {
   const rawSizes = rawResponsiveMedia.resolutions;
   const rawSource = rawResponsiveMedia.source;

@@ -11,9 +11,9 @@ import {
 } from "@types";
 import * as Raw from "./types";
 
-export function isLinkPost(rawPost: Raw.Post) {
+export function isLinkPost(rawPost: Raw.Post): rawPost is Raw.LinkPost {
+  if (!("url_overridden_by_dest" in rawPost.data)) return false;
   const { url_overridden_by_dest } = rawPost.data;
-  if (!url_overridden_by_dest) return false;
   switch (new URL(url_overridden_by_dest).hostname) {
     case "www.reddit.com":
     case "i.redd.it":
@@ -23,24 +23,33 @@ export function isLinkPost(rawPost: Raw.Post) {
   return true;
 }
 
-export function isTextPost(rawPost: Raw.Post) {
+export function isTextPost(rawPost: Raw.Post): rawPost is Raw.TextPost {
   return typeof rawPost.data.selftext_html == "string";
 }
 
-export function isGalleryPost(rawPost: Raw.Post) {
+export function isGalleryPost(rawPost: Raw.Post): rawPost is Raw.GalleryPost {
   return "gallery_data" in rawPost.data;
 }
 
-export function isVideoPost(rawPost: Raw.Post) {
+export function isVideoPost(rawPost: Raw.Post): rawPost is Raw.VideoPost {
   return rawPost.data.is_video === true;
 }
 
-export function isImagePost(rawPost: Raw.Post) {
-  return rawPost.data.post_hint === "image";
+export function isImagePost(rawPost: Raw.Post): rawPost is Raw.ImagePost {
+  return (
+    "post_hint" in rawPost.data
+    && rawPost.data.post_hint === "image"
+  );
 }
 
-export function isGIFPost(rawPost: Raw.Post) {
-  return !!rawPost.data.preview?.images[0].variants?.mp4;
+export function isGIFPost(rawPost: Raw.Post): rawPost is Raw.GIFPost {
+  return (
+    "post_hint" in rawPost.data
+    && rawPost.data.post_hint == "image"
+    && "preview" in rawPost.data
+    && "variants" in rawPost.data.preview.images[0]
+    && "mp4" in rawPost.data.preview.images[0].variants
+  );
 }
 
 export function isCommentDeleted(rawComment: Raw.Comment) {

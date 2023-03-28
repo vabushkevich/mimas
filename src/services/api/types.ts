@@ -1,32 +1,17 @@
-export type Post = {
+export type BasePost = {
   data: {
     archived: boolean;
     author_fullname?: string;
     author: string;
     created_utc: number;
     edited: number | boolean;
-    gallery_data?: {
-      items: {
-        caption?: string;
-        media_id: string;
-      }[];
-    };
     is_video: boolean;
     likes: boolean | null;
     locked: boolean;
-    media_metadata?: Record<string, ResponsiveMediaShort>;
-    media: null | {
-      reddit_video?: {
-        hls_url: string;
-      };
-    };
+    media: {} | null;
     name: string;
     num_comments: number;
     permalink: string;
-    post_hint?: "image";
-    preview?: {
-      images: ResponsiveMediaLong[];
-    };
     removed_by_category:
       | "content_takedown"
       | "reddit"
@@ -39,9 +24,71 @@ export type Post = {
     subreddit_id: string;
     subreddit: string;
     title: string;
-    url_overridden_by_dest?: string;
   };
 };
+
+export type ImagePost = BasePost & {
+  data: {
+    post_hint: "image";
+    preview: {
+      images: ResponsiveMedia[];
+    };
+  };
+};
+
+export type VideoPost = BasePost & {
+  data: {
+    media: {
+      reddit_video: {
+        hls_url: string;
+      };
+    };
+    preview: {
+      images: ResponsiveMedia[];
+    };
+  }
+};
+
+export type GIFPost = BasePost & {
+  data: {
+    post_hint: "image";
+    preview: {
+      images: (ResponsiveMedia & Variants<"mp4">)[];
+    };
+  }
+};
+
+export type GalleryPost = BasePost & {
+  data: {
+    gallery_data: {
+      items: {
+        caption?: string;
+        media_id: string;
+      }[];
+    };
+    media_metadata: Record<string, ResponsiveMediaShort>;
+  }
+}
+
+export type TextPost = BasePost & {
+  data: {
+    selftext_html: string;
+  }
+};
+
+export type LinkPost = BasePost & {
+  data: {
+    url_overridden_by_dest: string;
+  }
+};
+
+export type Post =
+  | ImagePost
+  | VideoPost
+  | GIFPost
+  | GalleryPost
+  | TextPost
+  | LinkPost;
 
 export type Subreddit = {
   data: {
@@ -142,7 +189,7 @@ export type ResponsiveMediaShort = {
   };
 };
 
-export type ResponsiveMediaLong = {
+export type ResponsiveMedia = {
   resolutions: {
     height: number;
     url: string;
@@ -153,7 +200,10 @@ export type ResponsiveMediaLong = {
     url: string;
     width: number;
   };
-  variants?: {
-    mp4?: ResponsiveMediaLong;
+};
+
+type Variants<T extends string> = {
+  variants: {
+    [P in T]: ResponsiveMedia;
   };
 };
