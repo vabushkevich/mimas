@@ -82,13 +82,25 @@ export type LinkPost = BasePost & {
   }
 };
 
+export type YouTubePost = BasePost & {
+  data: {
+    media: {
+      oembed: {
+        html: string;
+      };
+      type: "youtube.com";
+    };
+  }
+};
+
 export type Post =
   | ImagePost
   | VideoPost
   | GIFPost
   | GalleryPost
   | TextPost
-  | LinkPost;
+  | LinkPost
+  | YouTubePost;
 
 export type Subreddit = {
   data: {

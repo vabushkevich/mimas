@@ -50,6 +50,7 @@ import { Gallery } from "./Gallery/Gallery";
 import { GalleryViewer } from "./GalleryViewer/GalleryViewer";
 import { Video } from "./Video/Video";
 import { GIFPost } from "./GIFPost/GIFPost";
+import { YouTubePost } from "./YouTubePost/YouTubePost";
 
 export {
   Post,
@@ -104,4 +105,5 @@ export {
   GalleryViewer,
   Video,
   GIFPost,
+  YouTubePost,
 };

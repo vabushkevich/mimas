@@ -7,6 +7,7 @@ import {
   isTextPost,
   isVideoPost,
   isGIFPost,
+  isYouTubePost,
 } from "./utils";
 import {
   Post,
@@ -24,6 +25,7 @@ import {
   ImagePost,
   LinkPost,
   TextPost,
+  YouTubePost,
 } from "@types";
 import * as Raw from "./types";
 import { createId } from "@utils";
@@ -39,6 +41,7 @@ const removalReasonMap: Record<
 };
 
 export function transformPost(rawPost: Raw.Post): Post {
+  if (isYouTubePost(rawPost)) return transformYouTubePost(rawPost);
   if (isVideoPost(rawPost)) return transformVideoPost(rawPost);
   if (isGalleryPost(rawPost)) return transformGalleryPost(rawPost);
   if (isGIFPost(rawPost)) return transformGIFPost(rawPost);
@@ -177,6 +180,17 @@ export function transformTextPost(rawPost: Raw.TextPost): TextPost {
     ...transformBasePost(rawPost),
     type: "text",
     bodyHtml: rawPost.data.selftext_html,
+  };
+}
+
+export function transformYouTubePost(rawPost: Raw.YouTubePost): YouTubePost {
+  const embedHTML = rawPost.data.media.oembed.html;
+  const videoId = embedHTML.match(/\/embed\/([\w-]+)/)[1];
+
+  return {
+    ...transformBasePost(rawPost),
+    type: "youtube",
+    videoId,
   };
 }
 

@@ -8,6 +8,7 @@ import {
   VideoPost,
   ImagePost,
   GIFPost,
+  YouTubePost,
 } from "@components";
 
 export function Post({ post, ...rest }: PostProps<Post>) {
@@ -24,5 +25,7 @@ export function Post({ post, ...rest }: PostProps<Post>) {
       return <VideoPost post={post} {...rest} />;
     case "gif":
       return <GIFPost post={post} {...rest} />;
+    case "youtube":
+      return <YouTubePost post={post} {...rest} />;
   }
 }

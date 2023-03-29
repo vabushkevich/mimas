@@ -52,6 +52,11 @@ export function isGIFPost(rawPost: Raw.Post): rawPost is Raw.GIFPost {
   );
 }
 
+export function isYouTubePost(rawPost: Raw.Post): rawPost is Raw.YouTubePost {
+  const { media } = rawPost.data;
+  return !!media && "type" in media && media.type == "youtube.com";
+}
+
 export function isCommentDeleted(rawComment: Raw.Comment) {
   const { author, body } = rawComment.data;
   if (author != "[deleted]") return false;

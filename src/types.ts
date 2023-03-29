@@ -87,13 +87,19 @@ export type GIFPost = BasePost & {
   video: ResponsiveMedia;
 };
 
+export type YouTubePost = BasePost & {
+  type: "youtube";
+  videoId: string;
+};
+
 export type Post =
   | ImagePost
   | VideoPost
   | GalleryPost
   | LinkPost
   | TextPost
-  | GIFPost;
+  | GIFPost
+  | YouTubePost;
 
 export type PostProps<T extends BasePost> = {
   collapsed?: boolean;
