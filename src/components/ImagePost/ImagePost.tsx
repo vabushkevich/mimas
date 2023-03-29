@@ -6,9 +6,9 @@ import { BasePost, GalleryViewer } from "@components";
 import "./ImagePost.scss";
 
 export function ImagePost(props: PostProps<ImagePost>) {
-  const { image } = props.post;
-  const preview = findLast(image.sizes, ({ width }) => width <= 960);
-  const gallery = { items: [{ id: "0", image }] };
+  const { imageVariants } = props.post;
+  const preview = findLast(imageVariants, ({ width }) => width <= 960);
+  const gallery = { items: [{ id: "0", imageVariants }] };
   const [showViewer, setShowViewer] = useState(false);
 
   return (

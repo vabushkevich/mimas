@@ -73,18 +73,18 @@ export type GalleryPost = BasePost & {
 export type VideoPost = BasePost & {
   type: "video";
   hlsURL: string;
-  preview: ResponsiveMedia;
+  previewVariants: Media[];
 };
 
 export type ImagePost = BasePost & {
   type: "image";
-  image: ResponsiveMedia;
+  imageVariants: Media[];
 };
 
 export type GIFPost = BasePost & {
   type: "gif";
-  preview: ResponsiveMedia;
-  video: ResponsiveMedia;
+  previewVariants: Media[];
+  videoVariants: Media[];
 };
 
 export type YouTubePost = BasePost & {
@@ -231,15 +231,10 @@ export type Media = {
   width: number;
 };
 
-export type ResponsiveMedia = {
-  sizes: Media[];
-  source: Media;
-};
-
 export type Gallery = {
   items: {
     caption?: string;
     id: string;
-    image: ResponsiveMedia;
+    imageVariants: Media[];
   }[];
 };

@@ -6,9 +6,9 @@ import { BasePost, Video } from "@components";
 import "./GIFPost.scss";
 
 export function GIFPost(props: PostProps<GIFPost>) {
-  const { post } = props;
-  const preview = findLast(post.preview.sizes, ({ width }) => width <= 960);
-  const video = findLast(post.video.sizes, ({ width }) => width <= 960);
+  const { previewVariants, videoVariants } = props.post;
+  const preview = findLast(previewVariants, ({ width }) => width <= 960);
+  const video = findLast(videoVariants, ({ width }) => width <= 960);
 
   return (
     <BasePost {...props}>

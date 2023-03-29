@@ -18,7 +18,7 @@ import {
   BasePost,
   Subreddit,
   Identity,
-  ResponsiveMedia,
+  Media,
   VideoPost,
   GalleryPost,
   GIFPost,
@@ -115,7 +115,7 @@ export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
     ...transformBasePost(rawPost),
     type: "video",
     hlsURL: media.reddit_video.hls_url,
-    preview: transformResponsiveMedia(rawPreview),
+    previewVariants: transformResponsiveMedia(rawPreview),
   };
 }
 
@@ -127,7 +127,7 @@ export function transformGalleryPost(rawPost: Raw.GalleryPost): GalleryPost {
     return {
       id: media_id,
       caption,
-      image: transformResponsiveMediaShort(rawResponsiveImage),
+      imageVariants: transformResponsiveMediaShort(rawResponsiveImage),
     };
   });
 
@@ -148,8 +148,8 @@ export function transformGIFPost(rawPost: Raw.GIFPost): GIFPost {
   return {
     ...transformBasePost(rawPost),
     type: "gif",
-    preview: transformResponsiveMedia(rawPreview),
-    video: transformResponsiveMedia(rawPreview.variants.mp4),
+    previewVariants: transformResponsiveMedia(rawPreview),
+    videoVariants: transformResponsiveMedia(rawPreview.variants.mp4),
   };
 }
 
@@ -163,7 +163,7 @@ export function transformImagePost(rawPost: Raw.ImagePost): ImagePost {
   return {
     ...transformBasePost(rawPost),
     type: "image",
-    image: transformResponsiveMedia(rawPreview),
+    imageVariants: transformResponsiveMedia(rawPreview),
   };
 }
 
@@ -388,40 +388,30 @@ export function transformIdentity(rawIdentity: Raw.Identity): Identity {
 
 function transformResponsiveMedia(
   rawResponsiveMedia: Raw.ResponsiveMedia,
-): ResponsiveMedia {
-  const rawSizes = rawResponsiveMedia.resolutions;
-  const rawSource = rawResponsiveMedia.source;
+): Media[] {
+  const rawMediaItems = [
+    ...rawResponsiveMedia.resolutions,
+    rawResponsiveMedia.source,
+  ];
 
-  return {
-    sizes: rawSizes.map((rawSize) => ({
-      height: rawSize.height,
-      src: rawSize.url,
-      width: rawSize.width,
-    })),
-    source: {
-      height: rawSource.height,
-      src: rawSource.url,
-      width: rawSource.width,
-    },
-  };
+  return rawMediaItems.map((rawMedia) => ({
+    height: rawMedia.height,
+    src: rawMedia.url,
+    width: rawMedia.width,
+  }));
 }
 
 function transformResponsiveMediaShort(
   rawResponsiveMedia: Raw.ResponsiveMediaShort,
-): ResponsiveMedia {
-  const rawSizes = rawResponsiveMedia.p;
-  const rawSource = rawResponsiveMedia.s;
+): Media[] {
+  const rawMediaItems = [
+    ...rawResponsiveMedia.p,
+    rawResponsiveMedia.s,
+  ];
 
-  return {
-    sizes: rawSizes.map((rawSize) => ({
-      height: rawSize.y,
-      src: rawSize.u,
-      width: rawSize.x,
-    })),
-    source: {
-      height: rawSource.y,
-      src: rawSource.u,
-      width: rawSource.x,
-    },
-  };
+  return rawMediaItems.map((rawMedia) => ({
+    height: rawMedia.y,
+    src: rawMedia.u,
+    width: rawMedia.x,
+  }));
 }

@@ -24,7 +24,8 @@ export function GalleryViewer({
     pageCount,
     infinite: true,
   });
-  const { caption, image: { source: image } } = gallery.items[page];
+  const { caption, imageVariants } = gallery.items[page];
+  const image = imageVariants.at(-1);
 
   useEffect(() => {
     const handleKeyPress = ({ key }: KeyboardEvent) => {
