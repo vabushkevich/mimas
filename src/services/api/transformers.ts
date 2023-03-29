@@ -111,10 +111,8 @@ export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
   return {
     ...transformBasePost(rawPost),
     type: "video",
-    video: {
-      preview: transformResponsiveMedia(rawPreview),
-      src: media.reddit_video.hls_url,
-    },
+    hlsURL: media.reddit_video.hls_url,
+    preview: transformResponsiveMedia(rawPreview),
   };
 }
 
@@ -147,10 +145,8 @@ export function transformGIFPost(rawPost: Raw.GIFPost): GIFPost {
   return {
     ...transformBasePost(rawPost),
     type: "gif",
-    gif: {
-      preview: transformResponsiveMedia(rawPreview),
-      video: transformResponsiveMedia(rawPreview.variants.mp4),
-    },
+    preview: transformResponsiveMedia(rawPreview),
+    video: transformResponsiveMedia(rawPreview.variants.mp4),
   };
 }
 

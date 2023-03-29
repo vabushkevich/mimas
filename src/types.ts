@@ -72,7 +72,8 @@ export type GalleryPost = BasePost & {
 
 export type VideoPost = BasePost & {
   type: "video";
-  video: Video;
+  hlsURL: string;
+  preview: ResponsiveMedia;
 };
 
 export type ImagePost = BasePost & {
@@ -82,7 +83,8 @@ export type ImagePost = BasePost & {
 
 export type GIFPost = BasePost & {
   type: "gif";
-  gif: GIF;
+  preview: ResponsiveMedia;
+  video: ResponsiveMedia;
 };
 
 export type Post =
@@ -234,14 +236,4 @@ export type Gallery = {
     id: string;
     image: ResponsiveMedia;
   }[];
-};
-
-export type Video = {
-  preview: ResponsiveMedia;
-  src: string;
-};
-
-export type GIF = {
-  preview: ResponsiveMedia;
-  video: ResponsiveMedia;
 };
