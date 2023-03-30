@@ -38,6 +38,7 @@ export type ImagePost = BasePost & {
 
 export type VideoPost = BasePost & {
   data: {
+    is_video: true;
     media: {
       reddit_video: {
         hls_url: string;
