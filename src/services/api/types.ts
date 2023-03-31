@@ -50,6 +50,17 @@ export type VideoPost = BasePost & {
   }
 };
 
+export type ExternalVideoPost = BasePost & {
+  data: {
+    preview: {
+      images: ResponsiveMedia[];
+      reddit_video_preview: {
+        hls_url: string;
+      };
+    };
+  }
+};
+
 export type GIFPost = BasePost & {
   data: {
     post_hint: "image";

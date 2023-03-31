@@ -8,6 +8,7 @@ import {
   isVideoPost,
   isGIFPost,
   isYouTubePost,
+  isExternalVideoPost,
 } from "./utils";
 import {
   Post,
@@ -43,6 +44,7 @@ const removalReasonMap: Record<
 export function transformPost(rawPost: Raw.Post): Post {
   if (isYouTubePost(rawPost)) return transformYouTubePost(rawPost);
   if (isVideoPost(rawPost)) return transformVideoPost(rawPost);
+  if (isExternalVideoPost(rawPost)) return transformExternalVideoPost(rawPost);
   if (isGalleryPost(rawPost)) return transformGalleryPost(rawPost);
   if (isGIFPost(rawPost)) return transformGIFPost(rawPost);
   if (isImagePost(rawPost)) return transformImagePost(rawPost);
@@ -115,6 +117,24 @@ export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
     ...transformBasePost(rawPost),
     type: "video",
     hlsURL: media.reddit_video.hls_url,
+    previewVariants: transformResponsiveMedia(rawPreview),
+  };
+}
+
+export function transformExternalVideoPost(
+  rawPost: Raw.ExternalVideoPost,
+): VideoPost {
+  const {
+    preview: {
+      images: [rawPreview],
+      reddit_video_preview,
+    },
+  } = rawPost.data;
+
+  return {
+    ...transformBasePost(rawPost),
+    type: "video",
+    hlsURL: reddit_video_preview.hls_url,
     previewVariants: transformResponsiveMedia(rawPreview),
   };
 }

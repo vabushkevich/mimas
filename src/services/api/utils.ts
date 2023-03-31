@@ -35,6 +35,15 @@ export function isVideoPost(rawPost: Raw.Post): rawPost is Raw.VideoPost {
   return rawPost.data.is_video === true;
 }
 
+export function isExternalVideoPost(
+  rawPost: Raw.Post,
+): rawPost is Raw.ExternalVideoPost {
+  return (
+    "preview" in rawPost.data
+    && "reddit_video_preview" in rawPost.data.preview
+  );
+}
+
 export function isImagePost(rawPost: Raw.Post): rawPost is Raw.ImagePost {
   return (
     "post_hint" in rawPost.data
