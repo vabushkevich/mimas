@@ -25,7 +25,7 @@ export function Video({ hls, poster, src }: VideoProps) {
     }
 
     if (Hls.isSupported()) {
-      const hls = new Hls();
+      const hls = new Hls({ startLevel: Infinity });
       hls.loadSource(src);
       hls.attachMedia(video);
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
