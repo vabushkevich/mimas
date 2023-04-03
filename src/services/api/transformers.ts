@@ -424,9 +424,14 @@ function transformResponsiveMedia(
 function transformResponsiveMediaShort(
   rawResponsiveMedia: Raw.ResponsiveMediaShort,
 ): Media[] {
+  const rawSource = rawResponsiveMedia.s;
   const rawMediaItems = [
     ...rawResponsiveMedia.p,
-    rawResponsiveMedia.s,
+    {
+      u: rawSource.u || rawSource.gif,
+      x: rawSource.x,
+      y: rawSource.y,
+    }
   ];
 
   return rawMediaItems.map((rawMedia) => ({

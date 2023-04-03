@@ -207,7 +207,8 @@ export type ResponsiveMediaShort = {
     y: number;
   }[];
   s: {
-    u: string;
+    gif?: string;
+    u?: string;
     x: number;
     y: number;
   };
