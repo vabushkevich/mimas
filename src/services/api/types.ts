@@ -105,6 +105,13 @@ export type YouTubePost = BasePost & {
   }
 };
 
+export type CrossPost = BasePost & {
+  data: {
+    crosspost_parent_list: [Post["data"]];
+    crosspost_parent: string;
+  }
+};
+
 export type Post =
   | ImagePost
   | VideoPost
@@ -112,7 +119,8 @@ export type Post =
   | GalleryPost
   | TextPost
   | LinkPost
-  | YouTubePost;
+  | YouTubePost
+  | CrossPost;
 
 export type Subreddit = {
   data: {

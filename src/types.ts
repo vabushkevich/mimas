@@ -92,6 +92,13 @@ export type YouTubePost = BasePost & {
   videoId: string;
 };
 
+export type CrossPost = BasePost & {
+  type: "crosspost";
+  crossPostUserId?: string;
+  crossPostUserName: string;
+  parent: Post;
+};
+
 export type Post =
   | ImagePost
   | VideoPost
@@ -99,7 +106,8 @@ export type Post =
   | LinkPost
   | TextPost
   | GIFPost
-  | YouTubePost;
+  | YouTubePost
+  | CrossPost;
 
 export type PostProps<T extends BasePost> = {
   collapsed?: boolean;

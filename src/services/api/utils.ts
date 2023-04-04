@@ -66,6 +66,10 @@ export function isYouTubePost(rawPost: Raw.Post): rawPost is Raw.YouTubePost {
   return !!media && "type" in media && media.type == "youtube.com";
 }
 
+export function isCrossPost(rawPost: Raw.Post): rawPost is Raw.CrossPost {
+  return "crosspost_parent" in rawPost.data;
+}
+
 export function isCommentDeleted(rawComment: Raw.Comment) {
   const { author, body } = rawComment.data;
   if (author != "[deleted]") return false;

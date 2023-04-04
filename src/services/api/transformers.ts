@@ -9,6 +9,7 @@ import {
   isGIFPost,
   isYouTubePost,
   isExternalVideoPost,
+  isCrossPost,
 } from "./utils";
 import {
   Post,
@@ -27,6 +28,7 @@ import {
   LinkPost,
   TextPost,
   YouTubePost,
+  CrossPost,
 } from "@types";
 import * as Raw from "./types";
 import { createId } from "@utils";
@@ -42,6 +44,7 @@ const removalReasonMap: Record<
 };
 
 export function transformPost(rawPost: Raw.Post): Post {
+  if (isCrossPost(rawPost)) return transformCrossPost(rawPost);
   if (isYouTubePost(rawPost)) return transformYouTubePost(rawPost);
   if (isVideoPost(rawPost)) return transformVideoPost(rawPost);
   if (isExternalVideoPost(rawPost)) return transformExternalVideoPost(rawPost);
@@ -212,6 +215,25 @@ export function transformYouTubePost(rawPost: Raw.YouTubePost): YouTubePost {
     type: "youtube",
     videoId,
   };
+}
+
+export function transformCrossPost(rawPost: Raw.CrossPost): CrossPost {
+  const {
+    author,
+    author_fullname,
+    crosspost_parent_list,
+  } = rawPost.data;
+
+  const crossPost: CrossPost = {
+    ...transformBasePost(rawPost),
+    type: "crosspost",
+    crossPostUserName: author,
+    parent: transformPost({ data: crosspost_parent_list[0] }),
+  };
+
+  if (author_fullname) crossPost.crossPostUserId = author_fullname;
+
+  return crossPost;
 }
 
 export function transformCommentListItems(

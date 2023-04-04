@@ -9,6 +9,7 @@ import {
   ImagePost,
   GIFPost,
   YouTubePost,
+  CrossPost,
 } from "@components";
 
 export function Post({ post, ...rest }: PostProps<Post>) {
@@ -27,5 +28,7 @@ export function Post({ post, ...rest }: PostProps<Post>) {
       return <GIFPost post={post} {...rest} />;
     case "youtube":
       return <YouTubePost post={post} {...rest} />;
+    case "crosspost":
+      return <CrossPost post={post} {...rest} />;
   }
 }

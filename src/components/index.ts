@@ -51,6 +51,7 @@ import { GalleryViewer } from "./GalleryViewer/GalleryViewer";
 import { Video } from "./Video/Video";
 import { GIFPost } from "./GIFPost/GIFPost";
 import { YouTubePost } from "./YouTubePost/YouTubePost";
+import { CrossPost } from "./CrossPost/CrossPost";
 
 export {
   Post,
@@ -106,4 +107,5 @@ export {
   Video,
   GIFPost,
   YouTubePost,
+  CrossPost,
 };
