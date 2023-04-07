@@ -30,6 +30,7 @@
 
     &--active {
       background-color: white;
+      font-weight: 600;
     }
 
     &:not(&--active):hover {

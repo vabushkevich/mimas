@@ -1,15 +1,15 @@
 @use "@sass/variables" as *;
 
 .stat {
-  font-weight: 500;
-
   &__value {
     font-size: 20px;
+    font-weight: 500;
   }
 
   &__label {
     margin-top: -2px;
     font-size: 14px;
+    font-weight: 600;
     color: $gray-700;
   }
 }

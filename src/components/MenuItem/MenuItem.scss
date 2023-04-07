@@ -18,6 +18,7 @@ $color-selected-item: hsl(205, 80%, 91%);
 
   &--selected {
     background-color: $color-selected-item;
+    font-weight: 600;
 
     &:hover {
       background-color: lighten($color: $color-selected-item, $amount: 2%);
