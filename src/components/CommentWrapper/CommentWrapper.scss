@@ -10,7 +10,7 @@
     flex-shrink: 0;
     position: relative;
     width: 2px;
-    background-color: $gray-400;
+    background-color: $gray-300;
 
     &::before {
       $offset: 5px;
@@ -23,7 +23,7 @@
     }
 
     &:hover {
-      background-color: $gray-500;
+      background-color: darken($color: $gray-300, $amount: 6%);
     }
   }
 

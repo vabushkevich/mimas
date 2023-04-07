@@ -29,12 +29,11 @@
     border-radius: 6px;
 
     &--active {
-      background-color: $gray-100;
-      font-weight: 500;
+      background-color: white;
     }
 
     &:not(&--active):hover {
-      background-color: $gray-200;
+      background-color: $gray-100;
     }
   }
 

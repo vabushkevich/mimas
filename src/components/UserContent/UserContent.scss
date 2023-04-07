@@ -31,7 +31,7 @@
   }
 
   a {
-    color: #0d78f2;
+    color: hsl(210, 80%, 45%);
 
     &:hover {
       text-decoration: underline;
@@ -81,8 +81,8 @@
 
   blockquote {
     padding-left: 0.6em;
-    border-left: 3px solid $gray-500;
-    color: $gray-600;
+    border-left: 3px solid $gray-600;
+    color: $gray-800;
   }
 
   pre,
@@ -90,7 +90,7 @@
     border-radius: 0.3em;
     font-size: 90%;
     font-family: Menlo, Consolas, Monaco, "Liberation Mono", "Lucida Console", monospace;
-    background-color: lighten($color: $gray-200, $amount: 2%);
+    background-color: $gray-200;
   }
 
   pre {
@@ -109,7 +109,7 @@
     height: 2px;
     border: none;
     margin: 1em 0;
-    background-color: $gray-400;
+    background-color: $gray-500;
   }
 
   table {
@@ -120,7 +120,7 @@
     td,
     th {
       padding: 0.35em 0.7em;
-      border: 1px solid $gray-400;
+      border: 1px solid $gray-500;
     }
 
     th {
@@ -128,7 +128,7 @@
     }
 
     tr:nth-child(2n) {
-      background-color: lighten($color: $gray-200, $amount: 4%);
+      background-color: $gray-100;
     }
   }
 }

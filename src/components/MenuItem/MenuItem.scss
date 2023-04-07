@@ -1,6 +1,8 @@
 @use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
+$color-selected-item: hsl(205, 80%, 91%);
+
 .menu-item {
   @include reset-button;
 
@@ -11,15 +13,14 @@
   white-space: nowrap;
 
   &:hover {
-    background-color: lighten($color: $gray-200, $amount: 2%);
+    background-color: $gray-200;
   }
 
   &--selected {
-    background-color: lighten($color: $primary, $amount: 40%);
-    font-weight: 500;
+    background-color: $color-selected-item;
 
     &:hover {
-      background-color: lighten($color: $primary, $amount: 36%);
+      background-color: lighten($color: $color-selected-item, $amount: 2%);
     }
   }
 }

@@ -19,7 +19,7 @@
     >* {
       width: 12px;
       height: 12px;
-      background-color: lighten($color: $gray-600, $amount: 10%);
+      background-color: $gray-600;
     }
 
     > :not(:last-child) {
@@ -57,18 +57,18 @@
   }
 
   &--highlighted:hover &__name {
-    opacity: 0.8;
+    opacity: 0.85;
   }
 
-  &--submitter &__name {
-    background-color: #68b2f3;
+  &--submitter &__name, .a {
+    background-color: hsl(208, 85%, 67%);
   }
 
-  &--moderator &__name {
-    background-color: #59cc63;
+  &--moderator &__name, .b {
+    background-color: hsl(125, 50%, 57%);
   }
 
-  &--admin &__name {
-    background-color: #ff8040;
+  &--admin &__name, .c {
+    background-color: hsl(15, 100%, 65%);
   }
 }
