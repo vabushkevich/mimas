@@ -14,9 +14,7 @@ export function Navbar() {
 
   return (
     <nav className="site-nav">
-      <Link className="site-nav__logo" to="/">
-        reddit-client
-      </Link>
+      <Link className="site-nav__logo" to="/"></Link>
       <div className="site-nav__login-btn">
         {authorized && user && (
           <DropdownMenu

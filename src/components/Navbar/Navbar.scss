@@ -14,8 +14,9 @@
   z-index: $z-index-sticky;
 
   &__logo {
-    font-size: 22px;
-    font-weight: 500;
+    width: 120px;
+    height: 35px;
+    background: no-repeat left url(./assets/logo.svg);
   }
 }
 
