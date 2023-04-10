@@ -8,17 +8,21 @@ import {
 } from "@components";
 import "./BasePost.scss";
 
-export function BasePostSkeleton() {
+type BasePostSkeletonProps = {
+  children?: React.ReactNode;
+};
+
+export function BasePostSkeleton({ children }: BasePostSkeletonProps) {
   return (
     <Card>
       <div className="post">
-        <SubmissionHeaderSkeleton />
+        <div className="post__header">
+          <SubmissionHeaderSkeleton />
+        </div>
         <h3 className="post__title">
           <Skeleton width={450} />
         </h3>
-        <div className="post__body">
-          <Skeleton rows={4} />
-        </div>
+        <div className="post__body">{children}</div>
         <div className="post__footer">
           <span className="post__comments-btn">
             <Skeleton width={30} />

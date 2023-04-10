@@ -10,7 +10,7 @@ export function SidebarItemsSkeleton({ count = 3 }) {
         <li key={i}>
           <div className="sidebar__item">
             <div className="sidebar__item-icon">
-              <Skeleton width="100%" height="100%" circle block />
+              <Skeleton width={24} height={24} circle block />
             </div>
             <div className="sidebar__item-text">
               <Skeleton width={100} />

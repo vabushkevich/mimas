@@ -1,6 +1,9 @@
 @use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .user-content {
+  @include text-content;
+
   overflow-wrap: break-word;
 
   *:first-child {

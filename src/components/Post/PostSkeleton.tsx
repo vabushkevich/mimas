@@ -1,7 +1,7 @@
 import React from "react";
 
-import { BasePostSkeleton } from "@components";
+import { TextPostSkeleton } from "@components";
 
 export function PostSkeleton() {
-  return <BasePostSkeleton />;
+  return <TextPostSkeleton />;
 }

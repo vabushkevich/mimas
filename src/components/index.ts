@@ -52,6 +52,7 @@ import { Video } from "./Video/Video";
 import { GIFPost } from "./GIFPost/GIFPost";
 import { YouTubePost } from "./YouTubePost/YouTubePost";
 import { CrossPost } from "./CrossPost/CrossPost";
+import { TextPostSkeleton } from "./TextPost/TextPostSkeleton";
 
 export {
   Post,
@@ -108,4 +109,5 @@ export {
   GIFPost,
   YouTubePost,
   CrossPost,
+  TextPostSkeleton,
 };

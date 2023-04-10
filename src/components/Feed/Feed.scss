@@ -1,10 +1,14 @@
 .feed {
   &__sort {
-    margin-bottom: 15px;
+    margin-bottom: 14px;
 
   }
 
-  &__sort-items>*:not(:last-child) {
-    margin-right: 6px;
+  &__sort-body {
+    padding: 10px;
+
+    >*:not(:last-child) {
+      margin-right: 6px;
+    }
   }
 }

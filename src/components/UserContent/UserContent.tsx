@@ -3,14 +3,17 @@ import React from "react";
 import "./UserContent.scss";
 
 type UserContentProps = {
-  html: string;
+  html?: string;
+  children?: React.ReactNode;
 };
 
-export function UserContent({ html }: UserContentProps) {
+export function UserContent({ html, children }: UserContentProps) {
   return (
     <div
       className="user-content"
-      dangerouslySetInnerHTML={{ __html: html }}
-    ></div>
+      dangerouslySetInnerHTML={html ? { __html: html } : undefined}
+    >
+      {children}
+    </div>
   );
 }

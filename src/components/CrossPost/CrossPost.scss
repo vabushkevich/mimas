@@ -1,6 +1,7 @@
 @use "@sass/variables" as *;
 
 .cross-post-body {
+  margin: 0 12px;
   border: 1px solid $gray-500;
   border-radius: 8px;
   overflow: hidden;

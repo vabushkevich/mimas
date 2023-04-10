@@ -44,5 +44,7 @@
 
   &__item-text {
     @include text-truncate;
+
+    line-height: 1.5;
   }
 }

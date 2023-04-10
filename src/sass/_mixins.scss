@@ -18,3 +18,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@mixin text-content {
+  line-height: 1.6;
+}

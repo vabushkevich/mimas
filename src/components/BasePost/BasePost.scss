@@ -1,19 +1,22 @@
 @use "@sass/variables" as *;
 
 .post {
-  &__title {
-    font-size: 20px;
-    font-weight: 500;
-    margin: 10px 0px;
-    line-height: 1.3;
+  padding: 12px 0;
+
+  &__header {
+    margin: 0 12px;
   }
 
-  &__body {
-    margin-bottom: 10px;
+  &__title {
+    margin: 8px 12px 12px;
+    line-height: 1.4;
+    font-size: 20px;
+    font-weight: 500;
   }
 
   &__footer {
     display: flex;
+    margin: 12px 12px 0;
     font-weight: 500;
 
     & a:hover {

@@ -44,16 +44,18 @@ export function BasePost({
   return (
     <Card>
       <div className="post">
-        <SubmissionHeader
-          dateCreated={dateCreated}
-          dateEdited={dateEdited}
-          locked={locked}
-          picture={avatar}
-          pinned={!hidePin && pinned}
-          primaryAuthorType={primaryAuthorType}
-          subreddit={subreddit}
-          userName={userName}
-        />
+        <div className="post__header">
+          <SubmissionHeader
+            dateCreated={dateCreated}
+            dateEdited={dateEdited}
+            locked={locked}
+            picture={avatar}
+            pinned={!hidePin && pinned}
+            primaryAuthorType={primaryAuthorType}
+            subreddit={subreddit}
+            userName={userName}
+          />
+        </div>
         <h3 className="post__title">
           <Link to={url}>{title}</Link>
         </h3>

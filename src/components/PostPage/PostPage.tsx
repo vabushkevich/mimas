@@ -83,21 +83,23 @@ export function PostPage() {
         {hasAlerts && (
           <div className="alerts">
             <Card>
-              {removalReason && (
-                <div className="alerts__item">
-                  <Alert>{removalReasonMessages[removalReason]}</Alert>
-                </div>
-              )}
-              {archived && (
-                <div className="alerts__item">
-                  <Alert>Post archived. Commenting and voting are not available.</Alert>
-                </div>
-              )}
-              {locked && !archived && (
-                <div className="alerts__item">
-                  <Alert>Post locked. Commenting is not available.</Alert>
-                </div>
-              )}
+              <div className="alerts__body">
+                {removalReason && (
+                  <div className="alerts__item">
+                    <Alert>{removalReasonMessages[removalReason]}</Alert>
+                  </div>
+                )}
+                {archived && (
+                  <div className="alerts__item">
+                    <Alert>Post archived. Commenting and voting are not available.</Alert>
+                  </div>
+                )}
+                {locked && !archived && (
+                  <div className="alerts__item">
+                    <Alert>Post locked. Commenting is not available.</Alert>
+                  </div>
+                )}
+              </div>
             </Card>
           </div>
         )}
@@ -105,29 +107,35 @@ export function PostPage() {
           <>
             <div className="comments-sorting">
               <Card>
-                <DropdownMenu
-                  defaultValue={commentsSorting}
-                  label={(selectedItem) => selectedItem?.content}
-                  selectable
-                  onSelect={(value) => {
-                    history.replace({ search: `?sort=${value}` });
-                  }}
-                >
-                  <MenuItem value="confidence">Best</MenuItem>
-                  <MenuItem value="top">Top</MenuItem>
-                  <MenuItem value="new">New</MenuItem>
-                  <MenuItem value="controversial">Controversial</MenuItem>
-                  <MenuItem value="old">Old</MenuItem>
-                  <MenuItem value="qa">Q&A</MenuItem>
-                </DropdownMenu>
+                <div className="comments-sorting__body">
+                  <DropdownMenu
+                    defaultValue={commentsSorting}
+                    label={(selectedItem) => selectedItem?.content}
+                    selectable
+                    onSelect={(value) => {
+                      history.replace({ search: `?sort=${value}` });
+                    }}
+                  >
+                    <MenuItem value="confidence">Best</MenuItem>
+                    <MenuItem value="top">Top</MenuItem>
+                    <MenuItem value="new">New</MenuItem>
+                    <MenuItem value="controversial">Controversial</MenuItem>
+                    <MenuItem value="old">Old</MenuItem>
+                    <MenuItem value="qa">Q&A</MenuItem>
+                  </DropdownMenu>
+                </div>
               </Card>
             </div>
             {authorized ? (
               <div className="post-comment-form">
                 <Card>
-                  <CommentForm
-                    onSubmit={(text) => postComment({ text, parentId: postId })}
-                  />
+                  <div className="post-comment-form__body">
+                    <CommentForm
+                      onSubmit={(text) => {
+                        postComment({ text, parentId: postId });
+                      }}
+                    />
+                  </div>
                 </Card>
               </div>
             ) : (
@@ -148,20 +156,22 @@ export function PostPage() {
             )}
             <div className="comments">
               <Card>
-                {threadList && (
-                  <CommentThreadList
-                    commentIds={threadList.rootCommentIds}
-                    hideLoadMoreButton
-                    moreComments={threadList.moreComments}
-                  />
-                )}
-                {isCommentsLoading && <CommentThreadListSkeleton />}
-                {threadList?.moreComments && !isCommentsLoading && (
-                  <IntersectionDetector
-                    marginTop={100}
-                    onIntersect={loadMoreComments}
-                  />
-                )}
+                <div className="comments__body">
+                  {threadList && (
+                    <CommentThreadList
+                      commentIds={threadList.rootCommentIds}
+                      hideLoadMoreButton
+                      moreComments={threadList.moreComments}
+                    />
+                  )}
+                  {isCommentsLoading && <CommentThreadListSkeleton />}
+                  {threadList?.moreComments && !isCommentsLoading && (
+                    <IntersectionDetector
+                      marginTop={100}
+                      onIntersect={loadMoreComments}
+                    />
+                  )}
+                </div>
               </Card>
             </div>
           </>

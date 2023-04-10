@@ -58,7 +58,7 @@ export function Feed({
     <div className="feed">
       <div className="feed__sort">
         <Card>
-          <div className="feed__sort-items">
+          <div className="feed__sort-body">
             <DropdownMenu
               defaultValue={sort}
               label={(selectedItem) => selectedItem?.content}
