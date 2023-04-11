@@ -1,6 +1,25 @@
+@use "@sass/variables" as *;
+
 .page {
   &__layout {
     display: flex;
+  }
+
+  &__sidebar,
+  &__offcanvas {
+    top: 50px;
+    height: calc(100vh - 50px);
+  }
+
+  &__sidebar {
+    position: sticky;
+  }
+
+  &__offcanvas {
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    z-index: $z-index-offcanvas;
   }
 
   &__content {

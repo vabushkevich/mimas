@@ -6,7 +6,11 @@ import { useIdentity } from "@services/api";
 import { Button, DropdownMenu, MenuItem, Avatar } from "@components";
 import "./Navbar.scss";
 
-export function Navbar() {
+type NavbarProps = {
+  onMenuButtonClick?: () => void;
+};
+
+export function Navbar({ onMenuButtonClick }: NavbarProps) {
   const { authorized, unauthorize } = useAuth();
   const { data: identity } = useIdentity({ enabled: authorized });
   const history = useHistory();
@@ -14,6 +18,8 @@ export function Navbar() {
 
   return (
     <nav className="site-nav">
+      <button className="site-nav__menu-btn" onClick={onMenuButtonClick}>
+      </button>
       <Link className="site-nav__logo" to="/"></Link>
       <div className="site-nav__login-btn">
         {authorized && user && (

@@ -165,3 +165,44 @@ export function usePagination({
 
   return { page, prevPage, nextPage, setPage };
 }
+
+export function useLocalStorage<T>(
+  key: string,
+  initialValue?: T,
+): [T, (value: T) => void] {
+  const [value, setValue] = useState<T>(
+    JSON.parse(localStorage.getItem(key)) ?? initialValue
+  );
+
+  // If the `setStorageValue()` function is called after the component has been
+  // unmounted, `setValue(newValue)` will have no effect and the state will be
+  // lost. To prevent this, it is necessary to store the value in the local
+  // storage first.
+  const setStorageValue = (newValue: T) => {
+    localStorage.setItem(key, JSON.stringify(newValue));
+    setValue(newValue);
+  };
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key]);
+
+  return [value, setStorageValue];
+}
+
+export function useMediaQuery(query: string) {
+  const queryList = matchMedia(query);
+  const [matches, setMatches] = useState(queryList.matches);
+
+  useEffect(() => {
+    const handleChange = (event: MediaQueryListEvent) => {
+      setMatches(event.matches);
+    };
+
+    queryList.addEventListener("change", handleChange);
+
+    return () => queryList.removeEventListener("change", handleChange);
+  }, [query]);
+
+  return matches;
+}

@@ -2,12 +2,11 @@
 @use "@sass/mixins" as *;
 
 .sidebar {
-  position: sticky;
   width: 220px;
-  height: calc(100vh - 50px);
+  height: 100%;
   padding: 10px;
-  top: 50px;
   overflow: auto;
+  background-color: $gray-200;
 
   ul {
     @include reset-list;
