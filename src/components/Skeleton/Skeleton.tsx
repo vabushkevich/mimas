@@ -8,6 +8,7 @@ type SkeletonProps = {
   block?: boolean;
   circle?: boolean;
   height?: number | string;
+  roundCorners?: boolean;
   rows?: number;
   width?: number | string;
 };
@@ -16,6 +17,7 @@ export function Skeleton({
   block,
   circle,
   height,
+  roundCorners = true,
   rows,
   width,
 }: SkeletonProps) {
@@ -42,6 +44,7 @@ export function Skeleton({
         "skeleton",
         block && "skeleton--block",
         circle && "skeleton--circle",
+        roundCorners && "skeleton--round-corners",
       )}
       style={{
         width,
