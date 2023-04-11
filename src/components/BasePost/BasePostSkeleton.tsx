@@ -20,7 +20,7 @@ export function BasePostSkeleton({ children }: BasePostSkeletonProps) {
           <SubmissionHeaderSkeleton />
         </div>
         <h3 className="post__title">
-          <Skeleton width={450} />
+          <Skeleton width="70%" />
         </h3>
         <div className="post__body">{children}</div>
         <div className="post__footer">
