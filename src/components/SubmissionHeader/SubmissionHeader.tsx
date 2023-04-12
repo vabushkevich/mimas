@@ -55,7 +55,12 @@ export function SubmissionHeader({
         </div>
       </Link>
       {subredditIsPrimaryAuthor && (
-        <Link to={`/user/${userName}/`}>{userName}</Link>
+        <Link
+          className="submission-header__secondary-author"
+          to={`/user/${userName}/`}
+        >
+          {userName}
+        </Link>
       )}
       <div
         className="submission-header__date"
