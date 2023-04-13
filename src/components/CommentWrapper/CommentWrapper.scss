@@ -13,13 +13,12 @@
     background-color: $gray-300;
 
     &::before {
-      $offset: 5px;
       content: "";
       position: absolute;
-      left: -$offset;
-      right: -$offset;
-      top: -$offset;
-      bottom: -$offset;
+      left: -10px;
+      top: 0;
+      right: -5px;
+      bottom: 0;
     }
 
     &:hover {
