@@ -5,8 +5,8 @@
   background-color: white;
   border-radius: 6px;
   box-shadow:
-    0px 4px 8px rgba($color: black, $alpha: 0.10),
-    0px 0px 1px rgba($color: black, $alpha: 0.30);
+    0 4px 8px rgba($color: black, $alpha: 0.10),
+    0 0 1px rgba($color: black, $alpha: 0.30);
 
   >.menu-item:not(:last-child) {
     margin-bottom: 3px;
