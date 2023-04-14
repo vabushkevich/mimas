@@ -27,6 +27,6 @@
 
 @keyframes skeleton-pulse {
   50% {
-    background-color: lighten($color: $gray-400, $amount: 4%);
+    background-color: lighten($gray-400, 4%);
   }
 }

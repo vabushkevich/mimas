@@ -21,11 +21,11 @@
   }
 
   &:hover {
-    background-color: darken($color: $gray-200, $amount: 4%);
+    background-color: darken($gray-200, 4%);
   }
 
   &:active {
-    background-color: darken($color: $gray-200, $amount: 8%);
+    background-color: darken($gray-200, 8%);
   }
 
   &__right-icon {

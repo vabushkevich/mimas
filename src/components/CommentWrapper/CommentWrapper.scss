@@ -22,7 +22,7 @@
     }
 
     &:hover {
-      background-color: darken($color: $gray-300, $amount: 6%);
+      background-color: darken($gray-300, 6%);
     }
   }
 

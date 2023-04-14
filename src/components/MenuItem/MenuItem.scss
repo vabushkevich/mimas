@@ -21,7 +21,7 @@ $color-selected-item: hsl(205, 80%, 91%);
     font-weight: 600;
 
     &:hover {
-      background-color: lighten($color: $color-selected-item, $amount: 2%);
+      background-color: lighten($color-selected-item, 2%);
     }
   }
 }
