@@ -19,7 +19,8 @@
   }
 
   &__spinner {
+    position: absolute;
     margin-left: 0.5em;
-    vertical-align: -13%;
+    margin-top: 0.1em;
   }
 }
