@@ -24,3 +24,9 @@ a {
 html {
   background-color: $gray-200;
 }
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
