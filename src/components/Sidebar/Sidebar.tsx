@@ -16,8 +16,7 @@ export function Sidebar() {
     href: string;
   }[] = [
     authorized ? { text: "My Feed", href: "/" } : null,
-    { text: "Popular", href: authorized ? "/r/popular/" : "/" },
-    { text: "All Posts", href: "/r/all/" },
+    { text: "Popular", href: authorized ? "/r/all/" : "/" },
   ];
 
   return (
