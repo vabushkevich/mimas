@@ -39,11 +39,11 @@
   }
 
   &__down-btn::after {
-    mask: no-repeat center url(./assets/arrow-down.svg);
+    mask: no-repeat center url("@assets/svg/arrow-down.svg");
   }
 
   &__up-btn::after {
-    mask: no-repeat center url(./assets/arrow-up.svg);
+    mask: no-repeat center url("@assets/svg/arrow-up.svg");
   }
 
   &--vote-up {

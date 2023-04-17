@@ -11,6 +11,9 @@
     "noImplicitAny": true,
     "outDir": "./dist/",
     "paths": {
+      "@assets": [
+        "src/assets/*"
+      ],
       "@components": [
         "src/components"
       ],
