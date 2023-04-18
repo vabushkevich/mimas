@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { MenuContext } from "@context";
 
 import "./Menu.scss";
@@ -10,7 +10,7 @@ type MenuProps = {
 export function Menu({ children }: MenuProps) {
   const { onMenuRender } = useContext(MenuContext);
 
-  useEffect(onMenuRender);
+  useLayoutEffect(onMenuRender);
 
   return <div className="menu">{children}</div>;
 }
