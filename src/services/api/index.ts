@@ -72,6 +72,7 @@ export function useFeedPosts(options: {
     {
       getNextPageParam: ((lastPosts) => lastPosts.at(-1)?.id),
       placeholderData: { pages: [], pageParams: [] },
+      cacheTime: 60 * 60 * 1000,
     }
   );
 }
@@ -103,6 +104,7 @@ export function usePostComments(
       prefetchAvatars(Object.values(threadList.comments));
       return threadList;
     },
+    cacheTime: 60 * 60 * 1000,
   });
 }
 
@@ -126,6 +128,7 @@ export function useComment(id: string) {
     queryKey: ["comments", "detail", id, key],
     queryFn: getComment,
     initialData: getComment,
+    cacheTime: 60 * 60 * 1000,
   });
 }
 
