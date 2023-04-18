@@ -50,6 +50,7 @@
     position: absolute;
     width: 33%;
     height: 100%;
+    background-color: white;
     opacity: 0.3;
 
     &:hover {
@@ -58,12 +59,12 @@
   }
 
   &__prev-page-btn {
-    background: no-repeat left 30px center / 40px url("@assets/svg/arrow-left.svg");
+    mask: no-repeat left 30px center / 40px url("@assets/svg/arrow-left.svg");
   }
 
   &__next-page-btn {
     right: 0;
-    background: no-repeat right 30px center / 40px url("@assets/svg/arrow-right.svg");
+    mask: no-repeat right 30px center / 40px url("@assets/svg/arrow-right.svg");
   }
 
   &__image {
@@ -102,7 +103,8 @@
     top: 18px;
     width: 22px;
     height: 22px;
-    background: no-repeat center / 100% url("@assets/svg/cross.svg");
+    background-color: white;
+    mask: no-repeat center / 100% url("@assets/svg/cross.svg");
     opacity: 0.4;
   }
 
