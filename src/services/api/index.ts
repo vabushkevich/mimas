@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   CommentSortingMethod,
   PostSortingMethod,
@@ -14,14 +13,15 @@ import {
   useMutation,
 } from "react-query";
 import { usePostParams } from "@hooks";
-import produce from "immer";
 import { client } from "./client";
 import {
   addCommentToCache,
+  addCommentsToCache,
   prefetchAvatars,
   updateCommentInCache,
   updatePostInCache,
 } from "./utils";
+import { useLocation } from "react-router-dom";
 
 export function usePosts(ids: string[]) {
   return useQuery(
@@ -57,8 +57,10 @@ export function useFeedPosts(options: {
     userName,
   } = options;
 
+  const { key } = useLocation();
+
   return useInfiniteQuery(
-    ["post-feed", subreddit ?? userName, limit, sort, sortTimeInterval],
+    ["post-feed", subreddit ?? userName, limit, sort, sortTimeInterval, key],
     async ({ pageParam }) => {
       const posts = await client.getFeedPosts({
         ...options,
@@ -68,7 +70,6 @@ export function useFeedPosts(options: {
       return posts;
     },
     {
-      cacheTime: 0,
       getNextPageParam: ((lastPosts) => lastPosts.at(-1)?.id),
       placeholderData: { pages: [], pageParams: [] },
     }
@@ -93,21 +94,23 @@ export function usePostComments(
     sort?: CommentSortingMethod;
   } = {},
 ) {
+  const { key } = useLocation();
+
   return useQuery({
-    queryKey: ["post-comments", postId, { limit, sort }],
+    queryKey: ["post-comments", postId, { limit, sort }, key],
     queryFn: async () => {
       const threadList = await client.getComments(postId, { limit, sort });
       prefetchAvatars(Object.values(threadList.comments));
       return threadList;
     },
-    cacheTime: 0,
   });
 }
 
 export function useComment(id: string) {
   const queryClient = useQueryClient();
+  const { key } = useLocation();
 
-  const getComment = useCallback(() => {
+  const getComment = () => {
     const comments = queryClient.getQueryData<CommentThreadList>(
       ["post-comments"],
       {
@@ -117,13 +120,12 @@ export function useComment(id: string) {
     );
     const comment = comments.comments[id];
     return comment;
-  }, [id]);
+  };
 
   return useQuery({
-    queryKey: ["comments", "detail", id],
-    initialData: getComment,
+    queryKey: ["comments", "detail", id, key],
     queryFn: getComment,
-    cacheTime: 0,
+    initialData: getComment,
   });
 }
 
@@ -172,24 +174,7 @@ export function useLoadMoreComments(
       return threadList;
     },
     onSuccess: (data) => {
-      queryClient.setQueryData<CommentThreadList>(
-        ["post-comments", postId, { limit, sort }],
-        (threadList) => produce(threadList, (draft) => {
-          Object.assign(draft.comments, data.comments);
-          if (commentId) {
-            const comment = draft.comments[commentId];
-            comment.childIds.push(...data.rootCommentIds);
-            comment.moreChildren = data.moreComments;
-          } else {
-            draft.rootCommentIds.push(...data.rootCommentIds);
-            draft.moreComments = data.moreComments;
-          }
-        }),
-      );
-
-      if (commentId) {
-        queryClient.invalidateQueries(["comments", "detail", commentId]);
-      }
+      addCommentsToCache(data, postId, commentId);
     },
   });
 }
@@ -238,16 +223,15 @@ export function useVote(submission: Submission) {
       client.vote(submission.id, direction)
     ),
     onSuccess: (_, { direction }) => {
-      const updater = <T extends Submission>(submission: T): T => ({
-        ...submission,
-        score: submission.score + (direction - submission.voteDirection),
-        voteDirection: direction,
-      });
+      const updater = (submission: Submission) => {
+        submission.score += direction - submission.voteDirection;
+        submission.voteDirection = direction;
+      };
 
       if ("commentCount" in submission) {
-        updatePostInCache(submission, updater);
+        updatePostInCache(submission.id, updater);
       } else {
-        updateCommentInCache(submission, updater);
+        updateCommentInCache(submission.postId, submission.id, updater);
       }
     },
   });

@@ -3,6 +3,7 @@ import produce from "immer";
 import { getSubmissionAuthorIds } from "@utils";
 import { queryClient } from "@services/query-client";
 import { client } from "./client";
+import { WritableDraft } from "immer/dist/internal";
 import {
   CommentThreadList,
   Submission,
@@ -87,21 +88,28 @@ export function getIdSuffix(id: string) {
   return id.split("_").at(-1);
 }
 
-export function updatePostInCache({ id }: Post, updater: (v: Post) => Post) {
+export function updatePostInCache(
+  postId: string,
+  updater: (draft: WritableDraft<Post>) => void,
+  { active }: { active?: boolean } = {},
+) {
   queryClient.setQueriesData<Post>(
-    ["post", id],
-    (post) => updater(post),
+    {
+      active,
+      queryKey: ["post", postId],
+    },
+    (post) => produce(post, updater),
   );
 
   queryClient.setQueriesData<InfiniteData<Post[]>>(
     {
-      exact: false,
+      active,
       queryKey: ["post-feed"],
     },
     (data) => produce(data, (draft) => {
       for (const posts of draft.pages) {
         for (const post of posts) {
-          if (post.id == id) {
+          if (post.id == postId) {
             Object.assign(post, updater(post));
             return;
           }
@@ -112,48 +120,83 @@ export function updatePostInCache({ id }: Post, updater: (v: Post) => Post) {
 }
 
 export function updateCommentInCache(
-  { id, postId }: Comment,
-  updater: (v: Comment) => Comment,
+  postId: string,
+  commentId: string,
+  updater: (draft: WritableDraft<Comment>) => void,
+  { active }: { active?: boolean } = {},
 ) {
   queryClient.setQueriesData<Comment>(
-    ["comments", "detail", id],
-    (comment) => updater(comment),
+    {
+      active,
+      queryKey: ["comments", "detail", commentId],
+    },
+    (comment) => produce(comment, updater),
   );
 
   queryClient.setQueriesData<CommentThreadList>(
     {
-      exact: false,
+      active,
       queryKey: ["post-comments", postId],
     },
-    (data) => produce(data, (draft) => {
-      const comment = draft.comments[id];
+    (threadList) => produce(threadList, (threadListDraft) => {
+      const comment = threadListDraft.comments[commentId];
       if (comment) Object.assign(comment, updater(comment));
     }),
   );
 }
 
-export function addCommentToCache(comment: Comment) {
-  const { id, parentId, postId } = comment;
-
+export function updatePostCommentsInCache(
+  postId: string,
+  updater: (draft: WritableDraft<CommentThreadList>) => void,
+  { active }: { active?: boolean } = {},
+) {
   queryClient.setQueriesData<CommentThreadList>(
     {
-      exact: false,
+      active,
       queryKey: ["post-comments", postId],
     },
-    (threadList) => produce(threadList, (draft) => {
-      draft.comments[id] = comment;
-      if (parentId == postId) draft.rootCommentIds.unshift(id);
-    }),
+    (threadList) => produce(threadList, updater),
   );
+}
 
-  if (parentId != postId) {
-    const parentComment = queryClient.getQueryData<Comment>(
-      ["comments", "detail", parentId]
-    );
-    updateCommentInCache(parentComment, (comment) => ({
-      ...comment,
-      childIds: [id, ...comment.childIds],
-    }));
+export function addCommentsToCache(
+  threadList: CommentThreadList,
+  postId: string,
+  commentId?: string,
+) {
+  updatePostCommentsInCache(postId, (threadListDraft) => {
+    Object.assign(threadListDraft.comments, threadList.comments);
+  }, { active: true });
+
+  if (commentId) {
+    updateCommentInCache(postId, commentId, (comment) => {
+      comment.childIds.push(...threadList.rootCommentIds);
+      comment.moreChildren = threadList.moreComments;
+    }, { active: true });
+  } else {
+    updatePostCommentsInCache(postId, (threadListDraft) => {
+      threadListDraft.rootCommentIds.push(...threadList.rootCommentIds);
+      threadListDraft.moreComments = threadList.moreComments;
+    }, { active: true });
+  }
+}
+
+export function addCommentToCache(comment: Comment) {
+  const { id, parentId, postId } = comment;
+  const isRootComment = postId == parentId;
+
+  updatePostCommentsInCache(postId, (threadList) => {
+    threadList.comments[id] = comment;
+  }, { active: true });
+
+  if (isRootComment) {
+    updatePostCommentsInCache(postId, (threadList) => {
+      threadList.rootCommentIds.push(id);
+    }, { active: true });
+  } else {
+    updateCommentInCache(postId, parentId, (comment) => {
+      comment.childIds.push(id);
+    }, { active: true });
   }
 }
 
