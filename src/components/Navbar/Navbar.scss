@@ -6,10 +6,10 @@
   display: flex;
   align-items: center;
   background-color: white;
+  border-bottom: 1px solid rgba(black, 0.1);
   height: 50px;
   padding: 0 20px;
   top: 0;
-  box-shadow: 0 0 2px rgba($color: black, $alpha: 0.2);
   z-index: $z-index-sticky;
 
   &__menu-btn {
