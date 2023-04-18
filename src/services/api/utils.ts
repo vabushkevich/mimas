@@ -191,11 +191,11 @@ export function addCommentToCache(comment: Comment) {
 
   if (isRootComment) {
     updatePostCommentsInCache(postId, (threadList) => {
-      threadList.rootCommentIds.push(id);
+      threadList.rootCommentIds.unshift(id);
     }, { active: true });
   } else {
     updateCommentInCache(postId, parentId, (comment) => {
-      comment.childIds.push(id);
+      comment.childIds.unshift(id);
     }, { active: true });
   }
 }
