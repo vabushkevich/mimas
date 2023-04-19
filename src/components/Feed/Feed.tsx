@@ -102,7 +102,7 @@ export function Feed({
         unmarkPinned={unmarkPinned}
       />
       {isFetching && <PostListSkeleton />}
-      {hasNextPage && (
+      {!isFetching && hasNextPage && (
         <IntersectionDetector
           marginTop={100}
           onIntersect={fetchNextPage}
