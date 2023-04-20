@@ -18,7 +18,11 @@ export function ImagePost(props: PostProps<ImagePost>) {
           className="image-post-body__image"
           onClick={() => setShowViewer(true)}
         >
-          <img src={preview.src} />
+          <img
+            src={preview.src}
+            width={preview.width}
+            height={preview.height}
+          />
         </button>
         {showViewer && (
           <GalleryViewer
