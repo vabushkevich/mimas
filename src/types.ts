@@ -72,8 +72,10 @@ export type GalleryPost = BasePost & {
 
 export type VideoPost = BasePost & {
   type: "video";
+  height: number;
   hlsURL: string;
   previewVariants: Media[];
+  width: number;
 };
 
 export type ImagePost = BasePost & {

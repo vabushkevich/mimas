@@ -41,7 +41,9 @@ export type VideoPost = BasePost & {
     is_video: true;
     media: {
       reddit_video: {
+        height: number;
         hls_url: string;
+        width: number;
       };
     };
     preview: {
@@ -55,7 +57,9 @@ export type ExternalVideoPost = BasePost & {
     preview: {
       images: ResponsiveMedia[];
       reddit_video_preview: {
+        height: number;
         hls_url: string;
+        width: number;
       };
     };
   }
