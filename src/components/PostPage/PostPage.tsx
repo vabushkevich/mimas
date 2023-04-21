@@ -167,7 +167,7 @@ export function PostPage() {
                   {isCommentsLoading && <CommentThreadListSkeleton />}
                   {threadList?.moreComments && !isCommentsLoading && (
                     <IntersectionDetector
-                      marginTop={100}
+                      marginTop={1200}
                       onIntersect={loadMoreComments}
                     />
                   )}

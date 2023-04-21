@@ -104,7 +104,7 @@ export function Feed({
       {isFetching && <PostListSkeleton />}
       {!isFetching && hasNextPage && (
         <IntersectionDetector
-          marginTop={100}
+          marginTop={1200}
           onIntersect={fetchNextPage}
         />
       )}
