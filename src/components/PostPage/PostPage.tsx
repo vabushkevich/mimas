@@ -53,7 +53,7 @@ export function PostPage() {
   const {
     data: threadList,
     isLoading: isPostCommentsLoading,
-  } = usePostComments(postId, { sort: commentsSorting });
+  } = usePostComments(postId, { limit: 100, sort: commentsSorting });
   const history = useHistory();
   const { authorized } = useAuth();
 

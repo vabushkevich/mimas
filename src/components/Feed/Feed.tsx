@@ -46,7 +46,7 @@ export function Feed({
     hasNextPage,
     isFetching,
   } = useFeedPosts({
-    limit: 5,
+    limit: 20,
     sort,
     sortTimeInterval,
     subreddit,
