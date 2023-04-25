@@ -68,7 +68,10 @@ export function isYouTubePost(rawPost: Raw.Post): rawPost is Raw.YouTubePost {
 }
 
 export function isCrossPost(rawPost: Raw.Post): rawPost is Raw.CrossPost {
-  return "crosspost_parent" in rawPost.data;
+  return (
+    "crosspost_parent_list" in rawPost.data
+    && rawPost.data.crosspost_parent_list.length > 0
+  );
 }
 
 export function isCommentDeleted(rawComment: Raw.Comment) {
