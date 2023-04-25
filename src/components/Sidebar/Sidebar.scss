@@ -2,22 +2,29 @@
 @use "@sass/mixins" as *;
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 220px;
   height: 100%;
-  padding: 10px;
-  overflow: auto;
   background-color: $gray-200;
+  overflow: hidden;
 
-  ul {
-    @include reset-list;
+  &__body {
+    padding: 10px;
+    overflow: auto;
 
-    &:not(:last-child) {
-      margin-bottom: 10px;
+    ul {
+      @include reset-list;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
     }
-  }
 
-  li:not(:last-child) {
-    margin-bottom: 5px;
+    li:not(:last-child) {
+      margin-bottom: 5px;
+    }
   }
 
   &__item {
@@ -45,5 +52,22 @@
     @include text-truncate;
 
     line-height: 1.5;
+  }
+
+  &__footer {
+    padding: 10px 22px 18px;
+    box-shadow: -30px -10px 20px 14px $gray-200;
+  }
+
+  &__github-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background-color: $gray-700;
+    mask: no-repeat center / 100% url("./assets/github.svg");
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }

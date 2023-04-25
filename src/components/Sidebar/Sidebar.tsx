@@ -21,41 +21,49 @@ export function Sidebar() {
 
   return (
     <nav className="sidebar">
-      <ul>
-        {navItems.map((item) => item && (
-          <li key={item.href}>
-            <NavLink
-              activeClassName="sidebar__item--active"
-              className="sidebar__item"
-              exact={item.href == "/"}
-              to={item.href}
-            >
-              {item.text}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-      {subreddits && (
+      <div className="sidebar__body">
         <ul>
-          {subreddits
-            .sort((a, b) => a.name > b.name ? 1 : -1)
-            .map(({ avatar, name }) => (
-              <li key={name}>
-                <NavLink
-                  activeClassName="sidebar__item--active"
-                  className="sidebar__item"
-                  to={`/r/${name}`}
-                >
-                  <div className="sidebar__item-icon">
-                    <Avatar picture={avatar} size="sm" />
-                  </div>
-                  <div className="sidebar__item-text">{name}</div>
-                </NavLink>
-              </li>
-            ))}
+          {navItems.map((item) => item && (
+            <li key={item.href}>
+              <NavLink
+                activeClassName="sidebar__item--active"
+                className="sidebar__item"
+                exact={item.href == "/"}
+                to={item.href}
+              >
+                {item.text}
+              </NavLink>
+            </li>
+          ))}
         </ul>
-      )}
-      {isLoading && <SidebarItemsSkeleton count={5} />}
+        {subreddits && (
+          <ul>
+            {subreddits
+              .sort((a, b) => a.name > b.name ? 1 : -1)
+              .map(({ avatar, name }) => (
+                <li key={name}>
+                  <NavLink
+                    activeClassName="sidebar__item--active"
+                    className="sidebar__item"
+                    to={`/r/${name}`}
+                  >
+                    <div className="sidebar__item-icon">
+                      <Avatar picture={avatar} size="sm" />
+                    </div>
+                    <div className="sidebar__item-text">{name}</div>
+                  </NavLink>
+                </li>
+              ))}
+          </ul>
+        )}
+        {isLoading && <SidebarItemsSkeleton count={5} />}
+      </div>
+      <div className="sidebar__footer">
+        <a
+          className="sidebar__github-icon"
+          href="https://github.com/vabushkevich/mimas"
+        ></a>
+      </div>
     </nav>
   );
 };
