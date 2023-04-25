@@ -12,7 +12,7 @@ export function VideoPost(props: PostProps<VideoPost>) {
   return (
     <BasePost {...props}>
       <div className="video-post-body">
-        <Video hls src={hlsURL} poster={preview.src} />
+        <Video hls src={hlsURL} poster={preview?.src} />
       </div>
     </BasePost>
   );

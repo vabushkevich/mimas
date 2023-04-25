@@ -110,9 +110,7 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
 
 export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
   const {
-    preview: {
-      images: [rawPreview],
-    },
+    preview,
     media: {
       reddit_video: {
         height,
@@ -121,13 +119,14 @@ export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
       },
     },
   } = rawPost.data;
+  const rawPreview = preview?.images[0];
 
   return {
     ...transformBasePost(rawPost),
     type: "video",
     height,
     hlsURL: hls_url,
-    previewVariants: transformResponsiveMedia(rawPreview),
+    previewVariants: rawPreview ? transformResponsiveMedia(rawPreview) : [],
     width,
   };
 }

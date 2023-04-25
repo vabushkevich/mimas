@@ -46,7 +46,8 @@ export type VideoPost = BasePost & {
         width: number;
       };
     };
-    preview: {
+    // Some video posts don't have a preview
+    preview?: {
       images: ResponsiveMedia[];
     };
   }
