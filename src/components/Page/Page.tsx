@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useLocalStorage, useMediaQuery } from "@hooks";
 
 import { Navbar, Sidebar, Offcanvas } from "@components";
@@ -13,6 +14,11 @@ export function Page({ children }: PageProps) {
     useLocalStorage("is-sidebar-visible", true);
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
+  const { action, location } = useHistory();
+
+  useLayoutEffect(() => {
+    if (action == "PUSH") window.scroll({ top: 0 });
+  }, [location.pathname]);
 
   const toggleSidebar = () => {
     if (isLargeScreen) {
