@@ -13,15 +13,7 @@ import {
 import * as Raw from "./types";
 
 export function isLinkPost(rawPost: Raw.Post): rawPost is Raw.LinkPost {
-  if (!("url_overridden_by_dest" in rawPost.data)) return false;
-  const { url_overridden_by_dest } = rawPost.data;
-  switch (new URL(url_overridden_by_dest).hostname) {
-    case "www.reddit.com":
-    case "i.redd.it":
-    case "v.redd.it":
-      return false;
-  }
-  return true;
+  return "url_overridden_by_dest" in rawPost.data;
 }
 
 export function isTextPost(rawPost: Raw.Post): rawPost is Raw.TextPost {
