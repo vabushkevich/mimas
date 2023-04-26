@@ -4,7 +4,7 @@
 .user-content {
   @include text-content;
 
-  overflow-wrap: break-word;
+  word-wrap: break-word;
 
   *:first-child {
     margin-top: 0;
