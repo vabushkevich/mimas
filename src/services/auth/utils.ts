@@ -5,7 +5,7 @@ export async function requestAuth(code?: string) {
   const params = code
     ? {
       grant_type: "authorization_code",
-      code: code,
+      code,
       redirect_uri: "http://localhost:8080/auth",
     } : {
       grant_type: "https://oauth.reddit.com/grants/installed_client",
