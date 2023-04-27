@@ -45,7 +45,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/assets/index.html",
-      title: "Reddit",
+      title: "mimas",
     }),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
