@@ -20,6 +20,9 @@
       "@context": [
         "src/context"
       ],
+      "@credentials": [
+        "credentials.json"
+      ],
       "@hooks": [
         "src/hooks.ts"
       ],      
@@ -39,6 +42,7 @@
         "src/utils.ts"
       ]
     },
+    "resolveJsonModule": true,
     "target": "ESNext",
     "types": []
   }

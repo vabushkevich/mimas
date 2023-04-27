@@ -66,6 +66,7 @@ module.exports = {
       "@assets": path.resolve(__dirname, "src/assets"),
       "@components": path.resolve(__dirname, "src/components"),
       "@context": path.resolve(__dirname, "src/context"),
+      "@credentials": path.resolve(__dirname, "credentials.json"),
       "@hooks": path.resolve(__dirname, "src/hooks.ts"),
       "@sass": path.resolve(__dirname, "src/sass"),
       "@services": path.resolve(__dirname, "src/services"),

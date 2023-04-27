@@ -1,5 +1,8 @@
 import { transformAuth } from "./transformers";
 import { Auth, RawAuth } from "./types";
+import credentials from "@credentials";
+
+const basicCredentials = btoa(`${credentials.reddit.clientId}:`);
 
 export async function requestAuth(code?: string) {
   const params = code
@@ -18,7 +21,7 @@ export async function requestAuth(code?: string) {
       method: "POST",
       body: new URLSearchParams(params),
       headers: {
-        "Authorization": "Basic CREDENTIALS",
+        "Authorization": `Basic ${basicCredentials}`,
       },
     }
   )
@@ -37,7 +40,7 @@ export async function refreshAuth(refreshToken: string) {
         refresh_token: refreshToken,
       }),
       headers: {
-        "Authorization": "Basic CREDENTIALS",
+        "Authorization": `Basic ${basicCredentials}`,
       },
     }
   )
@@ -55,7 +58,7 @@ export async function revokeAuth(refreshToken: string) {
         token_type_hint: "refresh_token",
       }),
       headers: {
-        "Authorization": "Basic CREDENTIALS",
+        "Authorization": `Basic ${basicCredentials}`,
       },
     }
   );
