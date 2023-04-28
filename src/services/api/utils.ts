@@ -60,7 +60,12 @@ export function isGIFPost(rawPost: Raw.Post): rawPost is Raw.GIFPost {
 
 export function isYouTubePost(rawPost: Raw.Post): rawPost is Raw.YouTubePost {
   const { media } = rawPost.data;
-  return !!media && "type" in media && media.type == "youtube.com";
+  return (
+    !!media
+    && "type" in media
+    && media.type == "youtube.com"
+    && /\/embed\/([\w-]+)/.test(media?.oembed?.html)
+  );
 }
 
 export function isCrossPost(rawPost: Raw.Post): rawPost is Raw.CrossPost {
