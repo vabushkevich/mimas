@@ -13,7 +13,10 @@ import {
 import * as Raw from "./types";
 
 export function isLinkPost(rawPost: Raw.Post): rawPost is Raw.LinkPost {
-  return "url_overridden_by_dest" in rawPost.data;
+  return (
+    "url_overridden_by_dest" in rawPost.data
+    && !!rawPost.data.url_overridden_by_dest
+  );
 }
 
 export function isTextPost(rawPost: Raw.Post): rawPost is Raw.TextPost {
