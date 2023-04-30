@@ -86,8 +86,8 @@ class RedditWebAPI {
       url += `/user/${userName}/submitted`;
     } else if (subreddit) {
       url += `/r/${subreddit}`;
-      if (sort) url += `/${sort}`;
     }
+    if (sort && (subreddit || !userName)) url += `/${sort}`;
     url += `?${params}`;
 
     const rawPosts = await this.#fetchWithAuth(url)

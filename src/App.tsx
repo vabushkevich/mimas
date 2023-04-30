@@ -36,7 +36,7 @@ export function App() {
           <Route path="/auth">
             <AuthPage />
           </Route>
-          <Route path="/">
+          <Route path="/:sort?">
             <FeedPage type={authorized ? "user" : "popular"} />
           </Route>
         </Switch>
