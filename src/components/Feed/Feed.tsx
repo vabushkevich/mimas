@@ -60,10 +60,10 @@ export function Feed({
         <Card>
           <div className="feed__sort-body">
             <DropdownMenu
-              defaultValue={sort}
-              label={(selectedItem) => selectedItem?.content}
+              label={(selectedContent) => selectedContent}
               selectable
-              onSelect={(value) => {
+              value={sort}
+              onItemClick={(value) => {
                 if (isPostSortingMethod(value)) onSortChange?.(value);
               }}
             >
@@ -76,10 +76,10 @@ export function Feed({
             </DropdownMenu>
             {isSortRequiresTimeInterval(sort) && (
               <DropdownMenu
-                defaultValue={sortTimeInterval}
-                label={(selectedItem) => selectedItem?.content}
+                label={(selectedContent) => selectedContent}
                 selectable
-                onSelect={(value) => {
+                value={sortTimeInterval}
+                onItemClick={(value) => {
                   if (isSortTimeInterval(value)) {
                     onSortTimeIntervalChange?.(value);
                   }

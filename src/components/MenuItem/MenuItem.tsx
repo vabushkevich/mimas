@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { MenuContext } from "@context";
 import classNames from "classnames";
 
@@ -18,29 +18,26 @@ export function MenuItem({
   children,
 }: MenuItemProps) {
   const {
-    selectable,
-    selectedItem,
-    setSelectedItem,
+    selectedValue,
     onItemClick,
     onItemRender,
   } = useContext(MenuContext);
 
-  selected ??= value != null && value == selectedItem?.value;
+  selected ??= value === selectedValue;
 
-  useEffect(() => {
-    onItemRender?.({ value, content: children });
+  useLayoutEffect(() => {
+    onItemRender?.(value, children);
   });
 
   return (
     <button
       className={classNames(
         "menu-item",
-        selectable && selected && "menu-item--selected",
+        selected && "menu-item--selected",
       )}
       onClick={() => {
-        if (selectable) setSelectedItem({ value, content: children });
         onClick?.(value);
-        onItemClick(value);
+        onItemClick?.(value);
       }}
     >
       {children}

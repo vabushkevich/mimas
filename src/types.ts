@@ -224,11 +224,6 @@ export function isSortRequiresTimeInterval(sort: PostSortingMethod) {
 
 export type FeedPageType = "user" | "all" | "popular";
 
-export type MenuItem = {
-  content: React.ReactNode;
-  value: string;
-};
-
 export type Identity = {
   user: User;
 };

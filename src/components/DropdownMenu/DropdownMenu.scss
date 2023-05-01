@@ -9,6 +9,10 @@
     margin-top: 6px;
     z-index: $z-index-dropdown;
 
+    &--hidden {
+      display: none;
+    }
+
     &--align-right {
       right: 0;
     }

@@ -109,10 +109,10 @@ export function PostPage() {
               <Card>
                 <div className="comments-sorting__body">
                   <DropdownMenu
-                    defaultValue={commentsSorting}
-                    label={(selectedItem) => selectedItem?.content}
+                    label={(selectedContent) => selectedContent}
                     selectable
-                    onSelect={(value) => {
+                    value={commentsSorting}
+                    onItemClick={(value) => {
                       history.replace({ search: `?sort=${value}` });
                     }}
                   >
