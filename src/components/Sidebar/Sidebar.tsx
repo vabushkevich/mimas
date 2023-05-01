@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSidebarSubreddits } from "./hooks";
 import { useAuth } from "@services/auth";
+import { isPostSortingMethod } from "@types";
 
 import { Avatar } from "@components";
 import { SidebarItemsSkeleton } from "./SidebarItemsSkeleton";
@@ -29,6 +30,13 @@ export function Sidebar() {
                 activeClassName="sidebar__item--active"
                 className="sidebar__item"
                 exact={item.href == "/"}
+                isActive={(match, location) => {
+                  if (match) return true;
+                  return (
+                    item.href == "/"
+                    && isPostSortingMethod(location.pathname.split("/")[1])
+                  );
+                }}
                 to={item.href}
               >
                 {item.text}
