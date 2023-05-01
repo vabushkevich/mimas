@@ -9,7 +9,7 @@ export async function requestAuth(code?: string) {
     ? {
       grant_type: "authorization_code",
       code,
-      redirect_uri: "http://localhost:8080/auth",
+      redirect_uri: `${location.origin}/auth`,
     } : {
       grant_type: "https://oauth.reddit.com/grants/installed_client",
       device_id: "DO_NOT_TRACK_THIS_DEVICE",

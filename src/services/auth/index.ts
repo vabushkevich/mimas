@@ -47,7 +47,7 @@ export function getAuthURL() {
     client_id: credentials.reddit.clientId,
     response_type: "code",
     state: `${Date.now()}${location.pathname}${location.search}`,
-    redirect_uri: "http://localhost:8080/auth",
+    redirect_uri: `${location.origin}/auth`,
     duration: "permanent",
     scope: "edit history identity mysubreddits privatemessages read save submit subscribe vote",
   });
