@@ -8,6 +8,7 @@ import {
   AuthorType,
 } from "@types";
 import { useFeedPosts } from "@services/api";
+import { uniqBy } from "lodash-es";
 
 import {
   PostList,
@@ -52,7 +53,7 @@ export function Feed({
     subreddit,
     userName,
   });
-  const posts = pages.flat();
+  const posts = uniqBy(pages.flat(), (post) => post.id);
 
   return (
     <div className="feed">
