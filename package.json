@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "A reddit web client.",
   "scripts": {
-    "start": "npm run build && serve --single --no-port-switching ./dist/",
-    "dev": "webpack serve",
+    "start": "npm run build && serve -p 4777 --single --no-port-switching ./dist/",
+    "dev": "webpack serve --port 4777",
     "build": "cross-env NODE_ENV=production webpack"
   },
   "author": "Vyacheslav Abushkevich <abshkvch@gmail.com>",
