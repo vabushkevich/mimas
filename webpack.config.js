@@ -12,6 +12,10 @@ module.exports = {
   },
   entry: "./src/index.tsx",
   output: {
+    assetModuleFilename: "[name]-[hash][ext][query]",
+    clean: true,
+    filename: "[name]-[contenthash].js",
+    hashDigestLength: 6,
     publicPath: "/",
   },
   mode: devMode ? "development" : "production",
@@ -59,7 +63,11 @@ module.exports = {
     .concat(
       devMode
         ? [new ReactRefreshWebpackPlugin()]
-        : [new MiniCssExtractPlugin()]
+        : [
+          new MiniCssExtractPlugin({
+            filename: "[name]-[contenthash].css",
+          }),
+        ]
     ),
   resolve: {
     alias: {
