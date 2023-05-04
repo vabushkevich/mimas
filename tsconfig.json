@@ -20,9 +20,6 @@
       "@context": [
         "src/context"
       ],
-      "@credentials": [
-        "credentials.json"
-      ],
       "@hooks": [
         "src/hooks.ts"
       ],      

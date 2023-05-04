@@ -8,7 +8,6 @@ import {
   writeAuth,
 } from "./utils";
 import { AuthContext } from "./context";
-import credentials from "@credentials";
 
 export async function getAccessToken(): Promise<string> {
   let auth = readAuth();
@@ -44,7 +43,7 @@ export function useAuth() {
 
 export function getAuthURL() {
   const params = new URLSearchParams({
-    client_id: credentials.reddit.clientId,
+    client_id: process.env.REDDIT_APP_CLIENT_ID,
     response_type: "code",
     state: `${Date.now()}${location.pathname}${location.search}`,
     redirect_uri: `${location.origin}/auth`,

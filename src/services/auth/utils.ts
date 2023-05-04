@@ -1,8 +1,7 @@
 import { transformAuth } from "./transformers";
 import { Auth, RawAuth } from "./types";
-import credentials from "@credentials";
 
-const basicCredentials = btoa(`${credentials.reddit.clientId}:`);
+const basicCredentials = btoa(`${process.env.REDDIT_APP_CLIENT_ID}:`);
 
 export async function requestAuth(code?: string) {
   const params = code
