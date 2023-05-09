@@ -1,20 +1,23 @@
 import React, { useState, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useLocalStorage, useMediaQuery } from "@hooks";
+import { useLocalStorage, useMediaQuery, useTitle } from "@hooks";
 
 import { Navbar, Sidebar, Offcanvas } from "@components";
 import "./Page.scss";
 
 type PageProps = {
+  title?: string;
   children: React.ReactNode;
 };
 
-export function Page({ children }: PageProps) {
+export function Page({ title, children }: PageProps) {
   const [isSidebarVisible, setIsSidebarVisible] =
     useLocalStorage("is-sidebar-visible", true);
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
   const { action, location } = useHistory();
+
+  useTitle(title && `${title} — mimas`);
 
   useLayoutEffect(() => {
     if (action == "PUSH") window.scroll({ top: 0 });

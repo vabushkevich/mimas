@@ -206,3 +206,13 @@ export function useMediaQuery(query: string) {
 
   return matches;
 }
+
+export function useTitle(title: string) {
+  useEffect(() => {
+    const prevTitle = document.title;
+    if (title != null) document.title = title;
+    return () => {
+      document.title = prevTitle;
+    };
+  }, [title]);
+}

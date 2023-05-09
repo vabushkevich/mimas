@@ -70,7 +70,7 @@ export function PostPage() {
   const hasAlerts = archived || locked || removalReason;
 
   return (
-    <Page>
+    <Page title={post?.title}>
       <Container>
         {post && (
           <Post

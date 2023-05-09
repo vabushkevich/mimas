@@ -24,7 +24,7 @@ export function UserPage() {
   const history = useHistory();
 
   return (
-    <Page>
+    <Page title={userName}>
       <Container>
         <div className="user-page__header">
           {isLoading && <AuthorHeaderSkeleton />}

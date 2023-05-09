@@ -36,7 +36,7 @@ export function SubredditPage() {
   const match = useRouteMatch();
 
   return (
-    <Page>
+    <Page title={subredditName}>
       <Container>
         <div className="subreddit-page__header">
           {isLoading && <AuthorHeaderSkeleton />}
