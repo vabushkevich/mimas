@@ -221,6 +221,7 @@ export function prefetchAvatars(submissions: Submission[]) {
         return newAvatars[newAuthorId];
       },
       queryKey: ["avatars", "detail", newAuthorId],
+      cacheTime: Infinity,
     });
   }
 }
