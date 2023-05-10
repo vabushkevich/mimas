@@ -70,6 +70,7 @@ export function Sidebar() {
         <a
           className="sidebar__github-icon"
           href="https://github.com/vabushkevich/mimas"
+          target="_blank"
         ></a>
       </div>
     </nav>
