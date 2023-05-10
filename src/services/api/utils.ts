@@ -214,14 +214,13 @@ export function prefetchAvatars(submissions: Submission[]) {
   );
   const newAvatarsPromise = client.getAvatars(newAuthorIds);
 
-  for (const authorId of authorIds) {
+  for (const newAuthorId of newAuthorIds) {
     queryClient.prefetchQuery({
       queryFn: async () => {
         const newAvatars = await newAvatarsPromise;
-        return newAvatars[authorId];
+        return newAvatars[newAuthorId];
       },
-      queryKey: ["avatars", "detail", authorId],
-      staleTime: Infinity,
+      queryKey: ["avatars", "detail", newAuthorId],
     });
   }
 }
