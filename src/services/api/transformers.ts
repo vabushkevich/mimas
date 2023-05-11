@@ -10,6 +10,7 @@ import {
   isYouTubePost,
   isExternalVideoPost,
   isCrossPost,
+  isRemovedPost,
 } from "./utils";
 import {
   Post,
@@ -29,13 +30,14 @@ import {
   TextPost,
   YouTubePost,
   CrossPost,
+  RemovedPost,
 } from "@types";
 import * as Raw from "./types";
 import { createId } from "@utils";
 
 const removalReasonMap: Record<
-  Raw.Post["data"]["removed_by_category"],
-  Post["removalReason"]
+  Raw.RemovedPost["data"]["removed_by_category"],
+  RemovedPost["removalReason"]
 > = {
   content_takedown: "rules-violation",
   reddit: "spam",
@@ -44,6 +46,8 @@ const removalReasonMap: Record<
 };
 
 export function transformPost(rawPost: Raw.Post): Post {
+  if (isRemovedPost(rawPost)) return transformRemovedPost(rawPost);
+
   if (isCrossPost(rawPost)) return transformCrossPost(rawPost);
   if (isYouTubePost(rawPost)) return transformYouTubePost(rawPost);
   if (isVideoPost(rawPost)) return transformVideoPost(rawPost);
@@ -74,7 +78,6 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
       name,
       num_comments,
       permalink,
-      removed_by_category,
       score,
       stickied,
       subreddit,
@@ -100,9 +103,6 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
   };
 
   if (author_fullname) basePost.userId = author_fullname;
-  if (removed_by_category) {
-    basePost.removalReason = removalReasonMap[removed_by_category];
-  }
   if (typeof edited == "number") basePost.dateEdited = edited * 1000;
 
   return basePost;
@@ -247,6 +247,14 @@ export function transformCrossPost(rawPost: Raw.CrossPost): CrossPost {
   if (author_fullname) crossPost.crossPostUserId = author_fullname;
 
   return crossPost;
+}
+
+export function transformRemovedPost(rawPost: Raw.RemovedPost): RemovedPost {
+  return {
+    ...transformBasePost(rawPost),
+    type: "removed",
+    removalReason: removalReasonMap[rawPost.data.removed_by_category],
+  };
 }
 
 export function transformCommentListItems(

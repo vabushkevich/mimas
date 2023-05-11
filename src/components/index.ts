@@ -54,6 +54,7 @@ import { YouTubePost } from "./YouTubePost/YouTubePost";
 import { CrossPost } from "./CrossPost/CrossPost";
 import { TextPostSkeleton } from "./TextPost/TextPostSkeleton";
 import { Offcanvas } from "./Offcanvas/Offcanvas";
+import { RemovedPost } from "./RemovedPost/RemovedPost";
 
 export {
   Post,
@@ -112,4 +113,5 @@ export {
   CrossPost,
   TextPostSkeleton,
   Offcanvas,
+  RemovedPost,
 };

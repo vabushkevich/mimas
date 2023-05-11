@@ -78,6 +78,10 @@ export function isCrossPost(rawPost: Raw.Post): rawPost is Raw.CrossPost {
   );
 }
 
+export function isRemovedPost(rawPost: Raw.Post): rawPost is Raw.RemovedPost {
+  return typeof rawPost.data.removed_by_category == "string";
+}
+
 export function isCommentDeleted(rawComment: Raw.Comment) {
   const { author, body } = rawComment.data;
   if (author != "[deleted]") return false;

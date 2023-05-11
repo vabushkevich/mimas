@@ -3,7 +3,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { useQueryString } from "@hooks";
 import { createId } from "@utils";
 import {
-  Post as PostType,
   isCommentSortingMethod,
 } from "@types";
 import {
@@ -30,13 +29,6 @@ import {
   Button,
 } from "@components";
 import "./PostPage.scss";
-
-const removalReasonMessages: Record<PostType["removalReason"], string> = {
-  "rules-violation": "Post removed by Reddit for violating Reddit's rules.",
-  "spam": "Post removed by Reddit's spam filters.",
-  "user": "Post removed by author.",
-  "moderator": "Post removed by subreddit moderator.",
-};
 
 export function PostPage() {
   const query = useQueryString<{ sort: string }>();
@@ -66,8 +58,8 @@ export function PostPage() {
 
   const isCommentsLoading = isPostCommentsLoading || isMoreCommentsLoading;
 
-  const { archived, locked, removalReason } = post || {};
-  const hasAlerts = archived || locked || removalReason;
+  const { archived, locked } = post || {};
+  const hasAlerts = archived || locked;
 
   return (
     <Page title={post?.title}>
@@ -84,11 +76,6 @@ export function PostPage() {
           <div className="alerts">
             <Card>
               <div className="alerts__body">
-                {removalReason && (
-                  <div className="alerts__item">
-                    <Alert>{removalReasonMessages[removalReason]}</Alert>
-                  </div>
-                )}
                 {archived && (
                   <div className="alerts__item">
                     <Alert>Post archived. Commenting and voting are not available.</Alert>

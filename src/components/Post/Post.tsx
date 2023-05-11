@@ -10,6 +10,7 @@ import {
   GIFPost,
   YouTubePost,
   CrossPost,
+  RemovedPost,
 } from "@components";
 
 export function Post({ post, ...rest }: PostProps<Post>) {
@@ -30,5 +31,7 @@ export function Post({ post, ...rest }: PostProps<Post>) {
       return <YouTubePost post={post} {...rest} />;
     case "crosspost":
       return <CrossPost post={post} {...rest} />;
+    case "removed":
+      return <RemovedPost post={post} {...rest} />;
   }
 }

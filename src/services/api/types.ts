@@ -12,12 +12,7 @@ export type BasePost = {
     name: string;
     num_comments: number;
     permalink: string;
-    removed_by_category:
-      | "content_takedown"
-      | "reddit"
-      | "deleted"
-      | "moderator"
-      | null;
+    removed_by_category: string | null;
     score: number;
     selftext_html: string | null;
     stickied: boolean;
@@ -117,6 +112,16 @@ export type CrossPost = BasePost & {
   }
 };
 
+export type RemovedPost = BasePost & {
+  data: {
+    removed_by_category:
+      | "content_takedown"
+      | "reddit"
+      | "deleted"
+      | "moderator";
+  };
+};
+
 export type Post =
   | ImagePost
   | VideoPost
@@ -125,7 +130,8 @@ export type Post =
   | TextPost
   | LinkPost
   | YouTubePost
-  | CrossPost;
+  | CrossPost
+  | RemovedPost;
 
 export type Subreddit = {
   data: {

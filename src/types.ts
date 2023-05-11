@@ -44,7 +44,6 @@ export type BasePost = {
   id: string;
   locked: boolean;
   pinned: boolean;
-  removalReason?: "rules-violation" | "spam" | "user" | "moderator";
   score: number;
   subreddit: string;
   subredditId: string;
@@ -101,6 +100,11 @@ export type CrossPost = BasePost & {
   parent: Post;
 };
 
+export type RemovedPost = BasePost & {
+  type: "removed";
+  removalReason: "rules-violation" | "spam" | "user" | "moderator";
+};
+
 export type Post =
   | ImagePost
   | VideoPost
@@ -109,7 +113,8 @@ export type Post =
   | TextPost
   | GIFPost
   | YouTubePost
-  | CrossPost;
+  | CrossPost
+  | RemovedPost;
 
 export type PostProps<T extends BasePost> = {
   collapsed?: boolean;

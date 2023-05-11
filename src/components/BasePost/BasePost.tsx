@@ -44,6 +44,7 @@ export function BasePost({
   const removeBottomPadding = hideFooter
     && (type != "text" || post.bodyHtml.length == 0)
     && type != "crosspost"
+    && type != "removed"
     && type != "link";
 
   const avatar = useAvatar(primaryAuthorId);
