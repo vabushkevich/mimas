@@ -4,6 +4,7 @@ import { compactNumber } from "@utils";
 import type { Post, PostProps } from "@types";
 import { useAvatar, useVote } from "@services/api";
 import { useAuthGuard } from "@hooks";
+import classNames from "classnames";
 
 import { Card, SubmissionHeader, Voting } from "@components";
 import "./BasePost.scss";
@@ -13,6 +14,7 @@ type BasePostProps = PostProps<Post> & {
 };
 
 export function BasePost({
+  hideFooter = false,
   hidePin = false,
   post,
   primaryAuthorType = "subreddit",
@@ -29,21 +31,33 @@ export function BasePost({
     subreddit,
     subredditId,
     title,
+    type,
     url,
     userId,
     userName,
     voteDirection,
   } = post;
+
   const primaryAuthorId = primaryAuthorType == "subreddit"
     ? subredditId
     : userId;
+  const removeBottomPadding = hideFooter
+    && (type != "text" || post.bodyHtml.length == 0)
+    && type != "crosspost"
+    && type != "link";
+
   const avatar = useAvatar(primaryAuthorId);
   const { mutate: mutateVote } = useVote(post);
   const vote = useAuthGuard(mutateVote);
 
   return (
-    <Card>
-      <div className="post">
+    <Card hideOverflow>
+      <div
+        className={classNames(
+          "post",
+          removeBottomPadding && "post--no-bottom-padding"
+        )}
+      >
         <div className="post__header">
           <SubmissionHeader
             dateCreated={dateCreated}
@@ -60,21 +74,23 @@ export function BasePost({
           <Link to={url}>{title}</Link>
         </h3>
         <div className="post__body">{children}</div>
-        <div className="post__footer">
-          <Link
-            className="post__comments-btn"
-            to={url}
-          >
-            {compactNumber(commentCount)}
-          </Link>
-          <div className="post__voting">
-            <Voting
-              score={score}
-              voteDirection={voteDirection}
-              onVote={(direction) => vote({ direction })}
-            />
+        {!hideFooter && (
+          <div className="post__footer">
+            <Link
+              className="post__comments-btn"
+              to={url}
+            >
+              {compactNumber(commentCount)}
+            </Link>
+            <div className="post__voting">
+              <Voting
+                score={score}
+                voteDirection={voteDirection}
+                onVote={(direction) => vote({ direction })}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Card>
   );

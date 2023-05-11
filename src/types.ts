@@ -113,6 +113,7 @@ export type Post =
 
 export type PostProps<T extends BasePost> = {
   collapsed?: boolean;
+  hideFooter?: boolean;
   hidePin?: boolean;
   post: T;
   primaryAuthorType?: AuthorType;

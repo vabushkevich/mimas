@@ -3,6 +3,10 @@
 .post {
   padding: 12px 0;
 
+  &--no-bottom-padding {
+    padding-bottom: 0;
+  }
+
   &__header {
     margin: 0 12px;
   }
