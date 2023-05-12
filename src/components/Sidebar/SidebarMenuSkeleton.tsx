@@ -3,9 +3,9 @@ import React from "react";
 import { Skeleton } from "@components";
 import "./Sidebar.scss";
 
-export function SidebarItemsSkeleton({ count = 3 }) {
+export function SidebarMenuSkeleton({ count = 3 }) {
   return (
-    <ul>
+    <ul className="sidebar__menu">
       {new Array(count).fill(0).map((v, i) => (
         <li key={i}>
           <div className="sidebar__item">

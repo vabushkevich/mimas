@@ -5,7 +5,7 @@ import { useAuth } from "@services/auth";
 import { isPostSortingMethod } from "@types";
 
 import { Avatar } from "@components";
-import { SidebarItemsSkeleton } from "./SidebarItemsSkeleton";
+import { SidebarMenuSkeleton } from "./SidebarMenuSkeleton";
 import "./Sidebar.scss";
 
 export function Sidebar() {
@@ -13,17 +13,18 @@ export function Sidebar() {
   const { data: subreddits, isLoading } = useSidebarSubreddits();
 
   const navItems: {
+    name: string;
     text: string;
     href: string;
   }[] = [
-    authorized ? { text: "My Feed", href: "/" } : null,
-    { text: "Popular", href: authorized ? "/r/all/" : "/" },
+    authorized ? { name: "feed", text: "My Feed", href: "/" } : null,
+    { name: "popular", text: "Popular", href: authorized ? "/r/all/" : "/" },
   ];
 
   return (
     <nav className="sidebar">
       <div className="sidebar__body">
-        <ul>
+        <ul className="sidebar__menu sidebar__menu--user">
           {navItems.map((item) => item && (
             <li key={item.href}>
               <NavLink
@@ -39,13 +40,17 @@ export function Sidebar() {
                 }}
                 to={item.href}
               >
-                {item.text}
+                <div className={`
+                  sidebar__item-icon
+                  sidebar__item-icon--${item.name}
+                `}></div>
+                <div className="sidebar__item-text">{item.text}</div>
               </NavLink>
             </li>
           ))}
         </ul>
         {subreddits && (
-          <ul>
+          <ul className="sidebar__menu">
             {subreddits
               .sort((a, b) => a.name > b.name ? 1 : -1)
               .map(({ avatar, name }) => (
@@ -64,7 +69,7 @@ export function Sidebar() {
               ))}
           </ul>
         )}
-        {isLoading && <SidebarItemsSkeleton count={5} />}
+        {isLoading && <SidebarMenuSkeleton count={5} />}
       </div>
       <div className="sidebar__footer">
         <a

@@ -13,13 +13,13 @@
   &__body {
     padding: 10px;
     overflow: auto;
+  }
 
-    ul {
-      @include reset-list;
+  &__menu {
+    @include reset-list;
 
-      &:not(:last-child) {
-        margin-bottom: 10px;
-      }
+    &:not(:last-child) {
+      margin-bottom: 10px;
     }
 
     li:not(:last-child) {
@@ -45,7 +45,22 @@
   }
 
   &__item-icon {
+    width: 24px;
+    height: 24px;
     margin-right: 12px;
+
+    &--feed {
+      mask: no-repeat center / 100% url("./assets/feed.svg");
+    }
+
+    &--popular {
+      mask: no-repeat center / 100% url("./assets/top.svg");
+    }
+  }
+
+  &__menu--user &__item-icon {
+    background-color: currentColor;
+    transform: scale(.85);
   }
 
   &__item-text {
