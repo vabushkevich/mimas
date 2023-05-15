@@ -29,9 +29,7 @@ export function AuthorHeader({
           </div>
           <div className="author-header__name">{name}</div>
           {description && (
-            <div className="author-header__description">
-              {description}
-            </div>
+            <div className="author-header__description">{description}</div>
           )}
           <div className="author-header__stats">
             {stats.map(({ label, title, value }) => (

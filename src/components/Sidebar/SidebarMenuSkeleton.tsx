@@ -20,4 +20,4 @@ export function SidebarMenuSkeleton({ count = 3 }) {
       ))}
     </ul>
   );
-};
+}

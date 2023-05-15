@@ -15,7 +15,7 @@ import {
 import "./UserPage.scss";
 
 export function UserPage() {
-  const query = useQueryString<{ sort: string, t: string }>();
+  const query = useQueryString<{ sort: string; t: string }>();
   const sort = isPostSortingMethod(query.sort) ? query.sort : "hot";
   const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
 

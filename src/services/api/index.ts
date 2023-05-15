@@ -24,14 +24,10 @@ import {
 import { useLocation } from "react-router-dom";
 
 export function usePosts(ids: string[]) {
-  return useQuery(
-    ["posts", ...ids],
-    () => client.getPosts(ids),
-    {
-      enabled: ids.length > 0,
-      placeholderData: [],
-    }
-  );
+  return useQuery(["posts", ...ids], () => client.getPosts(ids), {
+    enabled: ids.length > 0,
+    placeholderData: [],
+  });
 }
 
 export function usePost(id: string) {
@@ -49,13 +45,7 @@ export function useFeedPosts(options: {
   subreddit?: string;
   userName?: string;
 }) {
-  const {
-    limit,
-    sort,
-    sortTimeInterval,
-    subreddit,
-    userName,
-  } = options;
+  const { limit, sort, sortTimeInterval, subreddit, userName } = options;
 
   const { key } = useLocation();
 
@@ -70,10 +60,10 @@ export function useFeedPosts(options: {
       return posts;
     },
     {
-      getNextPageParam: ((lastPosts) => lastPosts.at(-1)?.id),
+      getNextPageParam: (lastPosts) => lastPosts.at(-1)?.id,
       placeholderData: { pages: [], pageParams: [] },
       cacheTime: 60 * 60 * 1000,
-    }
+    },
   );
 }
 
@@ -132,15 +122,13 @@ export function useComment(id: string) {
   });
 }
 
-export function useLoadMoreComments(
-  {
-    commentId,
-    limit,
-  }: {
-    commentId?: string
-    limit?: number;
-  } = {},
-) {
+export function useLoadMoreComments({
+  commentId,
+  limit,
+}: {
+  commentId?: string;
+  limit?: number;
+} = {}) {
   const { postId, sort } = usePostParams();
   const queryClient = useQueryClient();
 
@@ -166,11 +154,10 @@ export function useLoadMoreComments(
         });
         delete threadList.comments[commentId];
       } else {
-        threadList = await client.getMoreComments(
-          postId,
-          commentIds,
-          { commentId, sort },
-        );
+        threadList = await client.getMoreComments(postId, commentIds, {
+          commentId,
+          sort,
+        });
       }
 
       prefetchAvatars(Object.values(threadList.comments));
@@ -222,9 +209,8 @@ export function useMySubscriptions({ enabled = true } = {}) {
 
 export function useVote(submission: Submission) {
   return useMutation({
-    mutationFn: ({ direction }: { direction: VoteDirection }) => (
-      client.vote(submission.id, direction)
-    ),
+    mutationFn: ({ direction }: { direction: VoteDirection }) =>
+      client.vote(submission.id, direction),
     onSuccess: (_, { direction }) => {
       const updater = (submission: Submission) => {
         submission.score += direction - submission.voteDirection;
@@ -242,7 +228,7 @@ export function useVote(submission: Submission) {
 
 export function usePostComment() {
   return useMutation({
-    mutationFn: ({ parentId, text }: { parentId: string, text: string }) =>
+    mutationFn: ({ parentId, text }: { parentId: string; text: string }) =>
       client.comment(parentId, text),
     onSuccess: (comment) => {
       addCommentToCache(comment);

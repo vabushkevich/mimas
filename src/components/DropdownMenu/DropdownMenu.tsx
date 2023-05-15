@@ -33,8 +33,7 @@ export function DropdownMenu({
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [userSelectedValue, setUserSelectedValue] = useState<string>(null);
-  const [selectedContent, setSelectedContent] =
-    useState<React.ReactNode>(null);
+  const [selectedContent, setSelectedContent] = useState<React.ReactNode>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const selectedValue = selectable
@@ -59,11 +58,7 @@ export function DropdownMenu({
     <MenuContext.Provider value={contextValue}>
       <div className="dropdown-menu">
         <div ref={buttonRef} onClick={() => setIsOpen(!isOpen)}>
-          {button && (
-            typeof button == "function"
-              ? button(selectedContent)
-              : button
-          )}
+          {typeof button == "function" ? button(selectedContent) : button}
           {!button && label && (
             <DropdownButton>
               {typeof label == "function" ? label(selectedContent) : label}
@@ -78,9 +73,7 @@ export function DropdownMenu({
             alignRight && "dropdown-menu__menu--align-right",
           )}
         >
-          <Menu>
-            {children}
-          </Menu>
+          <Menu>{children}</Menu>
         </div>
       </div>
     </MenuContext.Provider>

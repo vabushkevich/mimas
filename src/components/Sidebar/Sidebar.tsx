@@ -12,20 +12,19 @@ export function Sidebar() {
   const { authorized } = useAuth();
   const { data: subreddits, isLoading } = useSidebarSubreddits();
 
-  const navItems: {
-    name: string;
-    text: string;
-    href: string;
-  }[] = [
-    authorized ? { name: "feed", text: "My Feed", href: "/" } : null,
-    { name: "popular", text: "Popular", href: authorized ? "/r/all/" : "/" },
-  ];
+  const navItems: { name: string; text: string; href: string }[] = [];
+  if (authorized) navItems.push({ name: "feed", text: "My Feed", href: "/" });
+  navItems.push({
+    name: "popular",
+    text: "Popular",
+    href: authorized ? "/r/all/" : "/",
+  });
 
   return (
     <nav className="sidebar">
       <div className="sidebar__body">
         <ul className="sidebar__menu sidebar__menu--user">
-          {navItems.map((item) => item && (
+          {navItems.map((item) => (
             <li key={item.href}>
               <NavLink
                 activeClassName="sidebar__item--active"
@@ -34,16 +33,18 @@ export function Sidebar() {
                 isActive={(match, location) => {
                   if (match) return true;
                   return (
-                    item.href == "/"
-                    && isPostSortingMethod(location.pathname.split("/")[1])
+                    item.href == "/" &&
+                    isPostSortingMethod(location.pathname.split("/")[1])
                   );
                 }}
                 to={item.href}
               >
-                <div className={`
-                  sidebar__item-icon
-                  sidebar__item-icon--${item.name}
-                `}></div>
+                <div
+                  className={[
+                    "sidebar__item-icon",
+                    `sidebar__item-icon--${item.name}`,
+                  ].join(" ")}
+                ></div>
                 <div className="sidebar__item-text">{item.text}</div>
               </NavLink>
             </li>
@@ -52,7 +53,7 @@ export function Sidebar() {
         {subreddits && (
           <ul className="sidebar__menu">
             {subreddits
-              .sort((a, b) => a.name > b.name ? 1 : -1)
+              .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map(({ avatar, name }) => (
                 <li key={name}>
                   <NavLink
@@ -80,4 +81,4 @@ export function Sidebar() {
       </div>
     </nav>
   );
-};
+}

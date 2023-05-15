@@ -34,10 +34,9 @@ export function CommentThreadList({
   showReplyForm = false,
   onReply,
 }: CommentThreadListProps) {
-  const {
-    mutate: loadMoreComments,
-    isLoading,
-  } = useLoadMoreComments({ commentId: parentId });
+  const { mutate: loadMoreComments, isLoading } = useLoadMoreComments({
+    commentId: parentId,
+  });
   const { mutateAsync: postComment } = usePostComment();
 
   return (
@@ -61,9 +60,7 @@ export function CommentThreadList({
       })}
       {!hideLoadMoreButton && moreComments && (
         <li className="comment-thread-list__item">
-          <CommentWrapper
-            onCollapseButtonClick={() => loadMoreComments()}
-          >
+          <CommentWrapper onCollapseButtonClick={() => loadMoreComments()}>
             <button
               className="comment-thread-list__more-replies-btn"
               onClick={() => loadMoreComments()}

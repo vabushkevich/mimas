@@ -8,10 +8,7 @@ import "./TextPost.scss";
 const MAX_BODY_HEIGHT = 300;
 
 export function TextPost(props: PostProps<TextPost>) {
-  const {
-    post,
-    collapsed,
-  } = props;
+  const { post, collapsed } = props;
   const { bodyHtml } = post;
 
   const [isTall, setIsTall] = useState(false);

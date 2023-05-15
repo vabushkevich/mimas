@@ -23,7 +23,7 @@
   &__status-icons {
     display: flex;
 
-    >* {
+    > * {
       width: 12px;
       height: 12px;
       background-color: $gray-600;
@@ -67,15 +67,18 @@
     opacity: 0.85;
   }
 
-  &--submitter &__name, .a {
+  &--submitter &__name,
+  .a {
     background-color: hsl(208, 85%, 67%);
   }
 
-  &--moderator &__name, .b {
+  &--moderator &__name,
+  .b {
     background-color: hsl(125, 50%, 57%);
   }
 
-  &--admin &__name, .c {
+  &--admin &__name,
+  .c {
     background-color: hsl(15, 100%, 65%);
   }
 }

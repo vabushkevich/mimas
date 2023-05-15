@@ -8,20 +8,23 @@ type AuthContextType = {
 
 export const AuthContext = createContext<AuthContextType>(null);
 
-export function AuthContextProvider(
-  { children }: { children: React.ReactNode }
-) {
+export function AuthContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const auth = readAuth();
   const [authorized, setAuthorized] = useState(!!auth?.refreshToken);
 
-  const contextValue = useMemo(() => ({
-    authorized,
-    setAuthorized,
-  }), [authorized, setAuthorized]);
+  const contextValue = useMemo(
+    () => ({
+      authorized,
+      setAuthorized,
+    }),
+    [authorized, setAuthorized],
+  );
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
-};
+}

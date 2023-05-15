@@ -8,11 +8,7 @@ import {
 import { FeedPageType, isPostSortingMethod, isSortTimeInterval } from "@types";
 import { useQueryString } from "@hooks";
 
-import {
-  Container,
-  Page,
-  Feed,
-} from "@components";
+import { Container, Page, Feed } from "@components";
 
 type FeedPageProps = {
   type: FeedPageType;
@@ -20,14 +16,10 @@ type FeedPageProps = {
 
 export function FeedPage({ type }: FeedPageProps) {
   const params = useParams<{ sort: string }>();
-  const postSorting = isPostSortingMethod(params.sort)
-    ? params.sort
-    : "hot";
+  const postSorting = isPostSortingMethod(params.sort) ? params.sort : "hot";
 
   const query = useQueryString<{ t: string }>();
-  const sortTimeInterval = isSortTimeInterval(query.t)
-    ? query.t
-    : "day";
+  const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
 
   const history = useHistory();
   const match = useRouteMatch();

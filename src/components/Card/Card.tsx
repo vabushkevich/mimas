@@ -11,10 +11,7 @@ type CardProps = {
 export function Card({ hideOverflow = false, children }: CardProps) {
   return (
     <div
-      className={classNames(
-        "card",
-        hideOverflow && "card--overflow-hidden",
-      )}
+      className={classNames("card", hideOverflow && "card--overflow-hidden")}
     >
       {children}
     </div>

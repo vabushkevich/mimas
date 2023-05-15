@@ -17,11 +17,7 @@ export function MenuItem({
   onClick,
   children,
 }: MenuItemProps) {
-  const {
-    selectedValue,
-    onItemClick,
-    onItemRender,
-  } = useContext(MenuContext);
+  const { selectedValue, onItemClick, onItemRender } = useContext(MenuContext);
 
   selected ??= value === selectedValue;
 
@@ -31,10 +27,7 @@ export function MenuItem({
 
   return (
     <button
-      className={classNames(
-        "menu-item",
-        selected && "menu-item--selected",
-      )}
+      className={classNames("menu-item", selected && "menu-item--selected")}
       onClick={() => {
         onClick?.(value);
         onItemClick?.(value);

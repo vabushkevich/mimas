@@ -109,7 +109,7 @@
   }
 
   &__close-btn:hover,
-  &__background:hover~&__close-btn {
+  &__background:hover ~ &__close-btn {
     opacity: 0.9;
   }
 }

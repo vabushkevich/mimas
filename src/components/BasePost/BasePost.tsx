@@ -38,14 +38,14 @@ export function BasePost({
     voteDirection,
   } = post;
 
-  const primaryAuthorId = primaryAuthorType == "subreddit"
-    ? subredditId
-    : userId;
-  const removeBottomPadding = hideFooter
-    && (type != "text" || post.bodyHtml.length == 0)
-    && type != "crosspost"
-    && type != "removed"
-    && type != "link";
+  const primaryAuthorId =
+    primaryAuthorType == "subreddit" ? subredditId : userId;
+  const removeBottomPadding =
+    hideFooter &&
+    (type != "text" || post.bodyHtml.length == 0) &&
+    type != "crosspost" &&
+    type != "removed" &&
+    type != "link";
 
   const avatar = useAvatar(primaryAuthorId);
   const { mutate: mutateVote } = useVote(post);
@@ -56,7 +56,7 @@ export function BasePost({
       <div
         className={classNames(
           "post",
-          removeBottomPadding && "post--no-bottom-padding"
+          removeBottomPadding && "post--no-bottom-padding",
         )}
       >
         <div className="post__header">
@@ -77,10 +77,7 @@ export function BasePost({
         <div className="post__body">{children}</div>
         {!hideFooter && (
           <div className="post__footer">
-            <Link
-              className="post__comments-btn"
-              to={url}
-            >
+            <Link className="post__comments-btn" to={url}>
               {compactNumber(commentCount)}
             </Link>
             <div className="post__voting">

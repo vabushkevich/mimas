@@ -7,17 +7,13 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export const Button = forwardRef(function Button(
-  {
-    rightIcon,
-    children,
-    ...other
-  }: ButtonProps,
+  { rightIcon, children, ...other }: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <button ref={ref} className="button" {...other}>
       {children}
       {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
-    </button >
+    </button>
   );
 });

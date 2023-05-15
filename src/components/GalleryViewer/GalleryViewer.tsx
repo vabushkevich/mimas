@@ -74,11 +74,7 @@ export function GalleryViewer({
             </>
           )}
         </div>
-        {caption && (
-          <div className="gallery-viewer__caption">
-            {caption}
-          </div>
-        )}
+        {caption && <div className="gallery-viewer__caption">{caption}</div>}
       </div>
       {pageCount > 1 && (
         <div className="gallery-viewer__counter">

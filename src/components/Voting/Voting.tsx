@@ -8,7 +8,7 @@ import "./Voting.scss";
 type VotingProps = {
   score: number;
   scoreHidden?: boolean;
-  voteDirection: VoteDirection,
+  voteDirection: VoteDirection;
   onVote?: (direction: VoteDirection) => void;
 };
 
@@ -30,10 +30,7 @@ export function Voting({
 
   return (
     <div
-      className={classNames(
-        "voting",
-        voteType && `voting--vote-${voteType}`
-      )}
+      className={classNames("voting", voteType && `voting--vote-${voteType}`)}
     >
       <button
         className="voting__down-btn"
@@ -42,10 +39,7 @@ export function Voting({
       <div className="voting__score">
         {scoreHidden ? "–" : compactNumber(score)}
       </div>
-      <button
-        className="voting__up-btn"
-        onClick={() => handleVote(1)}
-      ></button>
+      <button className="voting__up-btn" onClick={() => handleVote(1)}></button>
     </div>
   );
 }

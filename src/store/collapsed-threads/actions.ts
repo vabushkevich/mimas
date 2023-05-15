@@ -1,7 +1,4 @@
-import {
-  CollapsedThreadsActionTypes,
-  TOGGLE_THREAD,
-} from "./types";
+import { CollapsedThreadsActionTypes, TOGGLE_THREAD } from "./types";
 
 export function toggleThread(id: string): CollapsedThreadsActionTypes {
   return {

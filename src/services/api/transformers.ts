@@ -83,7 +83,7 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
       subreddit,
       subreddit_id,
       title,
-    }
+    },
   } = rawPost;
 
   const basePost: BasePost = {
@@ -112,11 +112,7 @@ export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
   const {
     preview,
     media: {
-      reddit_video: {
-        height,
-        hls_url,
-        width,
-      },
+      reddit_video: { height, hls_url, width },
     },
   } = rawPost.data;
   const rawPreview = preview?.images[0];
@@ -137,11 +133,7 @@ export function transformExternalVideoPost(
   const {
     preview: {
       images: [rawPreview],
-      reddit_video_preview: {
-        height,
-        hls_url,
-        width,
-      },
+      reddit_video_preview: { height, hls_url, width },
     },
   } = rawPost.data;
 
@@ -231,11 +223,7 @@ export function transformYouTubePost(rawPost: Raw.YouTubePost): YouTubePost {
 }
 
 export function transformCrossPost(rawPost: Raw.CrossPost): CrossPost {
-  const {
-    author,
-    author_fullname,
-    crosspost_parent_list,
-  } = rawPost.data;
+  const { author, author_fullname, crosspost_parent_list } = rawPost.data;
 
   const crossPost: CrossPost = {
     ...transformBasePost(rawPost),
@@ -310,7 +298,7 @@ export function transformComment(rawComment: Raw.Comment): Comment {
       score_hidden,
       score,
       stickied,
-    }
+    },
   } = rawComment;
 
   const comment: Comment = {
@@ -343,11 +331,7 @@ export function transformComment(rawComment: Raw.Comment): Comment {
 
 function transformMoreItems(rawMoreItems: Raw.MoreItems): MoreItems {
   const {
-    data: {
-      children,
-      count,
-      parent_id,
-    }
+    data: { children, count, parent_id },
   } = rawMoreItems;
 
   return {
@@ -370,17 +354,9 @@ export function transformShortUsers(
   return users;
 }
 
-function transformShortUser(
-  rawShortUser: Raw.ShortUser,
-  userId: string,
-): User {
-  const {
-    comment_karma,
-    created_utc,
-    link_karma,
-    name,
-    profile_img,
-  } = rawShortUser;
+function transformShortUser(rawShortUser: Raw.ShortUser, userId: string): User {
+  const { comment_karma, created_utc, link_karma, name, profile_img } =
+    rawShortUser;
 
   return {
     avatar: profile_img,
@@ -397,14 +373,8 @@ export function transformFullUser(rawFullUser: Raw.FullUser): User {
 }
 
 function transformFullUserData(rawFullUserData: Raw.FullUser["data"]): User {
-  const {
-    comment_karma,
-    created_utc,
-    icon_img,
-    id,
-    link_karma,
-    name,
-  } = rawFullUserData;
+  const { comment_karma, created_utc, icon_img, id, link_karma, name } =
+    rawFullUserData;
 
   return {
     avatar: icon_img,
@@ -427,7 +397,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
       name,
       public_description,
       subscribers,
-    }
+    },
   } = rawSubreddit;
 
   const avatar = (community_icon || icon_img).split("?")[0];
@@ -446,7 +416,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
 export function transformIdentity(rawIdentity: Raw.Identity): Identity {
   return {
     user: transformFullUserData(rawIdentity),
-  }
+  };
 }
 
 function transformResponsiveMedia(
@@ -474,7 +444,7 @@ function transformResponsiveMediaShort(
       u: rawSource.u || rawSource.gif,
       x: rawSource.x,
       y: rawSource.y,
-    }
+    },
   ];
 
   return rawMediaItems.map((rawMedia) => ({

@@ -62,10 +62,7 @@ export function SubmissionHeader({
           {userName}
         </Link>
       )}
-      <div
-        className="submission-header__date"
-        title={formatDate(dateCreated)}
-      >
+      <div className="submission-header__date" title={formatDate(dateCreated)}>
         {formatDistanceToNow(dateCreated)}
       </div>
       {hasStatusIcons && (

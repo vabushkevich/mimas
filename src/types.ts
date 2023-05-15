@@ -18,14 +18,7 @@ const postSortingMethods = [
   "controversial",
 ] as const;
 
-const idPrefixes = [
-  "t1",
-  "t2",
-  "t3",
-  "t4",
-  "t5",
-  "t6",
-] as const;
+const idPrefixes = ["t1", "t2", "t3", "t4", "t5", "t6"] as const;
 
 const sortTimeIntervals = [
   "hour",
@@ -51,7 +44,7 @@ export type BasePost = {
   url: string;
   userId?: string;
   userName: string;
-  voteDirection: VoteDirection,
+  voteDirection: VoteDirection;
 };
 
 export type LinkPost = BasePost & {
@@ -144,7 +137,7 @@ export type Comment = {
   scoreHidden: boolean;
   userId?: string;
   userName: string;
-  voteDirection: VoteDirection,
+  voteDirection: VoteDirection;
 };
 
 export type Submission = Post | Comment;
@@ -161,9 +154,9 @@ export type MoreItems = {
   totalCount: number;
 };
 
-export type CommentSortingMethod = typeof commentSortingMethods[number];
+export type CommentSortingMethod = (typeof commentSortingMethods)[number];
 
-export type PostSortingMethod = typeof postSortingMethods[number];
+export type PostSortingMethod = (typeof postSortingMethods)[number];
 
 export type User = {
   avatar: string;
@@ -186,7 +179,7 @@ export type Subreddit = {
   subscribers: number;
 };
 
-export type IdPrefix = typeof idPrefixes[number];
+export type IdPrefix = (typeof idPrefixes)[number];
 
 export type IdType =
   | "comment"
@@ -198,7 +191,7 @@ export type IdType =
 
 export type AuthorType = "user" | "subreddit";
 
-export type SortTimeInterval = typeof sortTimeIntervals[number];
+export type SortTimeInterval = (typeof sortTimeIntervals)[number];
 
 export function isCommentSortingMethod(
   value: any,
@@ -206,21 +199,15 @@ export function isCommentSortingMethod(
   return commentSortingMethods.includes(value);
 }
 
-export function isPostSortingMethod(
-  value: any,
-): value is PostSortingMethod {
+export function isPostSortingMethod(value: any): value is PostSortingMethod {
   return postSortingMethods.includes(value);
 }
 
-export function isIdPrefix(
-  value: any,
-): value is IdPrefix {
+export function isIdPrefix(value: any): value is IdPrefix {
   return idPrefixes.includes(value);
 }
 
-export function isSortTimeInterval(
-  value: any,
-): value is SortTimeInterval {
+export function isSortTimeInterval(value: any): value is SortTimeInterval {
   return sortTimeIntervals.includes(value);
 }
 

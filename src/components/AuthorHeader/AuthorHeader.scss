@@ -33,7 +33,7 @@
   &__stats {
     display: flex;
 
-    >*:not(:last-child) {
+    > *:not(:last-child) {
       margin-right: 25px;
     }
   }

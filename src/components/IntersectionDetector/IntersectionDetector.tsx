@@ -29,10 +29,12 @@ export function IntersectionDetector({
       if (!elemRef.current) return;
       const elemRect = elemRef.current.getBoundingClientRect();
       const { clientWidth, clientHeight } = document.documentElement;
-      return elemRect.right + marginRight > 0
-        && elemRect.left - marginLeft < clientWidth
-        && elemRect.bottom + marginBottom > 0
-        && elemRect.top - marginTop < clientHeight;
+      return (
+        elemRect.right + marginRight > 0 &&
+        elemRect.left - marginLeft < clientWidth &&
+        elemRect.bottom + marginBottom > 0 &&
+        elemRect.top - marginTop < clientHeight
+      );
     };
 
     const checkEnter = () => {

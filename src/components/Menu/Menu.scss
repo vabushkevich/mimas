@@ -4,11 +4,10 @@
   padding: 4px;
   background-color: white;
   border-radius: 6px;
-  box-shadow:
-    0 4px 8px rgba($color: black, $alpha: 0.10),
-    0 0 1px rgba($color: black, $alpha: 0.30);
+  box-shadow: 0 4px 8px rgba($color: black, $alpha: 0.1),
+    0 0 1px rgba($color: black, $alpha: 0.3);
 
-  >.menu-item:not(:last-child) {
+  > .menu-item:not(:last-child) {
     margin-bottom: 3px;
   }
 }

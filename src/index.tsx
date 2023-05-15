@@ -12,14 +12,12 @@ import "normalize.css";
 import "@sass/_global.scss";
 
 ReactDOM.render(
-  (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <AuthContextProvider>
-          < App />
-        </AuthContextProvider>
-      </QueryClientProvider>
-    </Provider>
-  ),
-  document.querySelector("#root")
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    </QueryClientProvider>
+  </Provider>,
+  document.querySelector("#root"),
 );

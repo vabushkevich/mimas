@@ -77,8 +77,8 @@
   }
 
   li,
-  li>ul:first-of-type,
-  li>ol:first-of-type {
+  li > ul:first-of-type,
+  li > ol:first-of-type {
     margin-top: 0.3em;
   }
 
@@ -92,7 +92,8 @@
   code {
     border-radius: 0.3em;
     font-size: 90%;
-    font-family: Menlo, Consolas, Monaco, "Liberation Mono", "Lucida Console", monospace;
+    font-family: Menlo, Consolas, Monaco, "Liberation Mono", "Lucida Console",
+      monospace;
     background-color: $gray-200;
   }
 
@@ -100,11 +101,11 @@
     padding: 0.6em;
   }
 
-  pre>code {
+  pre > code {
     font-size: inherit;
   }
 
-  :not(pre)>code {
+  :not(pre) > code {
     padding: 0.1em 0.3em;
   }
 

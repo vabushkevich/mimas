@@ -89,10 +89,13 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 export function useAuthGuard<F extends (...args: any[]) => any>(fn?: F): F {
   const { authorized } = useAuth();
 
-  return useCallback(<F>((...args: any[]) => {
-    if (authorized) return fn?.(...args);
-    toast.error("Sign in to perform this action");
-  }), [authorized, fn]);
+  return useCallback(
+    <F>((...args: any[]) => {
+      if (authorized) return fn?.(...args);
+      toast.error("Sign in to perform this action");
+    }),
+    [authorized, fn],
+  );
 }
 
 export function useCounter({
@@ -171,7 +174,7 @@ export function useLocalStorage<T>(
   initialValue?: T,
 ): [T, (value: T) => void] {
   const [value, setValue] = useState<T>(
-    JSON.parse(localStorage.getItem(key)) ?? initialValue
+    JSON.parse(localStorage.getItem(key)) ?? initialValue,
   );
 
   // If the `setStorageValue()` function is called after the component has been

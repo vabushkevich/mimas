@@ -2,9 +2,7 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useQueryString } from "@hooks";
 import { createId } from "@utils";
-import {
-  isCommentSortingMethod,
-} from "@types";
+import { isCommentSortingMethod } from "@types";
 import {
   usePost,
   usePostComments,
@@ -38,21 +36,14 @@ export function PostPage() {
 
   const params = useParams<{ id: string }>();
   const postId = createId(params.id, "post");
-  const {
-    data: post,
-    isLoading: isPostLoading,
-  } = usePost(postId);
-  const {
-    data: threadList,
-    isLoading: isPostCommentsLoading,
-  } = usePostComments(postId, { limit: 100, sort: commentsSorting });
+  const { data: post, isLoading: isPostLoading } = usePost(postId);
+  const { data: threadList, isLoading: isPostCommentsLoading } =
+    usePostComments(postId, { limit: 100, sort: commentsSorting });
   const history = useHistory();
   const { authorized } = useAuth();
 
-  const {
-    mutate: loadMoreComments,
-    isLoading: isMoreCommentsLoading,
-  } = useLoadMoreComments();
+  const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
+    useLoadMoreComments();
 
   const { mutateAsync: postComment } = usePostComment();
 
@@ -64,13 +55,7 @@ export function PostPage() {
   return (
     <Page title={post?.title}>
       <Container>
-        {post && (
-          <Post
-            post={post}
-            collapsed={false}
-            hidePin
-          />
-        )}
+        {post && <Post post={post} collapsed={false} hidePin />}
         {isPostLoading && <PostSkeleton />}
         {hasAlerts && (
           <div className="alerts">
@@ -78,7 +63,9 @@ export function PostPage() {
               <div className="alerts__body">
                 {archived && (
                   <div className="alerts__item">
-                    <Alert>Post archived. Commenting and voting are not available.</Alert>
+                    <Alert>
+                      Post archived. Commenting and voting are not available.
+                    </Alert>
                   </div>
                 )}
                 {locked && !archived && (

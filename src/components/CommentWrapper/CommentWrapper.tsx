@@ -17,9 +17,7 @@ export function CommentWrapper({
         className="comment-wrapper__collapse-btn"
         onClick={onCollapseButtonClick}
       ></button>
-      <div className="comment-wrapper__body">
-        {children}
-      </div>
+      <div className="comment-wrapper__body">{children}</div>
     </div>
   );
 }

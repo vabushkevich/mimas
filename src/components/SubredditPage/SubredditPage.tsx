@@ -21,14 +21,10 @@ import "./SubredditPage.scss";
 
 export function SubredditPage() {
   const params = useParams<{ sort: string }>();
-  const postSorting = isPostSortingMethod(params.sort)
-    ? params.sort
-    : "hot";
+  const postSorting = isPostSortingMethod(params.sort) ? params.sort : "hot";
 
   const query = useQueryString<{ t: string }>();
-  const sortTimeInterval = isSortTimeInterval(query.t)
-    ? query.t
-    : "day";
+  const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
 
   const { subreddit: subredditName } = useParams<{ subreddit: string }>();
   const { data: subreddit, isLoading } = useSubredditByName(subredditName);

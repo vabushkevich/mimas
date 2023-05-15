@@ -38,11 +38,13 @@ export function Comment({
   const vote = useAuthGuard(mutateVote);
   const handleReplyButtonClick = useAuthGuard(onReplyButtonClick);
 
-  if (deletedBy) return (
-    <div className="comment comment--deleted">
-      {capitalize(deletedBy)} removed comment
-    </div>
-  );
+  if (deletedBy) {
+    return (
+      <div className="comment comment--deleted">
+        {capitalize(deletedBy)} removed comment
+      </div>
+    );
+  }
 
   return (
     <div className="comment">

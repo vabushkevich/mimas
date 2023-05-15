@@ -48,14 +48,15 @@ export function getAuthURL() {
     state: `${Date.now()}${location.pathname}${location.search}`,
     redirect_uri: `${location.origin}/auth`,
     duration: "permanent",
-    scope: "edit history identity mysubreddits privatemessages read save submit subscribe vote",
+    scope:
+      "edit history identity mysubreddits privatemessages read save submit subscribe vote",
   });
 
   return `https://www.reddit.com/api/v1/authorize.compact?${params}`;
 }
 
 export function useRedirectURLParams() {
-  const { code, state } = useQueryString<{ code: string, state: string }>();
+  const { code, state } = useQueryString<{ code: string; state: string }>();
   const redirectTo = state.match(/\d+(.+)/)[1];
 
   return { code, redirectTo };

@@ -45,7 +45,7 @@ export type VideoPost = BasePost & {
     preview?: {
       images: ResponsiveMedia[];
     };
-  }
+  };
 };
 
 export type ExternalVideoPost = BasePost & {
@@ -58,7 +58,7 @@ export type ExternalVideoPost = BasePost & {
         width: number;
       };
     };
-  }
+  };
 };
 
 export type GIFPost = BasePost & {
@@ -67,7 +67,7 @@ export type GIFPost = BasePost & {
     preview: {
       images: (ResponsiveMedia & Variants<"mp4">)[];
     };
-  }
+  };
 };
 
 export type GalleryPost = BasePost & {
@@ -79,19 +79,19 @@ export type GalleryPost = BasePost & {
       }[];
     };
     media_metadata: Record<string, ResponsiveMediaShort>;
-  }
-}
+  };
+};
 
 export type TextPost = BasePost & {
   data: {
     selftext_html: string;
-  }
+  };
 };
 
 export type LinkPost = BasePost & {
   data: {
     url_overridden_by_dest: string;
-  }
+  };
 };
 
 export type YouTubePost = BasePost & {
@@ -102,14 +102,14 @@ export type YouTubePost = BasePost & {
       };
       type: "youtube.com";
     };
-  }
+  };
 };
 
 export type CrossPost = BasePost & {
   data: {
     crosspost_parent_list: [Post["data"]];
     crosspost_parent: string;
-  }
+  };
 };
 
 export type RemovedPost = BasePost & {

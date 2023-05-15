@@ -18,25 +18,25 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
 
   return (
     <nav className="site-nav">
-      <button className="site-nav__menu-btn" onClick={onMenuButtonClick}>
-      </button>
+      <button
+        className="site-nav__menu-btn"
+        onClick={onMenuButtonClick}
+      ></button>
       <Link className="site-nav__logo" to="/"></Link>
       <div className="site-nav__login-btn">
         {authorized && user && (
           <DropdownMenu
             alignRight
-            button={(
+            button={
               <button className="user-menu-btn">
                 <span className="user-menu-btn__picture">
                   <Avatar picture={user.avatar} size="md" />
                 </span>
                 <span className="user-menu-btn__icon"></span>
               </button>
-            )}
+            }
           >
-            <MenuItem
-              onClick={() => history.push(`/user/${user.name}`)}
-            >
+            <MenuItem onClick={() => history.push(`/user/${user.name}`)}>
               {user.name}
             </MenuItem>
             <MenuItem onClick={unauthorize}>Sign Out</MenuItem>

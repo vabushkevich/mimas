@@ -1,11 +1,5 @@
 import { findLast } from "lodash-es";
-import {
-  Comment,
-  IdPrefix,
-  IdType,
-  Submission,
-  isIdPrefix,
-} from "@types";
+import { Comment, IdPrefix, IdType, Submission, isIdPrefix } from "@types";
 
 const idPrefixTypePairs: [IdPrefix, IdType][] = [
   ["t1", "comment"],
@@ -16,12 +10,13 @@ const idPrefixTypePairs: [IdPrefix, IdType][] = [
   ["t6", "award"],
 ];
 
-const idTypes = Object.fromEntries(
-  idPrefixTypePairs
-) as Record<IdPrefix, IdType>;
+const idTypes = Object.fromEntries(idPrefixTypePairs) as Record<
+  IdPrefix,
+  IdType
+>;
 
 const idPrefixes = Object.fromEntries(
-  idPrefixTypePairs.map(([prefix, type]) => [type, prefix])
+  idPrefixTypePairs.map(([prefix, type]) => [type, prefix]),
 ) as Record<IdType, IdPrefix>;
 
 const msInSecond = 1000;
@@ -46,8 +41,8 @@ export function formatDistanceToNow(date: Date | number) {
 }
 
 function formatDuration(duration: number) {
-  const unit = findLast(durationUnits, (unit) => unit.ms <= duration)
-    || durationUnits[0];
+  const unit =
+    findLast(durationUnits, (unit) => unit.ms <= duration) || durationUnits[0];
   const value = Math.floor(duration / unit.ms);
   return `${value}${unit.name}`;
 }
@@ -96,7 +91,7 @@ export function createId(string: string, type: IdType) {
 }
 
 export function getSubmissionAuthorIds(submissions: Submission[]) {
-  const ids = new Set<string>;
+  const ids = new Set<string>();
 
   for (const submission of submissions) {
     const isPost = "title" in submission;

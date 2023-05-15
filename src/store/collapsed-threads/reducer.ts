@@ -17,7 +17,7 @@ export function collapsedThreadsReducer(
       return {
         ids: state.ids.includes(action.payload)
           ? state.ids.filter((id) => id != action.payload)
-          : [...state.ids, action.payload]
+          : [...state.ids, action.payload],
       };
     default:
       return state;

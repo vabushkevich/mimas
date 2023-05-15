@@ -11,33 +11,15 @@
     "noImplicitAny": true,
     "outDir": "./dist/",
     "paths": {
-      "@assets": [
-        "src/assets/*"
-      ],
-      "@components": [
-        "src/components"
-      ],
-      "@context": [
-        "src/context"
-      ],
-      "@hooks": [
-        "src/hooks.ts"
-      ],      
-      "@sass/*": [
-        "src/sass/*"
-      ],
-      "@services/*": [
-        "src/services/*"
-      ],
-      "@store/*": [
-        "src/store/*"
-      ],
-      "@types": [
-        "src/types.ts"
-      ],
-      "@utils": [
-        "src/utils.ts"
-      ]
+      "@assets": ["src/assets/*"],
+      "@components": ["src/components"],
+      "@context": ["src/context"],
+      "@hooks": ["src/hooks.ts"],
+      "@sass/*": ["src/sass/*"],
+      "@services/*": ["src/services/*"],
+      "@store/*": ["src/store/*"],
+      "@types": ["src/types.ts"],
+      "@utils": ["src/utils.ts"]
     },
     "resolveJsonModule": true,
     "target": "ESNext",

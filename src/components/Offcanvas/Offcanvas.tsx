@@ -16,10 +16,7 @@ export function Offcanvas({
 }: OffcanvasProps) {
   return (
     <div
-      className={classNames(
-        "offcanvas",
-        contained && "offcanvas--contained",
-      )}
+      className={classNames("offcanvas", contained && "offcanvas--contained")}
       onClick={onClick}
     >
       <div className="offcanvas__backdrop"></div>

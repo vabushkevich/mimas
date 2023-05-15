@@ -8,9 +8,10 @@ export function YouTubeThumbnail({ videoId }: { videoId: string }) {
   useEffect(() => {
     const image = ref.current;
     const handleLoad = () => {
-      if (fileName == "hq720"
-        && image.naturalWidth == 120
-        && image.naturalHeight == 90
+      if (
+        fileName == "hq720" &&
+        image.naturalWidth == 120 &&
+        image.naturalHeight == 90
       ) {
         // Fallback to `hqdefault.jpg` if `hq720.jpg` doesn't exist
         setFileName("hqdefault");

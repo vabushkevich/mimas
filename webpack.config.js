@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -46,8 +46,8 @@ module.exports = {
       {
         test: /\.(png|svg)$/i,
         type: "asset/resource",
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -63,19 +63,19 @@ module.exports = {
       },
     }),
     new DefinePlugin({
-      "process.env.REDDIT_APP_CLIENT_ID":
-        JSON.stringify(process.env.REDDIT_APP_CLIENT_ID),
+      "process.env.REDDIT_APP_CLIENT_ID": JSON.stringify(
+        process.env.REDDIT_APP_CLIENT_ID,
+      ),
     }),
-  ]
-    .concat(
-      devMode
-        ? [new ReactRefreshWebpackPlugin()]
-        : [
+  ].concat(
+    devMode
+      ? [new ReactRefreshWebpackPlugin()]
+      : [
           new MiniCssExtractPlugin({
             filename: "[name]-[contenthash].css",
           }),
-        ]
-    ),
+        ],
+  ),
   resolve: {
     alias: {
       "@assets": path.resolve(__dirname, "src/assets"),

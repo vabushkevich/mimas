@@ -4,18 +4,13 @@ import { getSubmissionAuthorIds } from "@utils";
 import { queryClient } from "@services/query-client";
 import { client } from "./client";
 import { WritableDraft } from "immer/dist/internal";
-import {
-  CommentThreadList,
-  Submission,
-  Post,
-  Comment,
-} from "@types";
+import { CommentThreadList, Submission, Post, Comment } from "@types";
 import * as Raw from "./types";
 
 export function isLinkPost(rawPost: Raw.Post): rawPost is Raw.LinkPost {
   return (
-    "url_overridden_by_dest" in rawPost.data
-    && !!rawPost.data.url_overridden_by_dest
+    "url_overridden_by_dest" in rawPost.data &&
+    !!rawPost.data.url_overridden_by_dest
   );
 }
 
@@ -29,9 +24,9 @@ export function isGalleryPost(rawPost: Raw.Post): rawPost is Raw.GalleryPost {
 
 export function isVideoPost(rawPost: Raw.Post): rawPost is Raw.VideoPost {
   return (
-    rawPost.data.is_video === true
-    && !!rawPost.data.media
-    && "reddit_video" in rawPost.data.media
+    rawPost.data.is_video === true &&
+    !!rawPost.data.media &&
+    "reddit_video" in rawPost.data.media
   );
 }
 
@@ -39,42 +34,38 @@ export function isExternalVideoPost(
   rawPost: Raw.Post,
 ): rawPost is Raw.ExternalVideoPost {
   return (
-    "preview" in rawPost.data
-    && "reddit_video_preview" in rawPost.data.preview
+    "preview" in rawPost.data && "reddit_video_preview" in rawPost.data.preview
   );
 }
 
 export function isImagePost(rawPost: Raw.Post): rawPost is Raw.ImagePost {
-  return (
-    "post_hint" in rawPost.data
-    && rawPost.data.post_hint === "image"
-  );
+  return "post_hint" in rawPost.data && rawPost.data.post_hint === "image";
 }
 
 export function isGIFPost(rawPost: Raw.Post): rawPost is Raw.GIFPost {
   return (
-    "post_hint" in rawPost.data
-    && rawPost.data.post_hint == "image"
-    && "preview" in rawPost.data
-    && "variants" in rawPost.data.preview.images[0]
-    && "mp4" in rawPost.data.preview.images[0].variants
+    "post_hint" in rawPost.data &&
+    rawPost.data.post_hint == "image" &&
+    "preview" in rawPost.data &&
+    "variants" in rawPost.data.preview.images[0] &&
+    "mp4" in rawPost.data.preview.images[0].variants
   );
 }
 
 export function isYouTubePost(rawPost: Raw.Post): rawPost is Raw.YouTubePost {
   const { media } = rawPost.data;
   return (
-    !!media
-    && "type" in media
-    && media.type == "youtube.com"
-    && /\/embed\/([\w-]+)/.test(media?.oembed?.html)
+    !!media &&
+    "type" in media &&
+    media.type == "youtube.com" &&
+    /\/embed\/([\w-]+)/.test(media?.oembed?.html)
   );
 }
 
 export function isCrossPost(rawPost: Raw.Post): rawPost is Raw.CrossPost {
   return (
-    "crosspost_parent_list" in rawPost.data
-    && rawPost.data.crosspost_parent_list.length > 0
+    "crosspost_parent_list" in rawPost.data &&
+    rawPost.data.crosspost_parent_list.length > 0
   );
 }
 
@@ -117,16 +108,18 @@ export function updatePostInCache(
       active,
       queryKey: ["post-feed"],
     },
-    (data) => produce(data, (draft) => {
-      for (const posts of draft.pages) {
-        for (const post of posts) {
-          if (post.id == postId) {
-            Object.assign(post, updater(post));
-            return;
+    (data) => {
+      return produce(data, (draft) => {
+        for (const posts of draft.pages) {
+          for (const post of posts) {
+            if (post.id == postId) {
+              Object.assign(post, updater(post));
+              return;
+            }
           }
         }
-      }
-    }),
+      });
+    },
   );
 }
 
@@ -149,10 +142,12 @@ export function updateCommentInCache(
       active,
       queryKey: ["post-comments", postId],
     },
-    (threadList) => produce(threadList, (threadListDraft) => {
-      const comment = threadListDraft.comments[commentId];
-      if (comment) Object.assign(comment, updater(comment));
-    }),
+    (threadList) => {
+      return produce(threadList, (threadListDraft) => {
+        const comment = threadListDraft.comments[commentId];
+        if (comment) Object.assign(comment, updater(comment));
+      });
+    },
   );
 }
 
@@ -175,20 +170,33 @@ export function addCommentsToCache(
   postId: string,
   commentId?: string,
 ) {
-  updatePostCommentsInCache(postId, (threadListDraft) => {
-    Object.assign(threadListDraft.comments, threadList.comments);
-  }, { active: true });
+  updatePostCommentsInCache(
+    postId,
+    (threadListDraft) => {
+      Object.assign(threadListDraft.comments, threadList.comments);
+    },
+    { active: true },
+  );
 
   if (commentId) {
-    updateCommentInCache(postId, commentId, (comment) => {
-      comment.childIds.push(...threadList.rootCommentIds);
-      comment.moreChildren = threadList.moreComments;
-    }, { active: true });
+    updateCommentInCache(
+      postId,
+      commentId,
+      (comment) => {
+        comment.childIds.push(...threadList.rootCommentIds);
+        comment.moreChildren = threadList.moreComments;
+      },
+      { active: true },
+    );
   } else {
-    updatePostCommentsInCache(postId, (threadListDraft) => {
-      threadListDraft.rootCommentIds.push(...threadList.rootCommentIds);
-      threadListDraft.moreComments = threadList.moreComments;
-    }, { active: true });
+    updatePostCommentsInCache(
+      postId,
+      (threadListDraft) => {
+        threadListDraft.rootCommentIds.push(...threadList.rootCommentIds);
+        threadListDraft.moreComments = threadList.moreComments;
+      },
+      { active: true },
+    );
   }
 }
 
@@ -196,25 +204,38 @@ export function addCommentToCache(comment: Comment) {
   const { id, parentId, postId } = comment;
   const isRootComment = postId == parentId;
 
-  updatePostCommentsInCache(postId, (threadList) => {
-    threadList.comments[id] = comment;
-  }, { active: true });
+  updatePostCommentsInCache(
+    postId,
+    (threadList) => {
+      threadList.comments[id] = comment;
+    },
+    { active: true },
+  );
 
   if (isRootComment) {
-    updatePostCommentsInCache(postId, (threadList) => {
-      threadList.rootCommentIds.unshift(id);
-    }, { active: true });
+    updatePostCommentsInCache(
+      postId,
+      (threadList) => {
+        threadList.rootCommentIds.unshift(id);
+      },
+      { active: true },
+    );
   } else {
-    updateCommentInCache(postId, parentId, (comment) => {
-      comment.childIds.unshift(id);
-    }, { active: true });
+    updateCommentInCache(
+      postId,
+      parentId,
+      (comment) => {
+        comment.childIds.unshift(id);
+      },
+      { active: true },
+    );
   }
 }
 
 export function prefetchAvatars(submissions: Submission[]) {
   const authorIds = getSubmissionAuthorIds(submissions);
-  const newAuthorIds = authorIds.filter((id) =>
-    !queryClient.getQueryData(["avatars", "detail", id])
+  const newAuthorIds = authorIds.filter(
+    (id) => !queryClient.getQueryData(["avatars", "detail", id]),
   );
   const newAvatarsPromise = client.getAvatars(newAuthorIds);
 

@@ -1,6 +1,6 @@
 import { createStore } from "redux";
-import { composeWithDevTools } from '@redux-devtools/extension';
-import { collapsedThreadsReducer } from "./collapsed-threads/reducer"; 
+import { composeWithDevTools } from "@redux-devtools/extension";
+import { collapsedThreadsReducer } from "./collapsed-threads/reducer";
 
 export const store = createStore(
   collapsedThreadsReducer,

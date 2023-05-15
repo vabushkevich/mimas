@@ -26,17 +26,19 @@ export function Skeleton({
     return new Array(rows).fill(0).map(() => random(90, 100));
   }, [rows]);
 
-  if (rows) return (
-    <>
-      {rowWidths.map((width, i) => (
-        <div
-          key={i}
-          className="skeleton"
-          style={{ width: `${width}%` }}
-        ></div>
-      ))}
-    </>
-  );
+  if (rows) {
+    return (
+      <>
+        {rowWidths.map((width, i) => (
+          <div
+            key={i}
+            className="skeleton"
+            style={{ width: `${width}%` }}
+          ></div>
+        ))}
+      </>
+    );
+  }
 
   return (
     <div
