@@ -11,7 +11,7 @@ import {
   useInfiniteQuery,
   useQueryClient,
   useMutation,
-} from "react-query";
+} from "@tanstack/react-query";
 import { usePostParams } from "@hooks";
 import { client } from "./client";
 import {
@@ -106,7 +106,7 @@ export function useComment(id: string) {
     const comments = queryClient.getQueryData<CommentThreadList>(
       ["post-comments"],
       {
-        active: true,
+        type: "active",
         exact: false,
       },
     );
@@ -136,7 +136,7 @@ export function useLoadMoreComments({
     mutationFn: async () => {
       const comments = queryClient.getQueryData<CommentThreadList>(
         ["post-comments"],
-        { active: true, exact: false },
+        { type: "active", exact: false },
       );
       let moreCommentIds: string[] | undefined;
 

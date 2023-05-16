@@ -1,4 +1,4 @@
-import { InfiniteData } from "react-query";
+import { InfiniteData } from "@tanstack/react-query";
 import produce from "immer";
 import { getSubmissionAuthorIds } from "@utils";
 import { queryClient } from "@services/query-client";
@@ -98,20 +98,20 @@ export function updatePostInCache(
 ) {
   queryClient.setQueriesData<Post>(
     {
-      active,
+      type: active ? "active" : "all",
       queryKey: ["post", postId],
     },
-    (post) => (post && produce(post, updater)) as Post,
+    (post) => post && produce(post, updater),
   );
 
   queryClient.setQueriesData<InfiniteData<Post[]>>(
     {
-      active,
+      type: active ? "active" : "all",
       queryKey: ["post-feed"],
     },
-    (data) => {
-      if (data == null) return data as unknown as InfiniteData<Post[]>;
-      return produce(data, (draft) => {
+    (data) =>
+      data &&
+      produce(data, (draft) => {
         for (const posts of draft.pages) {
           for (const post of posts) {
             if (post.id == postId) {
@@ -120,8 +120,7 @@ export function updatePostInCache(
             }
           }
         }
-      });
-    },
+      }),
   );
 }
 
@@ -133,24 +132,23 @@ export function updateCommentInCache(
 ) {
   queryClient.setQueriesData<Comment>(
     {
-      active,
+      type: active ? "active" : "all",
       queryKey: ["comments", "detail", commentId],
     },
-    (comment) => (comment && produce(comment, updater)) as Comment,
+    (comment) => comment && produce(comment, updater),
   );
 
   queryClient.setQueriesData<CommentThreadList>(
     {
-      active,
+      type: active ? "active" : "all",
       queryKey: ["post-comments", postId],
     },
-    (threadList) => {
-      if (threadList == null) return threadList as unknown as CommentThreadList;
-      return produce(threadList, (threadListDraft) => {
+    (threadList) =>
+      threadList &&
+      produce(threadList, (threadListDraft) => {
         const comment = threadListDraft.comments[commentId];
         if (comment) Object.assign(comment, updater(comment));
-      });
-    },
+      }),
   );
 }
 
@@ -161,11 +159,10 @@ export function updatePostCommentsInCache(
 ) {
   queryClient.setQueriesData<CommentThreadList>(
     {
-      active,
+      type: active ? "active" : "all",
       queryKey: ["post-comments", postId],
     },
-    (threadList) =>
-      (threadList && produce(threadList, updater)) as CommentThreadList,
+    (threadList) => threadList && produce(threadList, updater),
   );
 }
 

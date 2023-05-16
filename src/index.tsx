@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { AuthContextProvider } from "@services/auth";
