@@ -110,7 +110,7 @@ export function useComment(id: string) {
         exact: false,
       },
     );
-    const comment = comments.comments[id];
+    const comment = comments?.comments[id];
     return comment;
   };
 
@@ -138,40 +138,46 @@ export function useLoadMoreComments({
         ["post-comments"],
         { active: true, exact: false },
       );
-      const commentIds = commentId
-        ? comments.comments[commentId]?.moreChildren.ids
-        : comments?.moreComments.ids;
-      const commentDepth = comments.comments[commentId]?.depth;
-      const isDeepComment = commentDepth >= 9;
-      let threadList: CommentThreadList;
+      let moreCommentIds: string[] | undefined;
 
-      if (isDeepComment) {
-        threadList = await client.getComments(postId, {
-          baseDepth: commentDepth,
-          commentId,
-          limit,
-          sort,
-        });
-        delete threadList.comments[commentId];
+      if (!comments) throw new Error("Can't get active post comments");
+
+      if (commentId != null) {
+        const comment = comments.comments[commentId];
+        const isDeepComment = comment.depth >= 9;
+
+        if (isDeepComment) {
+          return client.getComments(postId, {
+            baseDepth: comment.depth,
+            commentId,
+            limit,
+            sort,
+          });
+        }
+
+        moreCommentIds = comment.moreChildren?.ids;
       } else {
-        threadList = await client.getMoreComments(postId, commentIds, {
-          commentId,
-          sort,
-        });
+        moreCommentIds = comments.moreComments?.ids;
       }
 
-      prefetchAvatars(Object.values(threadList.comments));
-      return threadList;
+      if (!moreCommentIds) throw new Error("Can't get comment ids to load");
+
+      return client.getMoreComments(postId, moreCommentIds, {
+        commentId,
+        sort,
+      });
     },
     onSuccess: (data) => {
+      prefetchAvatars(Object.values(data.comments));
       addCommentsToCache(data, postId, commentId);
     },
   });
 }
 
-export function useAvatar(authorId: string) {
+export function useAvatar(authorId?: string) {
   const { data } = useQuery({
     queryFn: async () => {
+      if (authorId == null) return;
       const avatars = await client.getAvatars([authorId]);
       return avatars[authorId];
     },

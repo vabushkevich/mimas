@@ -1,3 +1,3 @@
-import { MenuContext } from "./MenuContext";
+import { MenuContext, useMenuContext } from "./MenuContext";
 
-export { MenuContext };
+export { MenuContext, useMenuContext };

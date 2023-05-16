@@ -8,7 +8,6 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "moduleResolution": "node",
     "noEmit": true,
-    "noImplicitAny": true,
     "outDir": "./dist/",
     "paths": {
       "@assets": ["src/assets/*"],
@@ -22,6 +21,7 @@
       "@utils": ["src/utils.ts"]
     },
     "resolveJsonModule": true,
+    "strict": true,
     "target": "ESNext",
     "types": []
   }

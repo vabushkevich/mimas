@@ -1,33 +1,32 @@
-import React, { memo, useState } from "react";
-import { useComment, useAvatar } from "@services/api";
+import React, { useState } from "react";
 import classNames from "classnames";
 import { useTypedSelector } from "@hooks";
 import { useDispatch } from "react-redux";
 import { toggleThread } from "@store/collapsed-threads/actions";
+import type { Comment as CommentType } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
 type CommentThreadProps = {
-  commentId: string;
+  comment: CommentType;
+  commentAuthorAvatar?: string;
 };
 
-export const CommentThread = memo(function CommentThread({
-  commentId,
+export function CommentThread({
+  comment,
+  commentAuthorAvatar,
 }: CommentThreadProps) {
+  const { childIds, id, moreChildren } = comment;
+
   const [showReplyForm, setShowReplyForm] = useState(false);
-  const { data: comment } = useComment(commentId);
-  const { childIds, moreChildren } = comment;
-  const renderReplies = childIds.length > 0 || moreChildren || showReplyForm;
-  const commentAuthorAvatar = useAvatar(comment.userId);
-  const collapsed = useTypedSelector((state) => state.ids.includes(commentId));
+  const collapsed = useTypedSelector((state) => state.ids.includes(id));
   const dispatch = useDispatch();
+  const renderReplies = childIds.length > 0 || moreChildren || showReplyForm;
 
   return (
     <div className="comment-thread">
-      <CommentWrapper
-        onCollapseButtonClick={() => dispatch(toggleThread(commentId))}
-      >
+      <CommentWrapper onCollapseButtonClick={() => dispatch(toggleThread(id))}>
         <Comment
           avatar={commentAuthorAvatar}
           collapsed={collapsed}
@@ -45,7 +44,7 @@ export const CommentThread = memo(function CommentThread({
           <CommentThreadList
             commentIds={childIds}
             moreComments={moreChildren}
-            parentId={commentId}
+            parentId={id}
             showReplyForm={showReplyForm}
             onReply={() => setShowReplyForm(false)}
           />
@@ -53,4 +52,4 @@ export const CommentThread = memo(function CommentThread({
       )}
     </div>
   );
-});
+}

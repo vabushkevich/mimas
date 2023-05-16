@@ -125,6 +125,7 @@ export type RemovedPost = BasePost & {
 export type Post =
   | ImagePost
   | VideoPost
+  | ExternalVideoPost
   | GIFPost
   | GalleryPost
   | TextPost
@@ -225,12 +226,17 @@ export type ResponsiveMediaShort = {
     x: number;
     y: number;
   }[];
-  s: {
-    gif?: string;
-    u?: string;
-    x: number;
-    y: number;
-  };
+  s:
+    | {
+        gif: string;
+        x: number;
+        y: number;
+      }
+    | {
+        u: string;
+        x: number;
+        y: number;
+      };
 };
 
 export type ResponsiveMedia = {

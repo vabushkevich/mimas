@@ -8,7 +8,7 @@ export function GalleryPost(props: PostProps<GalleryPost>) {
   const { gallery } = props.post;
 
   const [showViewer, setShowViewer] = useState(false);
-  const [initialItemId, setInitialItemId] = useState<string>(null);
+  const [initialItemId, setInitialItemId] = useState<string>();
 
   return (
     <BasePost {...props}>

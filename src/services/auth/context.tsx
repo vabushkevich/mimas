@@ -1,4 +1,4 @@
-import React, { createContext, useState, useMemo } from "react";
+import React, { createContext, useState, useMemo, useContext } from "react";
 import { readAuth } from "./utils";
 
 type AuthContextType = {
@@ -6,7 +6,17 @@ type AuthContextType = {
   setAuthorized: (v: boolean) => void;
 };
 
-export const AuthContext = createContext<AuthContextType>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export function useAuthContext() {
+  const context = useContext(AuthContext);
+
+  if (context == null) {
+    throw new Error("AuthContext was used outside of its Provider");
+  }
+
+  return context;
+}
 
 export function AuthContextProvider({
   children,

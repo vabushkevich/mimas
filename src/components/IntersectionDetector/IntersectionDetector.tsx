@@ -18,7 +18,7 @@ export function IntersectionDetector({
   children,
 }: IntersectionDetectorProps) {
   const onIntersectRef = useRef<typeof onIntersect>();
-  const elemRef = useRef<HTMLDivElement>();
+  const elemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     onIntersectRef.current = onIntersect;
@@ -39,7 +39,7 @@ export function IntersectionDetector({
 
     const checkEnter = () => {
       if (!isIntersecting()) return;
-      onIntersectRef.current();
+      onIntersectRef.current?.();
       document.removeEventListener("scroll", checkEnter);
       document.addEventListener("scroll", checkLeave);
     };

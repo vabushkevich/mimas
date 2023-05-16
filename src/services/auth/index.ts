@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 import { useQueryString } from "@hooks";
 import {
   readAuth,
@@ -7,7 +7,7 @@ import {
   revokeAuth,
   writeAuth,
 } from "./utils";
-import { AuthContext } from "./context";
+import { useAuthContext } from "./context";
 
 export async function getAccessToken(): Promise<string> {
   let auth = readAuth();
@@ -23,7 +23,7 @@ export async function getAccessToken(): Promise<string> {
 }
 
 export function useAuth() {
-  const { authorized, setAuthorized } = useContext(AuthContext);
+  const { authorized, setAuthorized } = useAuthContext();
 
   const authorize = useCallback(async (code: string) => {
     const auth = await requestAuth(code);
@@ -33,7 +33,7 @@ export function useAuth() {
 
   const unauthorize = useCallback(() => {
     const auth = readAuth();
-    revokeAuth(auth?.refreshToken);
+    if (auth && auth.refreshToken) revokeAuth(auth.refreshToken);
     writeAuth(null);
     setAuthorized(false);
   }, []);
@@ -57,7 +57,7 @@ export function getAuthURL() {
 
 export function useRedirectURLParams() {
   const { code, state } = useQueryString<{ code: string; state: string }>();
-  const redirectTo = state.match(/\d+(.+)/)[1];
+  const redirectTo = state?.match(/\d+(.+)/)?.[1];
 
   return { code, redirectTo };
 }

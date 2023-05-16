@@ -3,7 +3,7 @@ import { MoreItems } from "@types";
 import { useLoadMoreComments, usePostComment } from "@services/api";
 
 import {
-  CommentThread,
+  CommentThreadContainer,
   CommentWrapper,
   Spinner,
   CommentForm,
@@ -41,7 +41,7 @@ export function CommentThreadList({
 
   return (
     <ol className="comment-thread-list">
-      {showReplyForm && (
+      {showReplyForm && parentId && (
         <li className="comment-thread-list__item">
           <CommentWrapper>
             <CommentForm
@@ -54,7 +54,7 @@ export function CommentThreadList({
       {commentIds.map((commentId) => {
         return (
           <li key={commentId} className="comment-thread-list__item">
-            <CommentThread commentId={commentId} />
+            <CommentThreadContainer commentId={commentId} />
           </li>
         );
       })}

@@ -66,7 +66,9 @@ export function useClickOutside(
   }, refs);
 }
 
-export function useQueryString<T extends { [key: string]: string }>(): T {
+export function useQueryString<
+  T extends { [key: string]: string },
+>(): Partial<T> {
   const { search } = useLocation();
   return useMemo(
     () => Object.fromEntries(new URLSearchParams(search)) as T,
@@ -174,7 +176,7 @@ export function useLocalStorage<T>(
   initialValue?: T,
 ): [T, (value: T) => void] {
   const [value, setValue] = useState<T>(
-    JSON.parse(localStorage.getItem(key)) ?? initialValue,
+    JSON.parse(String(localStorage.getItem(key))) ?? initialValue,
   );
 
   // If the `setStorageValue()` function is called after the component has been
@@ -210,7 +212,7 @@ export function useMediaQuery(query: string) {
   return matches;
 }
 
-export function useTitle(title: string) {
+export function useTitle(title?: string) {
   useEffect(() => {
     const prevTitle = document.title;
     if (title != null) document.title = title;

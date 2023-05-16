@@ -37,7 +37,7 @@ export function GalleryViewer({
           nextPage();
           break;
         case "Escape":
-          onClose();
+          onClose?.();
           break;
       }
     };
@@ -53,13 +53,15 @@ export function GalleryViewer({
       <div className="gallery-viewer__body">
         <div className="gallery-viewer__view-area">
           <div className="gallery-viewer__image">
-            <img
-              src={image.src}
-              alt={caption}
-              width={image.width}
-              height={image.height}
-              onClick={onClose}
-            />
+            {image && (
+              <img
+                src={image.src}
+                alt={caption}
+                width={image.width}
+                height={image.height}
+                onClick={onClose}
+              />
+            )}
           </div>
           {pageCount > 1 && (
             <>

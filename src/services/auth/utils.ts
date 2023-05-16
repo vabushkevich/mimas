@@ -4,7 +4,7 @@ import { Auth, RawAuth } from "./types";
 const basicCredentials = btoa(`${process.env.REDDIT_APP_CLIENT_ID}:`);
 
 export async function requestAuth(code?: string) {
-  const params = code
+  const params: Record<string, string> = code
     ? {
         grant_type: "authorization_code",
         code,
@@ -54,10 +54,12 @@ export async function revokeAuth(refreshToken: string) {
 }
 
 export function readAuth() {
-  return JSON.parse(localStorage.getItem("auth")) as Auth;
+  const value = localStorage.getItem("auth");
+  if (value == null) return;
+  return JSON.parse(value) as Auth;
 }
 
-export function writeAuth(auth: Auth) {
+export function writeAuth(auth: Auth | null) {
   if (auth) {
     localStorage.setItem("auth", JSON.stringify(auth));
   } else {

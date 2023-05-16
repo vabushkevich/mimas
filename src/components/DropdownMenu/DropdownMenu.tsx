@@ -17,7 +17,7 @@ type DropdownMenuProps = {
     | ((selectedContent: React.ReactNode) => React.ReactNode);
   selectable?: boolean;
   value?: string;
-  onItemClick?: (value: string) => void;
+  onItemClick?: (value?: string) => void;
   children: React.ReactNode;
 };
 
@@ -32,21 +32,25 @@ export function DropdownMenu({
   children,
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [userSelectedValue, setUserSelectedValue] = useState<string>(null);
-  const [selectedContent, setSelectedContent] = useState<React.ReactNode>(null);
+  const [userSelectedValue, setUserSelectedValue] = useState<string>();
+  const [selectedContent, setSelectedContent] = useState<React.ReactNode>();
   const buttonRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const selectedValue = selectable
     ? value || userSelectedValue || defaultValue
-    : null;
+    : undefined;
 
   const contextValue = {
     selectedValue,
-    onItemRender: (value: string, children: React.ReactNode) => {
-      if (value === selectedValue) setSelectedContent(children);
+    onItemRender: (children: React.ReactNode, value?: string) => {
+      if (selectedValue != null && value === selectedValue) {
+        setSelectedContent(children);
+      }
     },
-    onItemClick: (itemValue: string) => {
-      if (selectable && value == null) setUserSelectedValue(itemValue);
+    onItemClick: (itemValue?: string) => {
+      if (selectable && itemValue != null && value == null) {
+        setUserSelectedValue(itemValue);
+      }
       onItemClick?.(itemValue);
       setIsOpen(false);
     },

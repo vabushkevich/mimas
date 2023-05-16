@@ -17,6 +17,7 @@ import { IntersectionDetector } from "./IntersectionDetector/IntersectionDetecto
 import { Comment } from "./Comment/Comment";
 import { CommentSkeleton } from "./Comment/CommentSkeleton";
 import { CommentThread } from "./CommentThread/CommentThread";
+import { CommentThreadContainer } from "./CommentThreadContainer/CommentThreadContainer";
 import { CommentThreadList } from "./CommentThreadList/CommentThreadList";
 import { CommentThreadListSkeleton } from "./CommentThreadList/CommentThreadListSkeleton";
 import { Card } from "./Card/Card";
@@ -76,6 +77,7 @@ export {
   Comment,
   CommentSkeleton,
   CommentThread,
+  CommentThreadContainer,
   CommentThreadList,
   CommentThreadListSkeleton,
   Card,

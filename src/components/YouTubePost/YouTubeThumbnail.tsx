@@ -3,10 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 export function YouTubeThumbnail({ videoId }: { videoId: string }) {
   const [show, setShow] = useState(false);
   const [fileName, setFileName] = useState("hq720");
-  const ref = useRef<HTMLImageElement>();
+  const ref = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const image = ref.current;
+
+    if (!image) return;
+
     const handleLoad = () => {
       if (
         fileName == "hq720" &&

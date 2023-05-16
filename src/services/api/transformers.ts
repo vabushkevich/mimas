@@ -213,7 +213,11 @@ export function transformTextPost(rawPost: Raw.TextPost): TextPost {
 
 export function transformYouTubePost(rawPost: Raw.YouTubePost): YouTubePost {
   const embedHTML = rawPost.data.media.oembed.html;
-  const videoId = embedHTML.match(/\/embed\/([\w-]+)/)[1];
+  const videoId = embedHTML.match(/\/embed\/([\w-]+)/)?.[1];
+
+  if (videoId == null) {
+    throw new Error("Can't find YouTube video id in embed HTML");
+  }
 
   return {
     ...transformBasePost(rawPost),
@@ -229,7 +233,7 @@ export function transformCrossPost(rawPost: Raw.CrossPost): CrossPost {
     ...transformBasePost(rawPost),
     type: "crosspost",
     crossPostUserName: author,
-    parent: transformPost({ data: crosspost_parent_list[0] }),
+    parent: transformPost({ data: crosspost_parent_list[0] } as Raw.Post),
   };
 
   if (author_fullname) crossPost.crossPostUserId = author_fullname;
@@ -252,7 +256,7 @@ export function transformCommentListItems(
 ): CommentThreadList {
   const comments: Record<string, Comment> = {};
   const rootCommentIds: string[] = [];
-  let moreComments: MoreItems;
+  let moreComments: MoreItems | undefined;
 
   for (const item of items) {
     if (item.kind == "more") {
@@ -441,7 +445,7 @@ function transformResponsiveMediaShort(
   const rawMediaItems = [
     ...rawResponsiveMedia.p,
     {
-      u: rawSource.u || rawSource.gif,
+      u: "u" in rawSource ? rawSource.u : rawSource.gif,
       x: rawSource.x,
       y: rawSource.y,
     },

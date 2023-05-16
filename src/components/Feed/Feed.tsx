@@ -41,19 +41,14 @@ export function Feed({
   onSortChange,
   onSortTimeIntervalChange,
 }: FeedProps) {
-  const {
-    data: { pages },
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useFeedPosts({
+  const { data, fetchNextPage, hasNextPage, isFetching } = useFeedPosts({
     limit: 20,
     sort,
     sortTimeInterval,
     subreddit,
     userName,
   });
-  const posts = uniqBy(pages.flat(), (post) => post.id);
+  const posts = uniqBy(data?.pages?.flat(), (post) => post.id);
 
   return (
     <div className="feed">
@@ -75,7 +70,7 @@ export function Feed({
               <MenuItem value="rising">Rising</MenuItem>
               <MenuItem value="controversial">Controversial</MenuItem>
             </DropdownMenu>
-            {isSortRequiresTimeInterval(sort) && (
+            {sort && isSortRequiresTimeInterval(sort) && (
               <DropdownMenu
                 label={(selectedContent) => selectedContent}
                 selectable

@@ -150,7 +150,7 @@ export type CommentThreadList = {
 
 export type MoreItems = {
   ids: string[];
-  parentId?: string;
+  parentId: string;
   totalCount: number;
 };
 

@@ -34,7 +34,8 @@ export function isExternalVideoPost(
   rawPost: Raw.Post,
 ): rawPost is Raw.ExternalVideoPost {
   return (
-    "preview" in rawPost.data && "reddit_video_preview" in rawPost.data.preview
+    "preview" in rawPost.data &&
+    "reddit_video_preview" in <Object>rawPost.data.preview
   );
 }
 
@@ -87,7 +88,7 @@ export function getCommentDeleter(rawComment: Raw.Comment) {
 }
 
 export function getIdSuffix(id: string) {
-  return id.split("_").at(-1);
+  return id.split("_").at(-1) as string;
 }
 
 export function updatePostInCache(
@@ -100,7 +101,7 @@ export function updatePostInCache(
       active,
       queryKey: ["post", postId],
     },
-    (post) => produce(post, updater),
+    (post) => (post && produce(post, updater)) as Post,
   );
 
   queryClient.setQueriesData<InfiniteData<Post[]>>(
@@ -109,6 +110,7 @@ export function updatePostInCache(
       queryKey: ["post-feed"],
     },
     (data) => {
+      if (data == null) return data as unknown as InfiniteData<Post[]>;
       return produce(data, (draft) => {
         for (const posts of draft.pages) {
           for (const post of posts) {
@@ -134,7 +136,7 @@ export function updateCommentInCache(
       active,
       queryKey: ["comments", "detail", commentId],
     },
-    (comment) => produce(comment, updater),
+    (comment) => (comment && produce(comment, updater)) as Comment,
   );
 
   queryClient.setQueriesData<CommentThreadList>(
@@ -143,6 +145,7 @@ export function updateCommentInCache(
       queryKey: ["post-comments", postId],
     },
     (threadList) => {
+      if (threadList == null) return threadList as unknown as CommentThreadList;
       return produce(threadList, (threadListDraft) => {
         const comment = threadListDraft.comments[commentId];
         if (comment) Object.assign(comment, updater(comment));
@@ -161,7 +164,8 @@ export function updatePostCommentsInCache(
       active,
       queryKey: ["post-comments", postId],
     },
-    (threadList) => produce(threadList, updater),
+    (threadList) =>
+      (threadList && produce(threadList, updater)) as CommentThreadList,
   );
 }
 

@@ -11,12 +11,12 @@ type VideoProps = {
 
 export function Video({ hls, poster, src }: VideoProps) {
   const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLVideoElement>();
+  const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (!started) return;
-
     const video = ref.current;
+
+    if (!started || !video) return;
 
     if (!hls) {
       video.src = src;

@@ -1,5 +1,5 @@
-import React, { useContext, useLayoutEffect } from "react";
-import { MenuContext } from "@context";
+import React, { useLayoutEffect } from "react";
+import { useMenuContext } from "@context";
 import classNames from "classnames";
 
 import "./MenuItem.scss";
@@ -7,7 +7,7 @@ import "./MenuItem.scss";
 type MenuItemProps = {
   selected?: boolean;
   value?: string;
-  onClick?: (value: string) => void;
+  onClick?: (value?: string) => void;
   children: React.ReactNode;
 };
 
@@ -17,12 +17,12 @@ export function MenuItem({
   onClick,
   children,
 }: MenuItemProps) {
-  const { selectedValue, onItemClick, onItemRender } = useContext(MenuContext);
+  const { selectedValue, onItemClick, onItemRender } = useMenuContext();
 
-  selected ??= value === selectedValue;
+  selected ??= selectedValue != null && value === selectedValue;
 
   useLayoutEffect(() => {
-    onItemRender?.(value, children);
+    onItemRender?.(children, value);
   });
 
   return (

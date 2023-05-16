@@ -18,14 +18,14 @@ export function Gallery({ gallery, onItemClick }: GalleryProps) {
   return (
     <div className={`gallery gallery--item-count_${displayedItems.length}`}>
       {displayedItems.map(({ caption, id, imageVariants }) => {
-        const { src } = findLast(imageVariants, ({ width }) => width <= 640);
+        const preview = findLast(imageVariants, ({ width }) => width <= 640);
         return (
           <button
             key={id}
             className="gallery-item"
             onClick={() => onItemClick?.(id)}
           >
-            <img src={src} alt={caption} />
+            {preview && <img src={preview.src} alt={caption} />}
           </button>
         );
       })}
