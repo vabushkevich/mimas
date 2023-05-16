@@ -3,7 +3,7 @@ import React from "react";
 import { Skeleton } from "@components";
 import "./Sidebar.scss";
 
-export function SidebarMenuSkeleton({ count = 3 }) {
+export function SidebarMenuSkeleton({ count = 3 }: { count: number }) {
   return (
     <ul className="sidebar__menu">
       {new Array(count).fill(0).map((v, i) => (

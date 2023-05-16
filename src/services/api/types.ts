@@ -8,7 +8,7 @@ export type BasePost = {
     is_video: boolean;
     likes: boolean | null;
     locked: boolean;
-    media: {} | null;
+    media: object | null;
     name: string;
     num_comments: number;
     permalink: string;

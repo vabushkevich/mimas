@@ -22,7 +22,7 @@ export function CommentForm({ onSubmit, onSuccess }: CommentFormProps) {
           .then(() => setText(""))
           .finally(() => setIsSubmitting(false))
           .then(onSuccess)
-          .catch(() => {});
+          .catch(() => undefined);
       }}
     >
       <textarea

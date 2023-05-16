@@ -35,7 +35,7 @@ export function isExternalVideoPost(
 ): rawPost is Raw.ExternalVideoPost {
   return (
     "preview" in rawPost.data &&
-    "reddit_video_preview" in <Object>rawPost.data.preview
+    "reddit_video_preview" in <object>rawPost.data.preview
   );
 }
 

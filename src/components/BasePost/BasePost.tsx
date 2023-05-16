@@ -24,7 +24,6 @@ export function BasePost({
     commentCount,
     dateCreated,
     dateEdited,
-    id,
     locked,
     pinned,
     score,

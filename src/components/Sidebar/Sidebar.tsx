@@ -73,7 +73,7 @@ export function Sidebar() {
         {isLoading && <SidebarMenuSkeleton count={5} />}
       </div>
       <div className="sidebar__footer">
-        <a
+        <a // eslint-disable-line react/jsx-no-target-blank
           className="sidebar__github-icon"
           href="https://github.com/vabushkevich/mimas"
           target="_blank"
