@@ -105,9 +105,9 @@ export function PostPage() {
                 <Card>
                   <div className="post-comment-form__body">
                     <CommentForm
-                      onSubmit={(text) => {
-                        postComment({ text, parentId: postId });
-                      }}
+                      onSubmit={(text) =>
+                        postComment({ text, parentId: postId })
+                      }
                     />
                   </div>
                 </Card>
