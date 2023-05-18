@@ -81,6 +81,8 @@
   }
 
   &__caption {
+    @include text-content;
+
     margin-top: 20px;
     max-width: 60%;
   }
