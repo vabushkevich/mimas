@@ -237,6 +237,7 @@ export type ResponsiveMediaShort = {
         x: number;
         y: number;
       };
+  status: "valid" | "failed";
 };
 
 export type ResponsiveMedia = {

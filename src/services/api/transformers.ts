@@ -150,14 +150,16 @@ export function transformExternalVideoPost(
 export function transformGalleryPost(rawPost: Raw.GalleryPost): GalleryPost {
   const { gallery_data, media_metadata } = rawPost.data;
 
-  const galleryItems = gallery_data.items.map(({ media_id, caption }) => {
-    const rawResponsiveImage = media_metadata[media_id];
-    return {
-      id: media_id,
-      caption,
-      imageVariants: transformResponsiveMediaShort(rawResponsiveImage),
-    };
-  });
+  const galleryItems = gallery_data.items
+    .filter(({ media_id }) => media_metadata[media_id].status == "valid")
+    .map(({ media_id, caption }) => {
+      const rawResponsiveImage = media_metadata[media_id];
+      return {
+        id: media_id,
+        caption,
+        imageVariants: transformResponsiveMediaShort(rawResponsiveImage),
+      };
+    });
 
   return {
     ...transformBasePost(rawPost),
