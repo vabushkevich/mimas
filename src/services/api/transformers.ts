@@ -43,6 +43,7 @@ const removalReasonMap: Record<
   reddit: "spam",
   deleted: "user",
   moderator: "moderator",
+  copyright_takedown: "copyright",
 };
 
 export function transformPost(rawPost: Raw.Post): Post {

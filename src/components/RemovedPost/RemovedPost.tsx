@@ -9,6 +9,7 @@ const removalReasonMessages: Record<RemovedPost["removalReason"], string> = {
   spam: "Post removed by Reddit's spam filters.",
   user: "Post removed by author.",
   moderator: "Post removed by subreddit moderator.",
+  copyright: "Post removed due to copyright claim.",
 };
 
 export function RemovedPost(props: PostProps<RemovedPost>) {

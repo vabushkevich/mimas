@@ -95,7 +95,12 @@ export type CrossPost = BasePost & {
 
 export type RemovedPost = BasePost & {
   type: "removed";
-  removalReason: "rules-violation" | "spam" | "user" | "moderator";
+  removalReason:
+    | "rules-violation"
+    | "spam"
+    | "user"
+    | "moderator"
+    | "copyright";
 };
 
 export type Post =

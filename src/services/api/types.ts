@@ -118,7 +118,8 @@ export type RemovedPost = BasePost & {
       | "content_takedown"
       | "reddit"
       | "deleted"
-      | "moderator";
+      | "moderator"
+      | "copyright_takedown";
   };
 };
 
