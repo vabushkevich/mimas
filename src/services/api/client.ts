@@ -255,6 +255,17 @@ class RedditWebAPI {
 
     return transformComment(rawComment);
   }
+
+  async bookmark(id: string, action: "add" | "remove" = "add") {
+    const params = new URLSearchParams({ id });
+    await this.#fetchWithAuth(
+      `https://oauth.reddit.com/api/${action == "add" ? "save" : "unsave"}`,
+      {
+        body: params,
+        method: "POST",
+      },
+    );
+  }
 }
 
 export const client = new RedditWebAPI(getAccessToken);

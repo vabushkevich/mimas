@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import type { Post, PostProps } from "@types";
-import { useAvatar, useVote } from "@services/api";
+import { useAvatar, useBookmarkPost, useVote } from "@services/api";
 import { useAuthGuard } from "@hooks";
 import classNames from "classnames";
 
@@ -21,9 +21,11 @@ export function BasePost({
   children,
 }: BasePostProps) {
   const {
+    bookmarked,
     commentCount,
     dateCreated,
     dateEdited,
+    id,
     locked,
     pinned,
     score,
@@ -48,7 +50,9 @@ export function BasePost({
 
   const avatar = useAvatar(primaryAuthorId);
   const { mutate: mutateVote } = useVote(post);
+  const { mutate: mutateBookmark } = useBookmarkPost(id);
   const vote = useAuthGuard(mutateVote);
+  const bookmark = useAuthGuard(mutateBookmark);
 
   return (
     <Card hideOverflow>
@@ -79,6 +83,13 @@ export function BasePost({
             <Link className="post__comments-btn" to={url}>
               {compactNumber(commentCount)}
             </Link>
+            <button
+              className={classNames(
+                "post__save-btn",
+                bookmarked && "post__save-btn--active",
+              )}
+              onClick={() => bookmark(bookmarked ? "remove" : "add")}
+            ></button>
             <div className="post__voting">
               <Voting
                 score={score}

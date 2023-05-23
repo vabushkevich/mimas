@@ -13,6 +13,7 @@ export type BasePost = {
     num_comments: number;
     permalink: string;
     removed_by_category: string | null;
+    saved: boolean;
     score: number;
     selftext_html: string | null;
     stickied: boolean;

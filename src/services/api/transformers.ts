@@ -79,6 +79,7 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
       name,
       num_comments,
       permalink,
+      saved,
       score,
       stickied,
       subreddit,
@@ -89,6 +90,7 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
 
   const basePost: BasePost = {
     archived,
+    bookmarked: saved,
     commentCount: num_comments,
     dateCreated: created_utc * 1000,
     id: name,

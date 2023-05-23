@@ -241,3 +241,14 @@ export function usePostComment() {
     },
   });
 }
+
+export function useBookmarkPost(id: string) {
+  return useMutation({
+    mutationFn: (action: "add" | "remove") => client.bookmark(id, action),
+    onSuccess: (_, action) => {
+      updatePostInCache(id, (post) => {
+        post.bookmarked = action == "add";
+      });
+    },
+  });
+}

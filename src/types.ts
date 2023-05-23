@@ -31,6 +31,7 @@ const sortTimeIntervals = [
 
 export type BasePost = {
   archived: boolean;
+  bookmarked: boolean;
   commentCount: number;
   dateCreated: number;
   dateEdited?: number;

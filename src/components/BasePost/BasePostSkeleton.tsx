@@ -27,6 +27,7 @@ export function BasePostSkeleton({ children }: BasePostSkeletonProps) {
           <span className="post__comments-btn">
             <Skeleton width={30} />
           </span>
+          <span className="post__save-btn"></span>
           <div className="post__voting">
             <VotingSkeleton />
           </div>
