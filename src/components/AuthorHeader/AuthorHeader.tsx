@@ -12,6 +12,7 @@ type AuthorHeaderProps = {
     title?: string;
     value: string;
   }[];
+  subscribeButton?: React.ReactNode;
 };
 
 export function AuthorHeader({
@@ -19,6 +20,7 @@ export function AuthorHeader({
   name,
   picture,
   stats,
+  subscribeButton,
 }: AuthorHeaderProps) {
   return (
     <div className="author-header">
@@ -27,7 +29,10 @@ export function AuthorHeader({
           <div className="author-header__picture">
             <Avatar picture={picture} />
           </div>
-          <div className="author-header__name">{name}</div>
+          <div className="author-header__header">
+            <div className="author-header__name">{name}</div>
+            {subscribeButton}
+          </div>
           {description && (
             <div className="author-header__description">{description}</div>
           )}

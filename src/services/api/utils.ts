@@ -4,7 +4,13 @@ import { getSubmissionAuthorIds } from "@utils";
 import { queryClient } from "@services/query-client";
 import { client } from "./client";
 import { WritableDraft } from "immer/dist/internal";
-import { CommentThreadList, Submission, Post, Comment } from "@types";
+import {
+  CommentThreadList,
+  Submission,
+  Post,
+  Comment,
+  Subreddit,
+} from "@types";
 import * as Raw from "./types";
 
 export function isLinkPost(rawPost: Raw.Post): rawPost is Raw.LinkPost {
@@ -250,4 +256,14 @@ export function prefetchAvatars(submissions: Submission[]) {
       cacheTime: Infinity,
     });
   }
+}
+
+export function updateSubredditInCache(
+  subredditName: string,
+  updater: (draft: WritableDraft<Subreddit>) => void,
+) {
+  queryClient.setQueryData<Subreddit>(
+    ["subreddit", subredditName],
+    (subreddit) => subreddit && produce(subreddit, updater),
+  );
 }

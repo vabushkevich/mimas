@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { isPostSortingMethod, isSortTimeInterval } from "@types";
-import { useQueryString } from "@hooks";
-import { useSubredditByName } from "@services/api";
+import { useQueryString, useAuthGuard } from "@hooks";
+import { useSubredditByName, useSubscribe } from "@services/api";
 
 import {
   Container,
@@ -16,6 +16,7 @@ import {
   Feed,
   AuthorHeader,
   AuthorHeaderSkeleton,
+  Button,
 } from "@components";
 import "./SubredditPage.scss";
 
@@ -31,11 +32,14 @@ export function SubredditPage() {
   const history = useHistory();
   const match = useRouteMatch();
 
+  const { mutate: mutateSubscription } = useSubscribe(subredditName);
+  const subscribe = useAuthGuard(mutateSubscription);
+
   return (
     <Page title={subredditName}>
       <Container>
         <div className="subreddit-page__header">
-          {isLoading && <AuthorHeaderSkeleton />}
+          {isLoading && <AuthorHeaderSkeleton showSubscribeButton />}
           {subreddit && (
             <AuthorHeader
               description={subreddit.description}
@@ -56,6 +60,15 @@ export function SubredditPage() {
                   value: formatDistanceToNow(subreddit.dateCreated),
                 },
               ]}
+              subscribeButton={
+                <Button
+                  onClick={() =>
+                    subscribe(subreddit.subscribed ? "unsub" : "sub")
+                  }
+                >
+                  {subreddit.subscribed ? "Unsubscribe" : "Subscribe"}
+                </Button>
+              }
             />
           )}
         </div>

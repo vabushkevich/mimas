@@ -406,6 +406,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
       name,
       public_description,
       subscribers,
+      user_is_subscriber,
     },
   } = rawSubreddit;
 
@@ -419,6 +420,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
     id: name,
     name: display_name,
     subscribers,
+    subscribed: !!user_is_subscriber,
   };
 }
 

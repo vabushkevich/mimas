@@ -18,8 +18,17 @@
     margin-top: -$offset;
   }
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0 17px;
+  }
+
   &__name {
-    margin: 16px 0 22px;
+    @include text-truncate;
+
+    line-height: normal;
     font-size: 30px;
     font-weight: 500;
   }

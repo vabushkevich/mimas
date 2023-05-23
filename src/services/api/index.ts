@@ -20,6 +20,7 @@ import {
   prefetchAvatars,
   updateCommentInCache,
   updatePostInCache,
+  updateSubredditInCache,
 } from "./utils";
 import { useLocation } from "react-router-dom";
 
@@ -249,6 +250,21 @@ export function useBookmarkPost(id: string) {
       updatePostInCache(id, (post) => {
         post.bookmarked = action == "add";
       });
+    },
+  });
+}
+
+export function useSubscribe(subredditName: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (action: "sub" | "unsub") =>
+      client.subscribe(subredditName, action),
+    onSuccess: (_, action) => {
+      updateSubredditInCache(subredditName, (subreddit) => {
+        subreddit.subscribed = action == "sub";
+      });
+      queryClient.invalidateQueries(["my-subscriptions"]);
     },
   });
 }

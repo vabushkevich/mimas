@@ -22,6 +22,7 @@ import { CommentThreadList } from "./CommentThreadList/CommentThreadList";
 import { CommentThreadListSkeleton } from "./CommentThreadList/CommentThreadListSkeleton";
 import { Card } from "./Card/Card";
 import { Button } from "./Button/Button";
+import { ButtonSkeleton } from "./Button/ButtonSkeleton";
 import { Menu } from "./Menu/Menu";
 import { MenuItem } from "./MenuItem/MenuItem";
 import { DropdownMenu } from "./DropdownMenu/DropdownMenu";
@@ -82,6 +83,7 @@ export {
   CommentThreadListSkeleton,
   Card,
   Button,
+  ButtonSkeleton,
   Menu,
   MenuItem,
   DropdownMenu,

@@ -182,6 +182,7 @@ export type Subreddit = {
   description: string;
   id: string;
   name: string;
+  subscribed: boolean;
   subscribers: number;
 };
 

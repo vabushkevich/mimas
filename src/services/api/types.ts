@@ -146,6 +146,7 @@ export type Subreddit = {
     name: string;
     public_description: string;
     subscribers: number;
+    user_is_subscriber: true | null;
   };
   kind: "t5";
 };

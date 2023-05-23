@@ -266,6 +266,14 @@ class RedditWebAPI {
       },
     );
   }
+
+  async subscribe(subredditName: string, action: "sub" | "unsub" = "sub") {
+    const params = new URLSearchParams({ sr_name: subredditName, action });
+    await this.#fetchWithAuth("https://oauth.reddit.com/api/subscribe", {
+      body: params,
+      method: "POST",
+    });
+  }
 }
 
 export const client = new RedditWebAPI(getAccessToken);
