@@ -53,7 +53,7 @@ export function Sidebar() {
         {subreddits && (
           <ul className="sidebar__menu">
             {subreddits
-              .sort((a, b) => (a.name > b.name ? 1 : -1))
+              .sort((a, b) => a.name.localeCompare(b.name))
               .map(({ avatar, name }) => (
                 <li key={name}>
                   <NavLink
