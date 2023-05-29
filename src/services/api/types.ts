@@ -120,7 +120,8 @@ export type RemovedPost = BasePost & {
       | "reddit"
       | "deleted"
       | "moderator"
-      | "copyright_takedown";
+      | "copyright_takedown"
+      | "automod_filtered";
   };
 };
 
