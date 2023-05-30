@@ -32,14 +32,14 @@ export function Voting({
     <div
       className={classNames("voting", voteType && `voting--vote-${voteType}`)}
     >
+      <button className="voting__up-btn" onClick={() => handleVote(1)}></button>
+      <div className="voting__score">
+        {scoreHidden ? "–" : compactNumber(score)}
+      </div>
       <button
         className="voting__down-btn"
         onClick={() => handleVote(-1)}
       ></button>
-      <div className="voting__score">
-        {scoreHidden ? "–" : compactNumber(score)}
-      </div>
-      <button className="voting__up-btn" onClick={() => handleVote(1)}></button>
     </div>
   );
 }
