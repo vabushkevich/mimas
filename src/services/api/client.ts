@@ -31,13 +31,19 @@ class RedditWebAPI {
 
   async #fetchWithAuth(...[input, init = {}]: Parameters<typeof fetch>) {
     const accessToken = await this.#getAccessToken();
-    return await fetch(input, {
+    const response = await fetch(input, {
       ...init,
       headers: {
         ...(init.headers || {}),
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return response;
   }
 
   async getPost(id: string) {
