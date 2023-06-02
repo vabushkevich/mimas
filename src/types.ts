@@ -180,7 +180,7 @@ export type Subreddit = {
   activeUserCount: number;
   avatar: string;
   dateCreated: number;
-  description: string;
+  description?: string;
   id: string;
   name: string;
   subscribed: boolean;

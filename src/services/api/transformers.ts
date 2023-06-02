@@ -413,16 +413,19 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
 
   const avatar = (community_icon || icon_img).split("?")[0];
 
-  return {
+  const subreddit: Subreddit = {
     activeUserCount: active_user_count,
     avatar,
     dateCreated: created_utc * 1000,
-    description: public_description,
     id: name,
     name: display_name,
     subscribers,
     subscribed: !!user_is_subscriber,
   };
+
+  if (public_description) subreddit.description = public_description;
+
+  return subreddit;
 }
 
 export function transformIdentity(rawIdentity: Raw.Identity): Identity {
