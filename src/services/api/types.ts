@@ -202,6 +202,9 @@ export type FullUser = {
     id: string;
     link_karma: number;
     name: string;
+    subreddit: {
+      public_description: string;
+    };
   };
   kind: "t2";
 };

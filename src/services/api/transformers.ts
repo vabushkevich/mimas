@@ -383,10 +383,17 @@ export function transformFullUser(rawFullUser: Raw.FullUser): User {
 }
 
 function transformFullUserData(rawFullUserData: Raw.FullUser["data"]): User {
-  const { comment_karma, created_utc, icon_img, id, link_karma, name } =
-    rawFullUserData;
+  const {
+    comment_karma,
+    created_utc,
+    icon_img,
+    id,
+    link_karma,
+    name,
+    subreddit: { public_description },
+  } = rawFullUserData;
 
-  return {
+  const user: User = {
     avatar: icon_img,
     commentKarma: comment_karma,
     dateCreated: created_utc * 1000,
@@ -394,6 +401,10 @@ function transformFullUserData(rawFullUserData: Raw.FullUser["data"]): User {
     name,
     postKarma: link_karma,
   };
+
+  if (public_description) user.description = public_description;
+
+  return user;
 }
 
 export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {

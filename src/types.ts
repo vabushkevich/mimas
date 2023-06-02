@@ -169,6 +169,7 @@ export type User = {
   avatar: string;
   commentKarma: number;
   dateCreated: number;
+  description?: string;
   id: string;
   name: string;
   postKarma: number;

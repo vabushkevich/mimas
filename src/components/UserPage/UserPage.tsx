@@ -30,6 +30,7 @@ export function UserPage() {
           {isLoading && <AuthorHeaderSkeleton />}
           {user && (
             <AuthorHeader
+              description={user.description}
               name={user.name}
               picture={user.avatar}
               stats={[
