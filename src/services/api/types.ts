@@ -121,7 +121,8 @@ export type RemovedPost = BasePost & {
       | "deleted"
       | "moderator"
       | "copyright_takedown"
-      | "automod_filtered";
+      | "automod_filtered"
+      | "author";
   };
 };
 

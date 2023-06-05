@@ -45,6 +45,7 @@ const removalReasonMap: Record<
   moderator: "moderator",
   copyright_takedown: "copyright",
   automod_filtered: "mod-approval",
+  author: "user",
 };
 
 export function transformPost(rawPost: Raw.Post): Post {
