@@ -8,7 +8,7 @@ import { UserContent, SubmissionHeader, Voting } from "@components";
 import "./Comment.scss";
 
 type CommentProps = {
-  avatar?: string;
+  avatar?: string | null;
   collapsed?: boolean;
   comment: Comment;
   onReplyButtonClick?: () => void;

@@ -6,7 +6,7 @@ import "./AuthorHeader.scss";
 type AuthorHeaderProps = {
   description?: string;
   name: string;
-  picture: string;
+  picture?: string;
   stats: {
     label: string;
     title?: string;

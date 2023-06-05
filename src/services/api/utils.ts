@@ -250,7 +250,7 @@ export function prefetchAvatars(submissions: Submission[]) {
     queryClient.prefetchQuery({
       queryFn: async () => {
         const newAvatars = await newAvatarsPromise;
-        return newAvatars[newAuthorId];
+        return newAvatars[newAuthorId] || null;
       },
       queryKey: ["avatars", "detail", newAuthorId],
       cacheTime: Infinity,

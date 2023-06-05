@@ -5,15 +5,15 @@ import defaultAvatar from "./assets/default-avatar.svg";
 import "./Avatar.scss";
 
 type AvatarProps = {
-  picture?: string;
+  picture?: string | null;
   size?: "xs" | "sm" | "md";
 };
 
-export function Avatar({ picture = defaultAvatar, size }: AvatarProps) {
+export function Avatar({ picture, size }: AvatarProps) {
   return (
     <div
       className={classNames(["avatar", size && `avatar--size_${size}`])}
-      style={{ backgroundImage: `url("${picture}")` }}
+      style={{ backgroundImage: `url("${picture || defaultAvatar}")` }}
     ></div>
   );
 }

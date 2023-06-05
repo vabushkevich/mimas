@@ -180,7 +180,7 @@ export function useAvatar(authorId?: string) {
     queryFn: async () => {
       if (authorId == null) return;
       const avatars = await client.getAvatars([authorId]);
-      return avatars[authorId];
+      return avatars[authorId] || null;
     },
     queryKey: ["avatars", "detail", authorId],
     enabled: !!authorId,

@@ -10,7 +10,7 @@ import "./CommentThread.scss";
 
 type CommentThreadProps = {
   comment: CommentType;
-  commentAuthorAvatar?: string;
+  commentAuthorAvatar?: string | null;
 };
 
 export function CommentThread({

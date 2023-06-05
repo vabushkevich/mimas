@@ -13,7 +13,7 @@ type SubmissionHeaderProps = {
   dateEdited?: number;
   distinction?: SubmissionDistinction;
   locked?: boolean;
-  picture?: string;
+  picture?: string | null;
   pinned?: boolean;
   primaryAuthorType?: AuthorType;
   subreddit?: string;

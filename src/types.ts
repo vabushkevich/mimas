@@ -179,7 +179,7 @@ export type SubmissionDistinction = "moderator" | "admin";
 
 export type Subreddit = {
   activeUserCount: number;
-  avatar: string;
+  avatar?: string;
   dateCreated: number;
   description?: string;
   id: string;

@@ -423,11 +423,8 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
     },
   } = rawSubreddit;
 
-  const avatar = (community_icon || icon_img).split("?")[0];
-
   const subreddit: Subreddit = {
     activeUserCount: active_user_count,
-    avatar,
     dateCreated: created_utc * 1000,
     id: name,
     name: display_name,
@@ -435,6 +432,9 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
     subscribed: !!user_is_subscriber,
   };
 
+  const avatar = (community_icon || icon_img).split("?")[0];
+
+  if (avatar) subreddit.avatar = avatar;
   if (public_description) subreddit.description = public_description;
 
   return subreddit;
