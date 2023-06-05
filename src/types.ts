@@ -99,7 +99,7 @@ export type RemovedPost = BasePost & {
   removalReason:
     | "rules-violation"
     | "spam"
-    | "user"
+    | "author"
     | "moderator"
     | "copyright"
     | "mod-approval";

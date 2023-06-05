@@ -41,11 +41,11 @@ const removalReasonMap: Record<
 > = {
   content_takedown: "rules-violation",
   reddit: "spam",
-  deleted: "user",
+  deleted: "author",
   moderator: "moderator",
   copyright_takedown: "copyright",
   automod_filtered: "mod-approval",
-  author: "user",
+  author: "author",
 };
 
 export function transformPost(rawPost: Raw.Post): Post {
