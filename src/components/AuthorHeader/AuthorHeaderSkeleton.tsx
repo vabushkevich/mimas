@@ -4,10 +4,12 @@ import { Card, Skeleton, StatSkeleton, ButtonSkeleton } from "@components";
 import "./AuthorHeader.scss";
 
 type AuthorHeaderSkeletonProps = {
+  showDescription?: boolean;
   showSubscribeButton?: boolean;
 };
 
 export function AuthorHeaderSkeleton({
+  showDescription,
   showSubscribeButton,
 }: AuthorHeaderSkeletonProps) {
   return (
@@ -23,9 +25,11 @@ export function AuthorHeaderSkeleton({
             </div>
             {showSubscribeButton && <ButtonSkeleton contentWidth={80} />}
           </div>
-          <div className="author-header__description">
-            <Skeleton rows={2} />
-          </div>
+          {showDescription && (
+            <div className="author-header__description">
+              <Skeleton rows={2} />
+            </div>
+          )}
           <div className="author-header__stats">
             <StatSkeleton />
             <StatSkeleton />

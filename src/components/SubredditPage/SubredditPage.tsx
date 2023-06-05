@@ -39,7 +39,9 @@ export function SubredditPage() {
     <Page title={subredditName}>
       <Container>
         <div className="subreddit-page__header">
-          {isLoading && <AuthorHeaderSkeleton showSubscribeButton />}
+          {isLoading && (
+            <AuthorHeaderSkeleton showDescription showSubscribeButton />
+          )}
           {subreddit && (
             <AuthorHeader
               description={subreddit.description}
