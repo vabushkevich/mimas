@@ -105,3 +105,11 @@ export function getSubmissionAuthorIds(submissions: Submission[]) {
 export function assert(value: unknown, message: string): asserts value {
   if (!value) throw new Error(message);
 }
+
+export function hashString(string: string) {
+  return [...string].reduce((res, c) => res + c.charCodeAt(0), 0);
+}
+
+export function pseudoRandom(seed: number) {
+  return (seed * 16807) % 2147483647;
+}

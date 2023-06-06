@@ -48,7 +48,12 @@ export function SubmissionHeader({
         to={subredditIsPrimaryAuthor ? `/r/${subreddit}` : `/user/${userName}`}
       >
         <div className="primary-author__picture">
-          <Avatar picture={picture} size="xs" />
+          <Avatar
+            // Only subreddit can have `null` as `picture` value
+            name={picture === null ? subreddit : undefined}
+            size="xs"
+            src={picture || undefined}
+          />
         </div>
         <div className="primary-author__name">
           {subredditIsPrimaryAuthor ? subreddit : userName}

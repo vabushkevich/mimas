@@ -3,10 +3,16 @@
   $size-sm: 24px;
   $size-md: 30px;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   background: no-repeat center / 100% white;
   border-radius: 50%;
+  color: white;
+  font-weight: 600;
+  user-select: none;
 
   &--size_xs,
   &--size_sm,
@@ -17,15 +23,18 @@
   &--size_xs {
     width: $size-xs;
     height: $size-xs;
+    font-size: $size-xs * 0.6;
   }
 
   &--size_sm {
     width: $size-sm;
     height: $size-sm;
+    font-size: $size-sm * 0.6;
   }
 
   &--size_md {
     width: $size-md;
     height: $size-md;
+    font-size: $size-md * 0.6;
   }
 }

@@ -30,7 +30,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
             button={
               <button className="user-menu-btn">
                 <span className="user-menu-btn__picture">
-                  <Avatar picture={user.avatar} size="md" />
+                  <Avatar size="md" src={user.avatar} />
                 </span>
                 <span className="user-menu-btn__icon"></span>
               </button>

@@ -62,7 +62,7 @@ export function Sidebar() {
                     to={`/r/${name}`}
                   >
                     <div className="sidebar__item-icon">
-                      <Avatar picture={avatar} size="sm" />
+                      <Avatar name={name} size="sm" src={avatar} />
                     </div>
                     <div className="sidebar__item-text">{name}</div>
                   </NavLink>

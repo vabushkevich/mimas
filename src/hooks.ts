@@ -221,3 +221,20 @@ export function useTitle(title?: string) {
     };
   }, [title]);
 }
+
+export function usePreloadImage(src?: string) {
+  const img = useMemo(() => {
+    const img = document.createElement("img");
+    if (src) img.src = src;
+    return img;
+  }, [src]);
+  const [loaded, setLoaded] = useState(img.complete);
+
+  if (loaded != img.complete) setLoaded(img.complete);
+
+  useEffect(() => {
+    if (!img.complete) img.onload = () => setLoaded(true);
+  }, [img]);
+
+  return loaded;
+}
