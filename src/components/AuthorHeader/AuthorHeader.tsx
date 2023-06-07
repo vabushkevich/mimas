@@ -4,9 +4,9 @@ import { Card, Stat, Avatar } from "@components";
 import "./AuthorHeader.scss";
 
 type AuthorHeaderProps = {
+  avatar?: string;
   description?: string;
   name: string;
-  picture?: string;
   stats: {
     label: string;
     title?: string;
@@ -16,9 +16,9 @@ type AuthorHeaderProps = {
 };
 
 export function AuthorHeader({
+  avatar,
   description,
   name,
-  picture,
   stats,
   subscribeButton,
 }: AuthorHeaderProps) {
@@ -26,8 +26,8 @@ export function AuthorHeader({
     <div className="author-header">
       <Card>
         <div className="author-header__body">
-          <div className="author-header__picture">
-            <Avatar name={name} src={picture} />
+          <div className="author-header__avatar">
+            <Avatar name={name} src={avatar} />
           </div>
           <div className="author-header__header">
             <div className="author-header__name">{name}</div>

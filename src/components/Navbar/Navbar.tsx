@@ -29,7 +29,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
             alignRight
             button={
               <button className="user-menu-btn">
-                <span className="user-menu-btn__picture">
+                <span className="user-menu-btn__avatar">
                   <Avatar size="md" src={user.avatar} />
                 </span>
                 <span className="user-menu-btn__icon"></span>

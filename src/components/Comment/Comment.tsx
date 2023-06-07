@@ -49,12 +49,12 @@ export function Comment({
   return (
     <div className="comment">
       <SubmissionHeader
+        avatar={avatar}
         bySubmitter={bySubmitter}
         dateCreated={dateCreated}
         dateEdited={dateEdited}
         distinction={distinction}
         locked={locked}
-        picture={avatar}
         pinned={pinned}
         userName={userName}
       />

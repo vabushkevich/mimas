@@ -16,7 +16,7 @@ export function AuthorHeaderSkeleton({
     <div className="author-header">
       <Card>
         <div className="author-header__body">
-          <div className="author-header__picture">
+          <div className="author-header__avatar">
             <Skeleton width="100%" height="100%" circle block />
           </div>
           <div className="author-header__header">

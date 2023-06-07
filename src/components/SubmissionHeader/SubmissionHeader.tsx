@@ -8,12 +8,12 @@ import { Avatar } from "@components";
 import "./SubmissionHeader.scss";
 
 type SubmissionHeaderProps = {
+  avatar?: string | null;
   bySubmitter?: boolean;
   dateCreated: number;
   dateEdited?: number;
   distinction?: SubmissionDistinction;
   locked?: boolean;
-  picture?: string | null;
   pinned?: boolean;
   primaryAuthorType?: AuthorType;
   subreddit?: string;
@@ -21,12 +21,12 @@ type SubmissionHeaderProps = {
 };
 
 export function SubmissionHeader({
+  avatar,
   bySubmitter,
   dateCreated,
   dateEdited,
   distinction,
   locked,
-  picture,
   pinned,
   primaryAuthorType = "user",
   subreddit,
@@ -47,12 +47,12 @@ export function SubmissionHeader({
         ])}
         to={subredditIsPrimaryAuthor ? `/r/${subreddit}` : `/user/${userName}`}
       >
-        <div className="primary-author__picture">
+        <div className="primary-author__avatar">
           <Avatar
             // Only subreddit can have `null` as `picture` value
-            name={picture === null ? subreddit : undefined}
+            name={avatar === null ? subreddit : undefined}
             size="xs"
-            src={picture || undefined}
+            src={avatar || undefined}
           />
         </div>
         <div className="primary-author__name">

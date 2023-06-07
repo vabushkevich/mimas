@@ -30,9 +30,9 @@ export function UserPage() {
           {isLoading && <AuthorHeaderSkeleton />}
           {user && (
             <AuthorHeader
+              avatar={user.avatar}
               description={user.description}
               name={user.name}
-              picture={user.avatar}
               stats={[
                 {
                   label: "Comment Carma",

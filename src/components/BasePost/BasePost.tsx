@@ -64,10 +64,10 @@ export function BasePost({
       >
         <div className="post__header">
           <SubmissionHeader
+            avatar={avatar}
             dateCreated={dateCreated}
             dateEdited={dateEdited}
             locked={locked}
-            picture={avatar}
             pinned={!hidePin && pinned}
             primaryAuthorType={primaryAuthorType}
             subreddit={subreddit}

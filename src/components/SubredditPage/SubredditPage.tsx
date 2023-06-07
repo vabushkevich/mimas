@@ -44,9 +44,9 @@ export function SubredditPage() {
           )}
           {subreddit && (
             <AuthorHeader
+              avatar={subreddit.avatar}
               description={subreddit.description}
               name={subreddit.name}
-              picture={subreddit.avatar}
               stats={[
                 {
                   label: "Members",
