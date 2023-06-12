@@ -144,7 +144,7 @@ export type Subreddit = {
     community_icon: string;
     created_utc: number;
     display_name: string;
-    icon_img: string;
+    icon_img: string | null;
     name: string;
     public_description: string;
     subscribers: number;

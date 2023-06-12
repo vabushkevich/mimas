@@ -437,7 +437,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
     subscribed: !!user_is_subscriber,
   };
 
-  const avatar = (community_icon || icon_img).split("?")[0];
+  const avatar = (community_icon || icon_img)?.split("?")[0];
 
   if (avatar) subreddit.avatar = avatar;
   if (public_description) subreddit.description = public_description;
