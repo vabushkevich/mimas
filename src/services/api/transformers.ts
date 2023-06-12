@@ -203,10 +203,15 @@ export function transformImagePost(rawPost: Raw.ImagePost): ImagePost {
 }
 
 export function transformLinkPost(rawPost: Raw.LinkPost): LinkPost {
+  const url = new URL(
+    rawPost.data.url_overridden_by_dest,
+    "https://www.reddit.com",
+  );
+
   return {
     ...transformBasePost(rawPost),
     type: "link",
-    linkUrl: rawPost.data.url_overridden_by_dest,
+    linkUrl: String(url),
   };
 }
 
