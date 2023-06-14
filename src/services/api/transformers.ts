@@ -81,6 +81,7 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
       name,
       num_comments,
       permalink,
+      pinned,
       saved,
       score,
       stickied,
@@ -97,7 +98,7 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
     dateCreated: created_utc * 1000,
     id: name,
     locked,
-    pinned: stickied,
+    pinned: [],
     score,
     subreddit,
     subredditId: subreddit_id,
@@ -109,6 +110,8 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
 
   if (author_fullname) basePost.userId = author_fullname;
   if (typeof edited == "number") basePost.dateEdited = edited * 1000;
+  if (pinned) basePost.pinned.push("user");
+  if (stickied) basePost.pinned.push("subreddit");
 
   return basePost;
 }

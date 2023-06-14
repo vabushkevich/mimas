@@ -54,6 +54,8 @@ export function UserPage() {
         <Feed
           sort={sort}
           sortTimeInterval={sortTimeInterval}
+          type="user"
+          unmarkPinned={sort != "hot"}
           userName={userName}
           onSortChange={(sort) => {
             history.replace({ search: `?sort=${sort}` });

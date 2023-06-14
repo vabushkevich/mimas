@@ -37,7 +37,7 @@ export type BasePost = {
   dateEdited?: number;
   id: string;
   locked: boolean;
-  pinned: boolean;
+  pinned: FeedType[];
   score: number;
   subreddit: string;
   subredditId: string;
@@ -119,7 +119,7 @@ export type Post =
 export type PostProps<T extends BasePost> = {
   collapsed?: boolean;
   hideFooter?: boolean;
-  hidePin?: boolean;
+  pinned?: boolean;
   post: T;
   primaryAuthorType?: AuthorType;
 };
@@ -199,6 +199,8 @@ export type IdType =
   | "award";
 
 export type AuthorType = "user" | "subreddit";
+
+export type FeedType = AuthorType | "mixed";
 
 export type SortTimeInterval = (typeof sortTimeIntervals)[number];
 

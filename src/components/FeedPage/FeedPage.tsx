@@ -32,6 +32,7 @@ export function FeedPage({ type }: FeedPageProps) {
           sort={postSorting}
           sortTimeInterval={sortTimeInterval}
           subreddit={subreddit}
+          type="mixed"
           unmarkPinned
           onSortChange={(sort) => {
             const pathname = generatePath(match.path, { sort });

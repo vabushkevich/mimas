@@ -1,16 +1,18 @@
 import React from "react";
-import { Post as PostType, AuthorType } from "@types";
+import { Post as PostType, AuthorType, FeedType } from "@types";
 
 import { Post } from "@components";
 import "./PostList.scss";
 
 type PostListProps = {
+  feedType: FeedType;
   posts: PostType[];
   primaryAuthorType?: AuthorType;
   unmarkPinned?: boolean;
 };
 
 export function PostList({
+  feedType,
   posts,
   primaryAuthorType,
   unmarkPinned = false,
@@ -20,7 +22,7 @@ export function PostList({
       {posts.map((post) => (
         <li key={post.id} className="post-list__item">
           <Post
-            hidePin={unmarkPinned}
+            pinned={!unmarkPinned && post.pinned.includes(feedType)}
             post={post}
             primaryAuthorType={primaryAuthorType}
           />

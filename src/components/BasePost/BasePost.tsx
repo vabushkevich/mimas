@@ -15,7 +15,7 @@ type BasePostProps = PostProps<Post> & {
 
 export function BasePost({
   hideFooter = false,
-  hidePin = false,
+  pinned = false,
   post,
   primaryAuthorType = "subreddit",
   children,
@@ -27,7 +27,6 @@ export function BasePost({
     dateEdited,
     id,
     locked,
-    pinned,
     score,
     subreddit,
     subredditId,
@@ -68,7 +67,7 @@ export function BasePost({
             dateCreated={dateCreated}
             dateEdited={dateEdited}
             locked={locked}
-            pinned={!hidePin && pinned}
+            pinned={pinned}
             primaryAuthorType={primaryAuthorType}
             subreddit={subreddit}
             userName={userName}

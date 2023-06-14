@@ -12,6 +12,7 @@ export type BasePost = {
     name: string;
     num_comments: number;
     permalink: string;
+    pinned: boolean;
     removed_by_category: string | null;
     saved: boolean;
     score: number;

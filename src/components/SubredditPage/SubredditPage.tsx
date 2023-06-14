@@ -79,6 +79,8 @@ export function SubredditPage() {
           sort={postSorting}
           sortTimeInterval={sortTimeInterval}
           subreddit={subredditName}
+          type="subreddit"
+          unmarkPinned={postSorting != "hot"}
           onSortChange={(sort) => {
             const pathname = generatePath(match.path, {
               sort,

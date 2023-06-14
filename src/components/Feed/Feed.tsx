@@ -6,6 +6,7 @@ import {
   isPostSortingMethod,
   isSortTimeInterval,
   AuthorType,
+  FeedType,
 } from "@types";
 import { useFeedPosts } from "@services/api";
 import { uniqBy } from "lodash-es";
@@ -25,6 +26,7 @@ type FeedProps = {
   sort?: PostSortingMethod;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
+  type: FeedType;
   unmarkPinned?: boolean;
   userName?: string;
   onSortChange?: (v: PostSortingMethod) => void;
@@ -36,6 +38,7 @@ export function Feed({
   sort,
   sortTimeInterval,
   subreddit,
+  type,
   unmarkPinned,
   userName,
   onSortChange,
@@ -93,6 +96,7 @@ export function Feed({
         </Card>
       </div>
       <PostList
+        feedType={type}
         posts={posts}
         primaryAuthorType={primaryAuthorType}
         unmarkPinned={unmarkPinned}
