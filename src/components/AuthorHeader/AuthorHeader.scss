@@ -37,11 +37,12 @@
   &__description {
     @include text-content;
 
-    margin: -6px 0 22px;
+    margin-top: -6px;
   }
 
   &__stats {
     display: flex;
+    margin-top: 22px;
 
     > *:not(:last-child) {
       margin-right: 25px;

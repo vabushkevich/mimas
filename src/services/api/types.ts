@@ -148,6 +148,12 @@ export type Subreddit = {
     icon_img: string | null;
     name: string;
     public_description: string;
+    subreddit_type:
+      | "public"
+      | "private"
+      | "restricted"
+      | "gold_restricted"
+      | "archived";
     subscribers: number;
     user_is_subscriber: true | null;
   };
@@ -266,4 +272,10 @@ type Variants<T extends string> = {
   variants: {
     [P in T]: ResponsiveMedia;
   };
+};
+
+export type RedditError = {
+  error: number;
+  message: string;
+  reason: string;
 };

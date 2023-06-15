@@ -3,12 +3,13 @@ import {
   PostSortingMethod,
   SortTimeInterval,
   isSortRequiresTimeInterval,
+  PrivateSubreddit,
 } from "@types";
 import * as Raw from "./types";
 import { getAccessToken } from "@services/auth";
-import { getIdSuffix } from "./utils";
+import { getIdSuffix, isRedditError } from "./utils";
 import { groupBy } from "lodash-es";
-import { getIdType } from "@utils";
+import { getIdType, HTTPError } from "@utils";
 
 import {
   transformPost,
@@ -40,7 +41,10 @@ class RedditWebAPI {
     });
 
     if (!response.ok) {
-      throw new Error(`Request failed with status code ${response.status}`);
+      throw new HTTPError(
+        `Request failed with status code ${response.status}`,
+        response,
+      );
     }
 
     return response;
@@ -116,10 +120,23 @@ class RedditWebAPI {
   }
 
   async getSubredditByName(name: string) {
-    const rawSubreddit = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/r/${name}/about?raw_json=1`,
-    ).then((res) => res.json() as Promise<Raw.Subreddit>);
-    return transformSubreddit(rawSubreddit);
+    try {
+      const rawSubreddit = await this.#fetchWithAuth(
+        `https://oauth.reddit.com/r/${name}/about?raw_json=1`,
+      ).then((res) => res.json() as Promise<Raw.Subreddit>);
+      return transformSubreddit(rawSubreddit);
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        const errorData = await error.response?.json();
+        if (isRedditError(errorData) && errorData.reason == "private") {
+          return {
+            name,
+            private: true,
+          } as PrivateSubreddit;
+        }
+      }
+      throw error;
+    }
   }
 
   async getComments(

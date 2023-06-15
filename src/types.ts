@@ -184,8 +184,14 @@ export type Subreddit = {
   description?: string;
   id: string;
   name: string;
+  private: boolean;
   subscribed: boolean;
   subscribers: number;
+};
+
+export type PrivateSubreddit = {
+  name: string;
+  private: true;
 };
 
 export type IdPrefix = (typeof idPrefixes)[number];

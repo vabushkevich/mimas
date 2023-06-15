@@ -86,6 +86,16 @@ export function isCommentDeleted(rawComment: Raw.Comment) {
   return body == "[deleted]" || body == "[removed]";
 }
 
+export function isRedditError(value: unknown): value is Raw.RedditError {
+  return (
+    value != null &&
+    typeof value == "object" &&
+    "error" in value &&
+    "message" in value &&
+    "reason" in value
+  );
+}
+
 export function getCommentDeleter(rawComment: Raw.Comment) {
   const { body } = rawComment.data;
   if (!isCommentDeleted(rawComment)) return;

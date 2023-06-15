@@ -426,6 +426,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
       icon_img,
       name,
       public_description,
+      subreddit_type,
       subscribers,
       user_is_subscriber,
     },
@@ -436,6 +437,7 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
     dateCreated: created_utc * 1000,
     id: name,
     name: display_name,
+    private: subreddit_type == "private",
     subscribers,
     subscribed: !!user_is_subscriber,
   };

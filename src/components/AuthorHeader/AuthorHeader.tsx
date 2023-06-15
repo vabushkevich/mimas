@@ -7,7 +7,7 @@ type AuthorHeaderProps = {
   avatar?: string;
   description?: string;
   name: string;
-  stats: {
+  stats?: {
     label: string;
     title?: string;
     value: string;
@@ -36,13 +36,15 @@ export function AuthorHeader({
           {description && (
             <div className="author-header__description">{description}</div>
           )}
-          <div className="author-header__stats">
-            {stats.map(({ label, title, value }) => (
-              <div title={title} key={label}>
-                <Stat label={label} value={value} />
-              </div>
-            ))}
-          </div>
+          {stats && stats.length > 0 && (
+            <div className="author-header__stats">
+              {stats.map(({ label, title, value }) => (
+                <div title={title} key={label}>
+                  <Stat label={label} value={value} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </Card>
     </div>

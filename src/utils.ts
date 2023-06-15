@@ -35,6 +35,15 @@ const durationUnits = [
   { name: "y", ms: msInYear },
 ];
 
+export class HTTPError extends Error {
+  response?: Response;
+
+  constructor(message?: string, response?: Response) {
+    super(message);
+    this.response = response;
+  }
+}
+
 export function formatDistanceToNow(date: Date | number) {
   const distance = Math.abs(Date.now() - Number(date));
   return formatDuration(distance);
