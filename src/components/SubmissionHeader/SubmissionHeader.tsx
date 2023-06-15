@@ -77,7 +77,9 @@ export function SubmissionHeader({
           {dateEdited && (
             <div
               className="submission-header__pencil-icon"
-              title={formatDate(dateEdited)}
+              title={`${formatDate(dateEdited)} (${formatDistanceToNow(
+                dateEdited,
+              )} ago)`}
             ></div>
           )}
         </div>
