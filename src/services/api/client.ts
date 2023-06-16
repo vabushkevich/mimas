@@ -8,7 +8,7 @@ import {
 import * as Raw from "./types";
 import { getAccessToken } from "@services/auth";
 import { getIdSuffix, isRedditError } from "./utils";
-import { groupBy } from "lodash-es";
+import { groupBy, debounce } from "lodash-es";
 import { getIdType, HTTPError } from "@utils";
 
 import {
@@ -299,4 +299,6 @@ class RedditWebAPI {
   }
 }
 
-export const client = new RedditWebAPI(getAccessToken);
+export const client = new RedditWebAPI(
+  debounce(getAccessToken, 1000, { leading: true }),
+);
