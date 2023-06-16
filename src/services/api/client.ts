@@ -238,6 +238,7 @@ class RedditWebAPI {
   async getIdentity() {
     const rawIdentity = await this.#fetchWithAuth(
       "https://oauth.reddit.com/api/v1/me?raw_json=1",
+      { cache: "no-store" },
     ).then((res) => res.json() as Promise<Raw.Identity>);
     return transformIdentity(rawIdentity);
   }
