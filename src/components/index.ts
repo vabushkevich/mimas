@@ -57,6 +57,7 @@ import { CrossPost } from "./CrossPost/CrossPost";
 import { TextPostSkeleton } from "./TextPost/TextPostSkeleton";
 import { Offcanvas } from "./Offcanvas/Offcanvas";
 import { RemovedPost } from "./RemovedPost/RemovedPost";
+import { NavbarLogo } from "./NavbarLogo/NavbarLogo";
 
 export {
   Post,
@@ -118,4 +119,5 @@ export {
   TextPostSkeleton,
   Offcanvas,
   RemovedPost,
+  NavbarLogo,
 };

@@ -1,0 +1,26 @@
+@use "@sass/mixins" as *;
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+
+  &__menu-btn {
+    @include reset-button;
+
+    margin-right: 20px;
+    width: 20px;
+    height: 35px;
+    background-color: currentcolor;
+    mask: no-repeat center url(./assets/menu.svg);
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  &__logo {
+    width: 120px;
+    height: 35px;
+    background: no-repeat left url("@assets/logo.svg");
+  }
+}

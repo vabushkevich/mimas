@@ -1,9 +1,15 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAuth, getAuthURL } from "@services/auth";
 import { useIdentity } from "@services/api";
 
-import { Button, DropdownMenu, MenuItem, Avatar } from "@components";
+import {
+  Button,
+  DropdownMenu,
+  MenuItem,
+  Avatar,
+  NavbarLogo,
+} from "@components";
 import "./Navbar.scss";
 
 type NavbarProps = {
@@ -18,11 +24,9 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
 
   return (
     <nav className="site-nav">
-      <button
-        className="site-nav__menu-btn"
-        onClick={onMenuButtonClick}
-      ></button>
-      <Link className="site-nav__logo" to="/"></Link>
+      <div className="site-nav__logo">
+        <NavbarLogo onMenuButtonClick={onMenuButtonClick} />
+      </div>
       <div className="site-nav__login-btn">
         {authorized && user && (
           <DropdownMenu
