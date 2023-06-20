@@ -11,11 +11,11 @@ type PageProps = {
 };
 
 export function Page({ title, children }: PageProps) {
-  const [isSidebarVisible, setIsSidebarVisible] = useLocalStorage(
-    "is-sidebar-visible",
+  const [isPageSidebarOpen, setIsPageSidebarOpen] = useLocalStorage(
+    "is-sidebar-open",
     true,
   );
-  const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
+  const [isOffcanvasSidebarOpen, setIsOffcanvasSidebarOpen] = useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
   const { action, location } = useHistory();
 
@@ -27,9 +27,9 @@ export function Page({ title, children }: PageProps) {
 
   const toggleSidebar = () => {
     if (isLargeScreen) {
-      setIsSidebarVisible(!isSidebarVisible);
+      setIsPageSidebarOpen(!isPageSidebarOpen);
     } else {
-      setIsOffcanvasVisible(!isOffcanvasVisible);
+      setIsOffcanvasSidebarOpen(!isOffcanvasSidebarOpen);
     }
   };
 
@@ -38,17 +38,19 @@ export function Page({ title, children }: PageProps) {
       <Sidebar />
     </div>
   ) : (
-    <Offcanvas onClick={() => setIsOffcanvasVisible(false)}>
+    <Offcanvas onClick={() => setIsOffcanvasSidebarOpen(false)}>
       <Sidebar showHeader />
     </Offcanvas>
   );
-  const renderSidebar = isLargeScreen ? isSidebarVisible : isOffcanvasVisible;
+  const isSidebarOpen = isLargeScreen
+    ? isPageSidebarOpen
+    : isOffcanvasSidebarOpen;
 
   return (
     <div className="page">
       <Navbar onMenuButtonClick={toggleSidebar} />
       <div className="page__layout">
-        {renderSidebar && sidebar}
+        {isSidebarOpen && sidebar}
         <div className="page__content">{children}</div>
       </div>
     </div>
