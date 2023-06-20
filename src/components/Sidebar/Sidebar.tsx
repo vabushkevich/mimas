@@ -4,11 +4,15 @@ import { useSidebarSubreddits } from "./hooks";
 import { useAuth } from "@services/auth";
 import { isPostSortingMethod } from "@types";
 
-import { Avatar } from "@components";
+import { Avatar, NavbarLogo } from "@components";
 import { SidebarMenuSkeleton } from "./SidebarMenuSkeleton";
 import "./Sidebar.scss";
 
-export function Sidebar() {
+type SidebarProps = {
+  showHeader?: boolean;
+};
+
+export function Sidebar({ showHeader = false }: SidebarProps) {
   const { authorized } = useAuth();
   const { data: subreddits, isLoading } = useSidebarSubreddits();
 
@@ -22,6 +26,11 @@ export function Sidebar() {
 
   return (
     <nav className="sidebar">
+      {showHeader && (
+        <div className="sidebar__header">
+          <NavbarLogo />
+        </div>
+      )}
       <div className="sidebar__body">
         <ul className="sidebar__menu sidebar__menu--user">
           {navItems.map((item) => (

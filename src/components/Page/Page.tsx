@@ -38,11 +38,9 @@ export function Page({ title, children }: PageProps) {
       <Sidebar />
     </div>
   ) : (
-    <div className="page__offcanvas">
-      <Offcanvas contained onClick={() => setIsOffcanvasVisible(false)}>
-        <Sidebar />
-      </Offcanvas>
-    </div>
+    <Offcanvas onClick={() => setIsOffcanvasVisible(false)}>
+      <Sidebar showHeader />
+    </Offcanvas>
   );
   const renderSidebar = isLargeScreen ? isSidebarVisible : isOffcanvasVisible;
 

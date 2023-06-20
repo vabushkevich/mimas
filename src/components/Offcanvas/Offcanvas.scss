@@ -8,12 +8,6 @@
   height: 100vh;
   z-index: $z-index-offcanvas;
 
-  &--contained {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
   &__backdrop {
     position: absolute;
     width: 100%;

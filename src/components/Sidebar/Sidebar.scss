@@ -4,13 +4,32 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 220px;
   height: 100%;
   background-color: $gray-200;
   overflow: hidden;
 
+  &__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 50px;
+    padding: 0 20px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 100%;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient($gray-200, fade-out($gray-200, 1));
+    }
+  }
+
   &__body {
+    flex-grow: 1;
     padding: 10px;
     overflow: auto;
   }
