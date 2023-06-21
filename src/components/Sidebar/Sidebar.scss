@@ -90,8 +90,17 @@
 
   &__footer {
     position: relative;
-    padding: 10px 22px 18px;
-    box-shadow: -30px -10px 20px 14px $gray-200;
+    padding: 10px 22px 20px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -10px;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(fade-out($gray-200, 1), $gray-200);
+    }
   }
 
   &__github-icon {
