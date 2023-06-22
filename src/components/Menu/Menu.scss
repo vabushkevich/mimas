@@ -1,13 +1,24 @@
 @use "@sass/variables" as *;
 
 .menu {
-  padding: 4px;
   background-color: white;
   border-radius: 6px;
   box-shadow: 0 4px 8px rgba($color: black, $alpha: 0.1),
     0 0 1px rgba($color: black, $alpha: 0.3);
 
-  > .menu-item:not(:last-child) {
-    margin-bottom: 3px;
+  &--size_md {
+    padding: 4px;
+
+    .menu-item:not(:last-child) {
+      margin-bottom: 3px;
+    }
+  }
+
+  &--size_lg {
+    padding: 6px;
+
+    .menu-item:not(:last-child) {
+      margin-bottom: 5px;
+    }
   }
 }

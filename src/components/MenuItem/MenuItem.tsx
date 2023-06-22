@@ -17,7 +17,7 @@ export function MenuItem({
   onClick,
   children,
 }: MenuItemProps) {
-  const { isItemSelected, onItemClick, onItemRender } = useMenuContext();
+  const { size, isItemSelected, onItemClick, onItemRender } = useMenuContext();
 
   selected ??= isItemSelected(value);
 
@@ -27,7 +27,11 @@ export function MenuItem({
 
   return (
     <button
-      className={classNames("menu-item", selected && "menu-item--selected")}
+      className={classNames(
+        "menu-item",
+        selected && "menu-item--selected",
+        `menu-item--size_${size}`,
+      )}
       onClick={() => {
         onClick?.(value);
         onItemClick?.(children, value);

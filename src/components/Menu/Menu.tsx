@@ -6,6 +6,7 @@ import "./Menu.scss";
 export type MenuProps = {
   defaultValue?: string;
   selectable?: boolean;
+  size?: "md" | "lg";
   value?: string;
   onItemClick?: (value?: string) => void;
   onItemSelect?: (content: React.ReactNode) => void;
@@ -15,6 +16,7 @@ export type MenuProps = {
 export function Menu({
   defaultValue,
   selectable = false,
+  size = "md",
   value,
   onItemClick,
   onItemSelect,
@@ -31,6 +33,7 @@ export function Menu({
   }
 
   const contextValue = {
+    size,
     isItemSelected: (itemValue?: string) => {
       return canSelectItem(itemValue) && itemValue === selectedValue;
     },
@@ -51,7 +54,7 @@ export function Menu({
 
   return (
     <MenuContext.Provider value={contextValue}>
-      <div className="menu">{children}</div>
+      <div className={`menu menu--size_${size}`}>{children}</div>
     </MenuContext.Provider>
   );
 }

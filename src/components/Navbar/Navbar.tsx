@@ -39,6 +39,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
                 <span className="user-menu-btn__icon"></span>
               </button>
             }
+            size="lg"
           >
             <MenuItem onClick={() => history.push(`/user/${user.name}`)}>
               {user.name}
