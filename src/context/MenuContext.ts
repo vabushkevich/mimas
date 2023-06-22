@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
 
 type MenuContextType = {
-  selectedValue?: string;
-  onItemClick?: (value?: string) => void;
-  onItemRender?: (children: React.ReactNode, value?: string) => void;
+  isItemSelected: (value?: string) => boolean;
+  onItemClick?: (content: React.ReactNode, value?: string) => void;
+  onItemRender?: (content: React.ReactNode, value?: string) => void;
 };
 
 export const MenuContext = createContext<MenuContextType | null>(null);

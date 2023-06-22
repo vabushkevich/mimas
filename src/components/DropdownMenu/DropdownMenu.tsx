@@ -1,85 +1,64 @@
 import React, { useState, useRef } from "react";
 import { useClickOutside } from "@hooks";
-import { MenuContext } from "@context";
 import classNames from "classnames";
 
-import { Menu, DropdownButton } from "@components";
+import { Menu, DropdownButton, MenuProps } from "@components";
 import "./DropdownMenu.scss";
 
-type DropdownMenuProps = {
+type DropdownMenuProps = MenuProps & {
   alignRight?: boolean;
   button?:
     | React.ReactNode
     | ((selectedContent: React.ReactNode) => React.ReactNode);
-  defaultValue?: string;
   label?:
     | React.ReactNode
     | ((selectedContent: React.ReactNode) => React.ReactNode);
-  selectable?: boolean;
-  value?: string;
-  onItemClick?: (value?: string) => void;
-  children: React.ReactNode;
 };
 
 export function DropdownMenu({
   alignRight = false,
   button,
-  defaultValue,
   label,
-  selectable = false,
-  value,
   onItemClick,
   children,
+  ...menuProps
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [userSelectedValue, setUserSelectedValue] = useState<string>();
   const [selectedContent, setSelectedContent] = useState<React.ReactNode>();
   const buttonRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const selectedValue = selectable
-    ? value || userSelectedValue || defaultValue
-    : undefined;
-
-  const contextValue = {
-    selectedValue,
-    onItemRender: (children: React.ReactNode, value?: string) => {
-      if (selectedValue != null && value === selectedValue) {
-        setSelectedContent(children);
-      }
-    },
-    onItemClick: (itemValue?: string) => {
-      if (selectable && itemValue != null && value == null) {
-        setUserSelectedValue(itemValue);
-      }
-      onItemClick?.(itemValue);
-      setIsOpen(false);
-    },
-  };
 
   useClickOutside([buttonRef, menuRef], () => setIsOpen(false));
 
   return (
-    <MenuContext.Provider value={contextValue}>
-      <div className="dropdown-menu">
-        <div ref={buttonRef} onClick={() => setIsOpen(!isOpen)}>
-          {typeof button == "function" ? button(selectedContent) : button}
-          {!button && label && (
-            <DropdownButton>
-              {typeof label == "function" ? label(selectedContent) : label}
-            </DropdownButton>
-          )}
-        </div>
-        <div
-          ref={menuRef}
-          className={classNames(
-            "dropdown-menu__menu",
-            !isOpen && "dropdown-menu__menu--hidden",
-            alignRight && "dropdown-menu__menu--align-right",
-          )}
-        >
-          <Menu>{children}</Menu>
-        </div>
+    <div className="dropdown-menu">
+      <div ref={buttonRef} onClick={() => setIsOpen(!isOpen)}>
+        {typeof button == "function" ? button(selectedContent) : button}
+        {!button && label && (
+          <DropdownButton>
+            {typeof label == "function" ? label(selectedContent) : label}
+          </DropdownButton>
+        )}
       </div>
-    </MenuContext.Provider>
+      <div
+        ref={menuRef}
+        className={classNames(
+          "dropdown-menu__menu",
+          !isOpen && "dropdown-menu__menu--hidden",
+          alignRight && "dropdown-menu__menu--align-right",
+        )}
+      >
+        <Menu
+          {...menuProps}
+          onItemClick={(itemValue) => {
+            onItemClick?.(itemValue);
+            setIsOpen(false);
+          }}
+          onItemSelect={(content) => setSelectedContent(content)}
+        >
+          {children}
+        </Menu>
+      </div>
+    </div>
   );
 }

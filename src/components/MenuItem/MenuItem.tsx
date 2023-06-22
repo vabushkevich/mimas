@@ -17,9 +17,9 @@ export function MenuItem({
   onClick,
   children,
 }: MenuItemProps) {
-  const { selectedValue, onItemClick, onItemRender } = useMenuContext();
+  const { isItemSelected, onItemClick, onItemRender } = useMenuContext();
 
-  selected ??= selectedValue != null && value === selectedValue;
+  selected ??= isItemSelected(value);
 
   useLayoutEffect(() => {
     onItemRender?.(children, value);
@@ -30,7 +30,7 @@ export function MenuItem({
       className={classNames("menu-item", selected && "menu-item--selected")}
       onClick={() => {
         onClick?.(value);
-        onItemClick?.(value);
+        onItemClick?.(children, value);
       }}
     >
       {children}
