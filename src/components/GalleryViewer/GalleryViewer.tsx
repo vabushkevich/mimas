@@ -52,17 +52,14 @@ export function GalleryViewer({
       <div className="gallery-viewer__background" onClick={onClose}></div>
       <div className="gallery-viewer__body">
         <div className="gallery-viewer__view-area">
-          <div className="gallery-viewer__image">
-            {image && (
-              <img
-                src={image.src}
-                alt={caption}
-                width={image.width}
-                height={image.height}
-                onClick={onClose}
-              />
-            )}
-          </div>
+          <img
+            className="gallery-viewer__image"
+            src={image?.src}
+            alt={caption}
+            width={image?.width}
+            height={image?.height}
+            onClick={onClose}
+          />
           {pageCount > 1 && (
             <>
               <button
@@ -76,13 +73,15 @@ export function GalleryViewer({
             </>
           )}
         </div>
-        {caption && <div className="gallery-viewer__caption">{caption}</div>}
       </div>
-      {pageCount > 1 && (
-        <div className="gallery-viewer__counter">
-          {page + 1} of {pageCount}
-        </div>
-      )}
+      <div className="gallery-viewer__footer">
+        {caption && <div className="gallery-viewer__caption">{caption}</div>}
+        {pageCount > 1 && (
+          <div className="gallery-viewer__counter">
+            {page + 1} of {pageCount}
+          </div>
+        )}
+      </div>
       <button className="gallery-viewer__close-btn" onClick={onClose}></button>
     </div>
   );

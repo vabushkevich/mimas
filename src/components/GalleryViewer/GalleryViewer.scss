@@ -2,19 +2,19 @@
 @use "@sass/mixins" as *;
 
 .gallery-viewer {
-  $padding: 60px;
+  $padding: 4em;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) minmax($padding, auto);
+  justify-items: center;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  padding: $padding;
+  padding-top: $padding;
   color: white;
+  background-color: rgba($color: black, $alpha: 0.8);
   z-index: $z-index-fixed;
 
   &__background {
@@ -23,24 +23,27 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($color: black, $alpha: 0.8);
-    cursor: pointer;
+    cursor: zoom-out;
   }
 
   &__body {
+    place-self: stretch;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
+  }
+
+  &__view-area {
     position: relative;
     width: 100%;
     max-height: 100%;
   }
 
-  &__view-area {
-    display: flex;
-    align-self: stretch;
-    position: relative;
-    overflow: hidden;
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: zoom-out;
   }
 
   &__prev-page-btn,
@@ -48,6 +51,7 @@
     @include reset-button;
 
     position: absolute;
+    top: 0;
     width: 33%;
     height: 100%;
     background-color: white;
@@ -59,43 +63,34 @@
   }
 
   &__prev-page-btn {
-    mask: no-repeat left 30px center / 40px url("@assets/svg/arrow-left.svg");
+    mask: no-repeat left 15% center / 40px url("@assets/svg/arrow-left.svg");
   }
 
   &__next-page-btn {
     right: 0;
-    mask: no-repeat right 30px center / 40px url("@assets/svg/arrow-right.svg");
+    mask: no-repeat right 15% center / 40px url("@assets/svg/arrow-right.svg");
   }
 
-  &__image {
-    flex-grow: 1;
-    max-width: 100%;
-    cursor: pointer;
-
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 60%;
+    overflow: hidden;
   }
 
   &__caption {
     @include text-content;
 
-    margin-top: 20px;
-    max-width: 60%;
+    position: relative;
+    margin-top: calc(($padding - 1em) / 2);
+    max-width: 100%;
     word-wrap: break-word;
   }
 
   &__counter {
-    display: flex;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    height: $padding;
+    margin: calc(($padding - 1em) / 2) 0;
     font-weight: 500;
-    pointer-events: none;
   }
 
   &__close-btn {
