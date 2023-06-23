@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { debounceAsync } from "@utils";
 import { useQueryString } from "@hooks";
 import {
   readAuth,
@@ -9,7 +10,7 @@ import {
 } from "./utils";
 import { useAuthContext } from "./context";
 
-export async function getAccessToken(): Promise<string> {
+export const getAccessToken = debounceAsync(async () => {
   let auth = readAuth();
 
   if (!auth || Date.now() >= auth.expires) {
@@ -20,7 +21,7 @@ export async function getAccessToken(): Promise<string> {
   }
 
   return auth.accessToken;
-}
+});
 
 export function useAuth() {
   const { authorized, setAuthorized } = useAuthContext();

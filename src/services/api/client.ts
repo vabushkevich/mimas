@@ -300,6 +300,4 @@ class RedditWebAPI {
   }
 }
 
-export const client = new RedditWebAPI(
-  debounce(getAccessToken, 1000, { leading: true }),
-);
+export const client = new RedditWebAPI(getAccessToken);

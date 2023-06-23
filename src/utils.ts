@@ -122,3 +122,20 @@ export function hashString(string: string) {
 export function pseudoRandom(seed: number) {
   return (seed * 16807) % 2147483647;
 }
+
+// Creates a function that returns the pending promise obtained from the last
+// func call. If there is no promise or it is settled, then the func is called.
+export function debounceAsync<T extends unknown[], V>(
+  this: unknown,
+  func: (...args: T) => Promise<V>,
+) {
+  let promise: Promise<V> | null;
+
+  return (...args: T) => {
+    promise ??= func.apply(this, args).finally(() => {
+      promise = null;
+    });
+
+    return promise;
+  };
+}
