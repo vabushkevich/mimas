@@ -122,6 +122,7 @@ export type PostProps<T extends BasePost> = {
   pinned?: boolean;
   post: T;
   primaryAuthorType?: AuthorType;
+  titleClickable?: boolean;
 };
 
 export type Comment = {

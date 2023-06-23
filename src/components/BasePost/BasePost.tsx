@@ -18,6 +18,7 @@ export function BasePost({
   pinned = false,
   post,
   primaryAuthorType = "subreddit",
+  titleClickable = true,
   children,
 }: BasePostProps) {
   const {
@@ -74,7 +75,7 @@ export function BasePost({
           />
         </div>
         <h3 className="post__title">
-          <Link to={url}>{title}</Link>
+          {titleClickable ? <Link to={url}>{title}</Link> : title}
         </h3>
         <div className="post__body">{children}</div>
         {!hideFooter && (

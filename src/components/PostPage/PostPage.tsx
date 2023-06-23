@@ -55,7 +55,7 @@ export function PostPage() {
   return (
     <Page title={post?.title}>
       <Container>
-        {post && <Post post={post} collapsed={false} />}
+        {post && <Post post={post} collapsed={false} titleClickable={false} />}
         {isPostLoading && <PostSkeleton />}
         {hasAlerts && (
           <div className="alerts">
