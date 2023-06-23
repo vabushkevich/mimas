@@ -5,6 +5,7 @@ import classNames from "classnames";
 import "./MenuItem.scss";
 
 type MenuItemProps = {
+  leftIcon?: React.ReactNode;
   selected?: boolean;
   value?: string;
   onClick?: (value?: string) => void;
@@ -12,6 +13,7 @@ type MenuItemProps = {
 };
 
 export function MenuItem({
+  leftIcon,
   selected,
   value,
   onClick,
@@ -37,6 +39,7 @@ export function MenuItem({
         onItemClick?.(children, value);
       }}
     >
+      {leftIcon && <span className="menu-item__left-icon">{leftIcon}</span>}
       {children}
     </button>
   );

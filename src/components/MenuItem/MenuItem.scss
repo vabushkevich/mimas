@@ -6,6 +6,10 @@ $color-selected-item: hsl(205, 80%, 91%);
 .menu-item {
   @include reset-button;
 
+  $root: &;
+
+  display: flex;
+  align-items: center;
   width: 100%;
   border-radius: 4px;
   text-align: left;
@@ -26,9 +30,18 @@ $color-selected-item: hsl(205, 80%, 91%);
 
   &--size_md {
     padding: 7px 10px;
+
+    #{$root}__left-icon {
+      margin-right: 8px;
+    }
   }
 
   &--size_lg {
     padding: 8px 11px;
+
+    #{$root}__left-icon {
+      margin-left: -2px;
+      margin-right: 12px;
+    }
   }
 }

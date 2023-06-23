@@ -27,24 +27,36 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
       <div className="site-nav__logo">
         <NavbarLogo onMenuButtonClick={onMenuButtonClick} />
       </div>
-      <div className="site-nav__login-btn">
+      <div className="site-nav__login-button">
         {authorized && user && (
           <DropdownMenu
             alignRight
             button={
-              <button className="user-menu-btn">
-                <span className="user-menu-btn__avatar">
+              <button className="user-menu__button">
+                <span className="user-menu__button-avatar">
                   <Avatar size="md" src={user.avatar} />
                 </span>
-                <span className="user-menu-btn__icon"></span>
+                <span className="user-menu__button-icon"></span>
               </button>
             }
             size="lg"
           >
-            <MenuItem onClick={() => history.push(`/user/${user.name}`)}>
+            <MenuItem
+              leftIcon={
+                <span className="user-menu__item-icon user-menu__user-icon"></span>
+              }
+              onClick={() => history.push(`/user/${user.name}`)}
+            >
               {user.name}
             </MenuItem>
-            <MenuItem onClick={unauthorize}>Sign Out</MenuItem>
+            <MenuItem
+              leftIcon={
+                <span className="user-menu__item-icon user-menu__out-icon"></span>
+              }
+              onClick={unauthorize}
+            >
+              Sign Out
+            </MenuItem>
           </DropdownMenu>
         )}
         {!authorized && (
