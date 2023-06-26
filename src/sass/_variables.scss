@@ -9,13 +9,14 @@ $gray-400: hsl(220 10% 88%);
 $gray-500: hsl(220 10% 84%);
 $gray-600: hsl(220 10% 65%);
 $gray-700: hsl(220 10% 55%);
-$gray-800: hsl(220 10% 45%);
+$gray-800: hsl(220 10% 38%);
 $gray-900: hsl(220 10% 10%);
 
 $primary: $blue;
 $primary-dark: darken($primary, 15%);
 
-$color-inline-action-hover: $gray-800;
+$primary-inline-action-hover: lighten($gray-900, 35%);
+$secondary-inline-action-hover: $gray-900;
 
 $focus-box-shadow: 0 0 0 3px #add2ff;
 

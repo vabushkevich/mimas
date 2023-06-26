@@ -9,6 +9,7 @@
   &__footer {
     display: flex;
     font-weight: 500;
+    color: $gray-800;
   }
 
   &__reply-btn {
@@ -17,12 +18,12 @@
     font-weight: inherit;
 
     &:hover {
-      color: $color-inline-action-hover;
+      color: $secondary-inline-action-hover;
     }
 
     &:disabled {
       pointer-events: none;
-      opacity: 0.5;
+      opacity: 0.6;
     }
   }
 

@@ -3,8 +3,8 @@
 .menu {
   background-color: white;
   border-radius: 6px;
-  box-shadow: 0 4px 8px rgba($color: black, $alpha: 0.1),
-    0 0 1px rgba($color: black, $alpha: 0.3);
+  box-shadow: 0 4px 16px rgba($color: black, $alpha: 0.05),
+    0 0 40px 20px rgba($color: black, $alpha: 0.03);
 
   &--size_md {
     padding: 4px;

@@ -24,9 +24,10 @@
     display: flex;
     margin: 12px 12px 0;
     font-weight: 500;
+    color: $gray-800;
 
     & a:hover {
-      color: $color-inline-action-hover;
+      color: $secondary-inline-action-hover;
     }
   }
 
@@ -54,7 +55,7 @@
     background-color: currentcolor;
 
     &:hover {
-      color: $color-inline-action-hover;
+      color: $secondary-inline-action-hover;
     }
 
     &--active {
