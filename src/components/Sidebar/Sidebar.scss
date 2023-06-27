@@ -57,6 +57,8 @@
   }
 
   &__item {
+    @include transition(background-color);
+
     display: flex;
     align-items: center;
     height: 40px;

@@ -1,3 +1,4 @@
+@use "sass:list";
 @use "sass:selector";
 @use "./variables" as *;
 
@@ -63,4 +64,27 @@
 // used by default.
 @function themed($key) {
   @return map-get($theme-map or map-get($themes, "light"), $key);
+}
+
+@function transition-value(
+  $property,
+  $duration: 0.1s,
+  $function: ease-out,
+  $delay: 0s
+) {
+  @return $property $duration $function $delay;
+}
+
+@mixin transition($values...) {
+  $processed-values: list.append((), $transitions);
+
+  @each $value in $values {
+    $processed-values: list.append(
+      $processed-values,
+      transition-value($value...),
+      $separator: comma
+    );
+  }
+
+  transition: $processed-values;
 }

@@ -2,6 +2,7 @@
 
 .menu-item {
   @include reset-button;
+  @include transition(background-color);
 
   $root: &;
 

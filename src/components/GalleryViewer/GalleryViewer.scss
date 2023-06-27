@@ -49,6 +49,7 @@
   &__prev-page-btn,
   &__next-page-btn {
     @include reset-button;
+    @include transition(opacity);
 
     position: absolute;
     top: 0;
@@ -95,6 +96,7 @@
 
   &__close-btn {
     @include reset-button;
+    @include transition(opacity);
 
     position: absolute;
     right: 18px;
