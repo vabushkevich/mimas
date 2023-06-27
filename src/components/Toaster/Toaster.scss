@@ -1,0 +1,10 @@
+@use "@sass/mixins" as *;
+
+.toast {
+  color: themed("gray-900");
+
+  @include dark-mode {
+    color: themed("gray-100");
+    background-color: themed("gray-700");
+  }
+}

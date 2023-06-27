@@ -14,13 +14,19 @@
     mask: no-repeat center url(./assets/menu.svg);
 
     &:hover {
-      opacity: 0.65;
+      @include themify {
+        background-color: themed("primary-inline-action-hover");
+      }
     }
   }
 
   &__logo {
     width: 120px;
     height: 35px;
-    background: no-repeat left url("@assets/logo.svg");
+    background: no-repeat left url("@assets/logo-light.svg");
+
+    @include dark-mode {
+      background-image: url("@assets/logo-dark.svg");
+    }
   }
 }

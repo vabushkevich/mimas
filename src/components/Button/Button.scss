@@ -1,4 +1,3 @@
-@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .button {
@@ -8,12 +7,16 @@
   align-items: center;
   height: 36px;
   padding: 0 14px;
-  background-color: $gray-200;
+  background-color: themed("gray-200");
   font-size: 1rem;
   font-weight: 600;
   border-radius: 6px;
   transition-property: box-shadow, background-color;
   user-select: none;
+
+  @include dark-mode {
+    background-color: themed("gray-700");
+  }
 
   &:disabled {
     pointer-events: none;
@@ -21,11 +24,19 @@
   }
 
   &:hover {
-    background-color: darken($gray-200, 4%);
+    background-color: darken(themed("gray-200"), 4%);
+
+    @include dark-mode {
+      background-color: lighten(themed("gray-700"), 3%);
+    }
   }
 
   &:active {
-    background-color: darken($gray-200, 8%);
+    background-color: darken(themed("gray-200"), 8%);
+
+    @include dark-mode {
+      background-color: lighten(themed("gray-700"), 6%);
+    }
   }
 
   &__right-icon {

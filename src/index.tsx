@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { AuthContextProvider } from "@services/auth";
 import { queryClient } from "@services/query-client";
+import { DarkModeContextProvider } from "@context";
 
 import { App } from "./App";
 
@@ -15,7 +16,9 @@ ReactDOM.render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <App />
+        <DarkModeContextProvider>
+          <App />
+        </DarkModeContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   </Provider>,

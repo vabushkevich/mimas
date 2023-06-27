@@ -1,4 +1,4 @@
-@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .stat {
   &__value {
@@ -10,6 +10,10 @@
     margin-top: 8px;
     font-size: 14px;
     font-weight: 600;
-    color: $gray-700;
+    color: themed("gray-700");
+
+    @include dark-mode {
+      color: themed("gray-400");
+    }
   }
 }

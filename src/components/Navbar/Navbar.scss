@@ -12,6 +12,11 @@
   padding: 0 20px;
   top: 0;
   z-index: $z-index-sticky;
+
+  @include dark-mode {
+    box-shadow: 0 1px lighten(themed("gray-900"), 6%);
+    background-color: themed("gray-900");
+  }
 }
 
 .user-menu {
@@ -43,6 +48,14 @@
 
   &__user-icon {
     mask-image: url("./assets/user.svg");
+  }
+
+  &__sun-icon {
+    mask-image: url("./assets/sun.svg");
+  }
+
+  &__moon-icon {
+    mask-image: url("./assets/moon.svg");
   }
 
   &__out-icon {

@@ -58,6 +58,7 @@ import { TextPostSkeleton } from "./TextPost/TextPostSkeleton";
 import { Offcanvas } from "./Offcanvas/Offcanvas";
 import { RemovedPost } from "./RemovedPost/RemovedPost";
 import { NavbarLogo } from "./NavbarLogo/NavbarLogo";
+import { Toaster } from "./Toaster/Toaster";
 
 export {
   Post,
@@ -120,6 +121,7 @@ export {
   Offcanvas,
   RemovedPost,
   NavbarLogo,
+  Toaster,
 };
 
 export type { MenuProps };

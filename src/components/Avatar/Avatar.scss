@@ -1,3 +1,5 @@
+@use "@sass/mixins" as *;
+
 .avatar {
   $size-xs: 20px;
   $size-sm: 24px;
@@ -8,16 +10,24 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background: center / cover white;
+  background: center / cover url(./assets/default-avatar-light.svg), white;
   border-radius: 50%;
   color: white;
   font-weight: 600;
   user-select: none;
 
+  @include dark-mode {
+    background-image: url(./assets/default-avatar-dark.svg);
+  }
+
   &--size_xs,
   &--size_sm,
   &--size_md {
-    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 15%);
+    box-shadow: inset 0 0 0 1px rgba(black, 0.15);
+
+    @include dark-mode {
+      box-shadow: inset 0 0 0 1px rgba(white, 0.25);
+    }
   }
 
   &--size_xs {

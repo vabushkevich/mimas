@@ -17,6 +17,10 @@
     height: $avatar-size;
     margin-top: -$offset;
     font-size: 80px;
+
+    @include dark-mode {
+      border-color: themed("gray-900");
+    }
   }
 
   &__header {

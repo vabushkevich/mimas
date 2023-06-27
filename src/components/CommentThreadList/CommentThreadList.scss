@@ -1,4 +1,3 @@
-@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .comment-thread-list {
@@ -14,7 +13,9 @@
     font-weight: 500;
 
     &:hover {
-      color: $primary-inline-action-hover;
+      @include themify {
+        color: themed("primary-inline-action-hover");
+      }
     }
   }
 

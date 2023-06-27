@@ -1,4 +1,4 @@
-@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .comment-form {
   display: flex;
@@ -6,12 +6,17 @@
 
   textarea {
     margin-bottom: 10px;
-    border: 1px solid $gray-500;
+    border: 1px solid themed("gray-500");
     border-radius: 4px;
     width: 100%;
     min-height: 100px;
     padding: 10px;
     resize: vertical;
+
+    @include dark-mode {
+      border-color: themed("gray-600");
+      background-color: themed("gray-900");
+    }
   }
 
   &__button {

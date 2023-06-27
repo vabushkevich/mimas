@@ -1,8 +1,13 @@
-@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .alert {
   padding: 12px 14px;
   border-radius: 6px;
-  color: hsl(45deg, 95%, 30%);
-  background-color: hsl(45deg, 95%, 85%);
+  color: themed("yellow-800");
+  background-color: themed("yellow-300");
+
+  @include dark-mode {
+    color: themed("yellow-400");
+    background-color: themed("yellow-900");
+  }
 }

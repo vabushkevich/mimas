@@ -1,7 +1,4 @@
-@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
-
-$color-selected-item: hsl(205, 80%, 91%);
 
 .menu-item {
   @include reset-button;
@@ -16,15 +13,27 @@ $color-selected-item: hsl(205, 80%, 91%);
   white-space: nowrap;
 
   &:hover {
-    background-color: $gray-200;
+    background-color: themed("gray-200");
+
+    @include dark-mode {
+      background-color: lighten(themed("gray-700"), 7%);
+    }
   }
 
   &--selected {
-    background-color: $color-selected-item;
+    background-color: themed("blue-200");
     font-weight: 600;
 
+    @include dark-mode {
+      background-color: themed("gray-500");
+    }
+
     &:hover {
-      background-color: lighten($color-selected-item, 2%);
+      background-color: lighten(themed("blue-200"), 2%);
+
+      @include dark-mode {
+        background-color: lighten(themed("gray-500"), 2%);
+      }
     }
   }
 

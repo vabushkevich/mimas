@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { hashString, pseudoRandom } from "@utils";
 import { usePreloadImage } from "@hooks";
 
-import defaultAvatar from "./assets/default-avatar.svg";
 import "./Avatar.scss";
 
 type AvatarProps = {
@@ -48,9 +47,7 @@ export function Avatar({ name, size, src }: AvatarProps) {
   return (
     <div
       className={className}
-      style={{
-        backgroundImage: `url("${src && loaded ? src : defaultAvatar}")`,
-      }}
+      style={src && loaded ? { backgroundImage: `url("${src}")` } : {}}
     ></div>
   );
 }

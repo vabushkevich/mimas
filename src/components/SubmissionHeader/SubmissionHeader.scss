@@ -1,4 +1,3 @@
-@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .submission-header {
@@ -11,7 +10,9 @@
   }
 
   & a:hover {
-    color: $primary-inline-action-hover;
+    @include themify {
+      color: themed("primary-inline-action-hover");
+    }
   }
 
   &__secondary-author {
@@ -21,7 +22,11 @@
   }
 
   &__date {
-    color: $gray-700;
+    color: themed("gray-700");
+
+    @include dark-mode {
+      color: themed("gray-300");
+    }
   }
 
   &__status-icons {
@@ -30,7 +35,11 @@
     > * {
       width: 12px;
       height: 12px;
-      background-color: $gray-600;
+      background-color: themed("gray-600");
+
+      @include dark-mode {
+        background-color: themed("gray-400");
+      }
     }
 
     > :not(:last-child) {
@@ -70,18 +79,25 @@
     opacity: 0.85;
   }
 
-  &--submitter &__name,
-  .a {
-    background-color: hsl(208, 85%, 67%);
+  &--submitter &__name {
+    background-color: themed("blue-400");
+
+    @include dark-mode {
+      background-color: themed("blue-500");
+    }
   }
 
-  &--moderator &__name,
-  .b {
-    background-color: hsl(125, 50%, 57%);
+  &--moderator &__name {
+    @include themify {
+      background-color: themed("green-500");
+    }
   }
 
-  &--admin &__name,
-  .c {
-    background-color: hsl(15, 100%, 65%);
+  &--admin &__name {
+    background-color: themed("orange-400");
+
+    @include dark-mode {
+      background-color: themed("orange-500");
+    }
   }
 }

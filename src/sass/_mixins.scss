@@ -1,3 +1,6 @@
+@use "sass:selector";
+@use "./variables" as *;
+
 @mixin reset-list {
   list-style: none;
   margin: 0;
@@ -21,4 +24,43 @@
 
 @mixin text-content {
   line-height: 1.6;
+}
+
+@function get-color-mode-selector($mode) {
+  @return if(
+    #{&} == "",
+    ":root[data-color-mode=#{$mode}]",
+    selector.nest(":root[data-color-mode=#{$mode}]", &)
+  );
+}
+
+@mixin color-mode($mode) {
+  @at-root #{get-color-mode-selector($mode)} {
+    $theme-map: map-get($themes, $mode) !global;
+    @content;
+    $theme-map: null !global;
+  }
+}
+
+@mixin themify {
+  @include color-mode("light") {
+    @content;
+  }
+
+  @include color-mode("dark") {
+    @content;
+  }
+}
+
+@mixin dark-mode {
+  @include color-mode("dark") {
+    @content;
+  }
+}
+
+// The function uses `theme-map` defined by the `color-mode` mixin. If the
+// function is called outside of the `color-mode` mixin, then the light theme is
+// used by default.
+@function themed($key) {
+  @return map-get($theme-map or map-get($themes, "light"), $key);
 }

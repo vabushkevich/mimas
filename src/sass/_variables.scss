@@ -1,24 +1,76 @@
-$blue: #1d90f5;
-$orange: #ff5e0d;
-$indigo: #3333ff;
+@use "sass:map";
 
-$gray-100: hsl(220 10% 97%);
-$gray-200: hsl(220 10% 94%);
-$gray-300: hsl(220 10% 91%);
-$gray-400: hsl(220 10% 88%);
-$gray-500: hsl(220 10% 84%);
-$gray-600: hsl(220 10% 65%);
-$gray-700: hsl(220 10% 55%);
-$gray-800: hsl(220 10% 38%);
-$gray-900: hsl(220 10% 10%);
+$colors: (
+  light: (
+    "orange-400": hsl(20, 100%, 63%),
+    "orange-500": hsl(20, 100%, 53%),
+    // ------------------------------------
+    "yellow-300": hsl(45, 95%, 85%),
+    "yellow-800": hsl(45, 95%, 30%),
+    // ------------------------------------
+    "green-500": hsl(125, 50%, 57%),
+    // ------------------------------------
+    "blue-200": hsl(208, 85%, 92%),
+    "blue-300": hsl(208, 100%, 84%),
+    "blue-400": hsl(208, 85%, 67%),
+    "blue-500": hsl(208, 85%, 54%),
+    "blue-600": hsl(208, 80%, 50%),
+    // ------------------------------------
+    "indigo-500": hsl(230, 100%, 65%),
+    // ------------------------------------
+    "gray-100": hsl(220 10% 97%),
+    "gray-200": hsl(220 10% 94%),
+    "gray-300": hsl(220 10% 91%),
+    "gray-400": hsl(220 10% 88%),
+    "gray-500": hsl(220 10% 84%),
+    "gray-600": hsl(220 10% 65%),
+    "gray-700": hsl(220 10% 55%),
+    "gray-800": hsl(220 10% 38%),
+    "gray-900": hsl(220 10% 10%),
+  ),
+  dark: (
+    "orange-500": hsl(20, 100%, 58%),
+    // ------------------------------------
+    "yellow-400": hsl(45, 100%, 73%),
+    "yellow-900": hsl(45, 30%, 20%),
+    // ------------------------------------
+    "green-500": hsl(125, 60%, 47%),
+    // ------------------------------------
+    "blue-400": hsl(208, 95%, 68%),
+    "blue-500": hsl(208, 85%, 54%),
+    "blue-700": hsl(208, 60%, 40%),
+    // ------------------------------------
+    "indigo-500": hsl(230, 95%, 65%),
+    // ------------------------------------
+    "gray-100": hsl(220 10% 90%),
+    "gray-200": hsl(220 10% 70%),
+    "gray-300": hsl(220 10% 65%),
+    "gray-400": hsl(220 10% 55%),
+    "gray-500": hsl(220 10% 35%),
+    "gray-600": hsl(220 10% 25%),
+    "gray-700": hsl(220 10% 22%),
+    "gray-800": hsl(220 10% 16%),
+    "gray-900": hsl(220 10% 12%),
+  ),
+);
 
-$primary: $blue;
-$primary-dark: darken($primary, 15%);
+$themes: (
+  light: (
+    "primary-inline-action-hover":
+      lighten(map.get($colors, "light", "gray-900"), 35%),
+    "secondary-inline-action-hover": map.get($colors, "light", "gray-900"),
+    "focus-box-shadow": 0 0 0 3px map.get($colors, "light", "blue-300"),
+  ),
+  dark: (
+    "primary-inline-action-hover":
+      darken(map.get($colors, "dark", "gray-100"), 10%),
+    "secondary-inline-action-hover":
+      lighten(map.get($colors, "dark", "gray-200"), 10%),
+    "focus-box-shadow": 0 0 0 3px map.get($colors, "dark", "blue-700"),
+  ),
+);
 
-$primary-inline-action-hover: lighten($gray-900, 35%);
-$secondary-inline-action-hover: $gray-900;
-
-$focus-box-shadow: 0 0 0 3px #add2ff;
+$themes: map.deep-merge($themes, $colors);
 
 $screen-sm: 576px;
 $screen-md: 768px;

@@ -1,16 +1,22 @@
-@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .link-post-body {
   display: flex;
   align-items: center;
   margin: 0 12px;
-  border: 1px solid $gray-500;
+  border: 1px solid themed("gray-500");
   border-radius: 8px;
   padding: 10px;
   font-weight: 500;
 
+  @include dark-mode {
+    border-color: themed("gray-600");
+  }
+
   &:hover {
-    color: $primary-inline-action-hover;
+    @include themify {
+      color: themed("primary-inline-action-hover");
+    }
   }
 
   &__favicon {

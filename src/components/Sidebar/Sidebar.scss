@@ -1,4 +1,3 @@
-@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .sidebar {
@@ -6,8 +5,12 @@
   flex-direction: column;
   width: 220px;
   height: 100%;
-  background-color: $gray-200;
+  background-color: themed("gray-200");
   overflow: hidden;
+
+  @include dark-mode {
+    background-color: black;
+  }
 
   &__header {
     position: relative;
@@ -24,7 +27,14 @@
       top: 100%;
       width: 100%;
       height: 10px;
-      background: linear-gradient($gray-200, fade-out($gray-200, 1));
+      background: linear-gradient(
+        themed("gray-200"),
+        fade-out(themed("gray-200"), 1)
+      );
+
+      @include dark-mode {
+        background: linear-gradient(black, fade-out(black, 1));
+      }
     }
   }
 
@@ -56,10 +66,18 @@
     &--active {
       background-color: white;
       font-weight: 600;
+
+      @include dark-mode {
+        background-color: themed("gray-800");
+      }
     }
 
     &:not(&--active):hover {
-      background-color: $gray-100;
+      background-color: themed("gray-100");
+
+      @include dark-mode {
+        background-color: themed("gray-900");
+      }
     }
   }
 
@@ -99,7 +117,14 @@
       top: -10px;
       width: 100%;
       height: 10px;
-      background: linear-gradient(fade-out($gray-200, 1), $gray-200);
+      background: linear-gradient(
+        fade-out(themed("gray-200"), 1),
+        themed("gray-200")
+      );
+
+      @include dark-mode {
+        background: linear-gradient(fade-out(black, 1), black);
+      }
     }
   }
 
@@ -107,8 +132,12 @@
     display: block;
     width: 28px;
     height: 28px;
-    background-color: $gray-700;
+    background-color: themed("gray-700");
     mask: no-repeat center / 100% url("./assets/github.svg");
+
+    @include dark-mode {
+      background-color: themed("gray-400");
+    }
 
     &:hover {
       opacity: 0.8;

@@ -1,13 +1,16 @@
-@use "./variables" as *;
 @use "./mixins" as *;
 
 html,
 textarea {
-  color: $gray-900;
+  color: themed("gray-900");
   font-family: "Noto Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
   font-weight: 400;
   line-height: 1;
+}
+
+@include dark-mode {
+  color: themed("gray-100");
 }
 
 textarea {

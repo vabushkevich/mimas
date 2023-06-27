@@ -1,11 +1,19 @@
-@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .skeleton {
+  --pulse-color: #{lighten(themed("gray-400"), 4%)};
+
   display: inline-block;
   width: 100%;
   line-height: 1em;
-  background-color: $gray-400;
-  animation: skeleton-pulse 1.2s ease-in-out infinite;
+  background-color: themed("gray-400");
+  animation: 1.2s ease-in-out infinite skeleton-pulse;
+
+  @include dark-mode {
+    --pulse-color: #{darken(themed("gray-700"), 4%)};
+
+    background-color: themed("gray-700");
+  }
 
   &::before {
     content: "";
@@ -27,6 +35,6 @@
 
 @keyframes skeleton-pulse {
   50% {
-    background-color: lighten($gray-400, 4%);
+    background-color: var(--pulse-color);
   }
 }

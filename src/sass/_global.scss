@@ -1,4 +1,5 @@
 @use "./variables" as *;
+@use "./mixins" as *;
 @use "./typography";
 
 *,
@@ -12,8 +13,11 @@
 }
 
 :focus-visible {
-  box-shadow: $focus-box-shadow;
   outline: 0;
+
+  @include themify {
+    box-shadow: themed("focus-box-shadow");
+  }
 }
 
 a {
@@ -22,7 +26,12 @@ a {
 }
 
 html {
-  background-color: $gray-200;
+  background-color: themed("gray-200");
+}
+
+@include dark-mode {
+  background-color: black;
+  color-scheme: dark;
 }
 
 img {

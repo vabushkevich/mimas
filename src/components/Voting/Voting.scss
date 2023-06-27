@@ -35,6 +35,10 @@
 
     &:hover::before {
       background-color: rgba($color: black, $alpha: 0.07);
+
+      @include dark-mode {
+        background-color: rgba($color: white, $alpha: 0.07);
+      }
     }
   }
 
@@ -47,22 +51,26 @@
   }
 
   &--vote-up {
-    .voting__score {
-      color: $orange;
-    }
+    @include themify {
+      .voting__score {
+        color: themed("orange-500");
+      }
 
-    .voting__up-btn::after {
-      background-color: $orange;
+      .voting__up-btn::after {
+        color: themed("orange-500");
+      }
     }
   }
 
   &--vote-down {
-    .voting__score {
-      color: $indigo;
-    }
+    @include themify {
+      .voting__score {
+        color: themed("indigo-500");
+      }
 
-    .voting__down-btn::after {
-      background-color: $indigo;
+      .voting__down-btn::after {
+        color: themed("indigo-500");
+      }
     }
   }
 }

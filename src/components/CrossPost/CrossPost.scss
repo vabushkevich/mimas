@@ -1,8 +1,12 @@
-@use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .cross-post-body {
   margin: 0 12px;
-  border: 1px solid $gray-500;
+  border: 1px solid themed("gray-500");
   border-radius: 8px;
   overflow: hidden;
+
+  @include dark-mode {
+    border-color: themed("gray-600");
+  }
 }

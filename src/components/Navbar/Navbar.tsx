@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth, getAuthURL } from "@services/auth";
 import { useIdentity } from "@services/api";
+import { useDarkMode } from "@context";
 
 import {
   Button,
@@ -21,6 +22,8 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
   const { data: identity } = useIdentity({ enabled: authorized });
   const history = useHistory();
   const user = identity?.user;
+
+  const { darkModeEnabled, toggleDarkMode } = useDarkMode();
 
   return (
     <nav className="site-nav">
@@ -48,6 +51,19 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
               onClick={() => history.push(`/user/${user.name}`)}
             >
               {user.name}
+            </MenuItem>
+            <MenuItem
+              leftIcon={
+                <span
+                  className={[
+                    "user-menu__item-icon",
+                    `user-menu__${darkModeEnabled ? "sun" : "moon"}-icon`,
+                  ].join(" ")}
+                ></span>
+              }
+              onClick={toggleDarkMode}
+            >
+              {darkModeEnabled ? "Light" : "Dark"} mode
             </MenuItem>
             <MenuItem
               leftIcon={
