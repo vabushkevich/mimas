@@ -90,4 +90,7 @@ module.exports = {
     },
     extensions: [".tsx", ".ts", ".js", ".json"],
   },
+  stats: {
+    loggingDebug: ["sass-loader"],
+  },
 };
