@@ -1,5 +1,6 @@
 import { useLocalStorage, useMediaQuery } from "@hooks";
 import React, { createContext, useContext, useLayoutEffect } from "react";
+import { useTransitions } from "./TransitionsContext";
 
 type DarkModeContextType = {
   darkModeEnabled: boolean;
@@ -23,6 +24,8 @@ export function DarkModeContextProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const { disableTransitions, enableTransitions } = useTransitions();
+
   const preferredMode = useMediaQuery("(prefers-color-scheme: dark)")
     ? "dark"
     : "light";
@@ -45,10 +48,14 @@ export function DarkModeContextProvider({
   };
 
   useLayoutEffect(() => {
+    disableTransitions();
+
     document.documentElement.setAttribute(
       "data-color-mode",
       darkModeEnabled ? "dark" : "light",
     );
+
+    setTimeout(enableTransitions);
   }, [darkModeEnabled]);
 
   return (
