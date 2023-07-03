@@ -10,6 +10,7 @@ export const DropdownButton = forwardRef(function DropdownButton(
   return (
     <Button
       ref={ref}
+      color="gray"
       rightIcon={<span className="arrow-down-icon"></span>}
       {...props}
     ></Button>

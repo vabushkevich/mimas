@@ -1,4 +1,5 @@
 @use "@sass/mixins" as *;
+@use "sass:color";
 
 .button {
   @include reset-button;
@@ -8,15 +9,12 @@
   align-items: center;
   height: 36px;
   padding: 0 14px;
-  background-color: themed("gray-200");
+  color: var(--color);
+  background-color: var(--bg-color);
   font-size: 1rem;
   font-weight: 600;
   border-radius: 6px;
   user-select: none;
-
-  @include dark-mode {
-    background-color: themed("gray-700");
-  }
 
   &:disabled {
     pointer-events: none;
@@ -24,23 +22,40 @@
   }
 
   &:hover {
-    background-color: darken(themed("gray-200"), 4%);
-
-    @include dark-mode {
-      background-color: lighten(themed("gray-700"), 3%);
-    }
+    background-color: var(--bg-color-hover);
   }
 
   &:active {
-    background-color: darken(themed("gray-200"), 8%);
-
-    @include dark-mode {
-      background-color: lighten(themed("gray-700"), 6%);
-    }
+    background-color: var(--bg-color-active);
   }
 
   &__right-icon {
     display: inline-flex;
     margin-left: 8px;
+  }
+
+  &--color_blue {
+    --color: #{themed("gray-100")};
+
+    @include themify {
+      $bg-color: themed("blue-500");
+      --bg-color: #{$bg-color};
+      --bg-color-hover: #{color.adjust($bg-color, $blackness: 8%)};
+      --bg-color-active: #{color.adjust($bg-color, $blackness: 14%)};
+    }
+  }
+
+  &--color_gray {
+    $bg-color: themed("gray-200");
+    --bg-color: #{$bg-color};
+    --bg-color-hover: #{darken($bg-color, 4%)};
+    --bg-color-active: #{darken($bg-color, 8%)};
+
+    @include dark-mode {
+      $bg-color: themed("gray-700");
+      --bg-color: #{$bg-color};
+      --bg-color-hover: #{lighten($bg-color, 3%)};
+      --bg-color-active: #{lighten($bg-color, 6%)};
+    }
   }
 }

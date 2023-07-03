@@ -14,7 +14,7 @@ export function ButtonSkeleton({
   ...other
 }: ButtonProps) {
   return (
-    <button className="button" {...other}>
+    <button className="button button--color_gray" {...other}>
       <Skeleton width={contentWidth}></Skeleton>
       {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
     </button>
