@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import "./Button.scss";
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "blue" | "gray";
   rightIcon?: React.ReactNode;
 };

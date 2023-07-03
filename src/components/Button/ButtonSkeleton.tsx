@@ -1,22 +1,19 @@
 import React from "react";
 
 import { Skeleton } from "@components";
-import "./Button.scss";
+import { Button, ButtonProps } from "./Button";
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonSkeletonProps = Omit<ButtonProps, "children"> & {
   contentWidth?: number;
-  rightIcon?: React.ReactNode;
 };
 
 export function ButtonSkeleton({
   contentWidth = 70,
-  rightIcon,
   ...other
-}: ButtonProps) {
+}: ButtonSkeletonProps) {
   return (
-    <button className="button button--color_gray" {...other}>
+    <Button color="gray" {...other}>
       <Skeleton width={contentWidth}></Skeleton>
-      {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
-    </button>
+    </Button>
   );
 }
