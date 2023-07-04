@@ -5,7 +5,7 @@ import { useLoadMoreComments, usePostComment } from "@services/api";
 import {
   CommentThreadContainer,
   CommentWrapper,
-  Spinner,
+  Loader,
   CommentForm,
 } from "@components";
 import "./CommentThreadList.scss";
@@ -67,8 +67,8 @@ export function CommentThreadList({
             >
               {getMoreCommentsMessage(moreComments)}
               {isLoading && (
-                <span className="comment-thread-list__spinner">
-                  <Spinner />
+                <span className="comment-thread-list__loader">
+                  <Loader size="sm" />
                 </span>
               )}
             </button>

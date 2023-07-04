@@ -1,0 +1,84 @@
+@use "@sass/mixins" as *;
+
+@mixin loader-dark-mode {
+  color: black;
+  opacity: 0.4;
+}
+
+@mixin loader-light-mode {
+  color: white;
+  opacity: 0.7;
+}
+
+.loader {
+  $root: &;
+
+  display: flex;
+
+  &__dot {
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0.5;
+    animation: loader-dot-pulse 1s ease-in infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+
+  &--color-mode_dark {
+    @include loader-dark-mode;
+  }
+
+  &--color-mode_light {
+    @include loader-light-mode;
+  }
+
+  &--color-mode_system {
+    @include loader-dark-mode;
+    @include dark-mode {
+      @include loader-light-mode;
+    }
+  }
+
+  &--size_md {
+    #{$root}__dot {
+      width: 8px;
+      height: 8px;
+
+      &:not(:last-child) {
+        margin-right: 6px;
+      }
+    }
+  }
+
+  &--size_sm {
+    #{$root}__dot {
+      width: 4px;
+      height: 4px;
+
+      &:not(:last-child) {
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+@keyframes loader-dot-pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  60% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+}

@@ -41,7 +41,6 @@ import { Feed } from "./Feed/Feed";
 import { FeedPage } from "./FeedPage/FeedPage";
 import { AuthorHeader } from "./AuthorHeader/AuthorHeader";
 import { AuthorHeaderSkeleton } from "./AuthorHeader/AuthorHeaderSkeleton";
-import { Spinner } from "./Spinner/Spinner";
 import { Skeleton } from "./Skeleton/Skeleton";
 import { AuthPage } from "./AuthPage/AuthPage";
 import { Voting } from "./Voting/Voting";
@@ -59,6 +58,7 @@ import { Offcanvas } from "./Offcanvas/Offcanvas";
 import { RemovedPost } from "./RemovedPost/RemovedPost";
 import { NavbarLogo } from "./NavbarLogo/NavbarLogo";
 import { Toaster } from "./Toaster/Toaster";
+import { Loader } from "./Loader/Loader";
 
 export {
   Post,
@@ -104,7 +104,6 @@ export {
   FeedPage,
   AuthorHeader,
   AuthorHeaderSkeleton,
-  Spinner,
   Skeleton,
   AuthPage,
   Voting,
@@ -122,6 +121,7 @@ export {
   RemovedPost,
   NavbarLogo,
   Toaster,
+  Loader,
 };
 
 export type { MenuProps };
