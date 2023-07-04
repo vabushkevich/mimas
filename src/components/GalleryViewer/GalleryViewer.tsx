@@ -53,6 +53,7 @@ export function GalleryViewer({
       <div className="gallery-viewer__body">
         <div className="gallery-viewer__view-area">
           <img
+            key={image?.src}
             className="gallery-viewer__image"
             src={image?.src}
             alt={caption}
