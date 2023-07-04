@@ -1,6 +1,7 @@
 import { useLocalStorage, useMediaQuery } from "@hooks";
 import React, { createContext, useContext, useLayoutEffect } from "react";
 import { useTransitions } from "./TransitionsContext";
+import type { ColorMode } from "@types";
 
 type DarkModeContextType = {
   darkModeEnabled: boolean;
@@ -29,10 +30,7 @@ export function DarkModeContextProvider({
   const preferredMode = useMediaQuery("(prefers-color-scheme: dark)")
     ? "dark"
     : "light";
-  const [mode, setMode] = useLocalStorage<"dark" | "light" | "system">(
-    "color-mode",
-    "system",
-  );
+  const [mode, setMode] = useLocalStorage<ColorMode>("color-mode", "system");
   const darkModeEnabled =
     mode == "dark" || (mode == "system" && preferredMode == "dark");
 

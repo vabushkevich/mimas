@@ -254,3 +254,5 @@ export type Gallery = {
     imageVariants: Media[];
   }[];
 };
+
+export type ColorMode = "dark" | "light" | "system";
