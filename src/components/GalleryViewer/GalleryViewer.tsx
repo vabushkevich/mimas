@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { usePagination } from "@hooks";
+import { usePagination, usePreloadImage } from "@hooks";
 import type { Gallery } from "@types";
 
+import { Loader } from "@components";
 import "./GalleryViewer.scss";
 
 type GalleryViewerProps = {
@@ -26,6 +27,7 @@ export function GalleryViewer({
   });
   const { caption, imageVariants } = gallery.items[page];
   const image = imageVariants.at(-1);
+  const imageLoaded = usePreloadImage(image?.src);
 
   useEffect(() => {
     const handleKeyPress = ({ key }: KeyboardEvent) => {
@@ -61,6 +63,11 @@ export function GalleryViewer({
             height={image?.height}
             onClick={onClose}
           />
+          {!imageLoaded && (
+            <div className="gallery-viewer__loader">
+              <Loader colorMode="light" />
+            </div>
+          )}
           {pageCount > 1 && (
             <>
               <button
