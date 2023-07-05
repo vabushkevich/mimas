@@ -6,13 +6,19 @@ import { BasePost, Video } from "@components";
 import "./VideoPost.scss";
 
 export function VideoPost(props: PostProps<VideoPost>) {
-  const { hlsURL, previewVariants } = props.post;
+  const { hlsURL, previewVariants, width, height } = props.post;
   const preview = findLast(previewVariants, ({ width }) => width <= 960);
 
   return (
     <BasePost {...props}>
       <div className="video-post-body">
-        <Video hls src={hlsURL} poster={preview?.src} />
+        <Video
+          hls
+          src={hlsURL}
+          poster={preview?.src}
+          width={width}
+          height={height}
+        />
       </div>
     </BasePost>
   );

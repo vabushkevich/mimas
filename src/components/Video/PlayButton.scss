@@ -1,0 +1,18 @@
+.play-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(black, 0.4);
+  backdrop-filter: blur(10px);
+
+  &__icon {
+    width: 23px;
+    height: 23px;
+    margin-left: 5px;
+    background-color: white;
+    mask: no-repeat center url(./assets/play.svg);
+  }
+}

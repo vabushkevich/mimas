@@ -45,13 +45,24 @@
     }
   }
 
-  &--size_md {
+  &--size_lg {
     #{$root}__dot {
       width: 8px;
       height: 8px;
 
       &:not(:last-child) {
         margin-right: 6px;
+      }
+    }
+  }
+
+  &--size_md {
+    #{$root}__dot {
+      width: 6px;
+      height: 6px;
+
+      &:not(:last-child) {
+        margin-right: 5px;
       }
     }
   }

@@ -5,7 +5,7 @@ import "./Loader.scss";
 
 type LoaderProps = {
   colorMode?: ColorMode;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
 };
 
 export function Loader({ colorMode = "system", size = "md" }: LoaderProps) {

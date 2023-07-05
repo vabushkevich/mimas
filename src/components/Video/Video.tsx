@@ -1,20 +1,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import Hls from "hls.js";
+import classNames from "classnames";
 
+import { PlayButton } from "./PlayButton";
 import "./Video.scss";
 
 type VideoProps = {
+  height: number;
   hls?: boolean;
   poster?: string;
   src: string;
+  width: number;
 };
 
-export function Video({ hls, poster, src }: VideoProps) {
+function getPlaceholderImage(width: number, height: number) {
+  return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
+}
+
+export function Video({ height, hls, poster, src, width }: VideoProps) {
   const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLVideoElement>(null);
+  const [canPlay, setCanPlay] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const video = ref.current;
+    const video = videoRef.current;
 
     if (!started || !video) return;
 
@@ -37,20 +46,35 @@ export function Video({ hls, poster, src }: VideoProps) {
 
   return (
     <div className="video">
-      <video
-        ref={ref}
-        controls={started}
-        loop
-        muted
-        playsInline
-        poster={poster}
-        preload="none"
-      ></video>
-      {!started && (
-        <button
-          className="video__play-btn"
-          onClick={() => setStarted(true)}
-        ></button>
+      {(!started || !canPlay) && (
+        <>
+          <img
+            className="video__poster"
+            src={poster || getPlaceholderImage(width, height)}
+            width={width}
+            height={height}
+          />
+          <button
+            className="video__play-button"
+            onClick={() => setStarted(true)}
+          >
+            <PlayButton loading={started} />
+          </button>
+        </>
+      )}
+      {started && (
+        <video
+          className={classNames(
+            "video__video",
+            !canPlay && "video__video--hidden",
+          )}
+          ref={videoRef}
+          controls
+          loop
+          muted
+          playsInline
+          onCanPlay={() => setCanPlay(true)}
+        ></video>
       )}
     </div>
   );

@@ -13,7 +13,14 @@ export function GIFPost(props: PostProps<GIFPost>) {
   return (
     <BasePost {...props}>
       <div className="gif-post-body">
-        {preview && video && <Video src={video.src} poster={preview.src} />}
+        {preview && video && (
+          <Video
+            src={video.src}
+            poster={preview.src}
+            width={video.width}
+            height={video.height}
+          />
+        )}
       </div>
     </BasePost>
   );
