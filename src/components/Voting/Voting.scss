@@ -9,6 +9,10 @@
     margin: 0 6px;
   }
 
+  &__icon {
+    height: 18px;
+  }
+
   &__down-btn,
   &__up-btn {
     @include reset-button;
@@ -25,14 +29,6 @@
       border-radius: 50%;
     }
 
-    &::after {
-      content: "";
-      display: block;
-      width: 18px;
-      height: 18px;
-      background-color: currentcolor;
-    }
-
     &:hover::before {
       background-color: rgba($color: black, $alpha: 0.07);
 
@@ -42,21 +38,10 @@
     }
   }
 
-  &__down-btn::after {
-    mask: no-repeat center url("@assets/svg/arrow-down.svg");
-  }
-
-  &__up-btn::after {
-    mask: no-repeat center url("@assets/svg/arrow-up.svg");
-  }
-
   &--vote-up {
     @include themify {
-      .voting__score {
-        color: themed("orange-500");
-      }
-
-      .voting__up-btn::after {
+      .voting__score,
+      .voting__up-btn {
         color: themed("orange-500");
       }
     }
@@ -64,11 +49,8 @@
 
   &--vote-down {
     @include themify {
-      .voting__score {
-        color: themed("indigo-500");
-      }
-
-      .voting__down-btn::after {
+      .voting__score,
+      .voting__down-btn {
         color: themed("indigo-500");
       }
     }

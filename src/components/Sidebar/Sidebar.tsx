@@ -6,6 +6,9 @@ import { isPostSortingMethod } from "@types";
 
 import { Avatar, NavbarLogo } from "@components";
 import { SidebarMenuSkeleton } from "./SidebarMenuSkeleton";
+import FeedIcon from "./assets/feed.svg";
+import TopIcon from "./assets/top.svg";
+import GithubIcon from "./assets/github.svg";
 import "./Sidebar.scss";
 
 type SidebarProps = {
@@ -48,12 +51,11 @@ export function Sidebar({ showHeader = false }: SidebarProps) {
                 }}
                 to={item.href}
               >
-                <div
-                  className={[
-                    "sidebar__item-icon",
-                    `sidebar__item-icon--${item.name}`,
-                  ].join(" ")}
-                ></div>
+                {item.name == "feed" ? (
+                  <FeedIcon className="sidebar__item-icon" />
+                ) : (
+                  <TopIcon className="sidebar__item-icon" />
+                )}
                 <div className="sidebar__item-text">{item.text}</div>
               </NavLink>
             </li>
@@ -83,10 +85,11 @@ export function Sidebar({ showHeader = false }: SidebarProps) {
       </div>
       <div className="sidebar__footer">
         <a // eslint-disable-line react/jsx-no-target-blank
-          className="sidebar__github-icon"
           href="https://github.com/vabushkevich/mimas"
           target="_blank"
-        ></a>
+        >
+          <GithubIcon className="sidebar__github-icon" />
+        </a>
       </div>
     </nav>
   );

@@ -44,8 +44,34 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|svg)$/i,
+        test: /\.png$/i,
         type: "asset/resource",
+      },
+      {
+        test: /\.svg$/i,
+        oneOf: [
+          { resourceQuery: /inline/, type: "asset/inline" },
+          { resourceQuery: /external/, type: "asset/resource" },
+          { issuer: { not: /\.[jt]sx?$/ }, type: "asset/resource" },
+        ],
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: /external|inline/ },
+        use: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              replaceAttrValues: {
+                "#000": "currentColor",
+              },
+              svgoConfig: {
+                plugins: ["preset-default", "removeXMLNS"],
+              },
+            },
+          },
+        ],
       },
     ],
   },

@@ -59,11 +59,12 @@
     @include reset-button;
     @include transition(opacity);
 
+    display: flex;
+    align-items: center;
     position: absolute;
     top: 0;
     width: 33%;
     height: 100%;
-    background-color: white;
     opacity: 0.3;
 
     &:hover {
@@ -71,13 +72,8 @@
     }
   }
 
-  &__prev-page-btn {
-    mask: no-repeat left 15% center / 40px url("@assets/svg/arrow-left.svg");
-  }
-
   &__next-page-btn {
     right: 0;
-    mask: no-repeat right 15% center / 40px url("@assets/svg/arrow-right.svg");
   }
 
   &__footer {
@@ -109,15 +105,30 @@
     position: absolute;
     right: 18px;
     top: 18px;
-    width: 22px;
-    height: 22px;
-    background-color: white;
-    mask: no-repeat center / 100% url("@assets/svg/cross.svg");
     opacity: 0.4;
   }
 
   &__close-btn:hover,
   &__background:hover ~ &__close-btn {
     opacity: 0.9;
+  }
+
+  &__left-arrow-icon,
+  &__right-arrow-icon {
+    position: absolute;
+    width: 40px;
+    filter: drop-shadow(0 1px 1px rgba(black, 0.33));
+  }
+
+  &__left-arrow-icon {
+    left: 15%;
+  }
+
+  &__right-arrow-icon {
+    right: 15%;
+  }
+
+  &__close-icon {
+    width: 22px;
   }
 }

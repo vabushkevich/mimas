@@ -3,6 +3,8 @@ import { compactNumber } from "@utils";
 import classNames from "classnames";
 import { VoteDirection } from "@types";
 
+import UpIcon from "@assets/svg/arrow-up.svg";
+import DownIcon from "@assets/svg/arrow-down.svg";
 import "./Voting.scss";
 
 type VotingProps = {
@@ -32,14 +34,15 @@ export function Voting({
     <div
       className={classNames("voting", voteType && `voting--vote-${voteType}`)}
     >
-      <button className="voting__up-btn" onClick={() => handleVote(1)}></button>
+      <button className="voting__up-btn" onClick={() => handleVote(1)}>
+        <UpIcon className="voting__icon" />
+      </button>
       <div className="voting__score">
         {scoreHidden ? "–" : compactNumber(score)}
       </div>
-      <button
-        className="voting__down-btn"
-        onClick={() => handleVote(-1)}
-      ></button>
+      <button className="voting__down-btn" onClick={() => handleVote(-1)}>
+        <DownIcon className="voting__icon" />
+      </button>
     </div>
   );
 }

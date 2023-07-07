@@ -25,7 +25,8 @@
   &__play-btn {
     @include reset-button;
 
-    display: block;
-    background: no-repeat center / 68px url(./assets/youtube-play.svg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

@@ -5,6 +5,9 @@ import { SubmissionDistinction, AuthorType } from "@types";
 import classNames from "classnames";
 
 import { Avatar } from "@components";
+import PencilIcon from "./assets/pencil.svg";
+import PinIcon from "./assets/pin.svg";
+import LockIcon from "./assets/lock.svg";
 import "./SubmissionHeader.scss";
 
 type SubmissionHeaderProps = {
@@ -72,15 +75,16 @@ export function SubmissionHeader({
       </div>
       {hasStatusIcons && (
         <div className="submission-header__status-icons">
-          {pinned && <div className="submission-header__pin-icon"></div>}
-          {locked && <div className="submission-header__lock-icon"></div>}
+          {pinned && <PinIcon className="submission-header__icon" />}
+          {locked && <LockIcon className="submission-header__icon" />}
           {dateEdited && (
             <div
-              className="submission-header__pencil-icon"
               title={`${formatDate(dateEdited)} (${formatDistanceToNow(
                 dateEdited,
               )} ago)`}
-            ></div>
+            >
+              <PencilIcon className="submission-header__icon" />
+            </div>
           )}
         </div>
       )}

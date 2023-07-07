@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Loader } from "@components";
+import PlayIcon from "./assets/play.svg";
 import "./PlayButton.scss";
 
 type PlayButtonProps = {
@@ -13,7 +14,7 @@ export function PlayButton({ loading = false }: PlayButtonProps) {
       {loading ? (
         <Loader colorMode="light" />
       ) : (
-        <div className="play-button__icon"></div>
+        <PlayIcon className="play-button__icon" />
       )}
     </div>
   );

@@ -3,6 +3,9 @@ import { usePagination, usePreloadImage } from "@hooks";
 import type { Gallery } from "@types";
 
 import { Loader } from "@components";
+import LeftIcon from "@assets/svg/arrow-left.svg";
+import RightIcon from "@assets/svg/arrow-right.svg";
+import CrossIcon from "@assets/svg/cross.svg";
 import "./GalleryViewer.scss";
 
 type GalleryViewerProps = {
@@ -73,11 +76,15 @@ export function GalleryViewer({
               <button
                 className="gallery-viewer__prev-page-btn"
                 onClick={prevPage}
-              ></button>
+              >
+                <LeftIcon className="gallery-viewer__left-arrow-icon" />
+              </button>
               <button
                 className="gallery-viewer__next-page-btn"
                 onClick={nextPage}
-              ></button>
+              >
+                <RightIcon className="gallery-viewer__right-arrow-icon" />
+              </button>
             </>
           )}
         </div>
@@ -90,7 +97,9 @@ export function GalleryViewer({
           </div>
         )}
       </div>
-      <button className="gallery-viewer__close-btn" onClick={onClose}></button>
+      <button className="gallery-viewer__close-btn" onClick={onClose}>
+        <CrossIcon className="gallery-viewer__close-icon" />
+      </button>
     </div>
   );
 }

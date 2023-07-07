@@ -6,6 +6,8 @@ import {
   Skeleton,
   VotingSkeleton,
 } from "@components";
+import BubbleIcon from "./assets/bubble.svg";
+import BookmarkIcon from "./assets/bookmark.svg";
 import "./BasePost.scss";
 
 type BasePostSkeletonProps = {
@@ -25,9 +27,12 @@ export function BasePostSkeleton({ children }: BasePostSkeletonProps) {
         <div className="post__body">{children}</div>
         <div className="post__footer">
           <span className="post__comments-btn">
+            <BubbleIcon className="post__icon" />
             <Skeleton width={30} />
           </span>
-          <span className="post__save-btn"></span>
+          <span className="post__save-btn">
+            <BookmarkIcon className="post__icon" />
+          </span>
           <div className="post__voting">
             <VotingSkeleton />
           </div>

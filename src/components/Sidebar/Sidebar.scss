@@ -87,18 +87,9 @@
     width: 24px;
     height: 24px;
     margin-right: 12px;
-
-    &--feed {
-      mask: no-repeat center / 100% url("./assets/feed.svg");
-    }
-
-    &--popular {
-      mask: no-repeat center / 100% url("./assets/top.svg");
-    }
   }
 
   &__menu--user &__item-icon {
-    background-color: currentColor;
     transform: scale(0.85);
   }
 
@@ -109,6 +100,7 @@
   }
 
   &__footer {
+    display: flex;
     position: relative;
     padding: 10px 22px 20px;
 
@@ -131,14 +123,11 @@
   }
 
   &__github-icon {
-    display: block;
     width: 28px;
-    height: 28px;
-    background-color: themed("gray-700");
-    mask: no-repeat center / 100% url("./assets/github.svg");
+    color: themed("gray-700");
 
     @include dark-mode {
-      background-color: themed("gray-400");
+      color: themed("gray-400");
     }
 
     &:hover {

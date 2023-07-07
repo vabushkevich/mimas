@@ -11,36 +11,9 @@
   &__button-icon {
     margin-left: 6px;
     width: 12px;
-    height: 12px;
-    background-color: currentcolor;
-    mask: no-repeat center url("@assets/svg/arrow-down.svg");
   }
 
   &__item-icon {
-    display: block;
     width: 18px;
-    height: 18px;
-    background-color: currentcolor;
-    mask: no-repeat center;
-  }
-
-  &__user-icon {
-    mask-image: url("./assets/user.svg");
-  }
-
-  &__sun-icon {
-    mask-image: url("./assets/sun.svg");
-  }
-
-  &__moon-icon {
-    mask-image: url("./assets/moon.svg");
-  }
-
-  &__out-icon {
-    mask-image: url("./assets/out.svg");
-  }
-
-  &__in-icon {
-    mask-image: url("./assets/in.svg");
   }
 }

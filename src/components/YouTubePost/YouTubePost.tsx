@@ -3,6 +3,7 @@ import type { YouTubePost, PostProps } from "@types";
 
 import { BasePost } from "@components";
 import { YouTubeThumbnail } from "./YouTubeThumbnail";
+import YouTubeIcon from "./assets/youtube-play.svg";
 import "./YouTubePost.scss";
 
 export function YouTubePost(props: PostProps<YouTubePost>) {
@@ -27,7 +28,9 @@ export function YouTubePost(props: PostProps<YouTubePost>) {
             <button
               className="youtube-post-body__play-btn"
               onClick={() => setStarted(true)}
-            ></button>
+            >
+              <YouTubeIcon width="68" />
+            </button>
           </>
         )}
       </div>

@@ -36,44 +36,39 @@
     }
   }
 
+  &__icon {
+    width: 18px;
+    fill: none;
+
+    &--active {
+      @include themify {
+        color: themed("orange-500");
+        fill: currentColor;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
   &__comments-btn {
     display: flex;
     align-items: center;
+  }
 
-    &::before {
-      content: "";
-      width: 18px;
-      height: 18px;
-      mask: no-repeat center url(./assets/bubble.svg);
-      background-color: currentcolor;
-      margin-right: 6px;
-    }
+  &__comments-btn &__icon {
+    margin-right: 6px;
   }
 
   &__save-btn {
     @include reset-button;
 
     margin-left: 12px;
-    width: 18px;
-    height: 18px;
-    mask: no-repeat center / auto 100% url(./assets/bookmark.svg);
-    background-color: currentcolor;
 
     &:hover {
       @include themify {
         color: themed("secondary-inline-action-hover");
-      }
-    }
-
-    &--active {
-      mask: no-repeat center / auto 100% url(./assets/bookmark-filled.svg);
-
-      @include themify {
-        background-color: themed("orange-500");
-      }
-
-      &:hover {
-        opacity: 0.8;
       }
     }
   }

@@ -5,6 +5,12 @@ import { useDarkMode } from "@context";
 import { User } from "@types";
 
 import { DropdownMenu, MenuItem, Avatar } from "@components";
+import DownIcon from "@assets/svg/arrow-down.svg";
+import UserIcon from "./assets/user.svg";
+import MoonIcon from "./assets/moon.svg";
+import SunIcon from "./assets/sun.svg";
+import InIcon from "./assets/in.svg";
+import OutIcon from "./assets/out.svg";
 import "./UserMenu.scss";
 
 type UserMenuProps = {
@@ -22,16 +28,14 @@ export function UserMenu({ user }: UserMenuProps) {
       button={
         <button className="user-menu__button">
           <Avatar size="md" src={user?.avatar} />
-          <span className="user-menu__button-icon"></span>
+          <DownIcon className="user-menu__button-icon" />
         </button>
       }
       size="lg"
     >
       {user && (
         <MenuItem
-          leftIcon={
-            <span className="user-menu__item-icon user-menu__user-icon"></span>
-          }
+          leftIcon={<UserIcon className="user-menu__item-icon" />}
           onClick={() => history.push(`/user/${user.name}`)}
         >
           {user.name}
@@ -39,12 +43,11 @@ export function UserMenu({ user }: UserMenuProps) {
       )}
       <MenuItem
         leftIcon={
-          <span
-            className={[
-              "user-menu__item-icon",
-              `user-menu__${darkModeEnabled ? "sun" : "moon"}-icon`,
-            ].join(" ")}
-          ></span>
+          darkModeEnabled ? (
+            <SunIcon className="user-menu__item-icon" />
+          ) : (
+            <MoonIcon className="user-menu__item-icon" />
+          )
         }
         onClick={toggleDarkMode}
       >
@@ -52,18 +55,14 @@ export function UserMenu({ user }: UserMenuProps) {
       </MenuItem>
       {authorized ? (
         <MenuItem
-          leftIcon={
-            <span className="user-menu__item-icon user-menu__out-icon"></span>
-          }
+          leftIcon={<OutIcon className="user-menu__item-icon" />}
           onClick={unauthorize}
         >
           Sign out
         </MenuItem>
       ) : (
         <MenuItem
-          leftIcon={
-            <span className="user-menu__item-icon user-menu__in-icon"></span>
-          }
+          leftIcon={<InIcon className="user-menu__item-icon" />}
           onClick={() => location.assign(getAuthURL())}
         >
           Sign in with Reddit

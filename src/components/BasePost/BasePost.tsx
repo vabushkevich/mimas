@@ -7,6 +7,8 @@ import { useAuthGuard } from "@hooks";
 import classNames from "classnames";
 
 import { Card, SubmissionHeader, Voting } from "@components";
+import BubbleIcon from "./assets/bubble.svg";
+import BookmarkIcon from "./assets/bookmark.svg";
 import "./BasePost.scss";
 
 type BasePostProps = PostProps<Post> & {
@@ -81,15 +83,20 @@ export function BasePost({
         {!hideFooter && (
           <div className="post__footer">
             <Link className="post__comments-btn" to={url}>
+              <BubbleIcon className="post__icon" />
               {compactNumber(commentCount)}
             </Link>
             <button
-              className={classNames(
-                "post__save-btn",
-                bookmarked && "post__save-btn--active",
-              )}
+              className="post__save-btn"
               onClick={() => bookmark(bookmarked ? "remove" : "add")}
-            ></button>
+            >
+              <BookmarkIcon
+                className={classNames(
+                  "post__icon",
+                  bookmarked && "post__icon--active",
+                )}
+              />
+            </button>
             <div className="post__voting">
               <Voting
                 score={score}
