@@ -46,6 +46,7 @@ const removalReasonMap: Record<
   copyright_takedown: "copyright",
   automod_filtered: "mod-approval",
   author: "author",
+  community_ops: "community",
 };
 
 export function transformPost(rawPost: Raw.Post): Post {

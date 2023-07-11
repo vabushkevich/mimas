@@ -123,7 +123,8 @@ export type RemovedPost = BasePost & {
       | "moderator"
       | "copyright_takedown"
       | "automod_filtered"
-      | "author";
+      | "author"
+      | "community_ops";
   };
 };
 

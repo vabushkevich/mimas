@@ -102,7 +102,8 @@ export type RemovedPost = BasePost & {
     | "author"
     | "moderator"
     | "copyright"
-    | "mod-approval";
+    | "mod-approval"
+    | "community";
 };
 
 export type Post =

@@ -11,6 +11,7 @@ const removalReasonMessages: Record<RemovedPost["removalReason"], string> = {
   moderator: "Post removed by subreddit moderator.",
   copyright: "Post removed due to copyright claim.",
   "mod-approval": "Post is awaiting moderator approval.",
+  community: "Post removed by Reddit's Community team.",
 };
 
 export function RemovedPost(props: PostProps<RemovedPost>) {
