@@ -49,7 +49,10 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
       {(!started || !canPlay) && (
         <>
           <img
-            className="video__poster"
+            className={classNames(
+              "video__poster",
+              !poster && "video__poster--placeholder",
+            )}
             src={poster || getPlaceholderImage(width, height)}
             width={width}
             height={height}
