@@ -27,6 +27,7 @@ a {
 
 html {
   background-color: themed("gray-200");
+  word-wrap: break-word;
 }
 
 @include dark-mode {
