@@ -9,7 +9,7 @@ import {
   useLoadMoreComments,
   usePostComment,
 } from "@services/api";
-import { useAuth, getAuthURL } from "@services/auth";
+import { useAuth } from "@services/auth";
 
 import {
   Post,
@@ -40,7 +40,7 @@ export function PostPage() {
   const { data: threadList, isLoading: isPostCommentsLoading } =
     usePostComments(postId, { limit: 100, sort: commentsSorting });
   const history = useHistory();
-  const { authorized } = useAuth();
+  const { authorized, signIn } = useAuth();
 
   const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
     useLoadMoreComments();
@@ -120,9 +120,7 @@ export function PostPage() {
                       Sign in to post comments
                     </div>
                     <div className="auth-to-comment__button">
-                      <Button onClick={() => location.assign(getAuthURL())}>
-                        Sign in with Reddit
-                      </Button>
+                      <Button onClick={signIn}>Sign in with Reddit</Button>
                     </div>
                   </div>
                 </Card>

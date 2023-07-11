@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useAuth, getAuthURL } from "@services/auth";
+import { useAuth } from "@services/auth";
 import { useDarkMode } from "@context";
 import { User } from "@types";
 
@@ -19,7 +19,7 @@ type UserMenuProps = {
 
 export function UserMenu({ user }: UserMenuProps) {
   const { darkModeEnabled, toggleDarkMode } = useDarkMode();
-  const { authorized, unauthorize } = useAuth();
+  const { authorized, signIn, signOut } = useAuth();
   const history = useHistory();
 
   return (
@@ -56,14 +56,14 @@ export function UserMenu({ user }: UserMenuProps) {
       {authorized ? (
         <MenuItem
           leftIcon={<OutIcon className="user-menu__item-icon" />}
-          onClick={unauthorize}
+          onClick={signOut}
         >
           Sign out
         </MenuItem>
       ) : (
         <MenuItem
           leftIcon={<InIcon className="user-menu__item-icon" />}
-          onClick={() => location.assign(getAuthURL())}
+          onClick={signIn}
         >
           Sign in with Reddit
         </MenuItem>

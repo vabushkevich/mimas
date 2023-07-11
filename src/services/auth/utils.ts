@@ -6,8 +6,8 @@ const basicCredentials = btoa(`${process.env.REDDIT_APP_CLIENT_ID}:`);
 export async function requestAuth(code?: string) {
   const params: Record<string, string> = code
     ? {
-        grant_type: "authorization_code",
         code,
+        grant_type: "authorization_code",
         redirect_uri: `${location.origin}/auth`,
       }
     : {
@@ -53,16 +53,30 @@ export async function revokeAuth(refreshToken: string) {
   });
 }
 
+export function getAuthURL() {
+  const params = new URLSearchParams({
+    client_id: process.env.REDDIT_APP_CLIENT_ID,
+    response_type: "code",
+    state: `${Date.now()}${location.pathname}${location.search}`,
+    redirect_uri: `${location.origin}/auth`,
+    duration: "permanent",
+    scope:
+      "edit history identity mysubreddits privatemessages read save submit subscribe vote",
+  });
+
+  return `https://www.reddit.com/api/v1/authorize.compact?${params}`;
+}
+
 export function readAuth() {
   const value = localStorage.getItem("auth");
   if (value == null) return;
   return JSON.parse(value) as Auth;
 }
 
-export function writeAuth(auth: Auth | null) {
-  if (auth) {
-    localStorage.setItem("auth", JSON.stringify(auth));
-  } else {
-    localStorage.removeItem("auth");
-  }
+export function storeAuth(auth: Auth) {
+  localStorage.setItem("auth", JSON.stringify(auth));
+}
+
+export function clearAuth() {
+  localStorage.removeItem("auth");
 }

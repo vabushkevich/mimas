@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { debounceAsync } from "@utils";
 import { useQueryString } from "@hooks";
 import {
@@ -6,7 +5,9 @@ import {
   refreshAuth,
   requestAuth,
   revokeAuth,
-  writeAuth,
+  storeAuth,
+  clearAuth,
+  getAuthURL,
 } from "./utils";
 import { useAuthContext } from "./context";
 
@@ -17,7 +18,7 @@ export const getAccessToken = debounceAsync(async () => {
     auth = auth?.refreshToken
       ? await refreshAuth(auth.refreshToken)
       : await requestAuth();
-    writeAuth(auth);
+    storeAuth(auth);
   }
 
   return auth.accessToken;
@@ -26,37 +27,27 @@ export const getAccessToken = debounceAsync(async () => {
 export function useAuth() {
   const { authorized, setAuthorized } = useAuthContext();
 
-  const authorize = useCallback(async (code: string) => {
+  const authorize = async (code: string) => {
     const auth = await requestAuth(code);
-    writeAuth(auth);
+    storeAuth(auth);
     setAuthorized(true);
-  }, []);
+  };
 
-  const unauthorize = useCallback(() => {
+  const signIn = () => {
+    location.assign(getAuthURL());
+  };
+
+  const signOut = () => {
     const auth = readAuth();
     if (auth && auth.refreshToken) revokeAuth(auth.refreshToken);
-    writeAuth(null);
+    clearAuth();
     setAuthorized(false);
-  }, []);
+  };
 
-  return { authorized, authorize, unauthorize };
+  return { authorized, authorize, signIn, signOut };
 }
 
-export function getAuthURL() {
-  const params = new URLSearchParams({
-    client_id: process.env.REDDIT_APP_CLIENT_ID,
-    response_type: "code",
-    state: `${Date.now()}${location.pathname}${location.search}`,
-    redirect_uri: `${location.origin}/auth`,
-    duration: "permanent",
-    scope:
-      "edit history identity mysubreddits privatemessages read save submit subscribe vote",
-  });
-
-  return `https://www.reddit.com/api/v1/authorize.compact?${params}`;
-}
-
-export function useRedirectURLParams() {
+export function useAuthPageParams() {
   const { code, state } = useQueryString<{ code: string; state: string }>();
   const redirectTo = state?.match(/\d+(.+)/)?.[1];
 
