@@ -3,6 +3,7 @@
 .youtube-post-body {
   position: relative;
   padding-top: calc(9 / 16) * 100%;
+  background-color: black;
 
   & > * {
     position: absolute;
@@ -14,6 +15,10 @@
 
   &__video {
     border: none;
+
+    &--hidden {
+      display: none;
+    }
   }
 
   &__thumbnail img {

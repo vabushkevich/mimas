@@ -59,6 +59,7 @@ import { RemovedPost } from "./RemovedPost/RemovedPost";
 import { NavbarLogo } from "./NavbarLogo/NavbarLogo";
 import { Toaster } from "./Toaster/Toaster";
 import { Loader } from "./Loader/Loader";
+import { PlayButton } from "./PlayButton/PlayButton";
 
 export {
   Post,
@@ -122,6 +123,7 @@ export {
   NavbarLogo,
   Toaster,
   Loader,
+  PlayButton,
 };
 
 export type { MenuProps };

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Hls from "hls.js";
 import classNames from "classnames";
 
-import { PlayButton } from "./PlayButton";
+import { PlayButton } from "@components";
 import "./Video.scss";
 
 type VideoProps = {
