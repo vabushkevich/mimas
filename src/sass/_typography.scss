@@ -7,10 +7,10 @@ textarea {
   font-size: 15px;
   font-weight: 400;
   line-height: 1;
-}
 
-@include dark-mode {
-  color: themed("gray-100");
+  @include dark-mode {
+    color: themed("gray-100");
+  }
 }
 
 textarea {

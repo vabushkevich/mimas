@@ -28,11 +28,11 @@ a {
 html {
   background-color: themed("gray-200");
   word-wrap: break-word;
-}
 
-@include dark-mode {
-  background-color: black;
-  color-scheme: dark;
+  @include dark-mode {
+    background-color: black;
+    color-scheme: dark;
+  }
 }
 
 img {
