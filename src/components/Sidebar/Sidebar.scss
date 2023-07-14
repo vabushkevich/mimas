@@ -6,120 +6,47 @@
   width: 220px;
   height: 100%;
   background-color: themed("gray-200");
-  overflow: hidden;
 
   @include dark-mode {
     background-color: black;
   }
 
   &__header {
-    position: relative;
     display: flex;
     align-items: center;
     flex-shrink: 0;
     height: 50px;
     padding: 0 20px;
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 100%;
-      width: 100%;
-      height: 10px;
-      background: linear-gradient(
-        themed("gray-200"),
-        fade-out(themed("gray-200"), 1)
-      );
-
-      @include dark-mode {
-        background: linear-gradient(black, fade-out(black, 1));
-      }
-    }
   }
 
   &__body {
     flex-grow: 1;
     padding: 10px;
     overflow: auto;
+    mask: linear-gradient(black calc(100% - 10px), transparent);
   }
 
-  &__menu {
-    @include reset-list;
-
-    &:not(:last-child) {
-      margin-bottom: 10px;
-    }
-
-    li:not(:last-child) {
-      margin-bottom: 5px;
-    }
+  &__header + &__body {
+    mask: linear-gradient(
+      transparent,
+      black 10px,
+      black calc(100% - 10px),
+      transparent
+    );
   }
 
-  &__item {
-    @include transition(background-color);
-
-    display: flex;
-    align-items: center;
-    height: 40px;
-    padding: 0 12px;
-    border-radius: 6px;
-
-    &--active {
-      background-color: white;
-      font-weight: 600;
-
-      @include dark-mode {
-        background-color: themed("gray-800");
-      }
-    }
-
-    &:not(&--active):hover {
-      background-color: themed("gray-100");
-
-      @include dark-mode {
-        background-color: themed("gray-900");
-      }
-    }
+  &__menu:not(:last-child) {
+    margin-bottom: 10px;
   }
 
   &__item-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-  }
-
-  &__menu--user &__item-icon {
-    transform: scale(0.85);
-  }
-
-  &__item-text {
-    @include text-truncate;
-
-    line-height: normal;
+    width: 20px;
+    height: 20px;
   }
 
   &__footer {
     display: flex;
-    position: relative;
     padding: 10px 22px 20px;
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: -10px;
-      width: 100%;
-      height: 10px;
-      background: linear-gradient(
-        fade-out(themed("gray-200"), 1),
-        themed("gray-200")
-      );
-
-      @include dark-mode {
-        background: linear-gradient(fade-out(black, 1), black);
-      }
-    }
   }
 
   &__github-icon {

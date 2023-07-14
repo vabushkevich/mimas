@@ -5,19 +5,17 @@ import "./Sidebar.scss";
 
 export function SidebarMenuSkeleton({ count = 3 }: { count: number }) {
   return (
-    <ul className="sidebar__menu">
+    <div className="sidebar-menu">
       {new Array(count).fill(0).map((v, i) => (
-        <li key={i}>
-          <div className="sidebar__item">
-            <div className="sidebar__item-icon">
-              <Skeleton width={24} height={24} circle block />
-            </div>
-            <div className="sidebar__item-text">
-              <Skeleton width={100} />
-            </div>
+        <div key={i} className="sidebar-item">
+          <div className="sidebar-item__icon">
+            <Skeleton width={24} height={24} circle block />
           </div>
-        </li>
+          <div className="sidebar-item__text">
+            <Skeleton width={100} />
+          </div>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 }

@@ -1,0 +1,43 @@
+@use "@sass/mixins" as *;
+
+.sidebar-item {
+  @include transition(background-color);
+
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 6px;
+
+  &:not(&--active):hover {
+    background-color: themed("gray-100");
+
+    @include dark-mode {
+      background-color: themed("gray-900");
+    }
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
+
+  &__text {
+    @include text-truncate;
+
+    line-height: normal;
+  }
+
+  &--active {
+    background-color: white;
+    font-weight: 600;
+
+    @include dark-mode {
+      background-color: themed("gray-800");
+    }
+  }
+}
