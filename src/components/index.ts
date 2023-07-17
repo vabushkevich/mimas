@@ -24,7 +24,7 @@ import { Card } from "./Card/Card";
 import { Button } from "./Button/Button";
 import { ButtonSkeleton } from "./Button/ButtonSkeleton";
 import { Menu, MenuProps } from "./Menu/Menu";
-import { MenuItem } from "./MenuItem/MenuItem";
+import { MenuItem } from "./Menu/MenuItem";
 import { DropdownMenu } from "./DropdownMenu/DropdownMenu";
 import { DropdownButton } from "./DropdownButton/DropdownButton";
 import { UserContent } from "./UserContent/UserContent";

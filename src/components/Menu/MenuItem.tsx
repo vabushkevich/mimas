@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { useMenuContext } from "@context";
+import { useMenu } from "./MenuContext";
 import classNames from "classnames";
 
 import "./MenuItem.scss";
@@ -19,24 +19,22 @@ export function MenuItem({
   onClick,
   children,
 }: MenuItemProps) {
-  const { size, isItemSelected, onItemClick, onItemRender } = useMenuContext();
-
-  selected ??= isItemSelected(value);
+  const { size, isItemSelected, onItemClick, onItemRender } = useMenu();
 
   useLayoutEffect(() => {
     onItemRender?.(children, value);
-  });
+  }, [children, value]);
 
   return (
     <button
       className={classNames(
         "menu-item",
-        selected && "menu-item--selected",
+        (selected ?? isItemSelected(value)) && "menu-item--selected",
         `menu-item--size_${size}`,
       )}
       onClick={() => {
         onClick?.(value);
-        onItemClick?.(children, value);
+        onItemClick?.(value);
       }}
     >
       {leftIcon && <span className="menu-item__left-icon">{leftIcon}</span>}

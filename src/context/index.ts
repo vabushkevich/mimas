@@ -1,4 +1,3 @@
-import { MenuContext, useMenuContext } from "./MenuContext";
 import { DarkModeContextProvider, useDarkMode } from "./DarkModeContext";
 import {
   TransitionsContextProvider,
@@ -6,8 +5,6 @@ import {
 } from "./TransitionsContext";
 
 export {
-  MenuContext,
-  useMenuContext,
   DarkModeContextProvider,
   useDarkMode,
   TransitionsContextProvider,

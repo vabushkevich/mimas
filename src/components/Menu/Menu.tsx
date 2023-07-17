@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { MenuContext } from "@context";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { MenuContext } from "./MenuContext";
 
 import "./Menu.scss";
 
@@ -23,32 +23,31 @@ export function Menu({
   children,
 }: MenuProps) {
   const controllable = value != null;
-  const canSelectItem = (itemValue?: string) => selectable && itemValue != null;
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(
-    value ?? defaultValue,
-  );
+  const contentsRef = useRef<Record<string, React.ReactNode>>({});
+  const [selectedValue, setSelectedValue] = useState(value ?? defaultValue);
 
-  if (controllable && selectedValue != value) {
-    setSelectedValue(value);
-  }
+  useLayoutEffect(() => {
+    if (controllable) setSelectedValue(value);
+  }, [value]);
+
+  useLayoutEffect(() => {
+    const selectedContent = selectedValue
+      ? contentsRef.current[selectedValue]
+      : null;
+    onItemSelect?.(selectedContent);
+  }, [selectedValue]);
 
   const contextValue = {
     size,
     isItemSelected: (itemValue?: string) => {
-      return canSelectItem(itemValue) && itemValue === selectedValue;
+      return selectable && itemValue != null && itemValue == selectedValue;
     },
-    onItemClick: (content: React.ReactNode, itemValue?: string) => {
-      if (canSelectItem(itemValue) && !controllable) {
-        setSelectedValue(itemValue);
-        onItemSelect?.(content);
-      }
+    onItemClick: (itemValue?: string) => {
+      if (selectable && !controllable) setSelectedValue(itemValue);
       onItemClick?.(itemValue);
     },
     onItemRender: (content: React.ReactNode, itemValue?: string) => {
-      if (canSelectItem(itemValue) && itemValue === selectedValue) {
-        setSelectedValue(itemValue);
-        onItemSelect?.(content);
-      }
+      if (itemValue != null) contentsRef.current[itemValue] = content;
     },
   };
 

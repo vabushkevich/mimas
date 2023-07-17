@@ -15,7 +15,7 @@
   &--size_md {
     padding: 4px;
 
-    .menu-item:not(:last-child) {
+    > :not(:last-child) {
       margin-bottom: 3px;
     }
   }
@@ -23,7 +23,7 @@
   &--size_lg {
     padding: 6px;
 
-    .menu-item:not(:last-child) {
+    > :not(:last-child) {
       margin-bottom: 5px;
     }
   }
