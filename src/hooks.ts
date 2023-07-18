@@ -5,6 +5,7 @@ import {
   RefObject,
   useRef,
   useMemo,
+  useLayoutEffect,
 } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { isCommentSortingMethod } from "@types";
@@ -237,4 +238,28 @@ export function usePreloadImage(src?: string) {
   }, [img]);
 
   return loaded;
+}
+
+export function useTextAreaAutoHeight(
+  ref: React.RefObject<HTMLTextAreaElement>,
+) {
+  const [height, setHeight] = useState<number>();
+
+  useLayoutEffect(() => {
+    const textArea = ref.current;
+    if (!textArea) return;
+
+    const { height: origHeight, overflow: origOverflow } = textArea.style;
+    const borderSize = textArea.offsetHeight - textArea.clientHeight;
+
+    textArea.style.height = "";
+    textArea.style.overflow = "hidden";
+    // Need to add `1`, because some browsers do not correctly calculate the
+    // height of the element if the page is scaled
+    setHeight(textArea.scrollHeight + borderSize + 1);
+    textArea.style.height = origHeight;
+    textArea.style.overflow = origOverflow;
+  }, [ref.current?.value]);
+
+  return height;
 }

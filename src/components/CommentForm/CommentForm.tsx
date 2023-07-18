@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useTextAreaAutoHeight } from "@hooks";
 
 import { Button } from "@components";
 import "./CommentForm.scss";
@@ -11,6 +12,8 @@ type CommentFormProps = {
 export function CommentForm({ onSubmit, onSuccess }: CommentFormProps) {
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaHeight = useTextAreaAutoHeight(textAreaRef);
 
   return (
     <form
@@ -26,6 +29,8 @@ export function CommentForm({ onSubmit, onSuccess }: CommentFormProps) {
       }}
     >
       <textarea
+        ref={textAreaRef}
+        style={{ height: textAreaHeight }}
         disabled={isSubmitting}
         maxLength={10000}
         placeholder="Leave a comment..."

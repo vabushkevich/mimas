@@ -11,7 +11,7 @@
     width: 100%;
     min-height: 100px;
     padding: 10px;
-    resize: vertical;
+    resize: none;
 
     @include dark-mode {
       border-color: themed("gray-600");
