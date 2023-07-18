@@ -3,7 +3,7 @@
 
 .button {
   @include reset-button;
-  @include transition(background-color);
+  @include transition(background-color, opacity);
 
   display: inline-flex;
   align-items: center;
