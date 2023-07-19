@@ -1,25 +1,38 @@
 @use "@sass/mixins" as *;
 
 .comment-form {
-  display: flex;
-  flex-direction: column;
+  position: relative;
 
   textarea {
-    margin-bottom: 10px;
+    @include transition(background-color);
+
+    display: block;
     border: 1px solid themed("gray-500");
-    border-radius: 4px;
+    border-radius: 6px;
+    padding: 10px 10px 50px;
     width: 100%;
-    min-height: 100px;
-    padding: 10px;
+    height: 89px;
+    background-color: themed("gray-100");
+    appearance: none;
     resize: none;
 
     @include dark-mode {
       border-color: themed("gray-600");
-      background-color: themed("gray-900");
+      background-color: themed("gray-800");
+    }
+
+    &:focus {
+      background-color: white;
+
+      @include dark-mode {
+        background-color: themed("gray-900");
+      }
     }
   }
 
   &__button {
-    align-self: flex-end;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
   }
 }
