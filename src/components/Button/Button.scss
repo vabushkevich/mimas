@@ -1,9 +1,12 @@
+@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 @use "sass:color";
 
 .button {
   @include reset-button;
   @include transition(background-color, opacity);
+
+  $root: &;
 
   display: inline-flex;
   align-items: center;
@@ -22,6 +25,7 @@
   }
 
   &:hover {
+    color: var(--color-hover, var(--color));
     background-color: var(--bg-color-hover);
   }
 
@@ -35,7 +39,19 @@
     margin-left: 8px;
   }
 
-  &--color_blue {
+  &--variant_text {
+    padding: 0;
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    background: initial;
+
+    @include themify {
+      --color-hover: #{themed("primary-inline-action-hover")};
+    }
+  }
+
+  &--variant_solid#{$root}--color_blue {
     --color: #{themed("gray-100")};
 
     @include themify {
@@ -46,7 +62,7 @@
     }
   }
 
-  &--color_gray {
+  &--variant_solid#{$root}--color_gray {
     $bg-color: themed("gray-200");
     --bg-color: #{$bg-color};
     --bg-color-hover: #{darken($bg-color, 4%)};
