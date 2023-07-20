@@ -1,4 +1,4 @@
-import React, { forwardRef, ForwardedRef } from "react";
+import React from "react";
 import classNames from "classnames";
 
 import "./Button.scss";
@@ -9,19 +9,15 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "solid" | "text";
 };
 
-export const Button = forwardRef(function Button(
-  {
-    color = "blue",
-    rightIcon,
-    variant = "solid",
-    children,
-    ...other
-  }: ButtonProps,
-  ref: ForwardedRef<HTMLButtonElement>,
-) {
+export const Button = function Button({
+  color = "blue",
+  rightIcon,
+  variant = "solid",
+  children,
+  ...other
+}: ButtonProps) {
   return (
     <button
-      ref={ref}
       className={classNames(
         "button",
         color && `button--color_${color}`,
@@ -33,4 +29,4 @@ export const Button = forwardRef(function Button(
       {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
     </button>
   );
-});
+};
