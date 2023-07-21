@@ -2,9 +2,10 @@ import React, { useState, useRef } from "react";
 import { useClickOutside } from "@hooks";
 import classNames from "classnames";
 
-import { Menu, DropdownButton, MenuProps } from "@components";
+import { Menu, DropdownButton } from "@components";
 import "./DropdownMenu.scss";
 
+type MenuProps = Parameters<typeof Menu>[0];
 type DropdownMenuProps = MenuProps & {
   alignRight?: boolean;
   button?:

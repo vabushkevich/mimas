@@ -3,7 +3,7 @@ import { MenuContext } from "./MenuContext";
 
 import "./Menu.scss";
 
-export type MenuProps = {
+type MenuProps = {
   defaultValue?: string;
   selectable?: boolean;
   size?: "md" | "lg";
