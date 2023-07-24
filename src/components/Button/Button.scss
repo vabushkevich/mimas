@@ -10,11 +10,8 @@
 
   display: inline-flex;
   align-items: center;
-  height: 36px;
-  padding: 0 14px;
   color: var(--color);
   background-color: var(--bg-color);
-  font-size: 1rem;
   font-weight: 600;
   border-radius: 6px;
   user-select: none;
@@ -37,6 +34,18 @@
     display: inline-flex;
     align-items: center;
     margin-left: 8px;
+  }
+
+  &--size_sm {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  &--size_md {
+    height: 36px;
+    padding: 0 14px;
+    font-size: 15px;
   }
 
   &--variant_text {

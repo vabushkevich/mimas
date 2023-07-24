@@ -1,28 +1,30 @@
 import React from "react";
-import classNames from "classnames";
 
 import "./Button.scss";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "blue" | "gray";
   rightIcon?: React.ReactNode;
+  size?: "sm" | "md";
   variant?: "solid" | "text";
 };
 
 export const Button = function Button({
   color = "blue",
   rightIcon,
+  size = "md",
   variant = "solid",
   children,
   ...other
 }: ButtonProps) {
   return (
     <button
-      className={classNames(
+      className={[
         "button",
-        color && `button--color_${color}`,
-        variant && `button--variant_${variant}`,
-      )}
+        `button--color_${color}`,
+        `button--size_${size}`,
+        `button--variant_${variant}`,
+      ].join(" ")}
       {...other}
     >
       {children}
