@@ -25,7 +25,7 @@ export function isTextPost(rawPost: Raw.Post): rawPost is Raw.TextPost {
 }
 
 export function isGalleryPost(rawPost: Raw.Post): rawPost is Raw.GalleryPost {
-  return "gallery_data" in rawPost.data;
+  return "gallery_data" in rawPost.data && rawPost.data.gallery_data != null;
 }
 
 export function isVideoPost(rawPost: Raw.Post): rawPost is Raw.VideoPost {
