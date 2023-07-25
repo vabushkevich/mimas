@@ -31,7 +31,7 @@ export function AuthorHeader({
           </div>
           <div className="author-header__header">
             <div className="author-header__name">{name}</div>
-            {subscribeButton}
+            <div className="author-header__button">{subscribeButton}</div>
           </div>
           {description && (
             <div className="author-header__description">{description}</div>

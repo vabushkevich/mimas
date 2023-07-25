@@ -23,7 +23,9 @@ export function AuthorHeaderSkeleton({
             <div className="author-header__name">
               <Skeleton width={160} />
             </div>
-            {showSubscribeButton && <ButtonSkeleton contentWidth={80} />}
+            <div className="author-header__button">
+              {showSubscribeButton && <ButtonSkeleton contentWidth={80} />}
+            </div>
           </div>
           {showDescription && (
             <div className="author-header__description">

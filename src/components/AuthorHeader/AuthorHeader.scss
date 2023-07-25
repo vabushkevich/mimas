@@ -1,3 +1,4 @@
+@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .author-header {
@@ -7,6 +8,7 @@
   margin-top: $offset - 10px;
 
   &__body {
+    position: relative;
     padding: 12px;
   }
 
@@ -36,6 +38,14 @@
     line-height: normal;
     font-size: 30px;
     font-weight: 500;
+  }
+
+  &__button {
+    @media (max-width: $screen-sm) {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+    }
   }
 
   &__description {
