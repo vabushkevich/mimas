@@ -1,15 +1,20 @@
 import React, { useRef, useState } from "react";
 import { useTextAreaAutoHeight } from "@hooks";
 
-import { Button } from "@components";
+import { Button, Loader } from "@components";
 import "./CommentForm.scss";
 
 type CommentFormProps = {
-  onSubmit?: (text: string) => void;
+  onError?: (error: unknown) => void;
+  onSubmit?: (text: string) => void | Promise<unknown>;
   onSuccess?: () => void;
 };
 
-export function CommentForm({ onSubmit, onSuccess }: CommentFormProps) {
+export function CommentForm({
+  onError,
+  onSubmit,
+  onSuccess,
+}: CommentFormProps) {
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -18,14 +23,18 @@ export function CommentForm({ onSubmit, onSuccess }: CommentFormProps) {
   return (
     <form
       className="comment-form"
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        (async () => onSubmit?.(text))()
-          .then(() => setText(""))
-          .finally(() => setIsSubmitting(false))
-          .then(onSuccess)
-          .catch(() => undefined);
+        try {
+          await onSubmit?.(text);
+          onSuccess?.();
+          setText("");
+        } catch (error) {
+          onError?.(error);
+        } finally {
+          setIsSubmitting(false);
+        }
       }}
     >
       <textarea
@@ -42,7 +51,7 @@ export function CommentForm({ onSubmit, onSuccess }: CommentFormProps) {
           disabled={text.trim().length == 0 || isSubmitting}
           type="submit"
         >
-          Post
+          {isSubmitting ? <Loader colorMode="light" /> : "Post"}
         </Button>
       </div>
     </form>
