@@ -1,37 +1,5 @@
-.post-comment-form,
-.auth-to-comment,
-.comments-sorting,
-.comments,
-.alerts {
-  margin-top: 12px;
-}
-
-.alerts__item:not(:first-child) {
-  margin-top: 6px;
-}
-
-.auth-to-comment {
-  &__body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+.post-page {
+  &__comments {
+    margin-top: 14px;
   }
-
-  &__message {
-    margin-bottom: 14px;
-  }
-}
-
-.comments-sorting__body,
-.alerts__body {
-  padding: 10px;
-}
-
-.post-comment-form__body {
-  padding: 12px;
-}
-
-.comments__body {
-  padding: 10px 12px 10px 10px;
 }
