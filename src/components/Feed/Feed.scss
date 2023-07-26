@@ -1,13 +1,9 @@
 .feed {
   &__sort {
     margin-bottom: 14px;
-  }
 
-  &__sort-body {
-    padding: 10px;
-
-    > *:not(:last-child) {
-      margin-right: 6px;
+    > :not(:last-child) {
+      margin-right: 8px;
     }
   }
 }

@@ -1,9 +1,11 @@
 import React from "react";
+import classNames from "classnames";
 
 import "./Button.scss";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  color?: "blue" | "gray";
+  color?: "blue" | "clear" | "gray";
+  pill?: boolean;
   rightIcon?: React.ReactNode;
   size?: "sm" | "md";
   variant?: "solid" | "text";
@@ -11,6 +13,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export const Button = function Button({
   color = "blue",
+  pill = false,
   rightIcon,
   size = "md",
   variant = "solid",
@@ -19,12 +22,13 @@ export const Button = function Button({
 }: ButtonProps) {
   return (
     <button
-      className={[
+      className={classNames(
         "button",
         `button--color_${color}`,
         `button--size_${size}`,
         `button--variant_${variant}`,
-      ].join(" ")}
+        pill && "button--pill",
+      )}
       {...other}
     >
       {children}

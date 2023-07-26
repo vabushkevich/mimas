@@ -60,6 +60,11 @@
     }
   }
 
+  &--pill {
+    height: 36px;
+    border-radius: 1000px;
+  }
+
   &--variant_solid#{$root}--color_blue {
     --color: #{themed("gray-100")};
 
@@ -79,6 +84,20 @@
 
     @include dark-mode {
       $bg-color: themed("gray-700");
+      --bg-color: #{$bg-color};
+      --bg-color-hover: #{lighten($bg-color, 3%)};
+      --bg-color-active: #{lighten($bg-color, 6%)};
+    }
+  }
+
+  &--variant_solid#{$root}--color_clear {
+    $bg-color: white;
+    --bg-color: #{$bg-color};
+    --bg-color-hover: #{darken($bg-color, 2%)};
+    --bg-color-active: #{darken($bg-color, 4%)};
+
+    @include dark-mode {
+      $bg-color: themed("gray-800");
       --bg-color: #{$bg-color};
       --bg-color-hover: #{lighten($bg-color, 3%)};
       --bg-color-active: #{lighten($bg-color, 6%)};
