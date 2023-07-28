@@ -2,7 +2,7 @@
 
 .card {
   background-color: white;
-  border-radius: 6px;
+  border-radius: 8px;
 
   @include dark-mode {
     background-color: themed("gray-900");
