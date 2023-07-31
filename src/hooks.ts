@@ -224,18 +224,16 @@ export function useTitle(title?: string) {
 }
 
 export function usePreloadImage(src?: string) {
+  const [loaded, setLoaded] = useState(false);
   const img = useMemo(() => {
+    if (!src) return;
     const img = document.createElement("img");
-    if (src) img.src = src;
+    img.src = src;
+    if (!img.complete) img.onload = () => setLoaded(true);
     return img;
   }, [src]);
-  const [loaded, setLoaded] = useState(img.complete);
 
-  if (loaded != img.complete) setLoaded(img.complete);
-
-  useEffect(() => {
-    if (!img.complete) img.onload = () => setLoaded(true);
-  }, [img]);
+  if (img && loaded != img.complete) setLoaded(img.complete);
 
   return loaded;
 }
