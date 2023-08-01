@@ -5,10 +5,12 @@ import { CommentThread } from "@components";
 
 type CommentThreadContainerProps = {
   commentId: string;
+  depth: number;
 };
 
 export const CommentThreadContainer = memo(function CommentThreadContainer({
   commentId,
+  depth,
 }: CommentThreadContainerProps) {
   const { data: comment } = useComment(commentId);
   const commentAuthorAvatar = useAvatar(comment?.userId);
@@ -17,6 +19,7 @@ export const CommentThreadContainer = memo(function CommentThreadContainer({
     <CommentThread
       comment={comment}
       commentAuthorAvatar={commentAuthorAvatar}
+      depth={depth}
     />
   ) : null;
 });

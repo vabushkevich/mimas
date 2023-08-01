@@ -12,6 +12,7 @@ import "./CommentThreadList.scss";
 
 type CommentThreadListProps = {
   commentIds: string[];
+  depth?: number;
   hideLoadMoreButton?: boolean;
   moreComments?: MoreItems;
   parentId?: string;
@@ -28,6 +29,7 @@ function getMoreCommentsMessage(moreComments: MoreItems) {
 
 export function CommentThreadList({
   commentIds,
+  depth = 0,
   hideLoadMoreButton,
   moreComments,
   parentId,
@@ -54,7 +56,7 @@ export function CommentThreadList({
       {commentIds.map((commentId) => {
         return (
           <li key={commentId} className="comment-thread-list__item">
-            <CommentThreadContainer commentId={commentId} />
+            <CommentThreadContainer commentId={commentId} depth={depth} />
           </li>
         );
       })}
