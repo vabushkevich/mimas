@@ -30,7 +30,7 @@ export function App() {
           <Route path="/r/:subreddit/:sort?">
             <SubredditPage />
           </Route>
-          <Route path="/user/:name">
+          <Route path={["/user/:name", "/u/:name"]}>
             <UserPage />
           </Route>
           <Route path="/auth">
