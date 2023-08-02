@@ -61,6 +61,7 @@ import { NavbarLogo } from "./NavbarLogo/NavbarLogo";
 import { Toaster } from "./Toaster/Toaster";
 import { Loader } from "./Loader/Loader";
 import { PlayButton } from "./PlayButton/PlayButton";
+import { SubscribeButton } from "./SubscribeButton/SubscribeButton";
 
 export {
   Post,
@@ -126,4 +127,5 @@ export {
   Toaster,
   Loader,
   PlayButton,
+  SubscribeButton,
 };

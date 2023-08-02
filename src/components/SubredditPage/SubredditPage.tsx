@@ -16,7 +16,7 @@ import {
   Feed,
   AuthorHeader,
   AuthorHeaderSkeleton,
-  Button,
+  SubscribeButton,
 } from "@components";
 import "./SubredditPage.scss";
 
@@ -69,13 +69,12 @@ export function SubredditPage() {
                   },
                 ]}
                 subscribeButton={
-                  <Button
+                  <SubscribeButton
+                    subscribed={subreddit.subscribed}
                     onClick={() =>
                       subscribe(subreddit.subscribed ? "unsub" : "sub")
                     }
-                  >
-                    {subreddit.subscribed ? "Unsubscribe" : "Subscribe"}
-                  </Button>
+                  />
                 }
               />
             ))}
