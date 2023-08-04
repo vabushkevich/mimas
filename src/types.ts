@@ -9,7 +9,7 @@ const commentSortingMethods = [
   "live",
 ] as const;
 
-const postSortingMethods = [
+export const postSortingMethods = [
   "best",
   "hot",
   "new",
@@ -233,8 +233,6 @@ export function isSortTimeInterval(value: any): value is SortTimeInterval {
 export function isSortRequiresTimeInterval(sort: PostSortingMethod) {
   return sort === "top" || sort === "controversial";
 }
-
-export type FeedPageType = "user" | "all" | "popular";
 
 export type Identity = {
   user: User;

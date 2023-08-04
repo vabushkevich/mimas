@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useAuth } from "@services/auth";
 import { Toaster } from "@components";
+import { postSortingMethods } from "@types";
 
 import {
   PostPage,
@@ -11,33 +11,33 @@ import {
   AuthPage,
 } from "@components";
 
-export function App() {
-  const { authorized } = useAuth();
+const sortParamValues = postSortingMethods.join("|");
 
+export function App() {
   return (
     <>
       <Router>
         <Switch>
-          <Route path="/r/popular/:sort?">
-            <FeedPage type="popular" />
+          <Route
+            exact
+            path={[
+              `/:sort(${sortParamValues})?`,
+              `/r/:subreddit(all|popular)/:sort(${sortParamValues})?`,
+            ]}
+          >
+            <FeedPage />
           </Route>
-          <Route path="/r/all/:sort?">
-            <FeedPage type="all" />
-          </Route>
-          <Route path="/r/:subreddit/comments/:id">
-            <PostPage />
-          </Route>
-          <Route path="/r/:subreddit/:sort?">
+          <Route exact path={`/r/:subreddit/:sort(${sortParamValues})?`}>
             <SubredditPage />
           </Route>
           <Route path={["/user/:name", "/u/:name"]}>
             <UserPage />
           </Route>
+          <Route path="/r/:subreddit/comments/:id">
+            <PostPage />
+          </Route>
           <Route path="/auth">
             <AuthPage />
-          </Route>
-          <Route path="/:sort?">
-            <FeedPage type={authorized ? "user" : "popular"} />
           </Route>
         </Switch>
       </Router>

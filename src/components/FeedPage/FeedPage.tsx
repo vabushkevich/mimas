@@ -5,25 +5,24 @@ import {
   useParams,
   useRouteMatch,
 } from "react-router-dom";
-import { FeedPageType, isPostSortingMethod, isSortTimeInterval } from "@types";
+import { isPostSortingMethod, isSortTimeInterval } from "@types";
 import { useQueryString } from "@hooks";
+import { useAuth } from "@services/auth";
 
 import { Container, Page, Feed } from "@components";
 
-type FeedPageProps = {
-  type: FeedPageType;
-};
-
-export function FeedPage({ type }: FeedPageProps) {
+export function FeedPage() {
   const params = useParams<{ sort: string }>();
   const postSorting = isPostSortingMethod(params.sort) ? params.sort : "hot";
 
   const query = useQueryString<{ t: string }>();
   const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
 
+  const { authorized } = useAuth();
+  const defaultSubreddit = authorized ? "" : "all";
+  const { subreddit = defaultSubreddit } = useParams<{ subreddit?: string }>();
   const history = useHistory();
   const match = useRouteMatch();
-  const subreddit = type == "user" ? "" : type;
 
   return (
     <Page>
@@ -35,7 +34,10 @@ export function FeedPage({ type }: FeedPageProps) {
           type="mixed"
           unmarkPinned
           onSortChange={(sort) => {
-            const pathname = generatePath(match.path, { sort });
+            const pathname = generatePath(match.path, {
+              sort,
+              subreddit,
+            });
             history.replace({ pathname });
           }}
           onSortTimeIntervalChange={(sortTimeInterval) => {
