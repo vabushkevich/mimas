@@ -1,8 +1,7 @@
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { isPostSortingMethod, isSortTimeInterval } from "@types";
-import { useQueryString } from "@hooks";
+import { useFeedParams } from "@hooks";
 import { useUserByName } from "@services/api";
 
 import {
@@ -15,11 +14,7 @@ import {
 import "./UserPage.scss";
 
 export function UserPage() {
-  const query = useQueryString<{ sort: string; t: string }>();
-  const sort = isPostSortingMethod(query.sort) ? query.sort : "hot";
-  const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
-
-  const { name: userName } = useParams<{ name: string }>();
+  const { author: userName, sort, sortTimeInterval } = useFeedParams();
   const { data: user, isLoading } = useUserByName(userName);
   const history = useHistory();
 
@@ -61,7 +56,7 @@ export function UserPage() {
             history.replace({ search: `?sort=${sort}` });
           }}
           onSortTimeIntervalChange={(sortTimeInterval) => {
-            const params = new URLSearchParams(query);
+            const params = new URLSearchParams(history.location.search);
             params.set("t", sortTimeInterval);
             history.replace({ search: String(params) });
           }}

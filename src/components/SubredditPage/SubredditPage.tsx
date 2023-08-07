@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  generatePath,
-  useHistory,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
+import { generatePath, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { isPostSortingMethod, isSortTimeInterval } from "@types";
-import { useQueryString, useAuthGuard } from "@hooks";
+import { useAuthGuard, useFeedParams } from "@hooks";
 import { useSubredditByName, useSubscribe } from "@services/api";
 
 import {
@@ -21,13 +15,7 @@ import {
 import "./SubredditPage.scss";
 
 export function SubredditPage() {
-  const params = useParams<{ sort: string }>();
-  const postSorting = isPostSortingMethod(params.sort) ? params.sort : "hot";
-
-  const query = useQueryString<{ t: string }>();
-  const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : "day";
-
-  const { subreddit: subredditName } = useParams<{ subreddit: string }>();
+  const { author: subredditName, sort, sortTimeInterval } = useFeedParams();
   const { data: subreddit, isLoading } = useSubredditByName(subredditName);
   const history = useHistory();
   const match = useRouteMatch();
@@ -82,11 +70,11 @@ export function SubredditPage() {
         {!subreddit?.private && (
           <Feed
             primaryAuthorType="user"
-            sort={postSorting}
+            sort={sort}
             sortTimeInterval={sortTimeInterval}
             subreddit={subredditName}
             type="subreddit"
-            unmarkPinned={postSorting != "hot"}
+            unmarkPinned={sort != "hot"}
             onSortChange={(sort) => {
               const pathname = generatePath(match.path, {
                 sort,

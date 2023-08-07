@@ -35,8 +35,8 @@ type FeedProps = {
 
 export function Feed({
   primaryAuthorType,
-  sort,
-  sortTimeInterval,
+  sort = "hot",
+  sortTimeInterval = "day",
   subreddit,
   type,
   unmarkPinned,
