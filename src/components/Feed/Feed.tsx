@@ -22,6 +22,7 @@ import {
 import "./Feed.scss";
 
 type FeedProps = {
+  enableBestSort?: boolean;
   primaryAuthorType?: AuthorType;
   sort?: PostSortingMethod;
   sortTimeInterval?: SortTimeInterval;
@@ -34,8 +35,9 @@ type FeedProps = {
 };
 
 export function Feed({
+  enableBestSort = false,
   primaryAuthorType,
-  sort = "hot",
+  sort,
   sortTimeInterval = "day",
   subreddit,
   type,
@@ -44,6 +46,8 @@ export function Feed({
   onSortChange,
   onSortTimeIntervalChange,
 }: FeedProps) {
+  if (!sort || (sort == "best" && !enableBestSort)) sort = "hot";
+
   const { data, fetchNextPage, hasNextPage, isFetching } = useFeedPosts({
     limit: 20,
     sort,
@@ -68,7 +72,7 @@ export function Feed({
             if (isPostSortingMethod(value)) onSortChange?.(value);
           }}
         >
-          <MenuItem value="best">Best</MenuItem>
+          {enableBestSort && <MenuItem value="best">Best</MenuItem>}
           <MenuItem value="hot">Hot</MenuItem>
           <MenuItem value="top">Top</MenuItem>
           <MenuItem value="new">New</MenuItem>

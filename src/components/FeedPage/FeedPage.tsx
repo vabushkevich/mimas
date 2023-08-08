@@ -16,6 +16,7 @@ export function FeedPage() {
     <Page>
       <Container>
         <Feed
+          enableBestSort={subreddit == ""}
           sort={sort}
           sortTimeInterval={sortTimeInterval}
           subreddit={subreddit}
