@@ -1,6 +1,6 @@
 import {
-  CommentSortingMethod,
-  PostSortingMethod,
+  CommentSortingOption,
+  PostSortingOption,
   SortTimeInterval,
   isSortRequiresTimeInterval,
   PrivateSubreddit,
@@ -74,7 +74,7 @@ class RedditWebAPI {
   }: {
     after?: string;
     limit?: number;
-    sort?: PostSortingMethod;
+    sort?: PostSortingOption;
     sortTimeInterval?: SortTimeInterval;
     subreddit?: string;
     userName?: string;
@@ -150,7 +150,7 @@ class RedditWebAPI {
       baseDepth?: number;
       commentId?: string;
       limit?: number;
-      sort?: CommentSortingMethod;
+      sort?: CommentSortingOption;
     } = {},
   ) {
     const params = new URLSearchParams({
@@ -179,7 +179,7 @@ class RedditWebAPI {
       sort,
     }: {
       commentId?: string;
-      sort?: CommentSortingMethod;
+      sort?: CommentSortingOption;
     } = {},
   ) {
     const formData = new FormData();

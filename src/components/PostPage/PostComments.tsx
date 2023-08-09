@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import type {
-  CommentSortingMethod,
+  CommentSortingOption,
   CommentThreadList as CommentThreadListType,
 } from "@types";
 import { useLoadMoreComments, usePostComment } from "@services/api";
@@ -26,7 +26,7 @@ type PostCommentsProps = {
   isPostArchived?: boolean;
   isPostLocked?: boolean;
   postId: string;
-  sort: CommentSortingMethod;
+  sort: CommentSortingOption;
   threadList: CommentThreadListType;
 };
 

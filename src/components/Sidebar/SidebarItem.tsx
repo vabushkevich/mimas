@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { isPostSortingMethod } from "@types";
+import { isPostSortingOption } from "@types";
 
 import "./SidebarItem.scss";
 
@@ -19,7 +19,7 @@ export function SidebarItem({ href, icon, children }: SidebarItemProps) {
       to={href}
       isActive={(match, { pathname }) => {
         if (match) return true;
-        return href == "/" && isPostSortingMethod(pathname.split("/")[1]);
+        return href == "/" && isPostSortingOption(pathname.split("/")[1]);
       }}
     >
       <div className="sidebar-item__icon">{icon}</div>

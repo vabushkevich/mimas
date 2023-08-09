@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Toaster } from "@components";
-import { postSortingMethods } from "@types";
+import { postSortingOptions } from "@types";
 
 import {
   PostPage,
@@ -11,7 +11,7 @@ import {
   AuthPage,
 } from "@components";
 
-const sortParamValues = postSortingMethods.join("|");
+const sortParamValues = postSortingOptions.join("|");
 
 export function App() {
   return (

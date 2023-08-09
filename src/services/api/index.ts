@@ -1,6 +1,6 @@
 import {
-  CommentSortingMethod,
-  PostSortingMethod,
+  CommentSortingOption,
+  PostSortingOption,
   SortTimeInterval,
   CommentThreadList,
   Submission,
@@ -41,7 +41,7 @@ export function usePost(id: string) {
 
 export function useFeedPosts(options: {
   limit?: number;
-  sort?: PostSortingMethod;
+  sort?: PostSortingOption;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
   userName?: string;
@@ -83,7 +83,7 @@ export function usePostComments(
     sort,
   }: {
     limit?: number;
-    sort?: CommentSortingMethod;
+    sort?: CommentSortingOption;
   } = {},
 ) {
   const { key } = useLocation();

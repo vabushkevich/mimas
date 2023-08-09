@@ -1,9 +1,9 @@
 import React from "react";
 import {
-  PostSortingMethod,
+  PostSortingOption,
   SortTimeInterval,
   isSortRequiresTimeInterval,
-  isPostSortingMethod,
+  isPostSortingOption,
   isSortTimeInterval,
   AuthorType,
   FeedType,
@@ -24,13 +24,13 @@ import "./Feed.scss";
 type FeedProps = {
   enableBestSort?: boolean;
   primaryAuthorType?: AuthorType;
-  sort?: PostSortingMethod;
+  sort?: PostSortingOption;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
   type: FeedType;
   unmarkPinned?: boolean;
   userName?: string;
-  onSortChange?: (v: PostSortingMethod) => void;
+  onSortChange?: (v: PostSortingOption) => void;
   onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
 };
 
@@ -69,7 +69,7 @@ export function Feed({
           selectable
           value={sort}
           onItemClick={(value) => {
-            if (isPostSortingMethod(value)) onSortChange?.(value);
+            if (isPostSortingOption(value)) onSortChange?.(value);
           }}
         >
           {enableBestSort && <MenuItem value="best">Best</MenuItem>}

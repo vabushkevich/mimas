@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useQueryString } from "@hooks";
 import { createId } from "@utils";
-import { isCommentSortingMethod } from "@types";
+import { isCommentSortingOption } from "@types";
 import { usePost, usePostComments } from "@services/api";
 
 import { Post, Container, Page, PostSkeleton } from "@components";
@@ -12,7 +12,7 @@ import "./PostPage.scss";
 
 export function PostPage() {
   const query = useQueryString<{ sort: string }>();
-  const commentsSorting = isCommentSortingMethod(query.sort)
+  const commentsSorting = isCommentSortingOption(query.sort)
     ? query.sort
     : "confidence";
   const params = useParams<{ id: string }>();

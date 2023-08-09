@@ -9,8 +9,8 @@ import {
 } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import {
-  isCommentSortingMethod,
-  isPostSortingMethod,
+  isCommentSortingOption,
+  isPostSortingOption,
   isSortTimeInterval,
 } from "@types";
 import { createId } from "@utils";
@@ -86,7 +86,7 @@ export function usePostParams() {
   const query = useQueryString<{ sort: string }>();
 
   const postId = createId(params.id, "post");
-  const sort = isCommentSortingMethod(query.sort) ? query.sort : "confidence";
+  const sort = isCommentSortingOption(query.sort) ? query.sort : "confidence";
 
   return { postId, sort };
 }
@@ -276,7 +276,7 @@ export function useFeedParams() {
 
   const author = params.subreddit ?? params.name ?? "";
   const sortParam = params.sort ?? query.sort;
-  const sort = isPostSortingMethod(sortParam) ? sortParam : undefined;
+  const sort = isPostSortingOption(sortParam) ? sortParam : undefined;
   const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : undefined;
 
   return { author, sort, sortTimeInterval };
