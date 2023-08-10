@@ -37,7 +37,7 @@ export type BasePost = {
   dateEdited?: number;
   id: string;
   locked: boolean;
-  pinned: FeedType[];
+  pinnedIn: FeedType[];
   score: number;
   subreddit: string;
   subredditId: string;

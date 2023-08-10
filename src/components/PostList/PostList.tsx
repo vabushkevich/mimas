@@ -22,7 +22,7 @@ export function PostList({
       {posts.map((post) => (
         <li key={post.id} className="post-list__item">
           <Post
-            pinned={!unmarkPinned && post.pinned.includes(feedType)}
+            pinned={!unmarkPinned && post.pinnedIn.includes(feedType)}
             post={post}
             primaryAuthorType={primaryAuthorType}
           />
