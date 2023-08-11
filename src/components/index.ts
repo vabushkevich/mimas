@@ -62,6 +62,7 @@ import { Toaster } from "./Toaster/Toaster";
 import { Loader } from "./Loader/Loader";
 import { PlayButton } from "./PlayButton/PlayButton";
 import { SubscribeButton } from "./SubscribeButton/SubscribeButton";
+import { NotFoundPage } from "./NotFoundPage/NotFoundPage";
 
 export {
   Post,
@@ -128,4 +129,5 @@ export {
   Loader,
   PlayButton,
   SubscribeButton,
+  NotFoundPage,
 };

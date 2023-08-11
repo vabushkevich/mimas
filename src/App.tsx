@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Toaster } from "@components";
+import { NotFoundPage, Toaster } from "@components";
 import { postSortingOptions } from "@types";
 
 import {
@@ -38,6 +38,9 @@ export function App() {
           </Route>
           <Route path="/auth">
             <AuthPage />
+          </Route>
+          <Route path="*">
+            <NotFoundPage />
           </Route>
         </Switch>
       </Router>
