@@ -8,13 +8,13 @@ import { PostCommentsSkeleton } from "./PostCommentsSkeleton";
 import "./PostPage.scss";
 
 export function PostPage() {
-  const { postId, sort: commentsSorting } = usePostParams();
+  const { postId, commentSorting } = usePostParams();
   const { data: post, isLoading: isPostLoading } = usePost(postId);
   const { data: threadList, isLoading: isCommentsLoading } = usePostComments(
     postId,
     {
       limit: 100,
-      sort: commentsSorting,
+      sort: commentSorting,
     },
   );
 
@@ -30,7 +30,7 @@ export function PostPage() {
               isPostArchived={post.archived}
               isPostLocked={post.locked}
               postId={postId}
-              sort={commentsSorting}
+              sort={commentSorting}
               threadList={threadList}
             />
           )}

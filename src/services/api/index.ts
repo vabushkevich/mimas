@@ -130,7 +130,7 @@ export function useLoadMoreComments({
   commentId?: string;
   limit?: number;
 } = {}) {
-  const { postId, sort } = usePostParams();
+  const { postId, commentSorting } = usePostParams();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -152,7 +152,7 @@ export function useLoadMoreComments({
             baseDepth: comment.depth,
             commentId,
             limit,
-            sort,
+            sort: commentSorting,
           });
         }
 
@@ -165,7 +165,7 @@ export function useLoadMoreComments({
 
       return client.getMoreComments(postId, moreCommentIds, {
         commentId,
-        sort,
+        sort: commentSorting,
       });
     },
     onSuccess: (data) => {

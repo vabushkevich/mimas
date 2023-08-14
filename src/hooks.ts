@@ -86,9 +86,11 @@ export function usePostParams() {
   const query = useQueryString<{ sort: string }>();
 
   const postId = createId(params.id, "post");
-  const sort = isCommentSortingOption(query.sort) ? query.sort : "confidence";
+  const commentSorting = isCommentSortingOption(query.sort)
+    ? query.sort
+    : "confidence";
 
-  return { postId, sort };
+  return { postId, commentSorting };
 }
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
