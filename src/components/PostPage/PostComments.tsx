@@ -26,7 +26,7 @@ type PostCommentsProps = {
   isPostArchived?: boolean;
   isPostLocked?: boolean;
   postId: string;
-  sort: CommentSortingOption;
+  sort?: CommentSortingOption;
   threadList: CommentThreadListType;
 };
 
@@ -41,7 +41,7 @@ export function PostComments({
   isPostArchived,
   isPostLocked,
   postId,
-  sort,
+  sort = "confidence",
   threadList,
 }: PostCommentsProps) {
   const history = useHistory();

@@ -88,7 +88,7 @@ export function usePostParams() {
   const postId = createId(params.id, "post");
   const commentSorting = isCommentSortingOption(query.sort)
     ? query.sort
-    : "confidence";
+    : undefined;
 
   return { postId, commentSorting };
 }
