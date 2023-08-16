@@ -8,7 +8,11 @@ import {
 } from "@components";
 import "./PostComments.scss";
 
-export function PostCommentsSkeleton() {
+type PostCommentsSkeletonProps = {
+  count?: number;
+};
+
+export function PostCommentsSkeleton({ count }: PostCommentsSkeletonProps) {
   return (
     <div className="post-comments">
       <Card>
@@ -27,7 +31,7 @@ export function PostCommentsSkeleton() {
             <Skeleton block height={90} />
           </div>
           <div className="post-comments__thread-list">
-            <CommentThreadListSkeleton />
+            <CommentThreadListSkeleton count={count} />
           </div>
         </div>
       </Card>

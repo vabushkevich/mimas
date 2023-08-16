@@ -121,7 +121,7 @@ export function PostComments({
                 hideLoadMoreButton
                 moreComments={threadList.moreComments}
               />
-              {isMoreCommentsLoading && <CommentThreadListSkeleton />}
+              {isMoreCommentsLoading && <CommentThreadListSkeleton count={3} />}
               {threadList.moreComments && !isMoreCommentsLoading && (
                 <IntersectionDetector
                   marginTop={1200}

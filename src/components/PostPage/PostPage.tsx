@@ -34,7 +34,9 @@ export function PostPage() {
               threadList={threadList}
             />
           )}
-          {(isCommentsLoading || isPostLoading) && <PostCommentsSkeleton />}
+          {(isCommentsLoading || isPostLoading) && (
+            <PostCommentsSkeleton count={10} />
+          )}
         </div>
       </Container>
     </Page>

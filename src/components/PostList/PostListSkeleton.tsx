@@ -4,10 +4,14 @@ import { PostSkeleton } from "@components";
 import "./PostList.scss";
 import "./PostListSkeleton.scss";
 
-export function PostListSkeleton() {
+type PostListSkeletonProps = {
+  count?: number;
+};
+
+export function PostListSkeleton({ count = 3 }: PostListSkeletonProps) {
   return (
     <ol className="post-list">
-      {new Array(4).fill(0).map((v, i) => {
+      {new Array(count).fill(0).map((v, i) => {
         return (
           <li key={i} className="post-list__item">
             <PostSkeleton />

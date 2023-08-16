@@ -48,13 +48,14 @@ export function Feed({
 }: FeedProps) {
   if (!sort || (sort == "best" && !enableBestSort)) sort = "hot";
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useFeedPosts({
-    limit: 20,
-    sort,
-    sortTimeInterval,
-    subreddit,
-    userName,
-  });
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
+    useFeedPosts({
+      limit: 20,
+      sort,
+      sortTimeInterval,
+      subreddit,
+      userName,
+    });
   const posts = uniqBy(data?.pages?.flat(), (post) => post.id);
 
   return (
@@ -109,7 +110,7 @@ export function Feed({
         posts={posts}
         primaryAuthorType={primaryAuthorType}
       />
-      {isFetching && <PostListSkeleton />}
+      {isFetching && <PostListSkeleton count={isFetchingNextPage ? 3 : 10} />}
       {!isFetching && hasNextPage && (
         <IntersectionDetector marginTop={1200} onIntersect={fetchNextPage} />
       )}
