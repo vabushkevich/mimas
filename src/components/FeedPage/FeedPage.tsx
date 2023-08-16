@@ -17,11 +17,11 @@ export function FeedPage() {
       <Container>
         <Feed
           enableBestSort={subreddit == ""}
+          hidePins
           sort={sort}
           sortTimeInterval={sortTimeInterval}
           subreddit={subreddit}
           type="mixed"
-          unmarkPinned
           onSortChange={(sort) => {
             const pathname = generatePath(match.path, {
               sort,

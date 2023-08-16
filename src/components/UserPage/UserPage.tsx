@@ -47,10 +47,10 @@ export function UserPage() {
           )}
         </div>
         <Feed
+          hidePins={sort != "hot"}
           sort={sort}
           sortTimeInterval={sortTimeInterval}
           type="user"
-          unmarkPinned={sort != "hot"}
           userName={userName}
           onSortChange={(sort) => {
             history.replace({ search: `?sort=${sort}` });

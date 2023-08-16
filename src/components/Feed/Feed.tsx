@@ -23,12 +23,12 @@ import "./Feed.scss";
 
 type FeedProps = {
   enableBestSort?: boolean;
+  hidePins?: boolean;
   primaryAuthorType?: AuthorType;
   sort?: PostSortingOption;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
   type: FeedType;
-  unmarkPinned?: boolean;
   userName?: string;
   onSortChange?: (v: PostSortingOption) => void;
   onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
@@ -36,12 +36,12 @@ type FeedProps = {
 
 export function Feed({
   enableBestSort = false,
+  hidePins,
   primaryAuthorType,
   sort,
   sortTimeInterval = "day",
   subreddit,
   type,
-  unmarkPinned,
   userName,
   onSortChange,
   onSortTimeIntervalChange,
@@ -105,9 +105,9 @@ export function Feed({
       </div>
       <PostList
         feedType={type}
+        hidePins={hidePins}
         posts={posts}
         primaryAuthorType={primaryAuthorType}
-        unmarkPinned={unmarkPinned}
       />
       {isFetching && <PostListSkeleton />}
       {!isFetching && hasNextPage && (

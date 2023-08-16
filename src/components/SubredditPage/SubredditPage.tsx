@@ -69,12 +69,12 @@ export function SubredditPage() {
         </div>
         {!subreddit?.private && (
           <Feed
+            hidePins={sort != "hot"}
             primaryAuthorType="user"
             sort={sort}
             sortTimeInterval={sortTimeInterval}
             subreddit={subredditName}
             type="subreddit"
-            unmarkPinned={sort != "hot"}
             onSortChange={(sort) => {
               const pathname = generatePath(match.path, {
                 sort,
