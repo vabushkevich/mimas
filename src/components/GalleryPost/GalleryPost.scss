@@ -1,4 +1,10 @@
+@use "@sass/variables" as *;
+
 .gallery-post-body {
   width: 100%;
   height: 500px;
+
+  @media (max-width: $screen-sm) {
+    height: 300px;
+  }
 }
