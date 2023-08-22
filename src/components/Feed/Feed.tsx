@@ -23,7 +23,6 @@ import "./Feed.scss";
 
 type FeedProps = {
   enableBestSort?: boolean;
-  hidePins?: boolean;
   primaryAuthorType?: AuthorType;
   sort?: PostSortingOption;
   sortTimeInterval?: SortTimeInterval;
@@ -36,7 +35,6 @@ type FeedProps = {
 
 export function Feed({
   enableBestSort = false,
-  hidePins,
   primaryAuthorType,
   sort,
   sortTimeInterval = "day",
@@ -106,7 +104,7 @@ export function Feed({
       </div>
       <PostList
         feedType={type}
-        hidePins={hidePins}
+        hidePins={sort != "hot"}
         posts={posts}
         primaryAuthorType={primaryAuthorType}
       />

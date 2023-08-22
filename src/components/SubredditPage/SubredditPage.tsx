@@ -69,7 +69,6 @@ export function SubredditPage() {
         </div>
         {!subreddit?.private && (
           <Feed
-            hidePins={sort != "hot"}
             primaryAuthorType="user"
             sort={sort}
             sortTimeInterval={sortTimeInterval}

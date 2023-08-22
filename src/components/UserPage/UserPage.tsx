@@ -47,7 +47,6 @@ export function UserPage() {
           )}
         </div>
         <Feed
-          hidePins={sort != "hot"}
           sort={sort}
           sortTimeInterval={sortTimeInterval}
           type="user"
