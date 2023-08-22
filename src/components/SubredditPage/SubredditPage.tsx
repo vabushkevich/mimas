@@ -3,6 +3,7 @@ import { generatePath, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { useAuthGuard, useFeedParams } from "@hooks";
 import { useSubredditByName, useSubscribe } from "@services/api";
+import { useAuth } from "@services/auth";
 
 import {
   Container,
@@ -15,8 +16,14 @@ import {
 import "./SubredditPage.scss";
 
 export function SubredditPage() {
-  const { author: subredditName, sort, sortTimeInterval } = useFeedParams();
-  const { data: subreddit, isLoading } = useSubredditByName(subredditName);
+  const { authorized } = useAuth();
+  const { author, sort, sortTimeInterval } = useFeedParams();
+  const subredditName = author == "" && !authorized ? "all" : author;
+  const headless = ["", "all", "popular"].includes(subredditName);
+
+  const { data: subreddit, isLoading } = useSubredditByName(subredditName, {
+    enabled: !headless,
+  });
   const history = useHistory();
   const match = useRouteMatch();
 
@@ -26,54 +33,57 @@ export function SubredditPage() {
   return (
     <Page title={subredditName}>
       <Container>
-        <div className="subreddit-page__header">
-          {isLoading && (
-            <AuthorHeaderSkeleton showDescription showSubscribeButton />
-          )}
-          {subreddit &&
-            (subreddit.private ? (
-              <AuthorHeader
-                description={`Moderators of r/${subreddit.name} have set this subreddit as private.`}
-                name={subreddit.name}
-              />
-            ) : (
-              <AuthorHeader
-                avatar={subreddit.avatar}
-                description={subreddit.description}
-                name={subreddit.name}
-                stats={[
-                  {
-                    label: "Members",
-                    value: compactNumber(subreddit.subscribers),
-                  },
-                  {
-                    label: "Online",
-                    value: compactNumber(subreddit.activeUserCount),
-                  },
-                  {
-                    label: "Subreddit Age",
-                    title: formatDate(subreddit.dateCreated),
-                    value: formatDistanceToNow(subreddit.dateCreated),
-                  },
-                ]}
-                subscribeButton={
-                  <SubscribeButton
-                    subscribed={subreddit.subscribed}
-                    onClick={() =>
-                      subscribe(subreddit.subscribed ? "unsub" : "sub")
-                    }
-                  />
-                }
-              />
-            ))}
-        </div>
-        {!subreddit?.private && (
+        {!headless && (
+          <div className="subreddit-page__header">
+            {isLoading && (
+              <AuthorHeaderSkeleton showDescription showSubscribeButton />
+            )}
+            {subreddit &&
+              (subreddit.private ? (
+                <AuthorHeader
+                  description={`Moderators of r/${subreddit.name} have set this subreddit as private.`}
+                  name={subreddit.name}
+                />
+              ) : (
+                <AuthorHeader
+                  avatar={subreddit.avatar}
+                  description={subreddit.description}
+                  name={subreddit.name}
+                  stats={[
+                    {
+                      label: "Members",
+                      value: compactNumber(subreddit.subscribers),
+                    },
+                    {
+                      label: "Online",
+                      value: compactNumber(subreddit.activeUserCount),
+                    },
+                    {
+                      label: "Subreddit Age",
+                      title: formatDate(subreddit.dateCreated),
+                      value: formatDistanceToNow(subreddit.dateCreated),
+                    },
+                  ]}
+                  subscribeButton={
+                    <SubscribeButton
+                      subscribed={subreddit.subscribed}
+                      onClick={() =>
+                        subscribe(subreddit.subscribed ? "unsub" : "sub")
+                      }
+                    />
+                  }
+                />
+              ))}
+          </div>
+        )}
+        {(!subreddit?.private || headless) && (
           <Feed
-            primaryAuthorType="user"
+            enableBestSort={subredditName == ""}
+            primaryAuthorType={headless ? "subreddit" : "user"}
             sort={sort}
             sortTimeInterval={sortTimeInterval}
             subreddit={subredditName}
-            type="subreddit"
+            type={headless ? "mixed" : "subreddit"}
             onSortChange={(sort) => {
               const pathname = generatePath(match.path, {
                 sort,

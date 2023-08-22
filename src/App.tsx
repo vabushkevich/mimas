@@ -3,13 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NotFoundPage, Toaster } from "@components";
 import { postSortingOptions } from "@types";
 
-import {
-  PostPage,
-  SubredditPage,
-  UserPage,
-  FeedPage,
-  AuthPage,
-} from "@components";
+import { PostPage, SubredditPage, UserPage, AuthPage } from "@components";
 
 const sortParamValues = postSortingOptions.join("|");
 
@@ -22,12 +16,9 @@ export function App() {
             exact
             path={[
               `/:sort(${sortParamValues})?`,
-              `/r/:subreddit(all|popular)/:sort(${sortParamValues})?`,
+              `/r/:subreddit/:sort(${sortParamValues})?`,
             ]}
           >
-            <FeedPage />
-          </Route>
-          <Route exact path={`/r/:subreddit/:sort(${sortParamValues})?`}>
             <SubredditPage />
           </Route>
           <Route path={["/user/:name", "/u/:name"]}>

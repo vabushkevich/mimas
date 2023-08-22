@@ -68,8 +68,13 @@ export function useFeedPosts(options: {
   );
 }
 
-export function useSubredditByName(name: string) {
-  return useQuery(["subreddit", name], () => client.getSubredditByName(name));
+export function useSubredditByName(
+  name: string,
+  { enabled }: { enabled?: boolean } = {},
+) {
+  return useQuery(["subreddit", name], () => client.getSubredditByName(name), {
+    enabled,
+  });
 }
 
 export function useUserByName(name: string) {

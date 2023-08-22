@@ -39,7 +39,6 @@ import { SubmissionHeader } from "./SubmissionHeader/SubmissionHeader";
 import { SubmissionHeaderSkeleton } from "./SubmissionHeader/SubmissionHeaderSkeleton";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Feed } from "./Feed/Feed";
-import { FeedPage } from "./FeedPage/FeedPage";
 import { AuthorHeader } from "./AuthorHeader/AuthorHeader";
 import { AuthorHeaderSkeleton } from "./AuthorHeader/AuthorHeaderSkeleton";
 import { Skeleton } from "./Skeleton/Skeleton";
@@ -106,7 +105,6 @@ export {
   SubmissionHeaderSkeleton,
   Sidebar,
   Feed,
-  FeedPage,
   AuthorHeader,
   AuthorHeaderSkeleton,
   Skeleton,
