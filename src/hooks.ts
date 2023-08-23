@@ -71,7 +71,7 @@ export function useClickOutside(
   }, refs);
 }
 
-export function useQueryString<
+export function useSearchParams<
   T extends { [key: string]: string },
 >(): Partial<T> {
   const { search } = useLocation();
@@ -83,11 +83,11 @@ export function useQueryString<
 
 export function usePostParams() {
   const params = useParams<{ id: string }>();
-  const query = useQueryString<{ sort: string }>();
+  const searchParams = useSearchParams<{ sort: string }>();
 
   const postId = createId(params.id, "post");
-  const commentSorting = isCommentSortingOption(query.sort)
-    ? query.sort
+  const commentSorting = isCommentSortingOption(searchParams.sort)
+    ? searchParams.sort
     : undefined;
 
   return { postId, commentSorting };
@@ -274,12 +274,14 @@ export function useFeedParams() {
     name?: string;
     sort?: string;
   }>();
-  const query = useQueryString<{ sort: string; t: string }>();
+  const searchParams = useSearchParams<{ sort: string; t: string }>();
 
   const author = params.subreddit ?? params.name ?? "";
-  const sortParam = params.sort ?? query.sort;
+  const sortParam = params.sort ?? searchParams.sort;
   const sort = isPostSortingOption(sortParam) ? sortParam : undefined;
-  const sortTimeInterval = isSortTimeInterval(query.t) ? query.t : undefined;
+  const sortTimeInterval = isSortTimeInterval(searchParams.t)
+    ? searchParams.t
+    : undefined;
 
   return { author, sort, sortTimeInterval };
 }
