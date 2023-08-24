@@ -7,7 +7,12 @@ import {
   useMemo,
   useLayoutEffect,
 } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import {
+  generatePath,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 import {
   isCommentSortingOption,
   isPostSortingOption,
@@ -87,7 +92,7 @@ export function useSearchParams<T extends Record<string, string>>(): [
 }
 
 export function usePostParams() {
-  const params = useParams<{ id: string }>();
+  const [params] = useParams<{ id: string }>();
   const [searchParams] = useSearchParams<{ sort?: string }>();
 
   const postId = createId(params.id, "post");
@@ -274,7 +279,7 @@ export function useTextAreaAutoHeight(
 }
 
 export function useFeedParams() {
-  const params = useParams<{
+  const [params] = useParams<{
     subreddit?: string;
     name?: string;
     sort?: string;
@@ -289,4 +294,22 @@ export function useFeedParams() {
     : undefined;
 
   return { author, sort, sortTimeInterval };
+}
+
+export function useParams<T extends Record<string, string>>(): [
+  T,
+  (params: T) => void,
+] {
+  const match = useRouteMatch<T>();
+  const history = useHistory();
+
+  const setParams = useCallback(
+    (params: T) => {
+      const pathname = generatePath(match.path, params);
+      history.replace({ pathname });
+    },
+    [match, history],
+  );
+
+  return [match.params, setParams];
 }
