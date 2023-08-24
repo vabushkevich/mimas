@@ -48,7 +48,10 @@ export function useAuth() {
 }
 
 export function useAuthPageParams() {
-  const { code, state } = useSearchParams<{ code: string; state: string }>();
+  const [{ code, state }] = useSearchParams<{
+    code?: string;
+    state?: string;
+  }>();
   const redirectTo = state?.match(/\d+(.+)/)?.[1];
 
   return { code, redirectTo };

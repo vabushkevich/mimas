@@ -7,7 +7,7 @@ import {
   useMemo,
   useLayoutEffect,
 } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import {
   isCommentSortingOption,
   isPostSortingOption,
@@ -71,19 +71,24 @@ export function useClickOutside(
   }, refs);
 }
 
-export function useSearchParams<
-  T extends { [key: string]: string },
->(): Partial<T> {
+export function useSearchParams<T extends Record<string, string>>(): [
+  T,
+  (params: T) => void,
+] {
+  const history = useHistory();
   const { search } = useLocation();
-  return useMemo(
-    () => Object.fromEntries(new URLSearchParams(search)) as T,
-    [search],
-  );
+
+  const params = Object.fromEntries(new URLSearchParams(search)) as T;
+  const setParams = (params: T) => {
+    history.replace({ search: String(new URLSearchParams(params)) });
+  };
+
+  return [params, setParams];
 }
 
 export function usePostParams() {
   const params = useParams<{ id: string }>();
-  const searchParams = useSearchParams<{ sort: string }>();
+  const [searchParams] = useSearchParams<{ sort?: string }>();
 
   const postId = createId(params.id, "post");
   const commentSorting = isCommentSortingOption(searchParams.sort)
@@ -274,7 +279,7 @@ export function useFeedParams() {
     name?: string;
     sort?: string;
   }>();
-  const searchParams = useSearchParams<{ sort: string; t: string }>();
+  const [searchParams] = useSearchParams<{ sort: string; t: string }>();
 
   const author = params.subreddit ?? params.name ?? "";
   const sortParam = params.sort ?? searchParams.sort;
