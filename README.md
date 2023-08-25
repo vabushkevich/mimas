@@ -1,6 +1,6 @@
 <h3 align="center"><img src="https://github.com/vabushkevich/mimas/assets/23465488/1c676ff8-7f85-42c5-b982-f7aa33d77724" width="625px" style="margin-bottom: -38px;" alt="Screenshot of the app in the browser"></h3>
 
-[mimas](https://mimas.vercel.app) — is an open source web client that allows you
+[mimas](https://mimas.vercel.app) is an open source web client that allows you
 to experience a simplified and efficient way to connect with the Reddit
 community. Vote, comment, and browse all your favorite subreddits with ease.
 
