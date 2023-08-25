@@ -1,9 +1,9 @@
 import React from "react";
-import { generatePath, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { useAuthGuard, useFeedParams } from "@hooks";
+import { useAuthGuard, useParams, useSearchParams } from "@hooks";
 import { useSubredditByName, useSubscribe } from "@services/api";
 import { useAuth } from "@services/auth";
+import { isPostSortingOption, isSortTimeInterval } from "@types";
 
 import {
   Container,
@@ -17,15 +17,23 @@ import "./SubredditPage.scss";
 
 export function SubredditPage() {
   const { authorized } = useAuth();
-  const { author, sort, sortTimeInterval } = useFeedParams();
-  const subredditName = author == "" && !authorized ? "all" : author;
+  const [params, setParams] = useParams<{
+    subreddit?: string;
+    sort?: string;
+  }>();
+  const [searchParams, setSearchParams] = useSearchParams<{ t?: string }>();
+
+  const sort = isPostSortingOption(params.sort) ? params.sort : undefined;
+  const sortTimeInterval = isSortTimeInterval(searchParams.t)
+    ? searchParams.t
+    : undefined;
+
+  const subredditName = params.subreddit || (authorized ? "" : "all");
   const headless = ["", "all", "popular"].includes(subredditName);
 
   const { data: subreddit, isLoading } = useSubredditByName(subredditName, {
     enabled: !headless,
   });
-  const history = useHistory();
-  const match = useRouteMatch();
 
   const { mutate: mutateSubscription } = useSubscribe(subredditName);
   const subscribe = useAuthGuard(mutateSubscription);
@@ -85,14 +93,10 @@ export function SubredditPage() {
             subreddit={subredditName}
             type={headless ? "mixed" : "subreddit"}
             onSortChange={(sort) => {
-              const pathname = generatePath(match.path, {
-                sort,
-                subreddit: subredditName,
-              });
-              history.replace({ pathname });
+              setParams({ ...params, sort });
             }}
             onSortTimeIntervalChange={(sortTimeInterval) => {
-              history.replace({ search: `?t=${sortTimeInterval}` });
+              setSearchParams({ t: sortTimeInterval });
             }}
           />
         )}

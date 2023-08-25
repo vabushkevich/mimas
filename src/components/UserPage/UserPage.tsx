@@ -1,8 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
-import { useFeedParams } from "@hooks";
+import { useParams, useSearchParams } from "@hooks";
 import { useUserByName } from "@services/api";
+import { isPostSortingOption, isSortTimeInterval } from "@types";
 
 import {
   Container,
@@ -14,9 +14,20 @@ import {
 import "./UserPage.scss";
 
 export function UserPage() {
-  const { author: userName, sort, sortTimeInterval } = useFeedParams();
+  const [{ name: userName }] = useParams<{ name: string }>();
+  const [searchParams, setSearchParams] = useSearchParams<{
+    sort?: string;
+    t?: string;
+  }>();
+
+  const sort = isPostSortingOption(searchParams.sort)
+    ? searchParams.sort
+    : undefined;
+  const sortTimeInterval = isSortTimeInterval(searchParams.t)
+    ? searchParams.t
+    : undefined;
+
   const { data: user, isLoading } = useUserByName(userName);
-  const history = useHistory();
 
   return (
     <Page title={userName}>
@@ -52,12 +63,10 @@ export function UserPage() {
           type="user"
           userName={userName}
           onSortChange={(sort) => {
-            history.replace({ search: `?sort=${sort}` });
+            setSearchParams({ sort });
           }}
           onSortTimeIntervalChange={(sortTimeInterval) => {
-            const params = new URLSearchParams(history.location.search);
-            params.set("t", sortTimeInterval);
-            history.replace({ search: String(params) });
+            setSearchParams({ ...searchParams, t: sortTimeInterval });
           }}
         />
       </Container>

@@ -13,11 +13,7 @@ import {
   useLocation,
   useRouteMatch,
 } from "react-router-dom";
-import {
-  isCommentSortingOption,
-  isPostSortingOption,
-  isSortTimeInterval,
-} from "@types";
+import { isCommentSortingOption } from "@types";
 import { createId } from "@utils";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import type { RootState } from "./store";
@@ -276,24 +272,6 @@ export function useTextAreaAutoHeight(
   }, [ref.current?.value]);
 
   return height;
-}
-
-export function useFeedParams() {
-  const [params] = useParams<{
-    subreddit?: string;
-    name?: string;
-    sort?: string;
-  }>();
-  const [searchParams] = useSearchParams<{ sort: string; t: string }>();
-
-  const author = params.subreddit ?? params.name ?? "";
-  const sortParam = params.sort ?? searchParams.sort;
-  const sort = isPostSortingOption(sortParam) ? sortParam : undefined;
-  const sortTimeInterval = isSortTimeInterval(searchParams.t)
-    ? searchParams.t
-    : undefined;
-
-  return { author, sort, sortTimeInterval };
 }
 
 export function useParams<T extends Record<string, string>>(): [
