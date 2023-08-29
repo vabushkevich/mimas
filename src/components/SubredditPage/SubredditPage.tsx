@@ -8,7 +8,7 @@ import { isPostSortingOption, isSortTimeInterval } from "@types";
 import {
   Container,
   Page,
-  Feed,
+  PostFeed,
   AuthorHeader,
   AuthorHeaderSkeleton,
   SubscribeButton,
@@ -85,8 +85,7 @@ export function SubredditPage() {
           </div>
         )}
         {(!subreddit?.private || headless) && (
-          <Feed
-            enableBestSort={subredditName == ""}
+          <PostFeed
             primaryAuthorType={headless ? "subreddit" : "user"}
             sort={sort}
             sortTimeInterval={sortTimeInterval}

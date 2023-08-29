@@ -1,61 +1,33 @@
 import React from "react";
+import { capitalize } from "lodash-es";
 import {
   PostSortingOption,
   SortTimeInterval,
   isSortRequiresTimeInterval,
   isPostSortingOption,
   isSortTimeInterval,
-  AuthorType,
-  FeedType,
 } from "@types";
-import { useFeedPosts } from "@services/api";
-import { uniqBy } from "lodash-es";
 
-import {
-  PostList,
-  IntersectionDetector,
-  DropdownMenu,
-  PostListSkeleton,
-  MenuItem,
-  DropdownButton,
-} from "@components";
+import { DropdownMenu, MenuItem, DropdownButton } from "@components";
 import "./Feed.scss";
 
 type FeedProps = {
-  enableBestSort?: boolean;
-  primaryAuthorType?: AuthorType;
   sort?: PostSortingOption;
+  sortingOptions: readonly PostSortingOption[];
   sortTimeInterval?: SortTimeInterval;
-  subreddit?: string;
-  type: FeedType;
-  userName?: string;
   onSortChange?: (v: PostSortingOption) => void;
   onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
+  children: React.ReactNode;
 };
 
 export function Feed({
-  enableBestSort = false,
-  primaryAuthorType,
-  sort,
+  sort = "hot",
+  sortingOptions,
   sortTimeInterval = "day",
-  subreddit,
-  type,
-  userName,
   onSortChange,
   onSortTimeIntervalChange,
+  children,
 }: FeedProps) {
-  if (!sort || (sort == "best" && !enableBestSort)) sort = "hot";
-
-  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
-    useFeedPosts({
-      limit: 20,
-      sort,
-      sortTimeInterval,
-      subreddit,
-      userName,
-    });
-  const posts = uniqBy(data?.pages?.flat(), (post) => post.id);
-
   return (
     <div className="feed">
       <div className="feed__sort">
@@ -71,14 +43,13 @@ export function Feed({
             if (isPostSortingOption(value)) onSortChange?.(value);
           }}
         >
-          {enableBestSort && <MenuItem value="best">Best</MenuItem>}
-          <MenuItem value="hot">Hot</MenuItem>
-          <MenuItem value="top">Top</MenuItem>
-          <MenuItem value="new">New</MenuItem>
-          <MenuItem value="rising">Rising</MenuItem>
-          <MenuItem value="controversial">Controversial</MenuItem>
+          {sortingOptions.map((sort) => (
+            <MenuItem key={sort} value={sort}>
+              {capitalize(sort)}
+            </MenuItem>
+          ))}
         </DropdownMenu>
-        {sort && isSortRequiresTimeInterval(sort) && (
+        {isSortRequiresTimeInterval(sort) && (
           <DropdownMenu
             button={(selectedContent) => (
               <DropdownButton color="clear" pill>
@@ -102,16 +73,7 @@ export function Feed({
           </DropdownMenu>
         )}
       </div>
-      <PostList
-        feedType={type}
-        hidePins={sort != "hot"}
-        posts={posts}
-        primaryAuthorType={primaryAuthorType}
-      />
-      {isFetching && <PostListSkeleton count={isFetchingNextPage ? 3 : 10} />}
-      {!isFetching && hasNextPage && (
-        <IntersectionDetector marginTop={1200} onIntersect={fetchNextPage} />
-      )}
+      {children}
     </div>
   );
 }

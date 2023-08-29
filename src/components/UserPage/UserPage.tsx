@@ -8,7 +8,7 @@ import {
   Container,
   Page,
   AuthorHeader,
-  Feed,
+  PostFeed,
   AuthorHeaderSkeleton,
 } from "@components";
 import "./UserPage.scss";
@@ -57,7 +57,7 @@ export function UserPage() {
             />
           )}
         </div>
-        <Feed
+        <PostFeed
           sort={sort}
           sortTimeInterval={sortTimeInterval}
           type="user"
