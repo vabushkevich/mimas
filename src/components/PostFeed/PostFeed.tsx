@@ -4,7 +4,6 @@ import { uniqBy } from "lodash-es";
 import {
   PostSortingOption,
   SortTimeInterval,
-  AuthorType,
   FeedType,
   postSortingOptions,
 } from "@types";
@@ -17,7 +16,6 @@ import {
 } from "@components";
 
 type FeedProps = {
-  primaryAuthorType?: AuthorType;
   sort?: PostSortingOption;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
@@ -28,7 +26,6 @@ type FeedProps = {
 };
 
 export function PostFeed({
-  primaryAuthorType,
   sort,
   sortTimeInterval,
   subreddit,
@@ -65,7 +62,7 @@ export function PostFeed({
         feedType={type}
         hidePins={sort != "hot"}
         posts={posts}
-        primaryAuthorType={primaryAuthorType}
+        primaryAuthorType={type == "subreddit" ? "user" : "subreddit"}
       />
       {isFetching && <PostListSkeleton count={isFetchingNextPage ? 3 : 10} />}
       {!isFetching && hasNextPage && (

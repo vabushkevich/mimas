@@ -86,7 +86,6 @@ export function SubredditPage() {
         )}
         {(!subreddit?.private || headless) && (
           <PostFeed
-            primaryAuthorType={headless ? "subreddit" : "user"}
             sort={sort}
             sortTimeInterval={sortTimeInterval}
             subreddit={subredditName}
