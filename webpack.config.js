@@ -78,7 +78,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/assets/index.html",
-      title: "mimas — a web client for Reddit",
+      title: "mimas - a web client for Reddit",
     }),
     new ForkTsCheckerWebpackPlugin({
       typescript: {

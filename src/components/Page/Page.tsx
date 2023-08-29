@@ -19,7 +19,7 @@ export function Page({ title, children }: PageProps) {
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
   const { action, location } = useHistory();
 
-  useTitle(title && `${title} — mimas`);
+  useTitle(title && `${title} - mimas`);
 
   useLayoutEffect(() => {
     if (action == "PUSH") window.scroll({ top: 0 });
