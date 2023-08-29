@@ -21,7 +21,7 @@ export function App() {
           >
             <SubredditPage />
           </Route>
-          <Route path={["/user/:name", "/u/:name"]}>
+          <Route path="/(user|u)/:name">
             <UserPage />
           </Route>
           <Route path="/r/:subreddit/comments/:id">
