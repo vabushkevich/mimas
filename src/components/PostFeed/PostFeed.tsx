@@ -60,7 +60,7 @@ export function PostFeed({
     >
       <PostList
         feedType={type}
-        hidePins={sort != "hot"}
+        hidePins={type == "subreddit" && sort != "hot"}
         posts={posts}
         primaryAuthorType={type == "subreddit" ? "user" : "subreddit"}
       />
