@@ -65,7 +65,7 @@ export function SubmissionHeader({
       {subredditIsPrimaryAuthor && (
         <Link
           className="submission-header__secondary-author"
-          to={`/user/${userName}/`}
+          to={`/user/${userName}`}
         >
           {userName}
         </Link>
