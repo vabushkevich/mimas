@@ -141,10 +141,9 @@ export function updatePostInCache(
 }
 
 export function updateCommentInCache(
-  postId: string,
   commentId: string,
   updater: (draft: WritableDraft<Comment>) => void,
-  { active }: { active?: boolean } = {},
+  { active, postId }: { active?: boolean; postId?: string } = {},
 ) {
   queryClient.setQueriesData<Comment>(
     {
@@ -197,13 +196,12 @@ export function addCommentsToCache(
 
   if (commentId) {
     updateCommentInCache(
-      postId,
       commentId,
       (comment) => {
         comment.childIds.push(...threadList.rootCommentIds);
         comment.moreChildren = threadList.moreComments;
       },
-      { active: true },
+      { active: true, postId },
     );
   } else {
     updatePostCommentsInCache(
@@ -239,12 +237,11 @@ export function addCommentToCache(comment: Comment) {
     );
   } else {
     updateCommentInCache(
-      postId,
       parentId,
       (comment) => {
         comment.childIds.unshift(id);
       },
-      { active: true },
+      { active: true, postId },
     );
   }
 }
