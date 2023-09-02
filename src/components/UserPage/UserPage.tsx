@@ -2,7 +2,7 @@ import React from "react";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { useParams, useSearchParams } from "@hooks";
 import { useUserByName } from "@services/api";
-import { isPostSortingOption, isSortTimeInterval } from "@types";
+import { isPostFeedSortingOption, isSortTimeInterval } from "@types";
 
 import {
   Container,
@@ -20,7 +20,7 @@ export function UserPage() {
     t?: string;
   }>();
 
-  const sort = isPostSortingOption(searchParams.sort)
+  const sort = isPostFeedSortingOption(searchParams.sort)
     ? searchParams.sort
     : undefined;
   const sortTimeInterval = isSortTimeInterval(searchParams.t)

@@ -1,6 +1,6 @@
 import {
   CommentSortingOption,
-  PostSortingOption,
+  PostFeedSortingOption,
   SortTimeInterval,
   isSortRequiresTimeInterval,
   PrivateSubreddit,
@@ -74,7 +74,7 @@ class RedditWebAPI {
   }: {
     after?: string;
     limit?: number;
-    sort?: PostSortingOption;
+    sort?: PostFeedSortingOption;
     sortTimeInterval?: SortTimeInterval;
     subreddit?: string;
     userName?: string;

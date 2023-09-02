@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NotFoundPage, Toaster } from "@components";
-import { postSortingOptions } from "@types";
+import { postFeedSortingOptions } from "@types";
 
 import { PostPage, SubredditPage, UserPage, AuthPage } from "@components";
 
-const sortParamValues = postSortingOptions.join("|");
+const sortParamValues = postFeedSortingOptions.join("|");
 
 export function App() {
   return (

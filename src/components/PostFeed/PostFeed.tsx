@@ -2,10 +2,10 @@ import React from "react";
 import { useFeedPosts } from "@services/api";
 import { uniqBy } from "lodash-es";
 import {
-  PostSortingOption,
+  PostFeedSortingOption,
   SortTimeInterval,
   FeedType,
-  postSortingOptions,
+  postFeedSortingOptions,
 } from "@types";
 
 import {
@@ -16,12 +16,12 @@ import {
 } from "@components";
 
 type FeedProps = {
-  sort?: PostSortingOption;
+  sort?: PostFeedSortingOption;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
   type: FeedType;
   userName?: string;
-  onSortChange?: (v: PostSortingOption) => void;
+  onSortChange?: (v: PostFeedSortingOption) => void;
   onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
 };
 
@@ -47,8 +47,8 @@ export function PostFeed({
     });
   const posts = uniqBy(data?.pages?.flat(), (post) => post.id);
   const sortingOptions = bestSortEnabled
-    ? postSortingOptions
-    : postSortingOptions.filter((v) => v != "best");
+    ? postFeedSortingOptions
+    : postFeedSortingOptions.filter((v) => v != "best");
 
   return (
     <Feed

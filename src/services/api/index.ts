@@ -1,6 +1,6 @@
 import {
   CommentSortingOption,
-  PostSortingOption,
+  PostFeedSortingOption,
   SortTimeInterval,
   CommentThreadList,
   Submission,
@@ -41,7 +41,7 @@ export function usePost(id: string) {
 
 export function useFeedPosts(options: {
   limit?: number;
-  sort?: PostSortingOption;
+  sort?: PostFeedSortingOption;
   sortTimeInterval?: SortTimeInterval;
   subreddit?: string;
   userName?: string;

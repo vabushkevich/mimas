@@ -3,7 +3,7 @@ import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { useAuthGuard, useParams, useSearchParams } from "@hooks";
 import { useSubredditByName, useSubscribe } from "@services/api";
 import { useAuth } from "@services/auth";
-import { isPostSortingOption, isSortTimeInterval } from "@types";
+import { isPostFeedSortingOption, isSortTimeInterval } from "@types";
 
 import {
   Container,
@@ -23,7 +23,7 @@ export function SubredditPage() {
   }>();
   const [searchParams, setSearchParams] = useSearchParams<{ t?: string }>();
 
-  const sort = isPostSortingOption(params.sort) ? params.sort : undefined;
+  const sort = isPostFeedSortingOption(params.sort) ? params.sort : undefined;
   const sortTimeInterval = isSortTimeInterval(searchParams.t)
     ? searchParams.t
     : undefined;

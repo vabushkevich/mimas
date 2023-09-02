@@ -9,7 +9,7 @@ const commentSortingOptions = [
   "live",
 ] as const;
 
-export const postSortingOptions = [
+export const postFeedSortingOptions = [
   "best",
   "hot",
   "new",
@@ -165,7 +165,7 @@ export type MoreItems = {
 
 export type CommentSortingOption = (typeof commentSortingOptions)[number];
 
-export type PostSortingOption = (typeof postSortingOptions)[number];
+export type PostFeedSortingOption = (typeof postFeedSortingOptions)[number];
 
 export type User = {
   avatar: string;
@@ -218,8 +218,10 @@ export function isCommentSortingOption(
   return commentSortingOptions.includes(value);
 }
 
-export function isPostSortingOption(value: any): value is PostSortingOption {
-  return postSortingOptions.includes(value);
+export function isPostFeedSortingOption(
+  value: any,
+): value is PostFeedSortingOption {
+  return postFeedSortingOptions.includes(value);
 }
 
 export function isIdPrefix(value: any): value is IdPrefix {
@@ -230,7 +232,7 @@ export function isSortTimeInterval(value: any): value is SortTimeInterval {
   return sortTimeIntervals.includes(value);
 }
 
-export function isSortRequiresTimeInterval(sort: PostSortingOption) {
+export function isSortRequiresTimeInterval(sort: PostFeedSortingOption) {
   return sort === "top" || sort === "controversial";
 }
 
