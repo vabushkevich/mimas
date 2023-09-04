@@ -1,4 +1,6 @@
 import React from "react";
+import classNames from "classnames";
+import { NavLink } from "react-router-dom";
 
 import { Card, Stat, Avatar } from "@components";
 import "./AuthorHeader.scss";
@@ -13,6 +15,11 @@ type AuthorHeaderProps = {
     value: string;
   }[];
   subscribeButton?: React.ReactNode;
+  tabs?: {
+    exact?: boolean;
+    href: string;
+    label: string;
+  }[];
 };
 
 export function AuthorHeader({
@@ -21,9 +28,15 @@ export function AuthorHeader({
   name,
   stats,
   subscribeButton,
+  tabs,
 }: AuthorHeaderProps) {
   return (
-    <div className="author-header">
+    <div
+      className={classNames(
+        "author-header",
+        tabs?.length && "author-header--has-tabs",
+      )}
+    >
       <Card>
         <div className="author-header__body">
           <div className="author-header__avatar">
@@ -42,6 +55,21 @@ export function AuthorHeader({
                 <div title={title} key={label}>
                   <Stat label={label} value={value} />
                 </div>
+              ))}
+            </div>
+          )}
+          {tabs && tabs.length > 0 && (
+            <div className="author-header__tabs">
+              {tabs.map(({ exact, href, label }) => (
+                <NavLink
+                  key={href}
+                  className="author-header__tab"
+                  activeClassName="author-header__tab--active"
+                  to={href}
+                  exact={exact}
+                >
+                  {label}
+                </NavLink>
               ))}
             </div>
           )}

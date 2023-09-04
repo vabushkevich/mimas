@@ -18,6 +18,13 @@ export const postFeedSortingOptions = [
   "controversial",
 ] as const;
 
+export const commentFeedSortingOptions = [
+  "hot",
+  "new",
+  "top",
+  "controversial",
+] as const;
+
 const idPrefixes = ["t1", "t2", "t3", "t4", "t5", "t6"] as const;
 
 const sortTimeIntervals = [
@@ -142,6 +149,8 @@ export type Comment = {
   parentId: string;
   pinned: boolean;
   postId: string;
+  postTitle: string;
+  postUrl: string;
   score: number;
   scoreHidden: boolean;
   userId?: string;
@@ -166,6 +175,13 @@ export type MoreItems = {
 export type CommentSortingOption = (typeof commentSortingOptions)[number];
 
 export type PostFeedSortingOption = (typeof postFeedSortingOptions)[number];
+
+export type CommentFeedSortingOption =
+  (typeof commentFeedSortingOptions)[number];
+
+export type FeedSortingOption =
+  | PostFeedSortingOption
+  | CommentFeedSortingOption;
 
 export type User = {
   avatar: string;
@@ -224,6 +240,12 @@ export function isPostFeedSortingOption(
   return postFeedSortingOptions.includes(value);
 }
 
+export function isCommentFeedSortingOption(
+  value: any,
+): value is CommentFeedSortingOption {
+  return commentFeedSortingOptions.includes(value);
+}
+
 export function isIdPrefix(value: any): value is IdPrefix {
   return idPrefixes.includes(value);
 }
@@ -232,7 +254,7 @@ export function isSortTimeInterval(value: any): value is SortTimeInterval {
   return sortTimeIntervals.includes(value);
 }
 
-export function isSortRequiresTimeInterval(sort: PostFeedSortingOption) {
+export function isSortRequiresTimeInterval(sort: FeedSortingOption) {
   return sort === "top" || sort === "controversial";
 }
 

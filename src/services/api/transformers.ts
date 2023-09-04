@@ -11,6 +11,7 @@ import {
   isExternalVideoPost,
   isCrossPost,
   isRemovedPost,
+  stripBaseURL,
 } from "./utils";
 import {
   Post,
@@ -312,6 +313,8 @@ export function transformComment(rawComment: Raw.Comment): Comment {
       is_submitter,
       likes,
       link_id,
+      link_permalink,
+      link_title,
       locked,
       name,
       parent_id,
@@ -333,6 +336,8 @@ export function transformComment(rawComment: Raw.Comment): Comment {
     parentId: parent_id,
     pinned: stickied,
     postId: link_id,
+    postTitle: link_title,
+    postUrl: stripBaseURL(link_permalink),
     score: score,
     scoreHidden: score_hidden,
     userName: author,

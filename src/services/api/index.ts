@@ -68,6 +68,27 @@ export function useFeedPosts(options: {
   );
 }
 
+export function useUserComments(options: {
+  limit?: number;
+  sort?: PostFeedSortingOption;
+  sortTimeInterval?: SortTimeInterval;
+  userName: string;
+}) {
+  const { limit, sort, sortTimeInterval, userName } = options;
+
+  const { key } = useLocation();
+
+  return useInfiniteQuery(
+    ["comment-feed", userName, limit, sort, sortTimeInterval, key],
+    ({ pageParam }) => client.getUserComments({ ...options, after: pageParam }),
+    {
+      getNextPageParam: (lastComments) => lastComments.at(-1)?.id,
+      placeholderData: { pages: [], pageParams: [] },
+      cacheTime: 60 * 60 * 1000,
+    },
+  );
+}
+
 export function useSubredditByName(
   name: string,
   { enabled }: { enabled?: boolean } = {},
@@ -234,6 +255,7 @@ export function useVote(submission: Submission) {
       } else {
         updateCommentInCache(submission.id, updater, {
           postId: submission.postId,
+          userName: submission.userName,
         });
       }
     },

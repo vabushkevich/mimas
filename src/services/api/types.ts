@@ -174,6 +174,8 @@ export type Comment = {
     is_submitter: boolean;
     likes: boolean | null;
     link_id: string;
+    link_permalink: string;
+    link_title: string;
     locked: boolean;
     name: string;
     parent_id: string;

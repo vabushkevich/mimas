@@ -8,7 +8,11 @@ import {
 } from "@components";
 import "./Comment.scss";
 
-export function CommentSkeleton() {
+type CommentSkeletonProps = {
+  hideReplyButton?: boolean;
+};
+
+export function CommentSkeleton({ hideReplyButton }: CommentSkeletonProps) {
   return (
     <div className="comment">
       <SubmissionHeaderSkeleton />
@@ -18,7 +22,9 @@ export function CommentSkeleton() {
         </UserContent>
       </div>
       <div className="comment__footer">
-        <button className="comment__reply-btn">Reply</button>
+        {!hideReplyButton && (
+          <button className="comment__reply-btn">Reply</button>
+        )}
         <div className="comment__voting">
           <VotingSkeleton />
         </div>

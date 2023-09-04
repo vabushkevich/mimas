@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 import { Card, Skeleton, StatSkeleton, ButtonSkeleton } from "@components";
 import "./AuthorHeader.scss";
@@ -6,14 +7,21 @@ import "./AuthorHeader.scss";
 type AuthorHeaderSkeletonProps = {
   showDescription?: boolean;
   showSubscribeButton?: boolean;
+  showTabs?: boolean;
 };
 
 export function AuthorHeaderSkeleton({
   showDescription,
   showSubscribeButton,
+  showTabs,
 }: AuthorHeaderSkeletonProps) {
   return (
-    <div className="author-header">
+    <div
+      className={classNames(
+        "author-header",
+        showTabs && "author-header--has-tabs",
+      )}
+    >
       <Card>
         <div className="author-header__body">
           <div className="author-header__avatar">
@@ -37,6 +45,16 @@ export function AuthorHeaderSkeleton({
             <StatSkeleton />
             <StatSkeleton />
           </div>
+          {showTabs && (
+            <div className="author-header__tabs">
+              <div className="author-header__tab">
+                <Skeleton width={50} />
+              </div>
+              <div className="author-header__tab">
+                <Skeleton width={50} />
+              </div>
+            </div>
+          )}
         </div>
       </Card>
     </div>

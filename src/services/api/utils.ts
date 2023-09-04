@@ -143,7 +143,11 @@ export function updatePostInCache(
 export function updateCommentInCache(
   commentId: string,
   updater: (draft: WritableDraft<Comment>) => void,
-  { active, postId }: { active?: boolean; postId?: string } = {},
+  {
+    active,
+    postId,
+    userName,
+  }: { active?: boolean; postId?: string; userName?: string } = {},
 ) {
   queryClient.setQueriesData<Comment>(
     {
@@ -163,6 +167,25 @@ export function updateCommentInCache(
       produce(threadList, (threadListDraft) => {
         const comment = threadListDraft.comments[commentId];
         if (comment) Object.assign(comment, updater(comment));
+      }),
+  );
+
+  queryClient.setQueriesData<InfiniteData<Comment[]>>(
+    {
+      type: active ? "active" : "all",
+      queryKey: ["comment-feed", userName],
+    },
+    (data) =>
+      data &&
+      produce(data, (draft) => {
+        for (const comments of draft.pages) {
+          for (const comment of comments) {
+            if (comment.id == commentId) {
+              Object.assign(comment, updater(comment));
+              return;
+            }
+          }
+        }
       }),
   );
 }
@@ -273,4 +296,9 @@ export function updateSubredditInCache(
     ["subreddit", subredditName],
     (subreddit) => subreddit && produce(subreddit, updater),
   );
+}
+
+export function stripBaseURL(url: string) {
+  const { pathname, search, hash } = new URL(url, location.origin);
+  return pathname + search + hash;
 }

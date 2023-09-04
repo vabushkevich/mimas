@@ -1,33 +1,32 @@
 import React from "react";
 import { capitalize } from "lodash-es";
 import {
-  PostFeedSortingOption,
+  FeedSortingOption,
   SortTimeInterval,
   isSortRequiresTimeInterval,
-  isPostFeedSortingOption,
   isSortTimeInterval,
 } from "@types";
 
 import { DropdownMenu, MenuItem, DropdownButton } from "@components";
 import "./Feed.scss";
 
-type FeedProps = {
-  sort?: PostFeedSortingOption;
-  sortingOptions: readonly PostFeedSortingOption[];
+type FeedProps<T> = {
+  sort: T;
+  sortingOptions: readonly T[];
   sortTimeInterval?: SortTimeInterval;
-  onSortChange?: (v: PostFeedSortingOption) => void;
+  onSortChange?: (v: T) => void;
   onSortTimeIntervalChange?: (v: SortTimeInterval) => void;
   children: React.ReactNode;
 };
 
-export function Feed({
-  sort = "hot",
+export function Feed<T extends FeedSortingOption>({
+  sort,
   sortingOptions,
   sortTimeInterval = "day",
   onSortChange,
   onSortTimeIntervalChange,
   children,
-}: FeedProps) {
+}: FeedProps<T>) {
   return (
     <div className="feed">
       <div className="feed__sort">
@@ -39,9 +38,7 @@ export function Feed({
           )}
           selectable
           value={sort}
-          onItemClick={(value) => {
-            if (isPostFeedSortingOption(value)) onSortChange?.(value);
-          }}
+          onItemClick={(value) => onSortChange?.(value as T)}
         >
           {sortingOptions.map((sort) => (
             <MenuItem key={sort} value={sort}>

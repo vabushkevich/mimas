@@ -1,14 +1,20 @@
 import React from "react";
+import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import { formatDistanceToNow, formatDate, compactNumber } from "@utils";
 import { useParams, useSearchParams } from "@hooks";
 import { useUserByName } from "@services/api";
-import { isPostFeedSortingOption, isSortTimeInterval } from "@types";
+import {
+  isPostFeedSortingOption,
+  isSortTimeInterval,
+  isCommentFeedSortingOption,
+} from "@types";
 
 import {
   Container,
   Page,
   AuthorHeader,
   PostFeed,
+  CommentFeed,
   AuthorHeaderSkeleton,
 } from "@components";
 import "./UserPage.scss";
@@ -20,20 +26,35 @@ export function UserPage() {
     t?: string;
   }>();
 
-  const sort = isPostFeedSortingOption(searchParams.sort)
+  const postSorting = isPostFeedSortingOption(searchParams.sort)
+    ? searchParams.sort
+    : undefined;
+  const commentSorting = isCommentFeedSortingOption(searchParams.sort)
     ? searchParams.sort
     : undefined;
   const sortTimeInterval = isSortTimeInterval(searchParams.t)
     ? searchParams.t
     : undefined;
 
+  const { path, url } = useRouteMatch();
   const { data: user, isLoading } = useUserByName(userName);
+
+  const feedProps = {
+    sortTimeInterval,
+    userName,
+    onSortChange: (sort: string) => {
+      setSearchParams({ sort });
+    },
+    onSortTimeIntervalChange: (sortTimeInterval: string) => {
+      setSearchParams({ ...searchParams, t: sortTimeInterval });
+    },
+  };
 
   return (
     <Page title={userName}>
       <Container>
         <div className="user-page__header">
-          {isLoading && <AuthorHeaderSkeleton />}
+          {isLoading && <AuthorHeaderSkeleton showTabs />}
           {user && (
             <AuthorHeader
               avatar={user.avatar}
@@ -54,21 +75,24 @@ export function UserPage() {
                   value: formatDistanceToNow(user.dateCreated),
                 },
               ]}
+              tabs={[
+                { label: "Posts", href: url, exact: true },
+                { label: "Comments", href: `${url}/comments` },
+              ]}
             />
           )}
         </div>
-        <PostFeed
-          sort={sort}
-          sortTimeInterval={sortTimeInterval}
-          type="user"
-          userName={userName}
-          onSortChange={(sort) => {
-            setSearchParams({ sort });
-          }}
-          onSortTimeIntervalChange={(sortTimeInterval) => {
-            setSearchParams({ ...searchParams, t: sortTimeInterval });
-          }}
-        />
+        <Switch>
+          <Route exact path={path}>
+            <PostFeed sort={postSorting} type="user" {...feedProps} />
+          </Route>
+          <Route path={`${path}/comments`}>
+            <CommentFeed sort={commentSorting} {...feedProps} />
+          </Route>
+          <Route path="*">
+            <Redirect to={url} />
+          </Route>
+        </Switch>
       </Container>
     </Page>
   );

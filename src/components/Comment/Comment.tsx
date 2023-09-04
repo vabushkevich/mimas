@@ -11,6 +11,10 @@ type CommentProps = {
   avatar?: string | null;
   collapsed?: boolean;
   comment: Comment;
+  hideDistinction?: boolean;
+  hideLock?: boolean;
+  hidePin?: boolean;
+  hideReplyButton?: boolean;
   onReplyButtonClick?: () => void;
 };
 
@@ -18,6 +22,10 @@ export function Comment({
   avatar,
   collapsed = false,
   comment,
+  hideDistinction,
+  hideLock,
+  hidePin,
+  hideReplyButton,
   onReplyButtonClick,
 }: CommentProps) {
   const {
@@ -50,12 +58,12 @@ export function Comment({
     <div className="comment">
       <SubmissionHeader
         avatar={avatar}
-        bySubmitter={bySubmitter}
+        bySubmitter={!hideDistinction ? bySubmitter : undefined}
         dateCreated={dateCreated}
         dateEdited={dateEdited}
-        distinction={distinction}
-        locked={locked}
-        pinned={pinned}
+        distinction={!hideDistinction ? distinction : undefined}
+        locked={!hideLock && locked}
+        pinned={!hidePin && pinned}
         userName={userName}
       />
       {!collapsed && (
@@ -64,13 +72,15 @@ export function Comment({
             <UserContent html={bodyHtml} />
           </div>
           <div className="comment__footer">
-            <button
-              className="comment__reply-btn"
-              disabled={locked}
-              onClick={handleReplyButtonClick}
-            >
-              Reply
-            </button>
+            {!hideReplyButton && (
+              <button
+                className="comment__reply-btn"
+                disabled={locked}
+                onClick={handleReplyButtonClick}
+              >
+                Reply
+              </button>
+            )}
             <div className="comment__voting">
               <Voting
                 score={score}

@@ -103,6 +103,36 @@ class RedditWebAPI {
     return rawPosts.map((rawPost) => transformPost(rawPost));
   }
 
+  async getUserComments({
+    after,
+    limit,
+    sort = "new",
+    sortTimeInterval = "day",
+    userName,
+  }: {
+    after?: string;
+    limit?: number;
+    sort?: PostFeedSortingOption;
+    sortTimeInterval?: SortTimeInterval;
+    userName: string;
+  }) {
+    const params = new URLSearchParams({ raw_json: "1" });
+    if (after) params.append("after", after);
+    if (limit) params.append("limit", String(limit));
+    if (sort) params.append("sort", sort);
+    if (sortTimeInterval && isSortRequiresTimeInterval(sort)) {
+      params.append("t", sortTimeInterval);
+    }
+
+    const rawComments = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/user/${userName}/comments?${params}`,
+    )
+      .then((res) => res.json() as Promise<Raw.Listing<Raw.Comment>>)
+      .then((json) => json.data.children);
+
+    return rawComments.map((rawComment) => transformComment(rawComment));
+  }
+
   async getSubreddit(id: string) {
     return (await this.getSubreddits([id]))[0];
   }

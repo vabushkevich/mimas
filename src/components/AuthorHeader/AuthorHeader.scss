@@ -66,4 +66,39 @@
       }
     }
   }
+
+  &__tabs {
+    display: flex;
+    margin-top: 12px;
+  }
+
+  &__tab {
+    border-bottom: 3px solid transparent;
+    padding: 16px 0;
+    user-select: none;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: 14px;
+    }
+
+    &:hover {
+      @include themify {
+        color: themed("primary-inline-action-hover");
+      }
+    }
+
+    &--active {
+      pointer-events: none;
+      font-weight: 500;
+
+      @include themify {
+        border-bottom-color: themed("blue-500");
+      }
+    }
+  }
+
+  &--has-tabs &__body {
+    padding-bottom: 0;
+  }
 }

@@ -2,6 +2,8 @@ import { Post } from "./Post/Post";
 import { PostSkeleton } from "./Post/PostSkeleton";
 import { PostList } from "./PostList/PostList";
 import { PostListSkeleton } from "./PostList/PostListSkeleton";
+import { CommentList } from "./CommentList/CommentList";
+import { CommentListSkeleton } from "./CommentList/CommentListSkeleton";
 import { Container } from "./Container/Container";
 import { BasePost } from "./BasePost/BasePost";
 import { BasePostSkeleton } from "./BasePost/BasePostSkeleton";
@@ -40,6 +42,7 @@ import { SubmissionHeaderSkeleton } from "./SubmissionHeader/SubmissionHeaderSke
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Feed } from "./Feed/Feed";
 import { PostFeed } from "./PostFeed/PostFeed";
+import { CommentFeed } from "./CommentFeed/CommentFeed";
 import { AuthorHeader } from "./AuthorHeader/AuthorHeader";
 import { AuthorHeaderSkeleton } from "./AuthorHeader/AuthorHeaderSkeleton";
 import { Skeleton } from "./Skeleton/Skeleton";
@@ -69,6 +72,8 @@ export {
   PostSkeleton,
   PostList,
   PostListSkeleton,
+  CommentList,
+  CommentListSkeleton,
   Container,
   BasePost,
   BasePostSkeleton,
@@ -107,6 +112,7 @@ export {
   Sidebar,
   Feed,
   PostFeed,
+  CommentFeed,
   AuthorHeader,
   AuthorHeaderSkeleton,
   Skeleton,
