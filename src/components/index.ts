@@ -66,6 +66,7 @@ import { Loader } from "./Loader/Loader";
 import { PlayButton } from "./PlayButton/PlayButton";
 import { SubscribeButton } from "./SubscribeButton/SubscribeButton";
 import { NotFoundPage } from "./NotFoundPage/NotFoundPage";
+import { Info } from "./Info/Info";
 
 export {
   Post,
@@ -136,4 +137,5 @@ export {
   PlayButton,
   SubscribeButton,
   NotFoundPage,
+  Info,
 };
