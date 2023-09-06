@@ -12,6 +12,7 @@ import {
   CommentList,
   IntersectionDetector,
   CommentListSkeleton,
+  Info,
 } from "@components";
 
 type CommentFeedProps = {
@@ -47,6 +48,9 @@ export function CommentFeed({
       onSortTimeIntervalChange={onSortTimeIntervalChange}
     >
       <CommentList comments={comments} />
+      {!isFetching && comments.length == 0 && (
+        <Info>There are no comments here yet...</Info>
+      )}
       {isFetching && (
         <CommentListSkeleton count={isFetchingNextPage ? 3 : 10} />
       )}

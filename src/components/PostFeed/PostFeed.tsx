@@ -13,6 +13,7 @@ import {
   IntersectionDetector,
   PostList,
   PostListSkeleton,
+  Info,
 } from "@components";
 
 type FeedProps = {
@@ -64,6 +65,9 @@ export function PostFeed({
         posts={posts}
         primaryAuthorType={type == "subreddit" ? "user" : "subreddit"}
       />
+      {!isFetching && posts.length == 0 && (
+        <Info>There are no posts here yet...</Info>
+      )}
       {isFetching && <PostListSkeleton count={isFetchingNextPage ? 3 : 10} />}
       {!isFetching && hasNextPage && (
         <IntersectionDetector marginTop={1200} onIntersect={fetchNextPage} />
