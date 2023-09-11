@@ -9,6 +9,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   rightIcon?: React.ReactNode;
   size?: "sm" | "md";
   variant?: "solid" | "text";
+  width?: string | number;
 };
 
 export const Button = function Button({
@@ -17,6 +18,7 @@ export const Button = function Button({
   rightIcon,
   size = "md",
   variant = "solid",
+  width,
   children,
   ...other
 }: ButtonProps) {
@@ -29,6 +31,7 @@ export const Button = function Button({
         `button--variant_${variant}`,
         pill && "button--pill",
       )}
+      style={{ width }}
       {...other}
     >
       {children}
