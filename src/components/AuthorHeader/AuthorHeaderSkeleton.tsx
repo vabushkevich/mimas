@@ -32,7 +32,9 @@ export function AuthorHeaderSkeleton({
               <Skeleton width={160} />
             </div>
             <div className="author-header__button">
-              {showSubscribeButton && <ButtonSkeleton contentWidth={80} />}
+              {showSubscribeButton && (
+                <ButtonSkeleton contentWidth={80} width="120px" />
+              )}
             </div>
           </div>
           {showDescription && (

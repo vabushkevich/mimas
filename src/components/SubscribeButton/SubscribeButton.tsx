@@ -19,6 +19,7 @@ export const SubscribeButton = function SubscribeButton({
   return (
     <Button
       color={subscribed ? "gray" : "blue"}
+      width="120px"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       {...buttonProps}
