@@ -26,12 +26,12 @@ export function BasePostSkeleton({ children }: BasePostSkeletonProps) {
         </h3>
         <div className="post__body">{children}</div>
         <div className="post__footer">
-          <span className="post__comments-btn">
-            <BubbleIcon className="post__icon" />
+          <span className="post__control">
+            <BubbleIcon className="post__control-icon" />
             <Skeleton width={30} />
           </span>
-          <span className="post__save-btn">
-            <BookmarkIcon className="post__icon" />
+          <span className="post__control">
+            <BookmarkIcon className="post__control-icon post__control-icon--activable" />
           </span>
           <div className="post__voting">
             <VotingSkeleton />

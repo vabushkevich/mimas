@@ -28,16 +28,39 @@
       color: themed("gray-200");
     }
 
-    & a:hover {
+    & > *:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+
+  &__control {
+    @include reset-button;
+
+    display: flex;
+    align-items: center;
+    color: themed("gray-800");
+
+    @include dark-mode {
+      color: themed("gray-200");
+    }
+
+    &:hover {
       @include themify {
         color: themed("secondary-inline-action-hover");
       }
     }
   }
 
-  &__icon {
+  &__control-icon {
     width: 18px;
-    fill: none;
+
+    &:not(:only-child) {
+      margin-right: 6px;
+    }
+
+    &--activable {
+      fill: none;
+    }
 
     &--active {
       @include themify {
@@ -47,27 +70,6 @@
 
       &:hover {
         opacity: 0.8;
-      }
-    }
-  }
-
-  &__comments-btn {
-    display: flex;
-    align-items: center;
-  }
-
-  &__comments-btn &__icon {
-    margin-right: 6px;
-  }
-
-  &__save-btn {
-    @include reset-button;
-
-    margin-left: 12px;
-
-    &:hover {
-      @include themify {
-        color: themed("secondary-inline-action-hover");
       }
     }
   }

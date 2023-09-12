@@ -82,18 +82,19 @@ export function BasePost({
         <div className="post__body">{children}</div>
         {!hideFooter && (
           <div className="post__footer">
-            <Link className="post__comments-btn" to={url}>
-              <BubbleIcon className="post__icon" />
-              {compactNumber(commentCount)}
+            <Link className="post__control" to={url}>
+              <BubbleIcon className="post__control-icon" />
+              <span>{compactNumber(commentCount)}</span>
             </Link>
             <button
-              className="post__save-btn"
+              className="post__control"
               onClick={() => bookmark(bookmarked ? "remove" : "add")}
             >
               <BookmarkIcon
                 className={classNames(
-                  "post__icon",
-                  bookmarked && "post__icon--active",
+                  "post__control-icon",
+                  "post__control-icon--activable",
+                  bookmarked && "post__control-icon--active",
                 )}
               />
             </button>
