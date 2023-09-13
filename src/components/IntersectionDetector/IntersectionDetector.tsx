@@ -1,19 +1,13 @@
 import React, { useRef, useEffect } from "react";
 
 type IntersectionDetectorProps = {
-  marginLeft?: number;
-  marginTop?: number;
-  marginRight?: number;
-  marginBottom?: number;
+  rootMargin?: string;
   onIntersect: () => void;
   children?: React.ReactNode;
 };
 
 export function IntersectionDetector({
-  marginLeft = 0,
-  marginTop = 0,
-  marginRight = 0,
-  marginBottom = 0,
+  rootMargin,
   onIntersect,
   children,
 }: IntersectionDetectorProps) {
@@ -25,37 +19,21 @@ export function IntersectionDetector({
   }, [onIntersect]);
 
   useEffect(() => {
-    const isIntersecting = () => {
-      if (!elemRef.current) return;
-      const elemRect = elemRef.current.getBoundingClientRect();
-      const { clientWidth, clientHeight } = document.documentElement;
-      return (
-        elemRect.right + marginRight > 0 &&
-        elemRect.left - marginLeft < clientWidth &&
-        elemRect.bottom + marginBottom > 0 &&
-        elemRect.top - marginTop < clientHeight
-      );
-    };
+    if (!elemRef.current) return;
 
-    const checkEnter = () => {
-      if (!isIntersecting()) return;
-      onIntersectRef.current?.();
-      document.removeEventListener("scroll", checkEnter);
-      document.addEventListener("scroll", checkLeave);
-    };
-
-    const checkLeave = () => {
-      if (isIntersecting()) return;
-      document.removeEventListener("scroll", checkLeave);
-      document.addEventListener("scroll", checkEnter);
-    };
-
-    document.addEventListener("scroll", checkEnter);
-    checkEnter();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isIntersecting = entries.some(
+          (entry) => entry.target == elemRef.current && entry.isIntersecting,
+        );
+        if (isIntersecting) onIntersectRef.current?.();
+      },
+      { rootMargin },
+    );
+    observer.observe(elemRef.current);
 
     return () => {
-      document.removeEventListener("scroll", checkEnter);
-      document.removeEventListener("scroll", checkLeave);
+      observer.disconnect();
     };
   }, []);
 

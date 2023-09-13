@@ -124,7 +124,7 @@ export function PostComments({
               {isMoreCommentsLoading && <CommentThreadListSkeleton count={3} />}
               {threadList.moreComments && !isMoreCommentsLoading && (
                 <IntersectionDetector
-                  marginTop={1200}
+                  rootMargin="0px 0px 100%"
                   onIntersect={loadMoreComments}
                 />
               )}

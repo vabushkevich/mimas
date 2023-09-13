@@ -55,7 +55,10 @@ export function CommentFeed({
         <CommentListSkeleton count={isFetchingNextPage ? 3 : 10} />
       )}
       {!isFetching && hasNextPage && (
-        <IntersectionDetector marginTop={1200} onIntersect={fetchNextPage} />
+        <IntersectionDetector
+          rootMargin="0px 0px 100%"
+          onIntersect={fetchNextPage}
+        />
       )}
     </Feed>
   );
