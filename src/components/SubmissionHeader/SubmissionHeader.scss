@@ -12,7 +12,7 @@
 
   & a:hover {
     @include themify {
-      color: themed("primary-inline-action-hover");
+      color: themed("text-primary-hover");
     }
   }
 

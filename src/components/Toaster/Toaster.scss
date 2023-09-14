@@ -1,10 +1,11 @@
 @use "@sass/mixins" as *;
 
 .toast {
-  color: themed("gray-900");
+  @include themify {
+    color: themed("text-primary");
+  }
 
   @include dark-mode {
-    color: themed("gray-100");
     background-color: themed("gray-700");
   }
 }

@@ -57,7 +57,7 @@
     background: initial;
 
     @include themify {
-      --color-hover: #{themed("primary-inline-action-hover")};
+      --color-hover: #{themed("text-primary-hover")};
     }
   }
 

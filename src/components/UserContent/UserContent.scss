@@ -86,11 +86,13 @@
   blockquote {
     padding-left: 0.6em;
     border-left: 3px solid themed("gray-600");
-    color: themed("gray-800");
+
+    @include themify {
+      color: themed("text-secondary");
+    }
 
     @include dark-mode {
       border-left-color: themed("gray-400");
-      color: themed("gray-200");
     }
   }
 

@@ -56,16 +56,17 @@ $colors: (
 
 $themes: (
   light: (
-    "primary-inline-action-hover":
-      lighten(map.get($colors, "light", "gray-900"), 35%),
-    "secondary-inline-action-hover": map.get($colors, "light", "gray-900"),
+    "text-primary": map.get($colors, "light", "gray-900"),
+    "text-primary-hover": lighten(map.get($colors, "light", "gray-900"), 35%),
+    "text-secondary": map.get($colors, "light", "gray-800"),
+    "text-secondary-hover": map.get($colors, "light", "gray-900"),
     "focus-box-shadow": 0 0 0 3px map.get($colors, "light", "blue-300"),
   ),
   dark: (
-    "primary-inline-action-hover":
-      darken(map.get($colors, "dark", "gray-100"), 10%),
-    "secondary-inline-action-hover":
-      lighten(map.get($colors, "dark", "gray-200"), 10%),
+    "text-primary": map.get($colors, "dark", "gray-100"),
+    "text-primary-hover": darken(map.get($colors, "dark", "gray-100"), 10%),
+    "text-secondary": map.get($colors, "dark", "gray-200"),
+    "text-secondary-hover": lighten(map.get($colors, "dark", "gray-200"), 10%),
     "focus-box-shadow": 0 0 0 3px map.get($colors, "dark", "blue-700"),
   ),
 );

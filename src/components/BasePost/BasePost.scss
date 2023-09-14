@@ -22,10 +22,9 @@
     display: flex;
     margin: 12px 12px 0;
     font-weight: 500;
-    color: themed("gray-800");
 
-    @include dark-mode {
-      color: themed("gray-200");
+    @include themify {
+      color: themed("text-secondary");
     }
 
     & > *:not(:last-child) {
@@ -38,15 +37,12 @@
 
     display: flex;
     align-items: center;
-    color: themed("gray-800");
 
-    @include dark-mode {
-      color: themed("gray-200");
-    }
+    @include themify {
+      color: themed("text-secondary");
 
-    &:hover {
-      @include themify {
-        color: themed("secondary-inline-action-hover");
+      &:hover {
+        color: themed("text-secondary-hover");
       }
     }
   }
