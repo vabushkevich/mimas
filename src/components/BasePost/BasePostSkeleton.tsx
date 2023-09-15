@@ -6,6 +6,7 @@ import {
   Skeleton,
   VotingSkeleton,
 } from "@components";
+import DotsIcon from "@assets/svg/dots.svg";
 import BubbleIcon from "./assets/bubble.svg";
 import BookmarkIcon from "./assets/bookmark.svg";
 import "./BasePost.scss";
@@ -20,6 +21,9 @@ export function BasePostSkeleton({ children }: BasePostSkeletonProps) {
       <div className="post">
         <div className="post__header">
           <SubmissionHeaderSkeleton />
+          <span className="post__control post__menu-btn">
+            <DotsIcon className="post__dots-icon" />
+          </span>
         </div>
         <h3 className="post__title">
           <Skeleton width="70%" />

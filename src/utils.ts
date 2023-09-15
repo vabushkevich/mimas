@@ -139,3 +139,22 @@ export function debounceAsync<T extends unknown[], V>(
     return promise;
   };
 }
+
+export async function copyToClipboard(data: string) {
+  if (navigator.clipboard) {
+    await navigator.clipboard.writeText(data);
+  } else {
+    const elem = document.createElement("div");
+
+    elem.innerText = data;
+    document.body.append(elem);
+    document.getSelection()?.selectAllChildren(elem);
+
+    try {
+      const copied = document.execCommand("copy");
+      if (!copied) throw new Error("'copy' command is unsupported or disabled");
+    } finally {
+      elem.remove();
+    }
+  }
+}

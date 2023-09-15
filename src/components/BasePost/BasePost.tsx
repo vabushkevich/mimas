@@ -1,12 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { compactNumber } from "@utils";
+import { compactNumber, copyToClipboard } from "@utils";
 import type { Post, PostProps } from "@types";
 import { useAvatar, useBookmarkPost, useVote } from "@services/api";
 import { useAuthGuard } from "@hooks";
 import classNames from "classnames";
+import toast from "react-hot-toast";
 
-import { Card, SubmissionHeader, Voting } from "@components";
+import {
+  Card,
+  DropdownMenu,
+  MenuItem,
+  SubmissionHeader,
+  Voting,
+} from "@components";
+import DotsIcon from "@assets/svg/dots.svg";
 import BubbleIcon from "./assets/bubble.svg";
 import BookmarkIcon from "./assets/bookmark.svg";
 import "./BasePost.scss";
@@ -75,6 +83,24 @@ export function BasePost({
             subreddit={subreddit}
             userName={userName}
           />
+          <DropdownMenu
+            alignRight
+            button={
+              <button className="post__control post__menu-btn">
+                <DotsIcon className="post__dots-icon" />
+              </button>
+            }
+          >
+            <MenuItem
+              onClick={async () => {
+                const postURL = String(new URL(url, location.origin));
+                await copyToClipboard(postURL);
+                toast.success("Link copied");
+              }}
+            >
+              Copy link
+            </MenuItem>
+          </DropdownMenu>
         </div>
         <h3 className="post__title">
           {titleClickable ? <Link to={url}>{title}</Link> : title}

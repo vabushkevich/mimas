@@ -8,6 +8,9 @@
   }
 
   &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin: 0 12px;
   }
 
@@ -68,6 +71,14 @@
         opacity: 0.8;
       }
     }
+  }
+
+  &__menu-btn {
+    margin-left: 12px;
+  }
+
+  &__dots-icon {
+    width: 16px;
   }
 
   &__voting {
