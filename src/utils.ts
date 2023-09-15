@@ -116,7 +116,7 @@ export function assert(value: unknown, message: string): asserts value {
 }
 
 export function hashString(string: string) {
-  return [...string].reduce((res, c) => res + c.charCodeAt(0), 0);
+  return [...string].reduce((res, c) => res + (c.codePointAt(0) as number), 0);
 }
 
 export function pseudoRandom(seed: number) {
