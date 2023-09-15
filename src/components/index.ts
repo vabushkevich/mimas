@@ -67,3 +67,4 @@ export { PlayButton } from "./PlayButton/PlayButton";
 export { SubscribeButton } from "./SubscribeButton/SubscribeButton";
 export { NotFoundPage } from "./NotFoundPage/NotFoundPage";
 export { Info } from "./Info/Info";
+export { ReadMore } from "./ReadMore/ReadMore";

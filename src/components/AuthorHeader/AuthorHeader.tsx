@@ -1,8 +1,9 @@
 import React from "react";
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
+import { useMediaQuery } from "@hooks";
 
-import { Card, Stat, Avatar } from "@components";
+import { Card, Stat, Avatar, ReadMore } from "@components";
 import "./AuthorHeader.scss";
 
 type AuthorHeaderProps = {
@@ -30,6 +31,9 @@ export function AuthorHeader({
   subscribeButton,
   tabs,
 }: AuthorHeaderProps) {
+  const isSmallScreen = useMediaQuery("(max-width: 576px)");
+  const descriptionMaxLength = isSmallScreen ? 70 : 150;
+
   return (
     <div
       className={classNames(
@@ -47,7 +51,9 @@ export function AuthorHeader({
             <div className="author-header__button">{subscribeButton}</div>
           </div>
           {description && (
-            <div className="author-header__description">{description}</div>
+            <div className="author-header__description">
+              <ReadMore maxLength={descriptionMaxLength} text={description} />
+            </div>
           )}
           {stats && stats.length > 0 && (
             <div className="author-header__stats">

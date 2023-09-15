@@ -158,3 +158,29 @@ export async function copyToClipboard(data: string) {
     }
   }
 }
+
+// Shortens a string if it's longer than the given maximum length. If the last
+// word of the output string is truncated, then it's dropped. If the string
+// contains only one word and exceeds the maximum length, it will be truncated.
+export function shortenText(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text;
+
+  const isLastWordTruncated = text[maxLength] != " ";
+  let resultLength = maxLength;
+
+  // Drop the last word if it is truncated
+  if (isLastWordTruncated) {
+    const nearestSpaceIndex = text.lastIndexOf(" ", maxLength - 1);
+    if (nearestSpaceIndex != -1) resultLength = nearestSpaceIndex;
+  }
+
+  // Trim trailing punctuation until a closing bracket/quote is encountered
+  while (
+    resultLength > 0 &&
+    /(?!\p{Pe}|\p{Pf})[\p{P} ]/u.test(text[resultLength - 1])
+  ) {
+    resultLength -= 1;
+  }
+
+  return text.slice(0, resultLength > 0 ? resultLength : maxLength);
+}
