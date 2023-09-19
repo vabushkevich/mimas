@@ -9,9 +9,10 @@ function handleError() {
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnMount: false,
+      cacheTime: 60 * 60 * 1000,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
+      staleTime: Infinity,
     },
   },
   mutationCache: new MutationCache({

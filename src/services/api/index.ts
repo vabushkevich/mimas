@@ -32,11 +32,15 @@ export function usePosts(ids: string[]) {
 }
 
 export function usePost(id: string) {
-  return useQuery(["post", id], async () => {
-    const post = await client.getPost(id);
-    prefetchAvatars([post]);
-    return post;
-  });
+  return useQuery(
+    ["post", id],
+    async () => {
+      const post = await client.getPost(id);
+      prefetchAvatars([post]);
+      return post;
+    },
+    { staleTime: 0 },
+  );
 }
 
 export function useFeedPosts(options: {
@@ -63,7 +67,6 @@ export function useFeedPosts(options: {
     {
       getNextPageParam: (lastPosts) => lastPosts.at(-1)?.id,
       placeholderData: { pages: [], pageParams: [] },
-      cacheTime: 60 * 60 * 1000,
     },
   );
 }
@@ -84,7 +87,6 @@ export function useUserComments(options: {
     {
       getNextPageParam: (lastComments) => lastComments.at(-1)?.id,
       placeholderData: { pages: [], pageParams: [] },
-      cacheTime: 60 * 60 * 1000,
     },
   );
 }
@@ -95,11 +97,14 @@ export function useSubredditByName(
 ) {
   return useQuery(["subreddit", name], () => client.getSubredditByName(name), {
     enabled,
+    staleTime: 0,
   });
 }
 
 export function useUserByName(name: string) {
-  return useQuery(["user", name], () => client.getUserByName(name));
+  return useQuery(["user", name], () => client.getUserByName(name), {
+    staleTime: 0,
+  });
 }
 
 export function usePostComments(
@@ -121,7 +126,6 @@ export function usePostComments(
       prefetchAvatars(Object.values(threadList.comments));
       return threadList;
     },
-    cacheTime: 60 * 60 * 1000,
   });
 }
 
@@ -145,7 +149,6 @@ export function useComment(id: string) {
     queryKey: ["comments", "detail", id, key],
     queryFn: getComment,
     initialData: getComment,
-    cacheTime: 60 * 60 * 1000,
   });
 }
 
@@ -219,6 +222,7 @@ export function useAvatar(authorId?: string) {
 export function useSubreddits(ids: string[], { enabled = true } = {}) {
   return useQuery({
     enabled,
+    cacheTime: Infinity,
     queryFn: () => client.getSubreddits(ids),
     queryKey: ["subreddits", ...ids],
   });
@@ -227,6 +231,7 @@ export function useSubreddits(ids: string[], { enabled = true } = {}) {
 export function useIdentity({ enabled = true } = {}) {
   return useQuery({
     enabled,
+    cacheTime: Infinity,
     queryFn: async () => client.getIdentity(),
     queryKey: ["identity"],
   });
@@ -235,6 +240,7 @@ export function useIdentity({ enabled = true } = {}) {
 export function useMySubscriptions({ enabled = true } = {}) {
   return useQuery({
     enabled,
+    cacheTime: Infinity,
     queryFn: () => client.getMySubscriptions(),
     queryKey: ["my-subscriptions"],
   });
