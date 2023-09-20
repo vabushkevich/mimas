@@ -7,6 +7,7 @@ import {
   CommentWrapper,
   Loader,
   CommentForm,
+  CommentSkeleton,
 } from "@components";
 import "./CommentThreadList.scss";
 
@@ -14,6 +15,7 @@ type CommentThreadListProps = {
   commentIds: string[];
   depth?: number;
   hideLoadMoreButton?: boolean;
+  isLoading?: boolean;
   moreComments?: MoreItems;
   parentId?: string;
   showReplyForm?: boolean;
@@ -31,14 +33,16 @@ export function CommentThreadList({
   commentIds,
   depth = 0,
   hideLoadMoreButton,
+  isLoading,
   moreComments,
   parentId,
   showReplyForm = false,
   onReply,
 }: CommentThreadListProps) {
-  const { mutate: loadMoreComments, isLoading } = useLoadMoreComments({
-    commentId: parentId,
-  });
+  const { mutate: loadMoreComments, isLoading: isLoadingMore } =
+    useLoadMoreComments({
+      commentId: parentId,
+    });
   const { mutateAsync: postComment } = usePostComment();
 
   return (
@@ -60,6 +64,14 @@ export function CommentThreadList({
           </li>
         );
       })}
+      {isLoading &&
+        new Array(commentIds.length > 0 ? 3 : 10).fill(0).map((_, i) => (
+          <li key={i} className="comment-thread-list__item">
+            <CommentWrapper>
+              <CommentSkeleton />
+            </CommentWrapper>
+          </li>
+        ))}
       {!hideLoadMoreButton && moreComments && (
         <li className="comment-thread-list__item">
           <CommentWrapper onCollapseButtonClick={() => loadMoreComments()}>
@@ -68,7 +80,7 @@ export function CommentThreadList({
               onClick={() => loadMoreComments()}
             >
               {getMoreCommentsMessage(moreComments)}
-              {isLoading && (
+              {isLoadingMore && (
                 <span className="comment-thread-list__loader">
                   <Loader size="sm" />
                 </span>

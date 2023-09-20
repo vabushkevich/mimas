@@ -14,7 +14,6 @@ import {
   Card,
   IntersectionDetector,
   Alert,
-  CommentThreadListSkeleton,
   CommentForm,
   Button,
   DropdownButton,
@@ -119,9 +118,9 @@ export function PostComments({
               <CommentThreadList
                 commentIds={threadList.rootCommentIds}
                 hideLoadMoreButton
+                isLoading={isMoreCommentsLoading}
                 moreComments={threadList.moreComments}
               />
-              {isMoreCommentsLoading && <CommentThreadListSkeleton count={3} />}
               {threadList.moreComments && !isMoreCommentsLoading && (
                 <IntersectionDetector
                   rootMargin="0px 0px 100%"

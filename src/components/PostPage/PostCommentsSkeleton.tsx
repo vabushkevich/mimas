@@ -2,17 +2,13 @@ import React from "react";
 
 import {
   Card,
-  CommentThreadListSkeleton,
+  CommentThreadList,
   DropdownButtonSkeleton,
   Skeleton,
 } from "@components";
 import "./PostComments.scss";
 
-type PostCommentsSkeletonProps = {
-  count?: number;
-};
-
-export function PostCommentsSkeleton({ count }: PostCommentsSkeletonProps) {
+export function PostCommentsSkeleton() {
   return (
     <div className="post-comments">
       <Card>
@@ -31,7 +27,7 @@ export function PostCommentsSkeleton({ count }: PostCommentsSkeletonProps) {
             <Skeleton block height={90} />
           </div>
           <div className="post-comments__thread-list">
-            <CommentThreadListSkeleton count={count} />
+            <CommentThreadList commentIds={[]} isLoading />
           </div>
         </div>
       </Card>

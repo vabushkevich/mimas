@@ -19,7 +19,6 @@ export { CommentSkeleton } from "./Comment/CommentSkeleton";
 export { CommentThread } from "./CommentThread/CommentThread";
 export { CommentThreadContainer } from "./CommentThreadContainer/CommentThreadContainer";
 export { CommentThreadList } from "./CommentThreadList/CommentThreadList";
-export { CommentThreadListSkeleton } from "./CommentThreadList/CommentThreadListSkeleton";
 export { Card } from "./Card/Card";
 export { Button } from "./Button/Button";
 export { ButtonSkeleton } from "./Button/ButtonSkeleton";
