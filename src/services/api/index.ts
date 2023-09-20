@@ -27,7 +27,6 @@ import { useLocation } from "react-router-dom";
 export function usePosts(ids: string[]) {
   return useQuery(["posts", ...ids], () => client.getPosts(ids), {
     enabled: ids.length > 0,
-    placeholderData: [],
   });
 }
 
@@ -66,7 +65,6 @@ export function useFeedPosts(options: {
     },
     {
       getNextPageParam: (lastPosts) => lastPosts.at(-1)?.id,
-      placeholderData: { pages: [], pageParams: [] },
     },
   );
 }
@@ -86,7 +84,6 @@ export function useUserComments(options: {
     ({ pageParam }) => client.getUserComments({ ...options, after: pageParam }),
     {
       getNextPageParam: (lastComments) => lastComments.at(-1)?.id,
-      placeholderData: { pages: [], pageParams: [] },
     },
   );
 }
