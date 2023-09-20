@@ -1,0 +1,18 @@
+@use "@sass/mixins" as *;
+
+.comment-list-item {
+  padding: 12px;
+
+  &__post-link {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    &:hover {
+      @include themify {
+        color: themed("text-primary-hover");
+      }
+    }
+  }
+}

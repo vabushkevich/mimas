@@ -7,13 +7,7 @@ import {
   commentFeedSortingOptions,
 } from "@types";
 
-import {
-  Feed,
-  CommentList,
-  IntersectionDetector,
-  CommentListSkeleton,
-  Info,
-} from "@components";
+import { Feed, CommentList, IntersectionDetector, Info } from "@components";
 
 type CommentFeedProps = {
   sort?: CommentFeedSortingOption;
@@ -30,13 +24,12 @@ export function CommentFeed({
   onSortChange,
   onSortTimeIntervalChange,
 }: CommentFeedProps) {
-  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
-    useUserComments({
-      limit: 20,
-      sort,
-      sortTimeInterval,
-      userName,
-    });
+  const { data, fetchNextPage, hasNextPage, isFetching } = useUserComments({
+    limit: 20,
+    sort,
+    sortTimeInterval,
+    userName,
+  });
   const comments = uniqBy(data?.pages?.flat(), (comment) => comment.id);
 
   return (
@@ -47,12 +40,9 @@ export function CommentFeed({
       onSortChange={onSortChange}
       onSortTimeIntervalChange={onSortTimeIntervalChange}
     >
-      <CommentList comments={comments} />
+      <CommentList comments={comments} isLoading={isFetching} />
       {!isFetching && comments.length == 0 && (
         <Info>There are no comments here yet...</Info>
-      )}
-      {isFetching && (
-        <CommentListSkeleton count={isFetchingNextPage ? 3 : 10} />
       )}
       {!isFetching && hasNextPage && (
         <IntersectionDetector

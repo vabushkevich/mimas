@@ -6,21 +6,4 @@
   &__item:not(:last-child) {
     margin-bottom: 16px;
   }
-
-  &__item-body {
-    padding: 12px;
-  }
-
-  &__post-link {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    line-height: 1.4;
-
-    &:hover {
-      @include themify {
-        color: themed("text-primary-hover");
-      }
-    }
-  }
 }

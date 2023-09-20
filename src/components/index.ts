@@ -2,7 +2,6 @@ export { Post } from "./Post/Post";
 export { PostSkeleton } from "./Post/PostSkeleton";
 export { PostList } from "./PostList/PostList";
 export { CommentList } from "./CommentList/CommentList";
-export { CommentListSkeleton } from "./CommentList/CommentListSkeleton";
 export { Container } from "./Container/Container";
 export { BasePost } from "./BasePost/BasePost";
 export { BasePostSkeleton } from "./BasePost/BasePostSkeleton";
