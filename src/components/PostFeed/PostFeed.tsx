@@ -8,13 +8,7 @@ import {
   postFeedSortingOptions,
 } from "@types";
 
-import {
-  Feed,
-  IntersectionDetector,
-  PostList,
-  PostListSkeleton,
-  Info,
-} from "@components";
+import { Feed, IntersectionDetector, PostList, Info } from "@components";
 
 type FeedProps = {
   sort?: PostFeedSortingOption;
@@ -38,14 +32,13 @@ export function PostFeed({
   const bestSortEnabled = subreddit == "";
   if (!sort || (sort == "best" && !bestSortEnabled)) sort = "hot";
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
-    useFeedPosts({
-      limit: 20,
-      sort,
-      sortTimeInterval,
-      subreddit,
-      userName,
-    });
+  const { data, fetchNextPage, hasNextPage, isFetching } = useFeedPosts({
+    limit: 20,
+    sort,
+    sortTimeInterval,
+    subreddit,
+    userName,
+  });
   const posts = uniqBy(data?.pages?.flat(), (post) => post.id);
   const sortingOptions = bestSortEnabled
     ? postFeedSortingOptions
@@ -62,13 +55,13 @@ export function PostFeed({
       <PostList
         feedType={type}
         hidePins={type == "subreddit" && sort != "hot"}
+        isLoading={isFetching}
         posts={posts}
         primaryAuthorType={type == "subreddit" ? "user" : "subreddit"}
       />
       {!isFetching && posts.length == 0 && (
         <Info>There are no posts here yet...</Info>
       )}
-      {isFetching && <PostListSkeleton count={isFetchingNextPage ? 3 : 10} />}
       {!isFetching && hasNextPage && (
         <IntersectionDetector
           rootMargin="0px 0px 100%"

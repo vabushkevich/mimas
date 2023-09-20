@@ -1,12 +1,13 @@
 import React from "react";
 import { Post as PostType, AuthorType, FeedType } from "@types";
 
-import { Post } from "@components";
+import { Post, PostSkeleton } from "@components";
 import "./PostList.scss";
 
 type PostListProps = {
   feedType: FeedType;
   hidePins?: boolean;
+  isLoading?: boolean;
   posts: PostType[];
   primaryAuthorType?: AuthorType;
 };
@@ -14,6 +15,7 @@ type PostListProps = {
 export function PostList({
   feedType,
   hidePins = false,
+  isLoading = false,
   posts,
   primaryAuthorType,
 }: PostListProps) {
@@ -28,6 +30,12 @@ export function PostList({
           />
         </li>
       ))}
+      {isLoading &&
+        new Array(posts.length > 0 ? 3 : 10).fill(0).map((_, i) => (
+          <li key={i} className="post-list__item">
+            <PostSkeleton />
+          </li>
+        ))}
     </ol>
   );
 }
