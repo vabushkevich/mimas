@@ -106,3 +106,25 @@
 
   transition: $processed-values;
 }
+
+@mixin text-input {
+  height: 36px;
+  border: 1px solid themed("gray-500");
+  border-radius: 6px;
+  padding: 0 10px;
+  background-color: themed("gray-100");
+  appearance: none;
+
+  @include dark-mode {
+    border-color: themed("gray-600");
+    background-color: themed("gray-800");
+  }
+
+  &:focus {
+    background-color: white;
+
+    @include dark-mode {
+      background-color: themed("gray-900");
+    }
+  }
+}

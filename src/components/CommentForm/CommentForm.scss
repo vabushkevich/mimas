@@ -5,29 +5,14 @@
 
   textarea {
     @include transition(background-color);
+    @include text-input;
 
     display: block;
-    border: 1px solid themed("gray-500");
-    border-radius: 6px;
-    padding: 10px 10px 50px;
     width: 100%;
     height: 89px;
-    background-color: themed("gray-100");
-    appearance: none;
+    padding: 10px;
+    padding-bottom: 50px;
     resize: none;
-
-    @include dark-mode {
-      border-color: themed("gray-600");
-      background-color: themed("gray-800");
-    }
-
-    &:focus {
-      background-color: white;
-
-      @include dark-mode {
-        background-color: themed("gray-900");
-      }
-    }
   }
 
   &__button {
