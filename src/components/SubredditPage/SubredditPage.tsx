@@ -64,7 +64,7 @@ export function SubredditPage() {
                     },
                     {
                       label: "Online",
-                      value: compactNumber(subreddit.activeUserCount),
+                      value: compactNumber(subreddit.activeUserCount || 0),
                     },
                     {
                       label: "Subreddit Age",

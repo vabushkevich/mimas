@@ -32,6 +32,9 @@ import {
   YouTubePost,
   CrossPost,
   RemovedPost,
+  PublicSubreddit,
+  PrivateSubreddit,
+  BaseSubreddit,
 } from "@types";
 import * as Raw from "./types";
 import { createId } from "@utils";
@@ -425,7 +428,6 @@ function transformFullUserData(rawFullUserData: Raw.FullUser["data"]): User {
 export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
   const {
     data: {
-      active_user_count,
       community_icon,
       created_utc,
       display_name,
@@ -433,27 +435,43 @@ export function transformSubreddit(rawSubreddit: Raw.Subreddit): Subreddit {
       name,
       public_description,
       subreddit_type,
-      subscribers,
       user_is_subscriber,
     },
   } = rawSubreddit;
 
-  const subreddit: Subreddit = {
-    activeUserCount: active_user_count,
+  const avatar = (community_icon || icon_img)?.split("?")[0];
+  const baseSubreddit: BaseSubreddit = {
     dateCreated: created_utc * 1000,
     id: name,
     name: display_name,
     private: subreddit_type == "private",
-    subscribers,
     subscribed: !!user_is_subscriber,
   };
 
-  const avatar = (community_icon || icon_img)?.split("?")[0];
+  if (avatar) baseSubreddit.avatar = avatar;
 
-  if (avatar) subreddit.avatar = avatar;
-  if (public_description) subreddit.description = public_description;
+  if (rawSubreddit.data.subreddit_type == "private") {
+    const privateSubreddit: PrivateSubreddit = {
+      ...baseSubreddit,
+      private: true,
+    };
+    return privateSubreddit;
+  }
 
-  return subreddit;
+  const {
+    data: { active_user_count, subscribers },
+  } = rawSubreddit;
+
+  const publicSubreddit: PublicSubreddit = {
+    ...baseSubreddit,
+    private: false,
+    subscribers,
+  };
+
+  if (active_user_count) publicSubreddit.activeUserCount = active_user_count;
+  if (public_description) publicSubreddit.description = public_description;
+
+  return publicSubreddit;
 }
 
 export function transformIdentity(rawIdentity: Raw.Identity): Identity {

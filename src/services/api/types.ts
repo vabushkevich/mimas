@@ -140,26 +140,38 @@ export type Post =
   | CrossPost
   | RemovedPost;
 
-export type Subreddit = {
+export type BaseSubreddit = {
   data: {
-    active_user_count: number;
     community_icon: string;
     created_utc: number;
     display_name: string;
     icon_img: string | null;
     name: string;
     public_description: string;
-    subreddit_type:
-      | "public"
-      | "private"
-      | "restricted"
-      | "gold_restricted"
-      | "archived";
-    subscribers: number;
-    user_is_subscriber: true | null;
+    subreddit_type: string;
   };
   kind: "t5";
 };
+
+export type PublicSubreddit = BaseSubreddit & {
+  data: {
+    active_user_count: number | null;
+    subreddit_type: "public" | "restricted" | "gold_restricted" | "archived";
+    subscribers: number;
+    user_is_subscriber: boolean | null;
+  };
+};
+
+export type PrivateSubreddit = BaseSubreddit & {
+  data: {
+    active_user_count: null;
+    subreddit_type: "private";
+    subscribers: null;
+    user_is_subscriber: null;
+  };
+};
+
+export type Subreddit = PublicSubreddit | PrivateSubreddit;
 
 export type Comment = {
   data: {

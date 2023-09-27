@@ -195,8 +195,7 @@ export type User = {
 
 export type SubmissionDistinction = "moderator" | "admin";
 
-export type Subreddit = {
-  activeUserCount: number;
+export type BaseSubreddit = {
   avatar?: string;
   dateCreated: number;
   description?: string;
@@ -204,13 +203,19 @@ export type Subreddit = {
   name: string;
   private: boolean;
   subscribed: boolean;
+};
+
+export type PublicSubreddit = BaseSubreddit & {
+  activeUserCount?: number;
+  private: false;
   subscribers: number;
 };
 
-export type PrivateSubreddit = {
-  name: string;
+export type PrivateSubreddit = BaseSubreddit & {
   private: true;
 };
+
+export type Subreddit = PublicSubreddit | PrivateSubreddit;
 
 export type IdPrefix = (typeof idPrefixes)[number];
 

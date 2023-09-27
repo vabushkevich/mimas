@@ -3,7 +3,6 @@ import {
   PostFeedSortingOption,
   SortTimeInterval,
   isSortRequiresTimeInterval,
-  PrivateSubreddit,
 } from "@types";
 import * as Raw from "./types";
 import { getAccessToken } from "@services/auth";
@@ -150,23 +149,24 @@ class RedditWebAPI {
   }
 
   async getSubredditByName(name: string) {
-    try {
-      const rawSubreddit = await this.#fetchWithAuth(
-        `https://oauth.reddit.com/r/${name}/about?raw_json=1`,
-      ).then((res) => res.json() as Promise<Raw.Subreddit>);
-      return transformSubreddit(rawSubreddit);
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        const errorData = await error.response?.json();
-        if (isRedditError(errorData) && errorData.reason == "private") {
-          return {
-            name,
-            private: true,
-          } as PrivateSubreddit;
+    const rawSubreddit = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/r/${name}/about?raw_json=1`,
+    )
+      .then((res) => res.json() as Promise<Raw.Subreddit>)
+      .catch(async (error) => {
+        if (error instanceof HTTPError) {
+          const errorData = await error.response?.json();
+          if (isRedditError(errorData) && errorData.reason == "private") {
+            return this.#fetchWithAuth(
+              `https://oauth.reddit.com/api/info?sr_name=${name}&raw_json=1`,
+            )
+              .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
+              .then((json) => json.data.children[0]);
+          }
         }
-      }
-      throw error;
-    }
+        throw error;
+      });
+    return transformSubreddit(rawSubreddit);
   }
 
   async getComments(
