@@ -21,9 +21,7 @@
     background-image: url(./assets/default-avatar-dark.svg?inline);
   }
 
-  &--size_xs,
-  &--size_sm,
-  &--size_md {
+  &--shadow {
     box-shadow: inset 0 0 0 1px rgba(black, 0.15);
 
     @include dark-mode {

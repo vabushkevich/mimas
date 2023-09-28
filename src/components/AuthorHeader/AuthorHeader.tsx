@@ -44,7 +44,7 @@ export function AuthorHeader({
       <Card>
         <div className="author-header__body">
           <div className="author-header__avatar">
-            <Avatar name={name} src={avatar} />
+            <Avatar name={name} shadow={false} src={avatar} />
           </div>
           <div className="author-header__header">
             <div className="author-header__name">{name}</div>

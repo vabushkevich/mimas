@@ -7,6 +7,7 @@ import "./Avatar.scss";
 
 type AvatarProps = {
   name?: string;
+  shadow?: boolean;
   size?: "xs" | "sm" | "md";
   src?: string;
 };
@@ -23,9 +24,13 @@ const colorPairs = [
   ["#FFFF80", "#74C700"],
 ];
 
-export function Avatar({ name, size, src }: AvatarProps) {
+export function Avatar({ shadow = true, name, size, src }: AvatarProps) {
   const loaded = usePreloadImage(src);
-  const className = classNames(["avatar", size && `avatar--size_${size}`]);
+  const className = classNames([
+    "avatar",
+    shadow && "avatar--shadow",
+    size && `avatar--size_${size}`,
+  ]);
   const fallbackToInitials = !src && !!name;
 
   if (fallbackToInitials) {
