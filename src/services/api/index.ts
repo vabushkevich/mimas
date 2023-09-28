@@ -300,3 +300,41 @@ export function useSubscribe(subredditName: string) {
     },
   });
 }
+
+export function useSearchSubreddits(
+  query: string,
+  { limit }: { limit?: number },
+) {
+  const { key } = useLocation();
+
+  return useInfiniteQuery(
+    ["search-subreddits", query, key],
+    ({ pageParam }) =>
+      client.searchSubreddits(query, { after: pageParam, limit }),
+    {
+      getNextPageParam: (lastSubreddits) => lastSubreddits.at(-1)?.id,
+    },
+  );
+}
+
+export function useSearchPosts(
+  query: string,
+  { limit }: { limit?: number } = {},
+) {
+  const { key } = useLocation();
+
+  return useInfiniteQuery(
+    ["search-posts", query, key],
+    async ({ pageParam }) => {
+      const posts = await client.searchPosts(query, {
+        after: pageParam,
+        limit,
+      });
+      prefetchAvatars(posts);
+      return posts;
+    },
+    {
+      getNextPageParam: (lastPosts) => lastPosts.at(-1)?.id,
+    },
+  );
+}

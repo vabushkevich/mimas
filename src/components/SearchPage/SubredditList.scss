@@ -1,0 +1,8 @@
+@use "@sass/mixins" as *;
+
+.subreddit-list {
+  @include reset-list;
+
+  display: grid;
+  gap: 12px;
+}

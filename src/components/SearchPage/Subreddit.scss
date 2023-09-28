@@ -1,0 +1,48 @@
+@use "@sass/mixins" as *;
+
+.subreddit {
+  display: block;
+  border: 1px solid themed("gray-500");
+  border-radius: 8px;
+
+  @include dark-mode {
+    border-color: themed("gray-600");
+  }
+
+  &:hover &__name {
+    @include themify {
+      color: themed("text-primary-hover");
+    }
+  }
+
+  &__body {
+    display: flex;
+    padding: 10px;
+  }
+
+  &__avatar {
+    width: 46px;
+    height: 46px;
+    font-size: 26px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+  }
+
+  &__name {
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+
+  &__member-count {
+    font-size: 0.9em;
+
+    @include themify {
+      color: themed("text-secondary");
+    }
+  }
+}

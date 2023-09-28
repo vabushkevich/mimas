@@ -1,9 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { NotFoundPage, Toaster } from "@components";
 import { postFeedSortingOptions } from "@types";
 
-import { PostPage, SubredditPage, UserPage, AuthPage } from "@components";
+import {
+  AuthPage,
+  NotFoundPage,
+  PostPage,
+  SearchPage,
+  SubredditPage,
+  Toaster,
+  UserPage,
+} from "@components";
 
 const sortParamValues = postFeedSortingOptions.join("|");
 
@@ -26,6 +33,9 @@ export function App() {
           </Route>
           <Route path="/r/:subreddit/comments/:id">
             <PostPage />
+          </Route>
+          <Route path="/search">
+            <SearchPage />
           </Route>
           <Route path="/auth">
             <AuthPage />

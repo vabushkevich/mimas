@@ -3,12 +3,8 @@
 
 .site-nav {
   position: sticky;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: white;
   box-shadow: 0 1px darken(white, 10%);
-  height: 50px;
   padding: 0 20px;
   top: 0;
   z-index: $z-index-sticky;
@@ -16,5 +12,44 @@
   @include dark-mode {
     box-shadow: 0 1px lighten(themed("gray-900"), 6%);
     background-color: themed("gray-900");
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+
+    &--main {
+      justify-content: space-between;
+      height: 50px;
+    }
+
+    &--search {
+      padding-bottom: 8px;
+    }
+  }
+
+  &__right-col {
+    display: flex;
+    align-items: center;
+  }
+
+  &__search {
+    width: 200px;
+  }
+
+  &__search-btn {
+    @include reset-button;
+    @include themify {
+      color: themed("text-secondary");
+
+      &:hover {
+        color: themed("text-secondary-hover");
+      }
+    }
+  }
+
+  &__user-menu {
+    display: flex;
+    margin-left: 18px;
   }
 }

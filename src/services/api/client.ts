@@ -328,6 +328,42 @@ class RedditWebAPI {
       method: "POST",
     });
   }
+
+  async searchSubreddits(
+    query: string,
+    { after, limit }: { after?: string; limit?: number } = {},
+  ) {
+    const params = new URLSearchParams({ q: query, raw_json: "1" });
+    if (after) params.append("after", after);
+    if (limit) params.append("limit", String(limit));
+
+    const rawSubreddits = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/subreddits/search?${params}`,
+    )
+      .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
+      .then((json) => json.data.children);
+
+    return rawSubreddits.map((rawSubreddit) =>
+      transformSubreddit(rawSubreddit),
+    );
+  }
+
+  async searchPosts(
+    query: string,
+    { after, limit }: { after?: string; limit?: number } = {},
+  ) {
+    const params = new URLSearchParams({ q: query, raw_json: "1" });
+    if (after) params.append("after", after);
+    if (limit) params.append("limit", String(limit));
+
+    const rawPosts = await this.#fetchWithAuth(
+      `https://oauth.reddit.com/search?${params}`,
+    )
+      .then((res) => res.json() as Promise<Raw.Listing<Raw.Post>>)
+      .then((json) => json.data.children);
+
+    return rawPosts.map((rawPost) => transformPost(rawPost));
+  }
 }
 
 export const client = new RedditWebAPI(getAccessToken);
