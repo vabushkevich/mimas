@@ -5,6 +5,7 @@ import "./Button.scss";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "blue" | "clear" | "gray";
+  icon?: React.ReactNode;
   pill?: boolean;
   rightIcon?: React.ReactNode;
   size?: "sm" | "md";
@@ -14,6 +15,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export const Button = function Button({
   color = "blue",
+  icon,
   pill = false,
   rightIcon,
   size = "md",
@@ -30,12 +32,17 @@ export const Button = function Button({
         `button--size_${size}`,
         `button--variant_${variant}`,
         pill && "button--pill",
+        icon && "button--icon",
       )}
       style={{ width }}
       {...other}
     >
-      {children}
-      {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
+      {icon || (
+        <>
+          {children}
+          {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
+        </>
+      )}
     </button>
   );
 };
