@@ -79,42 +79,48 @@
     }
   }
 
-  &--variant_solid#{$root}--color_blue {
-    --color: #{themed("gray-100")};
+  &--color_blue {
+    &#{$root}--variant_solid {
+      --color: #{themed("gray-100")};
 
-    @include themify {
-      $bg-color: themed("blue-500");
-      --bg-color: #{$bg-color};
-      --bg-color-hover: #{color.adjust($bg-color, $blackness: 8%)};
-      --bg-color-active: #{color.adjust($bg-color, $blackness: 14%)};
+      @include themify {
+        $bg-color: themed("blue-500");
+        --bg-color: #{$bg-color};
+        --bg-color-hover: #{color.adjust($bg-color, $blackness: 8%)};
+        --bg-color-active: #{color.adjust($bg-color, $blackness: 14%)};
+      }
     }
   }
 
-  &--variant_solid#{$root}--color_gray {
-    $bg-color: themed("gray-200");
-    --bg-color: #{$bg-color};
-    --bg-color-hover: #{darken($bg-color, 4%)};
-    --bg-color-active: #{darken($bg-color, 8%)};
-
-    @include dark-mode {
-      $bg-color: themed("gray-700");
+  &--color_gray {
+    &#{$root}--variant_solid {
+      $bg-color: themed("gray-200");
       --bg-color: #{$bg-color};
-      --bg-color-hover: #{lighten($bg-color, 3%)};
-      --bg-color-active: #{lighten($bg-color, 6%)};
+      --bg-color-hover: #{darken($bg-color, 4%)};
+      --bg-color-active: #{darken($bg-color, 8%)};
+
+      @include dark-mode {
+        $bg-color: themed("gray-700");
+        --bg-color: #{$bg-color};
+        --bg-color-hover: #{lighten($bg-color, 3%)};
+        --bg-color-active: #{lighten($bg-color, 6%)};
+      }
     }
   }
 
-  &--variant_solid#{$root}--color_clear {
-    $bg-color: white;
-    --bg-color: #{$bg-color};
-    --bg-color-hover: #{darken($bg-color, 2%)};
-    --bg-color-active: #{darken($bg-color, 4%)};
-
-    @include dark-mode {
-      $bg-color: themed("gray-800");
+  &--color_clear {
+    &#{$root}--variant_solid {
+      $bg-color: white;
       --bg-color: #{$bg-color};
-      --bg-color-hover: #{lighten($bg-color, 3%)};
-      --bg-color-active: #{lighten($bg-color, 6%)};
+      --bg-color-hover: #{darken($bg-color, 2%)};
+      --bg-color-active: #{darken($bg-color, 4%)};
+
+      @include dark-mode {
+        $bg-color: themed("gray-800");
+        --bg-color: #{$bg-color};
+        --bg-color-hover: #{lighten($bg-color, 3%)};
+        --bg-color-active: #{lighten($bg-color, 6%)};
+      }
     }
   }
 }
