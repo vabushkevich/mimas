@@ -103,7 +103,13 @@ export function BasePost({
           </DropdownMenu>
         </div>
         <h3 className="post__title">
-          {titleClickable ? <Link to={url}>{title}</Link> : title}
+          {titleClickable ? (
+            <Link className="post__link" to={url}>
+              {title}
+            </Link>
+          ) : (
+            title
+          )}
         </h3>
         <div className="post__body">{children}</div>
         {!hideFooter && (
