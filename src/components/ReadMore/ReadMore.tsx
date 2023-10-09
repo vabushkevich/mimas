@@ -19,7 +19,7 @@ export function ReadMore({ maxLength = 200, text }: ReadMoreProps) {
     return (
       <div className="read-more" onClick={() => setCollapsed(false)}>
         {shortenText(text, maxLength)}
-        <button className="read-more__button">show more...</button>
+        <button className="read-more__button">more</button>
       </div>
     );
   }
