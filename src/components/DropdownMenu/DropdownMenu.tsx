@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { CSSTransition } from "react-transition-group";
 import { useClickOutside } from "@hooks";
 import classNames from "classnames";
 
@@ -41,25 +42,34 @@ export function DropdownMenu({
           </DropdownButton>
         )}
       </div>
-      <div
-        ref={menuRef}
-        className={classNames(
-          "dropdown-menu__menu",
-          !isOpen && "dropdown-menu__menu--hidden",
-          alignRight && "dropdown-menu__menu--align-right",
-        )}
+      <CSSTransition
+        classNames="dropdown-menu__menu-"
+        in={isOpen}
+        nodeRef={menuRef}
+        timeout={100}
       >
-        <Menu
-          {...menuProps}
-          onItemClick={(itemValue) => {
-            onItemClick?.(itemValue);
-            setIsOpen(false);
-          }}
-          onItemSelect={(content) => setSelectedContent(content)}
-        >
-          {children}
-        </Menu>
-      </div>
+        {(state) => (
+          <div
+            ref={menuRef}
+            className={classNames(
+              "dropdown-menu__menu",
+              alignRight && "dropdown-menu__menu--align-right",
+              state == "exited" && "dropdown-menu__menu--hidden",
+            )}
+          >
+            <Menu
+              {...menuProps}
+              onItemClick={(itemValue) => {
+                onItemClick?.(itemValue);
+                setIsOpen(false);
+              }}
+              onItemSelect={(content) => setSelectedContent(content)}
+            >
+              {children}
+            </Menu>
+          </div>
+        )}
+      </CSSTransition>
     </div>
   );
 }

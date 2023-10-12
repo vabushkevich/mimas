@@ -10,13 +10,19 @@
 
     position: absolute;
     margin-top: 6px;
+    opacity: 0;
+    transform: scale(0.9);
     transform-origin: top left;
     z-index: $z-index-dropdown;
 
+    &--enter-active,
+    &--enter-done {
+      opacity: 1;
+      transform: none;
+    }
+
     &--hidden {
-      opacity: 0;
-      transform: scale(0.9);
-      pointer-events: none;
+      display: none;
     }
 
     &--align-right {
