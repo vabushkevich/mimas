@@ -47,6 +47,7 @@ export function DropdownMenu({
         in={isOpen}
         nodeRef={menuRef}
         timeout={100}
+        unmountOnExit={!menuProps.selectable}
       >
         {(state) => (
           <div
