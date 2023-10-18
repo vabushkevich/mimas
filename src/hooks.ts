@@ -291,3 +291,33 @@ export function useParams<T extends Record<string, string>>(): [
 
   return [match.params, setParams];
 }
+
+const initialPathname = location.pathname;
+let spaNavigationOcurred = false;
+
+export function useNavigationType() {
+  const { action, location } = useHistory();
+  const { navigation } = performance;
+
+  if (location.pathname != initialPathname) spaNavigationOcurred = true;
+
+  if (spaNavigationOcurred) {
+    switch (action) {
+      case "POP":
+        return "BACK_FORWARD";
+      case "PUSH":
+        return "NAVIGATE";
+      default:
+        return action;
+    }
+  }
+
+  switch (navigation.type) {
+    case navigation.TYPE_RELOAD:
+      return "RELOAD";
+    case navigation.TYPE_BACK_FORWARD:
+      return "BACK_FORWARD";
+    default:
+      return "NAVIGATE";
+  }
+}

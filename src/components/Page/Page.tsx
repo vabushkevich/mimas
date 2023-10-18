@@ -1,6 +1,11 @@
 import React, { useState, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useLocalStorage, useMediaQuery, useTitle } from "@hooks";
+import {
+  useLocalStorage,
+  useMediaQuery,
+  useNavigationType,
+  useTitle,
+} from "@hooks";
 
 import { Navbar, Sidebar, Offcanvas } from "@components";
 import "./Page.scss";
@@ -17,12 +22,13 @@ export function Page({ title, children }: PageProps) {
   );
   const [isOffcanvasSidebarOpen, setIsOffcanvasSidebarOpen] = useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
-  const { action, location } = useHistory();
+  const { location } = useHistory();
+  const navigationType = useNavigationType();
 
   useTitle(title && `${title} - mimas`);
 
   useLayoutEffect(() => {
-    if (action == "PUSH") window.scroll({ top: 0 });
+    if (navigationType == "NAVIGATE") window.scroll({ top: 0 });
   }, [location.pathname]);
 
   const toggleSidebar = () => {
