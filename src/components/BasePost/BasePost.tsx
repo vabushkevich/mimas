@@ -29,6 +29,7 @@ export function BasePost({
   post,
   primaryAuthorType = "subreddit",
   titleClickable = true,
+  onCommentsButtonClick,
   children,
 }: BasePostProps) {
   const {
@@ -114,7 +115,11 @@ export function BasePost({
         <div className="post__body">{children}</div>
         {!hideFooter && (
           <div className="post__footer">
-            <Link className="post__control" to={url}>
+            <Link
+              className="post__control"
+              to={`${url}?comments`}
+              onClick={onCommentsButtonClick}
+            >
               <BubbleIcon className="post__control-icon" />
               <span>{compactNumber(commentCount)}</span>
             </Link>

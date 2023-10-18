@@ -89,14 +89,18 @@ export function useSearchParams<T extends Record<string, string>>(): [
 
 export function usePostParams() {
   const [params] = useParams<{ id: string }>();
-  const [searchParams] = useSearchParams<{ sort?: string }>();
+  const [searchParams] = useSearchParams<{
+    comments?: string;
+    sort?: string;
+  }>();
 
   const postId = createId(params.id, "post");
   const commentSorting = isCommentSortingOption(searchParams.sort)
     ? searchParams.sort
     : undefined;
+  const shouldScrollToComments = searchParams.comments != null;
 
-  return { postId, commentSorting };
+  return { postId, commentSorting, shouldScrollToComments };
 }
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

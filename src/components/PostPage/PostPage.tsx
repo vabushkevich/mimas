@@ -1,5 +1,5 @@
-import React from "react";
-import { usePostParams } from "@hooks";
+import React, { useLayoutEffect, useRef } from "react";
+import { useNavigationType, usePostParams } from "@hooks";
 import { usePost, usePostComments } from "@services/api";
 
 import { Post, Container, Page, PostSkeleton } from "@components";
@@ -8,7 +8,9 @@ import { PostCommentsSkeleton } from "./PostCommentsSkeleton";
 import "./PostPage.scss";
 
 export function PostPage() {
-  const { postId, commentSorting } = usePostParams();
+  const { postId, commentSorting, shouldScrollToComments } = usePostParams();
+  const navigationType = useNavigationType();
+  const commentsRef = useRef<HTMLDivElement>(null);
   const { data: post, isLoading: isPostLoading } = usePost(postId);
   const { data: threadList, isLoading: isCommentsLoading } = usePostComments(
     postId,
@@ -18,12 +20,33 @@ export function PostPage() {
     },
   );
 
+  useLayoutEffect(() => {
+    if (
+      window.scrollY == 0 &&
+      shouldScrollToComments &&
+      navigationType == "NAVIGATE" &&
+      (CSS.supports("overflow-anchor: auto") || !isPostLoading)
+    ) {
+      commentsRef.current?.scrollIntoView();
+    }
+  }, [shouldScrollToComments, navigationType, isPostLoading]);
+
   return (
     <Page title={post?.title}>
       <Container>
-        {post && <Post post={post} collapsed={false} titleClickable={false} />}
+        {post && (
+          <Post
+            post={post}
+            collapsed={false}
+            titleClickable={false}
+            onCommentsButtonClick={(event) => {
+              event.preventDefault();
+              commentsRef.current?.scrollIntoView({ behavior: "smooth" });
+            }}
+          />
+        )}
         {isPostLoading && <PostSkeleton />}
-        <div className="post-page__comments">
+        <div className="post-page__comments" ref={commentsRef}>
           {threadList && post && (
             <PostComments
               commentCount={post.commentCount}

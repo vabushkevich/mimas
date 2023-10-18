@@ -1,3 +1,5 @@
+import { MouseEvent } from "react";
+
 const commentSortingOptions = [
   "confidence",
   "top",
@@ -131,6 +133,7 @@ export type PostProps<T extends BasePost> = {
   post: T;
   primaryAuthorType?: AuthorType;
   titleClickable?: boolean;
+  onCommentsButtonClick?: (event: MouseEvent) => void;
 };
 
 export type Comment = {
