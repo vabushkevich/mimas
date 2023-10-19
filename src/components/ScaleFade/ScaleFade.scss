@@ -1,0 +1,13 @@
+@use "@sass/mixins" as *;
+
+.scale-fade {
+  @include transition(opacity, transform);
+
+  &--hidden {
+    display: none;
+  }
+
+  &--visually-hidden {
+    opacity: 0;
+  }
+}

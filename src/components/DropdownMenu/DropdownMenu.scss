@@ -1,33 +1,16 @@
 @use "@sass/variables" as *;
-@use "@sass/mixins" as *;
 
 .dropdown-menu {
   display: inline-block;
   position: relative;
 
   &__menu {
-    @include transition(opacity, transform);
-
     position: absolute;
     margin-top: 6px;
-    opacity: 0;
-    transform: scale(0.9);
-    transform-origin: top left;
     z-index: $z-index-dropdown;
-
-    &--enter-active,
-    &--enter-done {
-      opacity: 1;
-      transform: none;
-    }
-
-    &--hidden {
-      display: none;
-    }
 
     &--align-right {
       right: 0;
-      transform-origin: top right;
     }
   }
 }

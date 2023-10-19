@@ -66,3 +66,4 @@ export { NotFoundPage } from "./NotFoundPage/NotFoundPage";
 export { Info } from "./Info/Info";
 export { ReadMore } from "./ReadMore/ReadMore";
 export { SearchPage } from "./SearchPage/SearchPage";
+export { ScaleFade } from "./ScaleFade/ScaleFade";

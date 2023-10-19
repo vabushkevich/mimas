@@ -1,9 +1,8 @@
 import React, { useState, useRef } from "react";
-import { CSSTransition } from "react-transition-group";
 import { useClickOutside } from "@hooks";
 import classNames from "classnames";
 
-import { Menu, DropdownButton } from "@components";
+import { Menu, DropdownButton, ScaleFade } from "@components";
 import "./DropdownMenu.scss";
 
 type MenuProps = Parameters<typeof Menu>[0];
@@ -42,35 +41,30 @@ export function DropdownMenu({
           </DropdownButton>
         )}
       </div>
-      <CSSTransition
-        classNames="dropdown-menu__menu-"
-        in={isOpen}
-        nodeRef={menuRef}
-        timeout={100}
-        unmountOnExit={!menuProps.selectable}
-      >
-        {(state) => (
-          <div
-            ref={menuRef}
-            className={classNames(
-              "dropdown-menu__menu",
-              alignRight && "dropdown-menu__menu--align-right",
-              state == "exited" && "dropdown-menu__menu--hidden",
-            )}
-          >
-            <Menu
-              {...menuProps}
-              onItemClick={(itemValue) => {
-                onItemClick?.(itemValue);
-                setIsOpen(false);
-              }}
-              onItemSelect={(content) => setSelectedContent(content)}
-            >
-              {children}
-            </Menu>
-          </div>
+      <div
+        className={classNames(
+          "dropdown-menu__menu",
+          alignRight && "dropdown-menu__menu--align-right",
         )}
-      </CSSTransition>
+        ref={menuRef}
+      >
+        <ScaleFade
+          in={isOpen}
+          transformOrigin={alignRight ? "top right" : "top left"}
+          unmountOnHide={!menuProps.selectable}
+        >
+          <Menu
+            {...menuProps}
+            onItemClick={(itemValue) => {
+              onItemClick?.(itemValue);
+              setIsOpen(false);
+            }}
+            onItemSelect={(content) => setSelectedContent(content)}
+          >
+            {children}
+          </Menu>
+        </ScaleFade>
+      </div>
     </div>
   );
 }
