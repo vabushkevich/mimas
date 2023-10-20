@@ -1,6 +1,6 @@
 {
   "name": "mimas",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "An alternative web client for Reddit",
   "scripts": {
     "start": "npm run build && serve -p 4777 --single --no-port-switching ./dist/",
