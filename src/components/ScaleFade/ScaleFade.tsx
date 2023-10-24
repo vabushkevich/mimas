@@ -51,8 +51,8 @@ export function ScaleFade({
 
   useEffect(() => {
     if (isHidden) return;
-    // Force reflow to avoid `display: none` affecting transition
-    ref.current?.offsetLeft;
+    // Force recalculate style to avoid `display: none` affecting transition
+    if (ref.current) getComputedStyle(ref.current).display;
     setIsVisuallyHidden(false);
   }, [isHidden]);
 
