@@ -3,7 +3,6 @@ import produce from "immer";
 import { getSubmissionAuthorIds } from "@utils";
 import { queryClient } from "@services/query-client";
 import { client } from "./client";
-import { WritableDraft } from "immer/dist/internal";
 import {
   CommentThreadList,
   Submission,
@@ -109,7 +108,7 @@ export function getIdSuffix(id: string) {
 
 export function updatePostInCache(
   postId: string,
-  updater: (draft: WritableDraft<Post>) => void,
+  updater: (draft: Post) => void,
   { active }: { active?: boolean } = {},
 ) {
   queryClient.setQueriesData<Post>(
@@ -142,7 +141,7 @@ export function updatePostInCache(
 
 export function updateCommentInCache(
   commentId: string,
-  updater: (draft: WritableDraft<Comment>) => void,
+  updater: (draft: Comment) => void,
   {
     active,
     postId,
@@ -192,7 +191,7 @@ export function updateCommentInCache(
 
 export function updatePostCommentsInCache(
   postId: string,
-  updater: (draft: WritableDraft<CommentThreadList>) => void,
+  updater: (draft: CommentThreadList) => void,
   { active }: { active?: boolean } = {},
 ) {
   queryClient.setQueriesData<CommentThreadList>(
@@ -290,7 +289,7 @@ export function prefetchAvatars(submissions: Submission[]) {
 
 export function updateSubredditInCache(
   subredditName: string,
-  updater: (draft: WritableDraft<Subreddit>) => void,
+  updater: (draft: Subreddit) => void,
 ) {
   queryClient.setQueryData<Subreddit>(
     ["subreddit", subredditName],
