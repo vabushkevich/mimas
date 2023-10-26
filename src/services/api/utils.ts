@@ -1,5 +1,5 @@
 import { InfiniteData } from "@tanstack/react-query";
-import produce from "immer";
+import { produce } from "immer";
 import { getSubmissionAuthorIds } from "@utils";
 import { queryClient } from "@services/query-client";
 import { client } from "./client";
