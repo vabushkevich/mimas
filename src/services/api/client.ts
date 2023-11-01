@@ -257,10 +257,13 @@ class RedditWebAPI {
       ])
     ).flat();
 
-    const avatars = authors.reduce((res, author) => {
-      if (author.avatar) res[author.id] = author.avatar;
-      return res;
-    }, {} as Record<string, string>);
+    const avatars = authors.reduce(
+      (res, author) => {
+        if (author.avatar) res[author.id] = author.avatar;
+        return res;
+      },
+      {} as Record<string, string>,
+    );
 
     return avatars;
   }
