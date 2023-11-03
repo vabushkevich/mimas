@@ -49,7 +49,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
       </div>
       {isSmallScreen && isSearchMode && (
         <div className="site-nav__row site-nav__row--search" ref={searchRef}>
-          <Search autoFocus />
+          <Search autoFocus onSubmit={() => setIsSearchMode(false)} />
         </div>
       )}
     </nav>

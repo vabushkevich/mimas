@@ -8,9 +8,10 @@ import "./Search.scss";
 
 type SearchProps = {
   autoFocus?: boolean;
+  onSubmit?: () => void;
 };
 
-export function Search({ autoFocus }: SearchProps) {
+export function Search({ autoFocus, onSubmit }: SearchProps) {
   const [{ q: queryParam = "" }] = useSearchParams<{ q?: string }>();
   const [query, setQuery] = useState(queryParam);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,6 +31,7 @@ export function Search({ autoFocus }: SearchProps) {
           push(`/search?q=${queryTrimmed}`);
         }
         inputRef.current?.blur();
+        onSubmit?.();
       }}
     >
       <MagnifierIcon className="search__input-icon search__magnifier-icon" />
