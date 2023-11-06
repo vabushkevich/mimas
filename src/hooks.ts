@@ -15,8 +15,8 @@ import {
 } from "react-router-dom";
 import { isCommentSortingOption } from "@types";
 import { createId } from "@utils";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
-import type { RootState } from "./store";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "./store";
 import { useAuth } from "@services/auth";
 import toast from "react-hot-toast";
 
@@ -103,7 +103,9 @@ export function usePostParams() {
   return { postId, commentSorting, shouldScrollToComments };
 }
 
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export function useAuthGuard<F extends (...args: any[]) => any>(fn?: F): F {
   const { authorized } = useAuth();

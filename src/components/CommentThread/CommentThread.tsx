@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import { useMediaQuery, useTypedSelector } from "@hooks";
-import { useDispatch } from "react-redux";
-import { toggleThread } from "@store/collapsed-threads/actions";
+import { useAppDispatch, useAppSelector, useMediaQuery } from "@hooks";
+import { toggleThread } from "@store/collapsedThreadIdsSlice";
 import type { Comment as CommentType } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
@@ -22,8 +21,10 @@ export function CommentThread({
   const { childIds, id, moreChildren } = comment;
 
   const [showReplyForm, setShowReplyForm] = useState(false);
-  const collapsed = useTypedSelector((state) => state.ids.includes(id));
-  const dispatch = useDispatch();
+  const collapsed = useAppSelector((state) =>
+    state.collapsedThreadIds.includes(id),
+  );
+  const dispatch = useAppDispatch();
   const isSmallScreen = useMediaQuery("(max-width: 576px)");
   const renderReplies = childIds.length > 0 || moreChildren || showReplyForm;
   const depthLimit = isSmallScreen ? 7 : 20;
