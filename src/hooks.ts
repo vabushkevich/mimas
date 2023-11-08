@@ -192,26 +192,51 @@ export function usePagination({
 
 export function useLocalStorage<T>(
   key: string,
+  initialValue: T,
+): [T, (value: T) => void, () => void];
+
+export function useLocalStorage<T = undefined>(
+  key: string,
+): [T | undefined, (value: T) => void, () => void];
+
+export function useLocalStorage<T>(
+  key: string,
   initialValue?: T,
-): [T, (value: T) => void] {
-  const [value, setValue] = useState<T>(
-    JSON.parse(String(localStorage.getItem(key))) ?? initialValue,
+): [T | undefined, (value: T) => void, () => void] {
+  const storedValue = useMemo(() => {
+    const item = localStorage.getItem(key);
+    if (item) return JSON.parse(item) as T;
+  }, [key]);
+  const [value, setValue] = useState(storedValue ?? initialValue);
+
+  const storeValue = useCallback(
+    (newValue: T) => {
+      // If `setValue()` is called after the component has been unmounted, it
+      // will have no effect and the state will be lost. To prevent this, the
+      // value must be stored in local storage at the same time.
+      localStorage.setItem(key, JSON.stringify(newValue));
+      setValue(newValue);
+    },
+    [key],
   );
 
-  // If the `setStorageValue()` function is called after the component has been
-  // unmounted, `setValue(newValue)` will have no effect and the state will be
-  // lost. To prevent this, it is necessary to store the value in the local
-  // storage first.
-  const setStorageValue = (newValue: T) => {
-    localStorage.setItem(key, JSON.stringify(newValue));
-    setValue(newValue);
-  };
-
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
+  const deleteValue = useCallback(() => {
+    localStorage.removeItem(key);
+    setValue(undefined);
   }, [key]);
 
-  return [value, setStorageValue];
+  // When the `key` has been changed, the `value` is no longer relevant.
+  // Therefore, value synchronization is required.
+  useLayoutEffect(() => {
+    const actualValue = storedValue ?? initialValue;
+    if (actualValue !== undefined) {
+      storeValue(actualValue);
+    } else {
+      setValue(undefined);
+    }
+  }, [key]);
+
+  return [value, storeValue, deleteValue];
 }
 
 export function useMediaQuery(query: string) {
