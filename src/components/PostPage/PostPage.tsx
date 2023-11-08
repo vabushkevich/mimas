@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { useNavigationType, usePostParams } from "@hooks";
 import { usePost, usePostComments } from "@services/api";
 
@@ -9,6 +10,7 @@ import "./PostPage.scss";
 
 export function PostPage() {
   const { postId, commentSorting, shouldScrollToComments } = usePostParams();
+  const history = useHistory();
   const navigationType = useNavigationType();
   const commentsRef = useRef<HTMLDivElement>(null);
   const { data: post, isLoading: isPostLoading } = usePost(postId);
@@ -55,6 +57,9 @@ export function PostPage() {
               postId={postId}
               sort={commentSorting}
               threadList={threadList}
+              onCommentSortingChange={(sort) => {
+                history.replace({ search: `?sort=${sort}` });
+              }}
             />
           )}
           {(isCommentsLoading || isPostLoading) && <PostCommentsSkeleton />}

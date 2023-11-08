@@ -1,8 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import type {
+import {
   CommentSortingOption,
   CommentThreadList as CommentThreadListType,
+  isCommentSortingOption,
 } from "@types";
 import { useLoadMoreComments, usePostComment } from "@services/api";
 import { useAuth } from "@services/auth";
@@ -27,6 +27,7 @@ type PostCommentsProps = {
   postId: string;
   sort?: CommentSortingOption;
   threadList: CommentThreadListType;
+  onCommentSortingChange?: (v: CommentSortingOption) => void;
 };
 
 function getHeadingText(commentCount?: number) {
@@ -42,8 +43,8 @@ export function PostComments({
   postId,
   sort = "confidence",
   threadList,
+  onCommentSortingChange,
 }: PostCommentsProps) {
-  const history = useHistory();
   const { authorized, signIn } = useAuth();
   const { mutateAsync: postComment } = usePostComment();
   const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
@@ -81,7 +82,9 @@ export function PostComments({
                     selectable
                     value={sort}
                     onItemClick={(value) => {
-                      history.replace({ search: `?sort=${value}` });
+                      if (isCommentSortingOption(value)) {
+                        onCommentSortingChange?.(value);
+                      }
                     }}
                   >
                     <MenuItem value="confidence">Best</MenuItem>
