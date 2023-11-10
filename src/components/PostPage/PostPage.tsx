@@ -1,7 +1,8 @@
 import React, { useLayoutEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { useNavigationType, usePostParams } from "@hooks";
+import { useLocalStorage, useNavigationType, usePostParams } from "@hooks";
 import { usePost, usePostComments } from "@services/api";
+import { CommentSortingOption } from "@types";
 
 import { Post, Container, Page, PostSkeleton } from "@components";
 import { PostComments } from "./PostComments";
@@ -9,7 +10,15 @@ import { PostCommentsSkeleton } from "./PostCommentsSkeleton";
 import "./PostPage.scss";
 
 export function PostPage() {
-  const { postId, commentSorting, shouldScrollToComments } = usePostParams();
+  const {
+    postId,
+    commentSorting: commentSortingParam,
+    shouldScrollToComments,
+  } = usePostParams();
+  const [storedCommentSorting, storeCommentSorting] =
+    useLocalStorage<CommentSortingOption>("comment-sorting");
+  const commentSorting = commentSortingParam ?? storedCommentSorting;
+
   const history = useHistory();
   const navigationType = useNavigationType();
   const commentsRef = useRef<HTMLDivElement>(null);
@@ -59,6 +68,7 @@ export function PostPage() {
               threadList={threadList}
               onCommentSortingChange={(sort) => {
                 history.replace({ search: `?sort=${sort}` });
+                storeCommentSorting(sort);
               }}
             />
           )}
