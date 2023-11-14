@@ -6,6 +6,12 @@
 
     display: flex;
     align-items: center;
+
+    &:hover {
+      @include themify {
+        color: themed("text-primary-hover");
+      }
+    }
   }
 
   &__button-icon {
