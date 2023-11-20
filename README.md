@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/vabushkevich/mimas/assets/23465488/fac30f01-7bc5-49b9-a2eb-43887a27f4e4" width="839" height="590" alt="Screenshots of the app"></p>
+<p align="center"><img src="https://github.com/vabushkevich/mimas/assets/23465488/fac30f01-7bc5-49b9-a2eb-43887a27f4e4" width="839" alt="Screenshots of the app"></p>
 
 [mimas](https://mimas.vercel.app) is an open source web client that allows you
 to experience a simplified and efficient way to connect with the Reddit
