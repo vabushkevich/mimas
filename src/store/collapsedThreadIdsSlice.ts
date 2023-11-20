@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 const collapsedThreadIdsSlice = createSlice({
-  name: "collapsed-thread-ids",
+  name: "collapsedThreadIds",
   initialState: [] as string[],
   reducers: {
     toggleThread(state, action: PayloadAction<string>) {
