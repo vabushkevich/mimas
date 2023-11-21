@@ -46,39 +46,45 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
 
   return (
     <div className="video">
-      {(!started || !canPlay) && (
-        <>
-          <img
+      <div className="video__container">
+        {(!started || !canPlay) && (
+          <>
+            <img
+              className={classNames(
+                "video__poster",
+                !poster && "video__poster--placeholder",
+              )}
+              src={poster || getPlaceholderImage(width, height)}
+            />
+            <button
+              className="video__play-button"
+              onClick={() => setStarted(true)}
+            >
+              <PlayButton loading={started} />
+            </button>
+          </>
+        )}
+        {started && (
+          <video
             className={classNames(
-              "video__poster",
-              !poster && "video__poster--placeholder",
+              "video__video",
+              !canPlay && "video__video--hidden",
             )}
-            src={poster || getPlaceholderImage(width, height)}
-            width={width}
-            height={height}
-          />
-          <button
-            className="video__play-button"
-            onClick={() => setStarted(true)}
-          >
-            <PlayButton loading={started} />
-          </button>
-        </>
-      )}
-      {started && (
-        <video
-          className={classNames(
-            "video__video",
-            !canPlay && "video__video--hidden",
-          )}
-          ref={videoRef}
-          controls
-          loop
-          muted
-          playsInline
-          onCanPlay={() => setCanPlay(true)}
-        ></video>
-      )}
+            ref={videoRef}
+            controls
+            loop
+            muted
+            playsInline
+            onCanPlay={() => setCanPlay(true)}
+          ></video>
+        )}
+      </div>
+      <div
+        style={{
+          paddingTop: `${(100 * height) / width}%`,
+          pointerEvents: "none",
+        }}
+      ></div>
     </div>
   );
 }
