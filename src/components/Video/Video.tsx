@@ -27,21 +27,17 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
 
     if (!started || !video) return;
 
-    if (!hls) {
-      video.src = src;
-      video.play();
-      return;
-    }
-
-    if (Hls.isSupported()) {
+    if (hls && Hls.isSupported()) {
       const hls = new Hls({ startLevel: Infinity });
       hls.loadSource(src);
       hls.attachMedia(video);
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    } else {
       video.src = src;
     }
 
-    video.play();
+    video.play().catch((error) => {
+      if (videoRef.current) throw error;
+    });
   }, [hls, src, started]);
 
   return (
