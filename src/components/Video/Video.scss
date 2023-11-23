@@ -10,11 +10,17 @@
     position: absolute;
     width: 100%;
     height: 100%;
+
+    & > * {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &__poster {
-    width: 100%;
-    height: 100%;
     object-fit: contain;
 
     &--placeholder {
@@ -26,26 +32,11 @@
     }
   }
 
-  &__video {
-    display: block;
-    width: 100%;
-    height: 100%;
-
-    &--hidden {
-      display: none;
-    }
-  }
-
   &__play-button {
     @include reset-button;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
   }
 }

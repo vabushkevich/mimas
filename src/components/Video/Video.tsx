@@ -70,10 +70,7 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
         )}
         {started && (
           <video
-            className={classNames(
-              "video__video",
-              !canPlay && "video__video--hidden",
-            )}
+            style={!canPlay ? { visibility: "hidden" } : {}}
             ref={videoRef}
             controls={controls}
             loop
