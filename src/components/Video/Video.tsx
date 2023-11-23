@@ -20,6 +20,7 @@ function getPlaceholderImage(width: number, height: number) {
 export function Video({ height, hls, poster, src, width }: VideoProps) {
   const [started, setStarted] = useState(false);
   const [canPlay, setCanPlay] = useState(false);
+  const [controls, setControls] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -39,6 +40,13 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
       if (videoRef.current) throw error;
     });
   }, [hls, src, started]);
+
+  useEffect(() => {
+    if (!started || !videoRef.current) return;
+    videoRef.current.onmouseover = videoRef.current.onclick = () => {
+      setControls(true);
+    };
+  }, [started]);
 
   return (
     <div className="video">
@@ -67,7 +75,7 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
               !canPlay && "video__video--hidden",
             )}
             ref={videoRef}
-            controls
+            controls={controls}
             loop
             muted
             playsInline
