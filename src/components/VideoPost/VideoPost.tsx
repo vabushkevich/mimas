@@ -13,7 +13,7 @@ export function VideoPost(props: PostProps<VideoPost>) {
     <BasePost {...props}>
       <div className="video-post-body">
         <Video
-          hls
+          isHLS
           src={hlsURL}
           poster={preview?.src}
           width={width}

@@ -7,7 +7,7 @@ import "./Video.scss";
 
 type VideoProps = {
   height: number;
-  hls?: boolean;
+  isHLS?: boolean;
   poster?: string;
   src: string;
   width: number;
@@ -17,7 +17,7 @@ function getPlaceholderImage(width: number, height: number) {
   return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
 }
 
-export function Video({ height, hls, poster, src, width }: VideoProps) {
+export function Video({ height, isHLS, poster, src, width }: VideoProps) {
   const [started, setStarted] = useState(false);
   const [canPlay, setCanPlay] = useState(false);
   const [controls, setControls] = useState(false);
@@ -28,7 +28,7 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
 
     if (!started || !video) return;
 
-    if (hls && Hls.isSupported()) {
+    if (isHLS && Hls.isSupported()) {
       const hls = new Hls({ startLevel: Infinity });
       hls.loadSource(src);
       hls.attachMedia(video);
@@ -39,7 +39,7 @@ export function Video({ height, hls, poster, src, width }: VideoProps) {
     video.play().catch((error) => {
       if (videoRef.current) throw error;
     });
-  }, [hls, src, started]);
+  }, [isHLS, src, started]);
 
   useEffect(() => {
     if (!started || !videoRef.current) return;
