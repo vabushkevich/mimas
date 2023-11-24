@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import Hls from "hls.js";
 import classNames from "classnames";
 
@@ -23,13 +23,14 @@ export function Video({ height, isHLS, poster, src, width }: VideoProps) {
   const [controls, setControls] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const video = videoRef.current;
+    let hls: Hls | undefined;
 
     if (!started || !video) return;
 
     if (isHLS && Hls.isSupported()) {
-      const hls = new Hls({ startLevel: Infinity });
+      hls = new Hls({ startLevel: Infinity });
       hls.loadSource(src);
       hls.attachMedia(video);
     } else {
@@ -39,6 +40,11 @@ export function Video({ height, isHLS, poster, src, width }: VideoProps) {
     video.play().catch((error) => {
       if (videoRef.current) throw error;
     });
+
+    return () => {
+      if (videoRef.current) videoRef.current.src = "";
+      hls?.destroy();
+    };
   }, [isHLS, src, started]);
 
   useEffect(() => {
