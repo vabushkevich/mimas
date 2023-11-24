@@ -129,12 +129,13 @@ export function transformVideoPost(rawPost: Raw.VideoPost): VideoPost {
     },
   } = rawPost.data;
   const rawPreview = preview?.images[0];
+  const hlsURLObject = new URL(hls_url);
 
   return {
     ...transformBasePost(rawPost),
     type: "video",
     height,
-    hlsURL: hls_url,
+    hlsURL: hlsURLObject.origin + hlsURLObject.pathname,
     previewVariants: rawPreview ? transformResponsiveMedia(rawPreview) : [],
     width,
   };
@@ -149,12 +150,13 @@ export function transformExternalVideoPost(
       reddit_video_preview: { height, hls_url, width },
     },
   } = rawPost.data;
+  const hlsURLObject = new URL(hls_url);
 
   return {
     ...transformBasePost(rawPost),
     type: "video",
     height,
-    hlsURL: hls_url,
+    hlsURL: hlsURLObject.origin + hlsURLObject.pathname,
     previewVariants: transformResponsiveMedia(rawPreview),
     width,
   };
