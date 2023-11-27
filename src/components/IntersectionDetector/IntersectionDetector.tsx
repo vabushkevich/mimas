@@ -3,30 +3,31 @@ import React, { useRef, useEffect } from "react";
 type IntersectionDetectorProps = {
   rootMargin?: string;
   onEnter?: () => void;
+  onLeave?: () => void;
   children?: React.ReactNode;
 };
 
 export function IntersectionDetector({
   rootMargin,
   onEnter,
+  onLeave,
   children,
 }: IntersectionDetectorProps) {
-  const onEnterRef = useRef<typeof onEnter>();
+  const callbacksRef = useRef({ onEnter, onLeave });
   const elemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    onEnterRef.current = onEnter;
-  }, [onEnter]);
+    callbacksRef.current = { onEnter, onLeave };
+  }, [onEnter, onLeave]);
 
   useEffect(() => {
     if (!elemRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const isIntersecting = entries.some(
-          (entry) => entry.target == elemRef.current && entry.isIntersecting,
-        );
-        if (isIntersecting) onEnterRef.current?.();
+        const entry = entries.find((entry) => entry.target == elemRef.current);
+        if (!entry) return;
+        callbacksRef.current[entry.isIntersecting ? "onEnter" : "onLeave"]?.();
       },
       { rootMargin },
     );
