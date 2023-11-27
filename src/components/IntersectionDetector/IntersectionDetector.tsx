@@ -2,21 +2,21 @@ import React, { useRef, useEffect } from "react";
 
 type IntersectionDetectorProps = {
   rootMargin?: string;
-  onIntersect: () => void;
+  onEnter?: () => void;
   children?: React.ReactNode;
 };
 
 export function IntersectionDetector({
   rootMargin,
-  onIntersect,
+  onEnter,
   children,
 }: IntersectionDetectorProps) {
-  const onIntersectRef = useRef<typeof onIntersect>();
+  const onEnterRef = useRef<typeof onEnter>();
   const elemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    onIntersectRef.current = onIntersect;
-  }, [onIntersect]);
+    onEnterRef.current = onEnter;
+  }, [onEnter]);
 
   useEffect(() => {
     if (!elemRef.current) return;
@@ -26,7 +26,7 @@ export function IntersectionDetector({
         const isIntersecting = entries.some(
           (entry) => entry.target == elemRef.current && entry.isIntersecting,
         );
-        if (isIntersecting) onIntersectRef.current?.();
+        if (isIntersecting) onEnterRef.current?.();
       },
       { rootMargin },
     );

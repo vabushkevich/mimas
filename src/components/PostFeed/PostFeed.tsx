@@ -65,7 +65,7 @@ export function PostFeed({
       {!isFetching && hasNextPage && (
         <IntersectionDetector
           rootMargin="0px 0px 100%"
-          onIntersect={fetchNextPage}
+          onEnter={fetchNextPage}
         />
       )}
     </Feed>

@@ -127,7 +127,7 @@ export function PostComments({
               {threadList.moreComments && !isMoreCommentsLoading && (
                 <IntersectionDetector
                   rootMargin="0px 0px 100%"
-                  onIntersect={loadMoreComments}
+                  onEnter={loadMoreComments}
                 />
               )}
             </div>
