@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 
 type IntersectionDetectorProps = {
   rootMargin?: string;
+  threshold?: number;
   onEnter?: () => void;
   onLeave?: () => void;
   children?: React.ReactNode;
@@ -9,6 +10,7 @@ type IntersectionDetectorProps = {
 
 export function IntersectionDetector({
   rootMargin,
+  threshold,
   onEnter,
   onLeave,
   children,
@@ -29,7 +31,7 @@ export function IntersectionDetector({
         if (!entry) return;
         callbacksRef.current[entry.isIntersecting ? "onEnter" : "onLeave"]?.();
       },
-      { rootMargin },
+      { rootMargin, threshold },
     );
     observer.observe(elemRef.current);
 
