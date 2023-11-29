@@ -354,12 +354,14 @@ export function useNavigationType() {
 }
 
 export function useIntersectionDetector<T extends Element>({
+  delay = 0,
   ref,
   rootMargin,
   threshold,
   onEnter,
   onLeave,
 }: {
+  delay?: number;
   ref: React.RefObject<T>;
   rootMargin?: string;
   threshold?: number;
@@ -368,6 +370,8 @@ export function useIntersectionDetector<T extends Element>({
 }) {
   const callbacksRef = useRef({ onEnter, onLeave });
   const [intersecting, setIntersecting] = useState(false);
+  const shouldHandleLeaveRef = useRef(false);
+  const timerRef = useRef<number>();
 
   useEffect(() => {
     callbacksRef.current = { onEnter, onLeave };
@@ -376,12 +380,30 @@ export function useIntersectionDetector<T extends Element>({
   useEffect(() => {
     if (!ref.current) return;
 
+    const handleEnter = () => {
+      callbacksRef.current.onEnter?.();
+      shouldHandleLeaveRef.current = true;
+      setIntersecting(true);
+    };
+
+    const handleLeave = () => {
+      if (!shouldHandleLeaveRef.current) return;
+      callbacksRef.current.onLeave?.();
+      shouldHandleLeaveRef.current = false;
+      setIntersecting(false);
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          const callbackName = entry.isIntersecting ? "onEnter" : "onLeave";
-          callbacksRef.current[callbackName]?.();
-          setIntersecting(entry.isIntersecting);
+          if (delay == 0) {
+            entry.isIntersecting ? handleEnter() : handleLeave();
+          } else if (entry.isIntersecting) {
+            timerRef.current = setTimeout(handleEnter, delay);
+          } else {
+            clearTimeout(timerRef.current);
+            handleLeave();
+          }
         }
       },
       { rootMargin, threshold },
@@ -390,6 +412,7 @@ export function useIntersectionDetector<T extends Element>({
 
     return () => {
       observer.disconnect();
+      handleLeave();
     };
   }, []);
 
