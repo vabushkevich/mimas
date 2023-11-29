@@ -352,3 +352,46 @@ export function useNavigationType() {
       return "NAVIGATE";
   }
 }
+
+export function useIntersectionDetector<T extends Element>({
+  ref,
+  rootMargin,
+  threshold,
+  onEnter,
+  onLeave,
+}: {
+  ref: React.RefObject<T>;
+  rootMargin?: string;
+  threshold?: number;
+  onEnter?: () => void;
+  onLeave?: () => void;
+}) {
+  const callbacksRef = useRef({ onEnter, onLeave });
+  const [intersecting, setIntersecting] = useState(false);
+
+  useEffect(() => {
+    callbacksRef.current = { onEnter, onLeave };
+  }, [onEnter, onLeave]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const callbackName = entry.isIntersecting ? "onEnter" : "onLeave";
+          callbacksRef.current[callbackName]?.();
+          setIntersecting(entry.isIntersecting);
+        }
+      },
+      { rootMargin, threshold },
+    );
+    observer.observe(ref.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return intersecting;
+}
