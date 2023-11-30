@@ -418,3 +418,7 @@ export function useIntersectionDetector<T extends Element>({
 
   return intersecting;
 }
+
+export function useOnScreenMedia<T extends Element>(ref: React.RefObject<T>) {
+  return useIntersectionDetector({ delay: 200, ref, threshold: 0.8 });
+}

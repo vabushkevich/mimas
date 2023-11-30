@@ -10,6 +10,7 @@ type VideoProps = {
   isHLS?: boolean;
   poster?: string;
   src: string;
+  started?: boolean;
   width: number;
 };
 
@@ -17,11 +18,22 @@ function getPlaceholderImage(width: number, height: number) {
   return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
 }
 
-export function Video({ height, isHLS, poster, src, width }: VideoProps) {
-  const [started, setStarted] = useState(false);
+export function Video({
+  height,
+  isHLS,
+  poster,
+  src,
+  started,
+  width,
+}: VideoProps) {
   const [canPlay, setCanPlay] = useState(false);
   const [controls, setControls] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  if (!started) {
+    if (canPlay) setCanPlay(false);
+    if (controls) setControls(false);
+  }
 
   useLayoutEffect(() => {
     const video = videoRef.current;
@@ -66,10 +78,7 @@ export function Video({ height, isHLS, poster, src, width }: VideoProps) {
               )}
               src={poster || getPlaceholderImage(width, height)}
             />
-            <button
-              className="video__play-button"
-              onClick={() => setStarted(true)}
-            >
+            <button className="video__play-button">
               <PlayButton loading={started} />
             </button>
           </>
