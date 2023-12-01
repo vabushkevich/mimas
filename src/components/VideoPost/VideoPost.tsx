@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { findLast } from "lodash-es";
-import { useOnScreenMedia } from "@hooks";
+import { useLastOnScreenMedia } from "@hooks";
 import type { VideoPost, PostProps } from "@types";
 
 import { BasePost, Video } from "@components";
@@ -10,7 +10,7 @@ export function VideoPost(props: PostProps<VideoPost>) {
   const { hlsURL, previewVariants, width, height } = props.post;
   const preview = findLast(previewVariants, ({ width }) => width <= 960);
   const ref = useRef<HTMLDivElement>(null);
-  const isOnScreen = useOnScreenMedia(ref);
+  const isLastOnScreen = useLastOnScreenMedia(ref, props.post.id);
 
   return (
     <BasePost {...props}>
@@ -19,7 +19,7 @@ export function VideoPost(props: PostProps<VideoPost>) {
           isHLS
           src={hlsURL}
           poster={preview?.src}
-          started={isOnScreen}
+          started={isLastOnScreen}
           width={width}
           height={height}
         />

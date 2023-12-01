@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { findLast } from "lodash-es";
-import { useOnScreenMedia } from "@hooks";
+import { useLastOnScreenMedia } from "@hooks";
 import type { GIFPost, PostProps } from "@types";
 
 import { BasePost, Video } from "@components";
@@ -11,7 +11,7 @@ export function GIFPost(props: PostProps<GIFPost>) {
   const preview = findLast(previewVariants, ({ width }) => width <= 960);
   const video = findLast(videoVariants, ({ width }) => width <= 960);
   const ref = useRef<HTMLDivElement>(null);
-  const isOnScreen = useOnScreenMedia(ref);
+  const isLastOnScreen = useLastOnScreenMedia(ref, props.post.id);
 
   return (
     <BasePost {...props}>
@@ -20,7 +20,7 @@ export function GIFPost(props: PostProps<GIFPost>) {
           <Video
             src={video.src}
             poster={preview.src}
-            started={isOnScreen}
+            started={isLastOnScreen}
             width={video.width}
             height={video.height}
           />

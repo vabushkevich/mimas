@@ -19,6 +19,10 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "./store";
 import { useAuth } from "@services/auth";
 import toast from "react-hot-toast";
+import {
+  addOnScreenMediaId,
+  removeOnScreenMediaId,
+} from "@store/onScreenMediaIdsSlice";
 
 export function useToggleArrayValue<T = any>(): [T[], (value: T) => void] {
   const [array, setArray] = useState<T[]>([]);
@@ -419,6 +423,29 @@ export function useIntersectionDetector<T extends Element>({
   return intersecting;
 }
 
-export function useOnScreenMedia<T extends Element>(ref: React.RefObject<T>) {
-  return useIntersectionDetector({ delay: 200, ref, threshold: 0.8 });
+export function useOnScreenMedia<T extends Element>(
+  ref: React.RefObject<T>,
+  callbacks?: { onEnter?: () => void; onLeave?: () => void },
+) {
+  return useIntersectionDetector({
+    delay: 200,
+    ref,
+    threshold: 0.8,
+    ...callbacks,
+  });
+}
+
+export function useLastOnScreenMedia<T extends Element>(
+  ref: React.RefObject<T>,
+  key: string,
+) {
+  const onScreenMediaIds = useAppSelector((state) => state.onScreenMediaIds);
+  const dispatch = useAppDispatch();
+
+  useOnScreenMedia(ref, {
+    onEnter: () => dispatch(addOnScreenMediaId(key)),
+    onLeave: () => dispatch(removeOnScreenMediaId(key)),
+  });
+
+  return key == onScreenMediaIds.at(-1);
 }
