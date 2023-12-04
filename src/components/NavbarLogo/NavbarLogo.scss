@@ -3,12 +3,13 @@
 .navbar-logo {
   display: flex;
   align-items: center;
+  height: 100%;
 
   &__menu-btn {
     @include reset-button;
 
-    margin-right: 20px;
-    height: 35px;
+    height: 100%;
+    padding: 0 20px;
 
     &:hover {
       @include themify {
