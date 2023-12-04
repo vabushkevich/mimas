@@ -12,8 +12,8 @@
     @include text-input;
 
     width: 100%;
-    height: 34px;
-    padding: 0 34px;
+    height: 32px;
+    padding: 0 32px;
   }
 
   &__input-icon {
@@ -22,7 +22,7 @@
 
   &__magnifier-icon {
     position: absolute;
-    left: 12px;
+    left: 10px;
     width: 15px;
     pointer-events: none;
   }
