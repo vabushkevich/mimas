@@ -20,8 +20,8 @@
 
   &__logo {
     width: 112px;
-    height: 35px;
-    background: no-repeat left url("@assets/logo-light.svg");
+    height: 100%;
+    background: no-repeat center / contain url("@assets/logo-light.svg");
 
     @include dark-mode {
       background-image: url("@assets/logo-dark.svg");
