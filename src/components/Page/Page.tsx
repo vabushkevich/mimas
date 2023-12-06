@@ -29,7 +29,7 @@ export function Page({ title, children }: PageProps) {
 
   useLayoutEffect(() => {
     if (navigationType == "NAVIGATE") window.scroll({ top: 0 });
-  }, [location.pathname]);
+  }, [location]);
 
   const toggleSidebar = () => {
     if (isLargeScreen) {
