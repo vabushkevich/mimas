@@ -1,6 +1,9 @@
+@use "@sass/variables" as *;
+
 .video-post-body {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-height: 500px;
+  max-height: clamp(400px, 52vh, 600px);
+
+  @media (max-width: $screen-sm) {
+    max-height: clamp(400px, 65vh, 720px);
+  }
 }
