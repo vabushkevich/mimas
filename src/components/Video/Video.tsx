@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import Hls from "hls.js";
 import classNames from "classnames";
 
-import { PlayButton } from "@components";
+import { AspectRatio, PlayButton } from "@components";
 import "./Video.scss";
 
 type VideoProps = {
@@ -67,8 +67,8 @@ export function Video({
   }, [started]);
 
   return (
-    <div className="video">
-      <div className="video__container">
+    <AspectRatio ratio={width / height}>
+      <div className="video">
         {(!started || !canPlay) && (
           <>
             <img
@@ -95,12 +95,6 @@ export function Video({
           ></video>
         )}
       </div>
-      <div
-        style={{
-          paddingTop: `${(100 * height) / width}%`,
-          pointerEvents: "none",
-        }}
-      ></div>
-    </div>
+    </AspectRatio>
   );
 }
