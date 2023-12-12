@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { findLast } from "lodash-es";
+import classNames from "classnames";
 import { useLastOnScreenMedia } from "@hooks";
 import type { VideoPost, PostProps } from "@types";
 
@@ -14,7 +15,13 @@ export function VideoPost(props: PostProps<VideoPost>) {
 
   return (
     <BasePost {...props}>
-      <div className="video-post-body" ref={ref}>
+      <div
+        className={classNames(
+          "video-post-body",
+          props.large && "video-post-body--large",
+        )}
+        ref={ref}
+      >
         <Video
           isHLS
           src={hlsURL}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { findLast } from "lodash-es";
+import classNames from "classnames";
 import type { ImagePost, PostProps } from "@types";
 
 import { BasePost, GalleryViewer } from "@components";
@@ -13,7 +14,12 @@ export function ImagePost(props: PostProps<ImagePost>) {
 
   return (
     <BasePost {...props}>
-      <div className="image-post-body">
+      <div
+        className={classNames(
+          "image-post-body",
+          props.large && "image-post-body--large",
+        )}
+      >
         <button
           className="image-post-body__image"
           onClick={() => setShowViewer(true)}

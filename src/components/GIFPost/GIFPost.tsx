@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { findLast } from "lodash-es";
+import classNames from "classnames";
 import { useLastOnScreenMedia } from "@hooks";
 import type { GIFPost, PostProps } from "@types";
 
@@ -15,7 +16,13 @@ export function GIFPost(props: PostProps<GIFPost>) {
 
   return (
     <BasePost {...props}>
-      <div className="gif-post-body" ref={ref}>
+      <div
+        className={classNames(
+          "gif-post-body",
+          props.large && "gif-post-body--large",
+        )}
+        ref={ref}
+      >
         {preview && video && (
           <Video
             src={video.src}

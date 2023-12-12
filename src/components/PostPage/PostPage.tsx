@@ -49,6 +49,7 @@ export function PostPage() {
           <Post
             post={post}
             collapsed={false}
+            large
             titleClickable={false}
             onCommentsButtonClick={(event) => {
               event.preventDefault();

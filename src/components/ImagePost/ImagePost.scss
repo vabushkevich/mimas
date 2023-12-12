@@ -23,4 +23,8 @@
       object-fit: contain;
     }
   }
+
+  &--large {
+    max-height: clamp(400px, 65vh, 750px);
+  }
 }
