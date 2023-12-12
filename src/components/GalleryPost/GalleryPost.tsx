@@ -12,22 +12,20 @@ export function GalleryPost(props: PostProps<GalleryPost>) {
 
   return (
     <BasePost {...props}>
-      <div className="gallery-post-body">
-        <Gallery
+      <Gallery
+        gallery={gallery}
+        onItemClick={(id) => {
+          setInitialItemId(id);
+          setShowViewer(true);
+        }}
+      />
+      {showViewer && (
+        <GalleryViewer
           gallery={gallery}
-          onItemClick={(id) => {
-            setInitialItemId(id);
-            setShowViewer(true);
-          }}
+          initialItemId={initialItemId}
+          onClose={() => setShowViewer(false)}
         />
-        {showViewer && (
-          <GalleryViewer
-            gallery={gallery}
-            initialItemId={initialItemId}
-            onClose={() => setShowViewer(false)}
-          />
-        )}
-      </div>
+      )}
     </BasePost>
   );
 }
