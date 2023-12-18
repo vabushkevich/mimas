@@ -1,0 +1,28 @@
+@use "@sass/mixins" as *;
+
+.media-progress {
+  display: flex;
+  height: 100%;
+  backdrop-filter: blur(10px);
+
+  &__made {
+    width: 0;
+    background-color: white;
+    transition: width 0.33s linear;
+    opacity: 0.5;
+
+    @include dark-mode {
+      opacity: 0.25;
+    }
+  }
+
+  &__left {
+    flex-grow: 1;
+    background-color: black;
+    opacity: 0.2;
+
+    @include dark-mode {
+      opacity: 0.33;
+    }
+  }
+}

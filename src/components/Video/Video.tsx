@@ -3,6 +3,7 @@ import Hls from "hls.js";
 import classNames from "classnames";
 
 import { AspectRatio, PlayButton } from "@components";
+import { MediaProgress } from "./MediaProgress";
 import "./Video.scss";
 
 type VideoProps = {
@@ -75,16 +76,18 @@ export function Video({
               className={classNames(
                 "video__poster",
                 !poster && "video__poster--placeholder",
+                "video__fill",
               )}
               src={poster || getPlaceholderImage(width, height)}
             />
-            <button className="video__play-button">
+            <button className="video__play-button video__fill">
               <PlayButton loading={started} />
             </button>
           </>
         )}
         {started && (
           <video
+            className="video__fill"
             style={!canPlay ? { visibility: "hidden" } : {}}
             ref={videoRef}
             controls={controls}
@@ -93,6 +96,11 @@ export function Video({
             playsInline
             onCanPlay={() => setCanPlay(true)}
           ></video>
+        )}
+        {canPlay && (
+          <div className="video__progress">
+            <MediaProgress mediaRef={videoRef} />
+          </div>
         )}
       </div>
     </AspectRatio>
