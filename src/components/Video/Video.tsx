@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import Hls from "hls.js";
 import classNames from "classnames";
 
@@ -60,13 +60,6 @@ export function Video({
     };
   }, [isHLS, src, started]);
 
-  useEffect(() => {
-    if (!started || !videoRef.current) return;
-    videoRef.current.onmouseover = videoRef.current.onclick = () => {
-      setControls(true);
-    };
-  }, [started]);
-
   return (
     <AspectRatio ratio={width / height}>
       <div className="video">
@@ -95,6 +88,8 @@ export function Video({
             muted
             playsInline
             onCanPlay={() => setCanPlay(true)}
+            onClick={() => setControls(true)}
+            onMouseOver={() => setControls(true)}
           ></video>
         )}
         {canPlay && (
