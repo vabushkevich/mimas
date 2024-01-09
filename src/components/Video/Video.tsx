@@ -29,11 +29,13 @@ export function Video({
 }: VideoProps) {
   const [canPlay, setCanPlay] = useState(false);
   const [controls, setControls] = useState(false);
+  const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   if (!started) {
     if (canPlay) setCanPlay(false);
     if (controls) setControls(false);
+    if (duration) setDuration(0);
   }
 
   useLayoutEffect(() => {
@@ -89,10 +91,13 @@ export function Video({
             playsInline
             onCanPlay={() => setCanPlay(true)}
             onClick={() => setControls(true)}
+            onDurationChange={() =>
+              setDuration(videoRef.current?.duration || 0)
+            }
             onMouseOver={() => setControls(true)}
           ></video>
         )}
-        {canPlay && (
+        {canPlay && duration >= 10 && (
           <div className="video__progress">
             <MediaProgress mediaRef={videoRef} />
           </div>
