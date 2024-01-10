@@ -1,6 +1,5 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import Hls from "hls.js";
-import classNames from "classnames";
 
 import { AspectRatio, PlayButton } from "@components";
 import { MediaProgress } from "./MediaProgress";
@@ -14,10 +13,6 @@ type VideoProps = {
   started?: boolean;
   width: number;
 };
-
-function getPlaceholderImage(width: number, height: number) {
-  return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
-}
 
 export function Video({
   height,
@@ -65,15 +60,15 @@ export function Video({
   return (
     <AspectRatio ratio={width / height}>
       <div className="video">
-        {(poster || !started || !canPlay) && (
-          <img
-            className={classNames(
-              "video__fill",
-              "video__poster",
-              !poster && "video__poster--placeholder",
-            )}
-            src={poster || getPlaceholderImage(width, height)}
-          />
+        {poster ? (
+          <img className="video__fill video__poster" src={poster} />
+        ) : (
+          <svg
+            className="video__fill video__placeholder"
+            viewBox={`0 0 ${width} ${height}`}
+          >
+            <rect x="0" y="0" width="100%" height="100%" />
+          </svg>
         )}
         {started && (
           <video

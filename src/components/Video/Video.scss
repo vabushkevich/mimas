@@ -17,13 +17,13 @@
 
   &__poster {
     object-fit: contain;
+  }
 
-    &--placeholder {
-      background-color: themed("gray-400");
+  &__placeholder {
+    fill: themed("gray-800");
 
-      @include dark-mode {
-        background-color: themed("gray-700");
-      }
+    @include dark-mode {
+      fill: themed("gray-700");
     }
   }
 
