@@ -65,20 +65,15 @@ export function Video({
   return (
     <AspectRatio ratio={width / height}>
       <div className="video">
-        {(!started || !canPlay) && (
-          <>
-            <img
-              className={classNames(
-                "video__poster",
-                !poster && "video__poster--placeholder",
-                "video__fill",
-              )}
-              src={poster || getPlaceholderImage(width, height)}
-            />
-            <button className="video__play-button video__fill">
-              <PlayButton loading={started} />
-            </button>
-          </>
+        {(poster || !started || !canPlay) && (
+          <img
+            className={classNames(
+              "video__fill",
+              "video__poster",
+              !poster && "video__poster--placeholder",
+            )}
+            src={poster || getPlaceholderImage(width, height)}
+          />
         )}
         {started && (
           <video
@@ -101,6 +96,11 @@ export function Video({
           <div className="video__progress">
             <MediaProgress mediaRef={videoRef} />
           </div>
+        )}
+        {(!started || !canPlay) && (
+          <button className="video__fill video__play-button">
+            <PlayButton loading={started} />
+          </button>
         )}
       </div>
     </AspectRatio>
