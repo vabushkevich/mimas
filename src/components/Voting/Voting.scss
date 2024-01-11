@@ -4,6 +4,7 @@
 .voting {
   display: flex;
   align-items: center;
+  user-select: none;
 
   &__score {
     margin: 0 6px;
