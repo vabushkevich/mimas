@@ -20,13 +20,17 @@
     margin: 0 0 0.8em;
   }
 
-  strong,
+  strong {
+    font-weight: 500;
+  }
+
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
+    line-height: 1.4;
     font-weight: 500;
   }
 
