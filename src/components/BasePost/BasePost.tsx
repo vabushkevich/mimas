@@ -103,7 +103,12 @@ export function BasePost({
             </MenuItem>
           </DropdownMenu>
         </div>
-        <h3 className="post__title">
+        <h3
+          className={classNames(
+            "post__title",
+            title.length >= 120 && "post__title--small",
+          )}
+        >
           {titleClickable ? (
             <Link className="post__link" to={url}>
               {title}
