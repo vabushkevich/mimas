@@ -288,3 +288,12 @@ export type Gallery = {
 };
 
 export type ColorMode = "dark" | "light" | "system";
+
+type AsProp<T extends React.ElementType> = { as?: T };
+
+export type PropsWithAs<
+  T extends React.ElementType,
+  P extends object,
+> = AsProp<T> &
+  Omit<P, keyof AsProp<T>> &
+  Omit<React.ComponentPropsWithoutRef<T>, keyof P>;

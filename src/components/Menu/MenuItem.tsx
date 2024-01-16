@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { useMenu } from "./MenuContext";
 import classNames from "classnames";
+import type { PropsWithAs } from "@types";
 
 import "./MenuItem.scss";
 
@@ -12,13 +13,16 @@ type MenuItemProps = {
   children: React.ReactNode;
 };
 
-export function MenuItem({
+export function MenuItem<T extends React.ElementType>({
+  as,
   leftIcon,
   selected,
   value,
   onClick,
   children,
-}: MenuItemProps) {
+  ...rest
+}: PropsWithAs<T, MenuItemProps>) {
+  const Component = as ?? "button";
   const { size, isItemSelected, onItemClick, onItemRender } = useMenu();
 
   useLayoutEffect(() => {
@@ -26,7 +30,8 @@ export function MenuItem({
   }, [children, value]);
 
   return (
-    <button
+    <Component
+      {...rest}
       className={classNames(
         "menu-item",
         (selected ?? isItemSelected(value)) && "menu-item--selected",
@@ -39,6 +44,6 @@ export function MenuItem({
     >
       {leftIcon && <span className="menu-item__left-icon">{leftIcon}</span>}
       {children}
-    </button>
+    </Component>
   );
 }
