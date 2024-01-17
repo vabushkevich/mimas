@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "@services/auth";
 import { useDarkMode } from "@context";
 import { User } from "@types";
@@ -20,7 +20,6 @@ type UserMenuProps = {
 export function UserMenu({ user }: UserMenuProps) {
   const { darkModeEnabled, toggleDarkMode } = useDarkMode();
   const { authorized, signIn, signOut } = useAuth();
-  const history = useHistory();
 
   return (
     <DropdownMenu
@@ -35,8 +34,9 @@ export function UserMenu({ user }: UserMenuProps) {
     >
       {user && (
         <MenuItem
+          as={Link}
           leftIcon={<UserIcon className="user-menu__item-icon" />}
-          onClick={() => history.push(`/user/${user.name}`)}
+          to={`/user/${user.name}`}
         >
           {user.name}
         </MenuItem>
