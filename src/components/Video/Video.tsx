@@ -40,9 +40,12 @@ export function Video({
     if (!started || !video) return;
 
     if (isHLS && Hls.isSupported()) {
-      hls = new Hls({ startLevel: Infinity });
+      hls = new Hls();
       hls.loadSource(src);
       hls.attachMedia(video);
+      hls.once(Hls.Events.MANIFEST_PARSED, () => {
+        if (hls) hls.startLevel = hls.levels.length - 1;
+      });
     } else {
       video.src = src;
     }
