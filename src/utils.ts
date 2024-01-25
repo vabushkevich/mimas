@@ -1,4 +1,3 @@
-import { findLast } from "lodash-es";
 import { Comment, IdPrefix, IdType, Submission, isIdPrefix } from "@types";
 
 const idPrefixTypePairs: [IdPrefix, IdType][] = [
@@ -51,7 +50,7 @@ export function formatDistanceToNow(date: Date | number) {
 
 function formatDuration(duration: number) {
   const unit =
-    findLast(durationUnits, (unit) => unit.ms <= duration) || durationUnits[0];
+    durationUnits.findLast((unit) => unit.ms <= duration) || durationUnits[0];
   const value = Math.floor(duration / unit.ms);
   return `${value}${unit.name}`;
 }

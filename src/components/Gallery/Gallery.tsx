@@ -1,5 +1,4 @@
 import React from "react";
-import { findLast } from "lodash-es";
 import { useMediaQuery } from "@hooks";
 import type { Gallery } from "@types";
 
@@ -23,7 +22,7 @@ export function Gallery({ gallery, onItemClick }: GalleryProps) {
     <AspectRatio ratio={aspectRatio}>
       <div className={`gallery gallery--item-count_${displayedItems.length}`}>
         {displayedItems.map(({ caption, id, imageVariants }) => {
-          const preview = findLast(imageVariants, ({ width }) => width <= 640);
+          const preview = imageVariants.findLast(({ width }) => width <= 640);
           return (
             <button
               key={id}
