@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   MenuItem,
   SubmissionHeader,
+  UserContent,
   Voting,
 } from "@components";
 import DotsIcon from "@assets/svg/dots.svg";
@@ -28,11 +29,13 @@ export function BasePost({
   pinned = false,
   post,
   primaryAuthorType = "subreddit",
+  showAdditionalText,
   titleClickable = true,
   onCommentsButtonClick,
   children,
 }: BasePostProps) {
   const {
+    additionalTextHtml,
     bookmarked,
     commentCount,
     dateCreated,
@@ -117,7 +120,14 @@ export function BasePost({
             title
           )}
         </h3>
-        <div className="post__body">{children}</div>
+        <div className="post__body">
+          {children}
+          {showAdditionalText && additionalTextHtml && (
+            <div className="post__additional-text">
+              <UserContent html={additionalTextHtml} />
+            </div>
+          )}
+        </div>
         {!hideFooter && (
           <div className="post__footer">
             <Link

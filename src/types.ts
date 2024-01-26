@@ -39,6 +39,7 @@ const sortTimeIntervals = [
 ] as const;
 
 export type BasePost = {
+  additionalTextHtml?: string;
   archived: boolean;
   bookmarked: boolean;
   commentCount: number;
@@ -133,6 +134,7 @@ export type PostProps<T extends BasePost> = {
   pinned?: boolean;
   post: T;
   primaryAuthorType?: AuthorType;
+  showAdditionalText?: boolean;
   titleClickable?: boolean;
   onCommentsButtonClick?: (event: MouseEvent) => void;
 };

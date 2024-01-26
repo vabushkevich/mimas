@@ -73,7 +73,10 @@ export function transformPost(rawPost: Raw.Post): Post {
   };
 }
 
-export function transformBasePost(rawPost: Raw.BasePost): BasePost {
+export function transformBasePost(
+  rawPost: Raw.BasePost,
+  { extractAdditionalText = true } = {},
+): BasePost {
   const {
     data: {
       archived,
@@ -89,6 +92,7 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
       pinned,
       saved,
       score,
+      selftext_html,
       stickied,
       subreddit,
       subreddit_id,
@@ -116,6 +120,9 @@ export function transformBasePost(rawPost: Raw.BasePost): BasePost {
   if (author_fullname) basePost.userId = author_fullname;
   if (typeof edited == "number") basePost.dateEdited = edited * 1000;
   if (pinned) basePost.pinnedIn.push("user");
+  if (extractAdditionalText && selftext_html) {
+    basePost.additionalTextHtml = selftext_html;
+  }
   if (stickied) basePost.pinnedIn.push("subreddit");
 
   return basePost;
@@ -227,7 +234,7 @@ export function transformLinkPost(rawPost: Raw.LinkPost): LinkPost {
 
 export function transformTextPost(rawPost: Raw.TextPost): TextPost {
   return {
-    ...transformBasePost(rawPost),
+    ...transformBasePost(rawPost, { extractAdditionalText: false }),
     type: "text",
     bodyHtml: rawPost.data.selftext_html,
   };
@@ -265,7 +272,7 @@ export function transformCrossPost(rawPost: Raw.CrossPost): CrossPost {
 
 export function transformRemovedPost(rawPost: Raw.RemovedPost): RemovedPost {
   return {
-    ...transformBasePost(rawPost),
+    ...transformBasePost(rawPost, { extractAdditionalText: false }),
     type: "removed",
     removalReason: removalReasonMap[rawPost.data.removed_by_category],
   };
