@@ -63,11 +63,17 @@
 }
 
 @mixin themify {
-  @include color-mode("light") {
+  @include light-mode {
     @content;
   }
 
-  @include color-mode("dark") {
+  @include dark-mode {
+    @content;
+  }
+}
+
+@mixin light-mode {
+  @include color-mode("light") {
     @content;
   }
 }
