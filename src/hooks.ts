@@ -430,7 +430,7 @@ export function useOnScreenMedia<T extends Element>(
   return useIntersectionDetector({
     delay: 200,
     ref,
-    threshold: 0.8,
+    threshold: 0.75,
     ...callbacks,
   });
 }
