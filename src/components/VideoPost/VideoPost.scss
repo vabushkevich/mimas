@@ -1,7 +1,12 @@
 @use "@sass/variables" as *;
+@use "@sass/mixins" as *;
 
 .video-post-body {
   max-height: clamp(400px, 52vh, 600px);
+
+  @include light-mode {
+    background-color: themed("gray-900");
+  }
 
   @media (max-width: $screen-sm) {
     max-height: clamp(400px, 65vh, 720px);
