@@ -2,7 +2,9 @@
 @use "@sass/mixins" as *;
 
 .site-nav {
+  display: flex;
   position: sticky;
+  height: 50px;
   background-color: white;
   box-shadow: 0 1px darken(white, 10%);
   top: 0;
@@ -13,31 +15,18 @@
     background-color: themed("gray-900");
   }
 
-  &__row {
-    display: flex;
-    align-items: center;
-
-    &--main {
-      justify-content: space-between;
-      height: 50px;
-      padding-right: 20px;
-    }
-
-    &--search {
-      padding: 0 20px 10px;
-    }
-  }
-
   &__right-col {
     display: flex;
     align-items: center;
+    margin-left: auto;
+    margin-right: 20px;
   }
 
   &__search {
     width: 200px;
   }
 
-  &__search-btn {
+  &__button {
     @include reset-button;
     @include themify {
       color: themed("text-secondary");
@@ -46,10 +35,27 @@
         color: themed("text-secondary-hover");
       }
     }
+
+    height: 100%;
   }
 
   &__user-menu {
     display: flex;
     margin-left: 18px;
+  }
+
+  &__section {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  &__section-back-btn {
+    padding: 0 15px;
+  }
+
+  &__section-content {
+    flex-grow: 1;
   }
 }
