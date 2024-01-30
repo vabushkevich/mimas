@@ -24,6 +24,8 @@ import {
   removeOnScreenMediaId,
 } from "@store/onScreenMediaIdsSlice";
 
+const NAVBAR_HEIGHT = "50px";
+
 export function useToggleArrayValue<T = any>(): [T[], (value: T) => void] {
   const [array, setArray] = useState<T[]>([]);
 
@@ -430,6 +432,7 @@ export function useOnScreenMedia<T extends Element>(
   return useIntersectionDetector({
     delay: 200,
     ref,
+    rootMargin: `-${NAVBAR_HEIGHT} 0px 0px`,
     threshold: 0.75,
     ...callbacks,
   });
