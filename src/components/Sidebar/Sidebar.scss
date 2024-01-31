@@ -1,3 +1,4 @@
+@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .sidebar {
@@ -15,7 +16,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    height: 50px;
+    height: $navbar-height;
   }
 
   &__body {
