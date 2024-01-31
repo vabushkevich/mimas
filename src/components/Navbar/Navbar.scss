@@ -3,12 +3,9 @@
 
 .site-nav {
   display: flex;
-  position: sticky;
-  height: 50px;
+  height: 100%;
   background-color: white;
   box-shadow: 0 1px darken(white, 10%);
-  top: 0;
-  z-index: $z-index-sticky;
 
   @include dark-mode {
     box-shadow: 0 1px lighten(themed("gray-900"), 6%);

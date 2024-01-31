@@ -1,21 +1,26 @@
+@use "@sass/variables" as *;
+
 .page {
+  &__navbar {
+    position: sticky;
+    top: 0;
+    height: 50px;
+    z-index: $z-index-sticky;
+  }
+
   &__layout {
     display: flex;
   }
 
-  &__sidebar,
-  &__offcanvas {
+  &__sidebar {
+    position: sticky;
     top: 50px;
     height: calc(100vh - 50px);
   }
 
-  &__sidebar {
-    position: sticky;
-  }
-
   &__content {
     flex-grow: 1;
-    margin: 16px auto;
-    max-width: 100%;
+    min-width: 0;
+    margin: 16px 0;
   }
 }

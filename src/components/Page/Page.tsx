@@ -54,7 +54,9 @@ export function Page({ title, children }: PageProps) {
 
   return (
     <div className="page">
-      <Navbar onMenuButtonClick={toggleSidebar} />
+      <div className="page__navbar">
+        <Navbar onMenuButtonClick={toggleSidebar} />
+      </div>
       <div className="page__layout">
         {isSidebarOpen && sidebar}
         <div className="page__content">{children}</div>
