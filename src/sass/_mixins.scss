@@ -127,6 +127,10 @@
     background-color: themed("gray-800");
   }
 
+  @media (max-width: $screen-sm) {
+    font-size: 16px;
+  }
+
   &:focus {
     background-color: white;
 
