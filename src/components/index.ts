@@ -57,7 +57,7 @@ export { CrossPost } from "./CrossPost/CrossPost";
 export { TextPostSkeleton } from "./TextPost/TextPostSkeleton";
 export { Offcanvas } from "./Offcanvas/Offcanvas";
 export { RemovedPost } from "./RemovedPost/RemovedPost";
-export { NavbarLogo } from "./NavbarLogo/NavbarLogo";
+export { SidebarHeader } from "./SidebarHeader/SidebarHeader";
 export { Toaster } from "./Toaster/Toaster";
 export { Loader } from "./Loader/Loader";
 export { PlayButton } from "./PlayButton/PlayButton";

@@ -3,7 +3,7 @@ import { useClickOutside, useMediaQuery } from "@hooks";
 import { useAuth } from "@services/auth";
 import { useIdentity } from "@services/api";
 
-import { NavbarLogo } from "@components";
+import { SidebarHeader } from "@components";
 import { UserMenu } from "./UserMenu";
 import { Search } from "./Search";
 import ArrowLeftIcon from "@assets/svg/arrow-left.svg";
@@ -40,7 +40,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
         </div>
       ) : (
         <>
-          <NavbarLogo onMenuButtonClick={onMenuButtonClick} />
+          <SidebarHeader onMenuButtonClick={onMenuButtonClick} />
           <div className="site-nav__right-col">
             {isSmallScreen ? (
               <button

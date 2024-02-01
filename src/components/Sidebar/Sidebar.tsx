@@ -2,7 +2,7 @@ import React from "react";
 import { useSidebarSubreddits } from "./hooks";
 import { useAuth } from "@services/auth";
 
-import { Avatar, NavbarLogo } from "@components";
+import { Avatar, SidebarHeader } from "@components";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarItem } from "./SidebarItem";
 import { SidebarMenuSkeleton } from "./SidebarMenuSkeleton";
@@ -23,7 +23,7 @@ export function Sidebar({ showHeader = false }: SidebarProps) {
     <nav className="sidebar">
       {showHeader && (
         <div className="sidebar__header">
-          <NavbarLogo />
+          <SidebarHeader />
         </div>
       )}
       <div className="sidebar__body">
