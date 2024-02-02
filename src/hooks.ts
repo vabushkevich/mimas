@@ -69,7 +69,7 @@ export function useClickOutside(
   useEffect(() => {
     const handleClick = ({ target }: MouseEvent) => {
       const elems = refs.map((ref) => ref.current);
-      if (elems.some((elem) => !elem || elem.contains(target as Node))) return;
+      if (elems.some((elem) => elem?.contains(target as Node))) return;
       callbackRef.current();
     };
 
