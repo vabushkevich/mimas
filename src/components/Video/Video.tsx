@@ -55,7 +55,7 @@ export function Video({
     });
 
     return () => {
-      if (videoRef.current) videoRef.current.src = "";
+      video.src = "";
       hls?.destroy();
     };
   }, [isHLS, src, started]);
