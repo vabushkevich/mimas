@@ -442,13 +442,15 @@ export function useLastOnScreenMedia<T extends Element>(
   ref: React.RefObject<T>,
   key: string,
 ) {
-  const onScreenMediaIds = useAppSelector((state) => state.onScreenMediaIds);
   const dispatch = useAppDispatch();
+  const isLastOnScreen = useAppSelector(
+    (state) => state.onScreenMediaIds.at(-1) == key,
+  );
 
   useOnScreenMedia(ref, {
     onEnter: () => dispatch(addOnScreenMediaId(key)),
     onLeave: () => dispatch(removeOnScreenMediaId(key)),
   });
 
-  return key == onScreenMediaIds.at(-1);
+  return isLastOnScreen;
 }
