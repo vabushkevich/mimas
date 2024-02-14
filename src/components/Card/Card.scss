@@ -5,7 +5,12 @@
   border-radius: 8px;
 
   @include dark-mode {
+    border-color: themed("gray-600");
     background-color: themed("gray-900");
+  }
+
+  &--border {
+    border: 1px solid themed("gray-500");
   }
 
   &--overflow-hidden {

@@ -69,7 +69,7 @@ export function BasePost({
   const bookmark = useAuthGuard(mutateBookmark);
 
   return (
-    <Card hideOverflow>
+    <Card border={hideFooter} hideOverflow>
       <div
         className={classNames(
           "post",
