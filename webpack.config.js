@@ -75,6 +75,25 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendorReact: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: "vendor-react",
+        },
+        vendorHls: {
+          test: /[\\/]node_modules[\\/]hls\.js[\\/]/,
+          name: "vendor-hls.js",
+        },
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendor",
+        },
+      },
+      chunks: "all",
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/assets/index.html",
