@@ -39,7 +39,7 @@ export function SubredditPage() {
   const subscribe = useAuthGuard(mutateSubscription);
 
   return (
-    <Page title={subredditName}>
+    <Page title={subredditName || "My Feed"}>
       <Container>
         {!headless && (
           <div className="subreddit-page__header">
