@@ -2,7 +2,7 @@ import React from "react";
 import type { LinkPost, PostProps } from "@types";
 
 import { BasePost } from "@components";
-import ExternalIcon from "./assets/external.svg";
+import ExternalIcon from "@assets/svg/external.svg";
 import "./LinkPost.scss";
 
 export function LinkPost(props: PostProps<LinkPost>) {
