@@ -1,4 +1,5 @@
 import React from "react";
+import { getHostname } from "@utils";
 import type { LinkPost, PostProps } from "@types";
 
 import { BasePost } from "@components";
@@ -6,11 +7,8 @@ import ExternalIcon from "@assets/svg/external.svg";
 import "./LinkPost.scss";
 
 export function LinkPost(props: PostProps<LinkPost>) {
-  const { hostname, origin } = new URL(props.post.linkUrl);
-  const hostnameDisplayed = hostname.startsWith("www.")
-    ? hostname.slice(4)
-    : hostname;
-  const faviconURL = `https://www.google.com/s2/favicons?domain=${origin}&sz=64`;
+  const linkURL = new URL(props.post.linkUrl);
+  const faviconURL = `https://www.google.com/s2/favicons?domain=${linkURL.origin}&sz=64`;
 
   return (
     <BasePost {...props}>
@@ -25,7 +23,7 @@ export function LinkPost(props: PostProps<LinkPost>) {
           style={{ backgroundImage: `url(${faviconURL})` }}
         ></span>
         <span className="link-post-body__hostname">
-          {hostnameDisplayed}
+          {getHostname(linkURL)}
           <ExternalIcon className="link-post-body__external-icon" />
         </span>
       </a>

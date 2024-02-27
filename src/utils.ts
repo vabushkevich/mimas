@@ -183,3 +183,8 @@ export function shortenText(text: string, maxLength: number) {
 
   return text.slice(0, resultLength > 0 ? resultLength : maxLength);
 }
+
+export function getHostname(url: string | URL, { trimWWW = true } = {}) {
+  const { hostname } = url instanceof URL ? url : new URL(url);
+  return trimWWW && hostname.startsWith("www.") ? hostname.slice(4) : hostname;
+}
