@@ -286,6 +286,7 @@ export type Gallery = {
     caption?: string;
     id: string;
     imageVariants: Media[];
+    linkURL?: string;
   }[];
 };
 

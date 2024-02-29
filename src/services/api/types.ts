@@ -78,6 +78,7 @@ export type GalleryPost = BasePost & {
       items: {
         caption?: string;
         media_id: string;
+        outbound_url?: string;
       }[];
     };
     media_metadata: Record<string, ResponsiveMediaShort>;

@@ -87,9 +87,30 @@
   &__caption {
     @include text-content;
 
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: calc(($padding - 1em) / 2);
     max-width: 100%;
+  }
+
+  &__caption-text {
+    position: relative;
+  }
+
+  &__link {
+    position: relative;
+    color: themed("blue-400");
+
+    &:hover {
+      color: lighten(themed("blue-400"), 5%);
+    }
+  }
+
+  &__external-icon {
+    display: inline-block;
+    margin-left: 4px;
+    width: 10px;
   }
 
   &__counter {

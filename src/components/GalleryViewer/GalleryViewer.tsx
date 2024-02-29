@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { usePagination, usePreloadImage } from "@hooks";
+import { getHostname } from "@utils";
 import type { Gallery } from "@types";
 
 import { Loader } from "@components";
 import LeftIcon from "@assets/svg/arrow-left.svg";
 import RightIcon from "@assets/svg/arrow-right.svg";
 import CrossIcon from "@assets/svg/cross.svg";
+import ExternalIcon from "@assets/svg/external.svg";
 import "./GalleryViewer.scss";
 
 type GalleryViewerProps = {
@@ -28,7 +30,7 @@ export function GalleryViewer({
     pageCount,
     infinite: true,
   });
-  const { caption, imageVariants } = gallery.items[page];
+  const { caption, imageVariants, linkURL } = gallery.items[page];
   const image = imageVariants.at(-1);
   const imageLoaded = usePreloadImage(image?.src);
 
@@ -90,7 +92,24 @@ export function GalleryViewer({
         </div>
       </div>
       <div className="gallery-viewer__footer">
-        {caption && <div className="gallery-viewer__caption">{caption}</div>}
+        {(caption || linkURL) && (
+          <div className="gallery-viewer__caption">
+            {caption && (
+              <div className="gallery-viewer__caption-text">{caption}</div>
+            )}
+            {linkURL && (
+              <a
+                className="gallery-viewer__link"
+                href={linkURL}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {getHostname(linkURL)}
+                <ExternalIcon className="gallery-viewer__external-icon" />
+              </a>
+            )}
+          </div>
+        )}
         {pageCount > 1 && (
           <div className="gallery-viewer__counter">
             {page + 1} of {pageCount}

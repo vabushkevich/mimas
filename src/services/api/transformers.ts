@@ -174,12 +174,13 @@ export function transformGalleryPost(rawPost: Raw.GalleryPost): GalleryPost {
 
   const galleryItems = gallery_data.items
     .filter(({ media_id }) => media_metadata[media_id].status == "valid")
-    .map(({ media_id, caption }) => {
+    .map(({ media_id, caption, outbound_url }) => {
       const rawResponsiveImage = media_metadata[media_id];
       return {
         id: media_id,
         caption,
         imageVariants: transformResponsiveMediaShort(rawResponsiveImage),
+        linkURL: outbound_url,
       };
     });
 
