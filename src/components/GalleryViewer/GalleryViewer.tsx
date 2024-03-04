@@ -3,11 +3,10 @@ import { usePagination, usePreloadImage } from "@hooks";
 import { getHostname } from "@utils";
 import type { Gallery } from "@types";
 
-import { Loader } from "@components";
+import { ExternalLink, ExternalLinkText, Loader } from "@components";
 import LeftIcon from "@assets/svg/arrow-left.svg";
 import RightIcon from "@assets/svg/arrow-right.svg";
 import CrossIcon from "@assets/svg/cross.svg";
-import ExternalIcon from "@assets/svg/external.svg";
 import "./GalleryViewer.scss";
 
 type GalleryViewerProps = {
@@ -98,15 +97,9 @@ export function GalleryViewer({
               <div className="gallery-viewer__caption-text">{caption}</div>
             )}
             {linkURL && (
-              <a
-                className="gallery-viewer__link"
-                href={linkURL}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {getHostname(linkURL)}
-                <ExternalIcon className="gallery-viewer__external-icon" />
-              </a>
+              <ExternalLink className="gallery-viewer__link" href={linkURL}>
+                <ExternalLinkText>{getHostname(linkURL)}</ExternalLinkText>
+              </ExternalLink>
             )}
           </div>
         )}

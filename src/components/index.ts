@@ -68,3 +68,5 @@ export { ReadMore } from "./ReadMore/ReadMore";
 export { SearchPage } from "./SearchPage/SearchPage";
 export { ScaleFade } from "./ScaleFade/ScaleFade";
 export { AspectRatio } from "./AspectRatio/AspectRatio";
+export { ExternalLink } from "./ExternalLink/ExternalLink";
+export { ExternalLinkText } from "./ExternalLink/ExternalLinkText";

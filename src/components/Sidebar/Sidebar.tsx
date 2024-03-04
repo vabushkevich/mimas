@@ -2,7 +2,7 @@ import React from "react";
 import { useSidebarSubreddits } from "./hooks";
 import { useAuth } from "@services/auth";
 
-import { Avatar, SidebarHeader } from "@components";
+import { Avatar, ExternalLink, SidebarHeader } from "@components";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarItem } from "./SidebarItem";
 import { SidebarMenuSkeleton } from "./SidebarMenuSkeleton";
@@ -65,12 +65,9 @@ export function Sidebar({ showHeader = false }: SidebarProps) {
         {isLoading && <SidebarMenuSkeleton count={5} />}
       </div>
       <div className="sidebar__footer">
-        <a // eslint-disable-line react/jsx-no-target-blank
-          href="https://github.com/vabushkevich/mimas"
-          target="_blank"
-        >
+        <ExternalLink href="https://github.com/vabushkevich/mimas" rel="">
           <GithubIcon className="sidebar__github-icon" />
-        </a>
+        </ExternalLink>
       </div>
     </nav>
   );

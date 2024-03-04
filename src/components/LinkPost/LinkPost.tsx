@@ -2,8 +2,7 @@ import React from "react";
 import { getHostname } from "@utils";
 import type { LinkPost, PostProps } from "@types";
 
-import { BasePost } from "@components";
-import ExternalIcon from "@assets/svg/external.svg";
+import { BasePost, ExternalLink, ExternalLinkText } from "@components";
 import "./LinkPost.scss";
 
 export function LinkPost(props: PostProps<LinkPost>) {
@@ -12,21 +11,13 @@ export function LinkPost(props: PostProps<LinkPost>) {
 
   return (
     <BasePost {...props}>
-      <a
-        className="link-post-body"
-        href={props.post.linkUrl}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
+      <ExternalLink className="link-post-body" href={props.post.linkUrl}>
         <span
           className="link-post-body__favicon"
           style={{ backgroundImage: `url(${faviconURL})` }}
         ></span>
-        <span className="link-post-body__hostname">
-          {getHostname(linkURL)}
-          <ExternalIcon className="link-post-body__external-icon" />
-        </span>
-      </a>
+        <ExternalLinkText>{getHostname(linkURL)}</ExternalLinkText>
+      </ExternalLink>
     </BasePost>
   );
 }
