@@ -329,14 +329,14 @@ export function useParams<T extends Record<string, string>>(): [
   return [match.params, setParams];
 }
 
-const initialPathname = location.pathname;
+const initialLocationKey: string | undefined = history.state?.key;
 let spaNavigationOcurred = false;
 
 export function useNavigationType() {
   const { action, location } = useHistory();
   const { navigation } = performance;
 
-  if (location.pathname != initialPathname) spaNavigationOcurred = true;
+  if (location.key != initialLocationKey) spaNavigationOcurred = true;
 
   if (spaNavigationOcurred) {
     switch (action) {
