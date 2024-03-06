@@ -64,7 +64,11 @@ export function getAuthURL() {
       "edit history identity mysubreddits privatemessages read save submit subscribe vote",
   });
 
-  return `https://www.reddit.com/api/v1/authorize.compact?${params}`;
+  let url = "https://";
+  url += isModernAuthPageUnsupported() ? "old." : "www.";
+  url += `reddit.com/api/v1/authorize.compact?${params}`;
+
+  return url;
 }
 
 export function readAuth() {
@@ -79,4 +83,12 @@ export function storeAuth(auth: Auth) {
 
 export function clearAuth() {
   localStorage.removeItem("auth");
+}
+
+function isModernAuthPageUnsupported() {
+  // Regex that matches user agent string for Safari iOS <=15. Generated with
+  // `browserslist-useragent-regexp` and then modified.
+  const oldSafariIOs =
+    /(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+([1-9]|1[0-5])[._]\d+/;
+  return oldSafariIOs.test(navigator.userAgent);
 }
