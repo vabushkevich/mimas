@@ -113,15 +113,15 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export function useAuthGuard<F extends (...args: any[]) => any>(fn?: F): F {
+export function useAuthGuard<T extends unknown[], R>(func?: (...args: T) => R) {
   const { authorized } = useAuth();
 
   return useCallback(
-    <F>((...args: any[]) => {
-      if (authorized) return fn?.(...args);
+    (...args: T) => {
+      if (authorized) return func?.(...args);
       toast.error("Sign in to perform this action");
-    }),
-    [authorized, fn],
+    },
+    [authorized, func],
   );
 }
 
