@@ -63,10 +63,8 @@ export function BasePost({
     type != "link";
 
   const avatar = useAvatar(primaryAuthorId);
-  const { mutate: mutateVote } = useVote(post);
-  const { mutate: mutateBookmark } = useBookmarkPost(id);
-  const vote = useAuthGuard(mutateVote);
-  const bookmark = useAuthGuard(mutateBookmark);
+  const vote = useAuthGuard(useVote(post).mutate);
+  const bookmark = useAuthGuard(useBookmarkPost(id).mutate);
 
   return (
     <Card border={hideFooter} hideOverflow={hideFooter}>

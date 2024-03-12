@@ -35,8 +35,7 @@ export function SubredditPage() {
     enabled: !headless,
   });
 
-  const { mutate: mutateSubscription } = useSubscribe(subredditName);
-  const subscribe = useAuthGuard(mutateSubscription);
+  const subscribe = useAuthGuard(useSubscribe(subredditName).mutate);
 
   return (
     <Page title={subredditName || "My Feed"}>

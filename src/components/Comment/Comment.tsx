@@ -42,8 +42,7 @@ export function Comment({
     userName,
     voteDirection,
   } = comment;
-  const { mutate: mutateVote } = useVote(comment);
-  const vote = useAuthGuard(mutateVote);
+  const vote = useAuthGuard(useVote(comment).mutate);
   const handleReplyButtonClick = useAuthGuard(onReplyButtonClick);
 
   if (deletedBy) {
