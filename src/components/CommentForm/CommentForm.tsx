@@ -1,40 +1,35 @@
 import React, { useRef, useState } from "react";
 import { useTextAreaAutoHeight } from "@hooks";
+import { usePostComment } from "@services/api";
 
 import { Button, Loader } from "@components";
 import "./CommentForm.scss";
 
 type CommentFormProps = {
-  onError?: (error: unknown) => void;
-  onSubmit?: (text: string) => void | Promise<unknown>;
-  onSuccess?: () => void;
+  parentId: string;
+  onSubmit?: () => void;
 };
 
-export function CommentForm({
-  onError,
-  onSubmit,
-  onSuccess,
-}: CommentFormProps) {
+export function CommentForm({ parentId, onSubmit }: CommentFormProps) {
   const [text, setText] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textAreaHeight = useTextAreaAutoHeight(textAreaRef);
+  const { isLoading: isSubmitting, mutate: postComment } = usePostComment();
 
   return (
     <form
       className="comment-form"
       onSubmit={async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
-        try {
-          await onSubmit?.(text);
-          onSuccess?.();
-          setText("");
-        } catch (error) {
-          onError?.(error);
-        } finally {
-          setIsSubmitting(false);
-        }
+        postComment(
+          { parentId, text },
+          {
+            onSuccess: () => {
+              setText("");
+              onSubmit?.();
+            },
+          },
+        );
       }}
     >
       <textarea

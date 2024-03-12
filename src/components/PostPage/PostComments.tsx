@@ -4,7 +4,7 @@ import {
   CommentThreadList as CommentThreadListType,
   isCommentSortingOption,
 } from "@types";
-import { useLoadMoreComments, usePostComment } from "@services/api";
+import { useLoadMoreComments } from "@services/api";
 import { useAuth } from "@services/auth";
 
 import {
@@ -46,7 +46,6 @@ export function PostComments({
   onCommentSortingChange,
 }: PostCommentsProps) {
   const { authorized, signIn } = useAuth();
-  const { mutateAsync: postComment } = usePostComment();
   const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
     useLoadMoreComments();
 
@@ -100,11 +99,7 @@ export function PostComments({
           </div>
           <div className="post-comments__container">
             {alertMessage && <Alert>{alertMessage}</Alert>}
-            {showCommentForm && (
-              <CommentForm
-                onSubmit={(text) => postComment({ text, parentId: postId })}
-              />
-            )}
+            {showCommentForm && <CommentForm parentId={postId} />}
             {showSignInOffer && (
               <div className="post-comments__sign-in-offer">
                 <div className="post-comments__sign-in-offer-text">

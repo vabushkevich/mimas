@@ -1,6 +1,6 @@
 import React from "react";
 import { MoreItems } from "@types";
-import { useLoadMoreComments, usePostComment } from "@services/api";
+import { useLoadMoreComments } from "@services/api";
 
 import {
   CommentThreadContainer,
@@ -43,17 +43,13 @@ export function CommentThreadList({
     useLoadMoreComments({
       commentId: parentId,
     });
-  const { mutateAsync: postComment } = usePostComment();
 
   return (
     <ol className="comment-thread-list">
       {showReplyForm && parentId && (
         <li className="comment-thread-list__item">
           <CommentWrapper>
-            <CommentForm
-              onSubmit={(text) => postComment({ text, parentId })}
-              onSuccess={onReply}
-            />
+            <CommentForm parentId={parentId} onSubmit={onReply} />
           </CommentWrapper>
         </li>
       )}
