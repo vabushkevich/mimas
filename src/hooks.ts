@@ -198,15 +198,6 @@ export function usePagination({
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T,
-): [T, (value: T) => void, () => void];
-
-export function useLocalStorage<T = undefined>(
-  key: string,
-): [T | undefined, (value: T) => void, () => void];
-
-export function useLocalStorage<T>(
-  key: string,
   initialValue?: T,
 ): [T | undefined, (value: T) => void, () => void] {
   const storedValue = useMemo(() => {
