@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { useTextAreaAutoHeight } from "@hooks";
+import React, { useRef } from "react";
+import { useLocalStorage, useTextAreaAutoHeight } from "@hooks";
 import { usePostComment } from "@services/api";
 
 import { Button, Loader } from "@components";
@@ -10,8 +10,23 @@ type CommentFormProps = {
   onSubmit?: () => void;
 };
 
+function useStoredReply(
+  parentId: string,
+): [string | undefined, (value: string) => void] {
+  const [text, _setText, remove] = useLocalStorage<string>(`reply:${parentId}`);
+  const setText = (newText: string) => {
+    if (newText.trim()) {
+      _setText(newText);
+    } else {
+      remove();
+    }
+  };
+
+  return [text, setText];
+}
+
 export function CommentForm({ parentId, onSubmit }: CommentFormProps) {
-  const [text, setText] = useState("");
+  const [text = "", setText] = useStoredReply(parentId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textAreaHeight = useTextAreaAutoHeight(textAreaRef);
   const { isLoading: isSubmitting, mutate: postComment } = usePostComment();
