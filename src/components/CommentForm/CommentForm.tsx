@@ -29,22 +29,16 @@ export function CommentForm({ parentId, onSubmit }: CommentFormProps) {
   const [text = "", setText] = useStoredReply(parentId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textAreaHeight = useTextAreaAutoHeight(textAreaRef);
-  const { isLoading: isSubmitting, mutate: postComment } = usePostComment();
+  const { isLoading: isSubmitting, mutate: postComment } = usePostComment({
+    onSuccess: () => setText(""),
+  });
 
   return (
     <form
       className="comment-form"
       onSubmit={async (e) => {
         e.preventDefault();
-        postComment(
-          { parentId, text },
-          {
-            onSuccess: () => {
-              setText("");
-              onSubmit?.();
-            },
-          },
-        );
+        postComment({ parentId, text }, { onSuccess: onSubmit });
       }}
     >
       <textarea

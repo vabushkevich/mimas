@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector, useMediaQuery } from "@hooks";
-import { toggleThreadCollapse } from "@store/commentsSlice";
+import {
+  toggleReplyToCommentId,
+  toggleThreadCollapse,
+  unsetReplyToCommentId,
+} from "@store/commentsSlice";
 import type { Comment as CommentType } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
@@ -20,7 +24,9 @@ export function CommentThread({
 }: CommentThreadProps) {
   const { childIds, id, moreChildren } = comment;
 
-  const [showReplyForm, setShowReplyForm] = useState(false);
+  const showReplyForm = useAppSelector(
+    (state) => state.comments.replyToCommentId == id,
+  );
   const collapsed = useAppSelector((state) =>
     state.comments.collapsedThreadIds.includes(id),
   );
@@ -38,7 +44,7 @@ export function CommentThread({
           avatar={commentAuthorAvatar}
           collapsed={collapsed}
           comment={comment}
-          onReplyButtonClick={() => setShowReplyForm((v) => !v)}
+          onReplyButtonClick={() => dispatch(toggleReplyToCommentId(id))}
         />
       </CommentWrapper>
       {renderReplies && (
@@ -55,7 +61,7 @@ export function CommentThread({
             moreComments={moreChildren}
             parentId={id}
             showReplyForm={showReplyForm}
-            onReply={() => setShowReplyForm(false)}
+            onReply={() => dispatch(unsetReplyToCommentId(id))}
           />
         </div>
       )}

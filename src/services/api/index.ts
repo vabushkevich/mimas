@@ -265,12 +265,13 @@ export function useVote(submission: Submission) {
   });
 }
 
-export function usePostComment() {
+export function usePostComment({ onSuccess }: { onSuccess?: () => void }) {
   return useMutation({
     mutationFn: ({ parentId, text }: { parentId: string; text: string }) =>
       client.comment(parentId, text),
     onSuccess: (comment) => {
       addCommentToCache(comment);
+      onSuccess?.();
     },
   });
 }
