@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector, useMediaQuery } from "@hooks";
-import { toggleThread } from "@store/collapsedThreadIdsSlice";
+import { toggleThreadCollapse } from "@store/commentsSlice";
 import type { Comment as CommentType } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
@@ -22,7 +22,7 @@ export function CommentThread({
 
   const [showReplyForm, setShowReplyForm] = useState(false);
   const collapsed = useAppSelector((state) =>
-    state.collapsedThreadIds.includes(id),
+    state.comments.collapsedThreadIds.includes(id),
   );
   const dispatch = useAppDispatch();
   const isSmallScreen = useMediaQuery("(max-width: 576px)");
@@ -31,7 +31,9 @@ export function CommentThread({
 
   return (
     <div className="comment-thread">
-      <CommentWrapper onCollapseButtonClick={() => dispatch(toggleThread(id))}>
+      <CommentWrapper
+        onCollapseButtonClick={() => dispatch(toggleThreadCollapse(id))}
+      >
         <Comment
           avatar={commentAuthorAvatar}
           collapsed={collapsed}

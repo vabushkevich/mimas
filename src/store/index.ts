@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import collapsedThreadIdsReducer from "./collapsedThreadIdsSlice";
+import commentsReducer from "./commentsSlice";
 import onScreenMediaIdsReducer from "./onScreenMediaIdsSlice";
 
 export const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
   reducer: {
-    collapsedThreadIds: collapsedThreadIdsReducer,
+    comments: commentsReducer,
     onScreenMediaIds: onScreenMediaIdsReducer,
   },
 });
