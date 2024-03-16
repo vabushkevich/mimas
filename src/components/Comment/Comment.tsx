@@ -43,7 +43,6 @@ export function Comment({
     voteDirection,
   } = comment;
   const vote = useAuthGuard(useVote(comment).mutate);
-  const handleReplyButtonClick = useAuthGuard(onReplyButtonClick);
 
   if (deletedBy) {
     return (
@@ -75,7 +74,7 @@ export function Comment({
               <button
                 className="comment__reply-btn"
                 disabled={locked}
-                onClick={handleReplyButtonClick}
+                onClick={onReplyButtonClick}
               >
                 Reply
               </button>

@@ -5,7 +5,6 @@ import {
   isCommentSortingOption,
 } from "@types";
 import { useLoadMoreComments } from "@services/api";
-import { useAuth } from "@services/auth";
 
 import {
   CommentThreadList,
@@ -15,7 +14,6 @@ import {
   IntersectionDetector,
   Alert,
   CommentForm,
-  Button,
   DropdownButton,
 } from "@components";
 import "./PostPage.scss";
@@ -45,7 +43,6 @@ export function PostComments({
   threadList,
   onCommentSortingChange,
 }: PostCommentsProps) {
-  const { authorized, signIn } = useAuth();
   const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
     useLoadMoreComments();
 
@@ -57,8 +54,6 @@ export function PostComments({
       return "Post locked. Commenting is not available.";
     }
   })();
-  const showCommentForm = !alertMessage && authorized;
-  const showSignInOffer = !alertMessage && !authorized;
 
   return (
     <div className="post-comments">
@@ -98,17 +93,10 @@ export function PostComments({
             </div>
           </div>
           <div className="post-comments__container">
-            {alertMessage && <Alert>{alertMessage}</Alert>}
-            {showCommentForm && <CommentForm parentId={postId} />}
-            {showSignInOffer && (
-              <div className="post-comments__sign-in-offer">
-                <div className="post-comments__sign-in-offer-text">
-                  Sign in to post comments
-                </div>
-                <Button size="sm" onClick={signIn}>
-                  Sign in with Reddit
-                </Button>
-              </div>
+            {alertMessage ? (
+              <Alert>{alertMessage}</Alert>
+            ) : (
+              <CommentForm parentId={postId} />
             )}
           </div>
           {threadList.rootCommentIds.length > 0 && (

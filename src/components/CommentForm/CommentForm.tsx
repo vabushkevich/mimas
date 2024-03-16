@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useLocalStorage, useTextAreaAutoHeight } from "@hooks";
+import { useAuthGuard, useLocalStorage, useTextAreaAutoHeight } from "@hooks";
 import { usePostComment } from "@services/api";
 
 import { Button, Loader } from "@components";
@@ -29,9 +29,9 @@ export function CommentForm({ parentId, onSubmit }: CommentFormProps) {
   const [text = "", setText] = useStoredReply(parentId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textAreaHeight = useTextAreaAutoHeight(textAreaRef);
-  const { isLoading: isSubmitting, mutate: postComment } = usePostComment({
-    onSuccess: () => setText(""),
-  });
+  const postCommentMutation = usePostComment({ onSuccess: () => setText("") });
+  const { isLoading: isSubmitting } = postCommentMutation;
+  const postComment = useAuthGuard(postCommentMutation.mutate);
 
   return (
     <form
