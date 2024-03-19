@@ -49,7 +49,7 @@ export function CommentThreadList({
       {showReplyForm && parentId && (
         <li className="comment-thread-list__item">
           <CommentWrapper>
-            <CommentForm parentId={parentId} onSubmit={onReply} />
+            <CommentForm autoFocus parentId={parentId} onSubmit={onReply} />
           </CommentWrapper>
         </li>
       )}

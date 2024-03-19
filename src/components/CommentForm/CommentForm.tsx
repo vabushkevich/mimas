@@ -6,6 +6,7 @@ import { Button, Loader } from "@components";
 import "./CommentForm.scss";
 
 type CommentFormProps = {
+  autoFocus?: boolean;
   parentId: string;
   onSubmit?: () => void;
 };
@@ -25,7 +26,11 @@ function useStoredReply(
   return [text, setText];
 }
 
-export function CommentForm({ parentId, onSubmit }: CommentFormProps) {
+export function CommentForm({
+  autoFocus,
+  parentId,
+  onSubmit,
+}: CommentFormProps) {
   const [text = "", setText] = useStoredReply(parentId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textAreaHeight = useTextAreaAutoHeight(textAreaRef);
@@ -42,6 +47,7 @@ export function CommentForm({ parentId, onSubmit }: CommentFormProps) {
       }}
     >
       <textarea
+        autoFocus={autoFocus}
         ref={textAreaRef}
         style={{ height: textAreaHeight }}
         disabled={isSubmitting}
