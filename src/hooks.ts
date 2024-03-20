@@ -237,18 +237,15 @@ export function useLocalStorage<T>(
 }
 
 export function useMediaQuery(query: string) {
-  const queryList = matchMedia(query);
+  const queryList = useMemo(() => matchMedia(query), [query]);
   const [matches, setMatches] = useState(queryList.matches);
 
   useEffect(() => {
-    const handleChange = (event: MediaQueryListEvent) => {
-      setMatches(event.matches);
-    };
-
+    const handleChange = () => setMatches(queryList.matches);
     queryList.addEventListener("change", handleChange);
-
+    setMatches(queryList.matches);
     return () => queryList.removeEventListener("change", handleChange);
-  }, [query]);
+  }, [queryList]);
 
   return matches;
 }
