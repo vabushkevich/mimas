@@ -445,3 +445,11 @@ export function useLastOnScreenMedia<T extends Element>(
 
   return isLastOnScreen;
 }
+
+export function useIsSmallScreen() {
+  return useMediaQuery("(max-width: 576px)");
+}
+
+export function useIsLargeScreen() {
+  return useMediaQuery("(min-width: 992px)");
+}

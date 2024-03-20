@@ -1,5 +1,5 @@
 import React from "react";
-import { useMediaQuery } from "@hooks";
+import { useIsSmallScreen } from "@hooks";
 import type { Gallery } from "@types";
 
 import { AspectRatio } from "@components";
@@ -15,7 +15,7 @@ type GalleryProps = {
 export function Gallery({ gallery, onItemClick }: GalleryProps) {
   const displayedItems = gallery.items.slice(0, MAX_DISPLAYED_ITEM_COUNT);
   const moreItemCount = gallery.items.length - displayedItems.length;
-  const isSmallScreen = useMediaQuery("(max-width: 576px)");
+  const isSmallScreen = useIsSmallScreen();
   const aspectRatio = isSmallScreen ? 6 / 5 : 3 / 2;
 
   return (

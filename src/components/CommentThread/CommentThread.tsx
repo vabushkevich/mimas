@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { useAppDispatch, useAppSelector, useMediaQuery } from "@hooks";
+import { useAppDispatch, useAppSelector, useIsSmallScreen } from "@hooks";
 import {
   toggleReplyToCommentId,
   toggleThreadCollapse,
@@ -31,7 +31,7 @@ export function CommentThread({
     state.comments.collapsedThreadIds.includes(id),
   );
   const dispatch = useAppDispatch();
-  const isSmallScreen = useMediaQuery("(max-width: 576px)");
+  const isSmallScreen = useIsSmallScreen();
   const renderReplies = childIds.length > 0 || moreChildren || showReplyForm;
   const depthLimit = isSmallScreen ? 7 : 20;
 

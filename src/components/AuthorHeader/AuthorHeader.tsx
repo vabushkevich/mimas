@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
-import { useMediaQuery } from "@hooks";
+import { useIsSmallScreen } from "@hooks";
 
 import { Card, Stat, Avatar, ReadMore } from "@components";
 import "./AuthorHeader.scss";
@@ -31,7 +31,7 @@ export function AuthorHeader({
   subscribeButton,
   tabs,
 }: AuthorHeaderProps) {
-  const isSmallScreen = useMediaQuery("(max-width: 576px)");
+  const isSmallScreen = useIsSmallScreen();
   const descriptionMaxLength = isSmallScreen ? 70 : 150;
 
   return (

@@ -1,8 +1,8 @@
 import React, { useState, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
+  useIsLargeScreen,
   useLocalStorage,
-  useMediaQuery,
   useNavigationType,
   useTitle,
 } from "@hooks";
@@ -21,7 +21,7 @@ export function Page({ title, children }: PageProps) {
     true,
   );
   const [isOffcanvasSidebarOpen, setIsOffcanvasSidebarOpen] = useState(false);
-  const isLargeScreen = useMediaQuery("(min-width: 992px)");
+  const isLargeScreen = useIsLargeScreen();
   const { location } = useHistory();
   const navigationType = useNavigationType();
 

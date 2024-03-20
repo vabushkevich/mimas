@@ -1,6 +1,6 @@
 import React from "react";
 import { uniqBy } from "lodash-es";
-import { useMediaQuery } from "@hooks";
+import { useIsSmallScreen } from "@hooks";
 import { useSearchSubreddits } from "@services/api";
 
 import { Button, Card, Info, Skeleton } from "@components";
@@ -12,7 +12,7 @@ type SubredditSearchProps = {
 };
 
 export function SubredditSearch({ query }: SubredditSearchProps) {
-  const isSmallScreen = useMediaQuery("(max-width: 576px)");
+  const isSmallScreen = useIsSmallScreen();
   const columnCount = isSmallScreen ? 1 : 2;
   const pageItemCount = isSmallScreen ? 4 : 8;
   const { data, fetchNextPage, hasNextPage, isFetching } = useSearchSubreddits(

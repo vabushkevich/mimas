@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useClickOutside, useMediaQuery } from "@hooks";
+import { useClickOutside, useIsSmallScreen } from "@hooks";
 import { useAuth } from "@services/auth";
 import { useIdentity } from "@services/api";
 
@@ -17,7 +17,7 @@ type NavbarProps = {
 export function Navbar({ onMenuButtonClick }: NavbarProps) {
   const { authorized } = useAuth();
   const [isSearchMode, setIsSearchMode] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 576px)");
+  const isSmallScreen = useIsSmallScreen();
   const searchSectionRef = useRef<HTMLDivElement>(null);
   const { data: identity } = useIdentity({ enabled: authorized });
   const user = authorized ? identity?.user : undefined;
