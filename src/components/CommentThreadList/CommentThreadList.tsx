@@ -48,7 +48,7 @@ export function CommentThreadList({
     <ol className="comment-thread-list">
       {showReplyForm && parentId && (
         <li className="comment-thread-list__item">
-          <CommentWrapper>
+          <CommentWrapper collapseButtonDisabled>
             <CommentForm autoFocus parentId={parentId} onSubmit={onReply} />
           </CommentWrapper>
         </li>
