@@ -2,7 +2,7 @@ import React from "react";
 
 import {
   Card,
-  CommentThreadList,
+  CommentThreadListSkeleton,
   DropdownButtonSkeleton,
   Skeleton,
 } from "@components";
@@ -27,7 +27,7 @@ export function PostCommentsSkeleton() {
             <Skeleton block height={90} />
           </div>
           <div className="post-comments__thread-list">
-            <CommentThreadList commentIds={[]} isLoading />
+            <CommentThreadListSkeleton />
           </div>
         </div>
       </Card>

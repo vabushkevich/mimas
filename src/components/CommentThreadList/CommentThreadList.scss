@@ -1,13 +1,15 @@
 @use "@sass/mixins" as *;
 
 .comment-thread-list {
-  @include reset-list;
+  &__list {
+    @include reset-list;
+  }
 
   &__item:not(:last-child) {
     margin-bottom: 18px;
   }
 
-  &__more-replies-btn {
+  &__more-comments-btn {
     @include reset-button;
 
     font-weight: 500;

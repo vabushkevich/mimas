@@ -3,88 +3,87 @@ import { MoreItems } from "@types";
 import { useLoadMoreComments } from "@services/api";
 
 import {
-  CommentThreadContainer,
-  CommentWrapper,
-  Loader,
   CommentForm,
-  CommentSkeleton,
+  CommentThreadContainer,
+  CommentThreadListSkeleton,
+  CommentWrapper,
+  IntersectionDetector,
+  Loader,
 } from "@components";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = {
+  autoLoadMoreComments?: boolean;
   commentIds: string[];
   depth?: number;
-  hideLoadMoreButton?: boolean;
-  isLoading?: boolean;
   moreComments?: MoreItems;
   parentId?: string;
-  showReplyForm?: boolean;
-  onReply?: () => void;
+  showCommentForm?: boolean;
+  onComment?: () => void;
 };
 
-function getMoreCommentsMessage(moreComments: MoreItems) {
-  const count = moreComments.totalCount;
-  if (count > 1) return `${count} comments`;
-  if (count == 1) return "1 comment";
+function getMoreCommentsMessage(commentCount: number) {
+  if (commentCount > 1) return `${commentCount} comments`;
+  if (commentCount == 1) return "1 comment";
   return "More comments";
 }
 
 export function CommentThreadList({
+  autoLoadMoreComments,
   commentIds,
   depth = 0,
-  hideLoadMoreButton,
-  isLoading,
   moreComments,
   parentId,
-  showReplyForm = false,
-  onReply,
+  showCommentForm,
+  onComment,
 }: CommentThreadListProps) {
-  const { mutate: loadMoreComments, isLoading: isLoadingMore } =
-    useLoadMoreComments({
-      commentId: parentId,
-    });
+  const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
+    useLoadMoreComments({ commentId: parentId });
 
   return (
-    <ol className="comment-thread-list">
-      {showReplyForm && parentId && (
-        <li className="comment-thread-list__item">
-          <CommentWrapper collapseButtonDisabled>
-            <CommentForm autoFocus parentId={parentId} onSubmit={onReply} />
-          </CommentWrapper>
-        </li>
-      )}
-      {commentIds.map((commentId) => {
-        return (
+    <div className="comment-thread-list">
+      <ol className="comment-thread-list__list">
+        {showCommentForm && parentId && (
+          <li className="comment-thread-list__item">
+            <CommentWrapper collapseButtonDisabled>
+              <CommentForm autoFocus parentId={parentId} onSubmit={onComment} />
+            </CommentWrapper>
+          </li>
+        )}
+        {commentIds.map((commentId) => (
           <li key={commentId} className="comment-thread-list__item">
             <CommentThreadContainer commentId={commentId} depth={depth} />
           </li>
-        );
-      })}
-      {isLoading &&
-        new Array(commentIds.length > 0 ? 3 : 10).fill(0).map((_, i) => (
-          <li key={i} className="comment-thread-list__item">
-            <CommentWrapper>
-              <CommentSkeleton />
+        ))}
+        {!autoLoadMoreComments && moreComments && (
+          <li className="comment-thread-list__item">
+            <CommentWrapper collapseButtonDisabled>
+              <button
+                className="comment-thread-list__more-comments-btn"
+                onClick={() => loadMoreComments()}
+              >
+                {getMoreCommentsMessage(moreComments.totalCount)}
+                {isMoreCommentsLoading && (
+                  <span className="comment-thread-list__loader">
+                    <Loader size="sm" />
+                  </span>
+                )}
+              </button>
             </CommentWrapper>
           </li>
-        ))}
-      {!hideLoadMoreButton && moreComments && (
-        <li className="comment-thread-list__item">
-          <CommentWrapper onCollapseButtonClick={() => loadMoreComments()}>
-            <button
-              className="comment-thread-list__more-replies-btn"
-              onClick={() => loadMoreComments()}
-            >
-              {getMoreCommentsMessage(moreComments)}
-              {isLoadingMore && (
-                <span className="comment-thread-list__loader">
-                  <Loader size="sm" />
-                </span>
-              )}
-            </button>
-          </CommentWrapper>
-        </li>
+        )}
+        {isMoreCommentsLoading && autoLoadMoreComments && (
+          <li className="comment-thread-list__item">
+            <CommentThreadListSkeleton itemCount={3} />
+          </li>
+        )}
+      </ol>
+      {autoLoadMoreComments && moreComments && !isMoreCommentsLoading && (
+        <IntersectionDetector
+          rootMargin="0px 0px 100%"
+          onEnter={loadMoreComments}
+        />
       )}
-    </ol>
+    </div>
   );
 }

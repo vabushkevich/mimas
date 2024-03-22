@@ -4,14 +4,12 @@ import {
   CommentThreadList as CommentThreadListType,
   isCommentSortingOption,
 } from "@types";
-import { useLoadMoreComments } from "@services/api";
 
 import {
   CommentThreadList,
   DropdownMenu,
   MenuItem,
   Card,
-  IntersectionDetector,
   Alert,
   CommentForm,
   DropdownButton,
@@ -43,9 +41,6 @@ export function PostComments({
   threadList,
   onCommentSortingChange,
 }: PostCommentsProps) {
-  const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
-    useLoadMoreComments();
-
   const alertMessage = (() => {
     if (isPostArchived) {
       return "Post archived. Commenting and voting are not available.";
@@ -102,17 +97,10 @@ export function PostComments({
           {threadList.rootCommentIds.length > 0 && (
             <div className="post-comments__thread-list">
               <CommentThreadList
+                autoLoadMoreComments
                 commentIds={threadList.rootCommentIds}
-                hideLoadMoreButton
-                isLoading={isMoreCommentsLoading}
                 moreComments={threadList.moreComments}
               />
-              {threadList.moreComments && !isMoreCommentsLoading && (
-                <IntersectionDetector
-                  rootMargin="0px 0px 100%"
-                  onEnter={loadMoreComments}
-                />
-              )}
             </div>
           )}
         </div>

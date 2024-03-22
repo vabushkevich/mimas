@@ -60,8 +60,8 @@ export function CommentThread({
             depth={depth + 1}
             moreComments={moreChildren}
             parentId={id}
-            showReplyForm={showReplyForm}
-            onReply={() => dispatch(unsetReplyToCommentId(id))}
+            showCommentForm={showReplyForm}
+            onComment={() => dispatch(unsetReplyToCommentId(id))}
           />
         </div>
       )}
