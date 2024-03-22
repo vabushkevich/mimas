@@ -260,17 +260,20 @@ export function useTitle(title?: string) {
   }, [title]);
 }
 
-export function usePreloadImage(src?: string) {
-  const [loaded, setLoaded] = useState(false);
-  const img = useMemo(() => {
-    if (!src) return;
-    const img = document.createElement("img");
-    img.src = src;
-    if (!img.complete) img.onload = () => setLoaded(true);
-    return img;
+export function usePreloadImage(src = "") {
+  const image = useMemo(() => {
+    const image = new Image();
+    image.src = src;
+    return image;
   }, [src]);
+  const [loaded, setLoaded] = useState(image.complete);
 
-  if (img && loaded != img.complete) setLoaded(img.complete);
+  useLayoutEffect(() => {
+    const handleLoad = () => setLoaded(true);
+    image.addEventListener("load", handleLoad);
+    setLoaded(image.complete);
+    return () => image.removeEventListener("load", handleLoad);
+  }, [image]);
 
   return loaded;
 }

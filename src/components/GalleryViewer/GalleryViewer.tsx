@@ -67,7 +67,7 @@ export function GalleryViewer({
             height={image?.height}
             onClick={onClose}
           />
-          {!imageLoaded && (
+          {(!image?.src || !imageLoaded) && (
             <div className="gallery-viewer__loader">
               <Loader colorMode="light" size="lg" />
             </div>
