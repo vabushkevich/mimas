@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useComment, useAvatar } from "@services/api";
+import { useComment } from "@services/api";
 
 import { CommentThread } from "@components";
 
@@ -13,13 +13,6 @@ export const CommentThreadContainer = memo(function CommentThreadContainer({
   depth,
 }: CommentThreadContainerProps) {
   const { data: comment } = useComment(commentId);
-  const commentAuthorAvatar = useAvatar(comment?.userId);
 
-  return comment ? (
-    <CommentThread
-      comment={comment}
-      commentAuthorAvatar={commentAuthorAvatar}
-      depth={depth}
-    />
-  ) : null;
+  return comment ? <CommentThread comment={comment} depth={depth} /> : null;
 });

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAvatar } from "@services/api";
 import { Comment as CommentType } from "@types";
 
 import { Card, Comment } from "@components";
@@ -11,8 +10,6 @@ type CommentListItemProps = {
 };
 
 export function CommentListItem({ comment }: CommentListItemProps) {
-  const commentAuthorAvatar = useAvatar(comment.userId);
-
   return (
     <Card>
       <div className="comment-list-item">
@@ -20,7 +17,6 @@ export function CommentListItem({ comment }: CommentListItemProps) {
           {comment.postTitle}
         </Link>
         <Comment
-          avatar={commentAuthorAvatar}
           comment={comment}
           hideDistinction
           hideLock

@@ -13,15 +13,10 @@ import "./CommentThread.scss";
 
 type CommentThreadProps = {
   comment: CommentType;
-  commentAuthorAvatar?: string | null;
   depth: number;
 };
 
-export function CommentThread({
-  comment,
-  commentAuthorAvatar,
-  depth,
-}: CommentThreadProps) {
+export function CommentThread({ comment, depth }: CommentThreadProps) {
   const { childIds, id, moreChildren } = comment;
 
   const showReplyForm = useAppSelector(
@@ -41,7 +36,6 @@ export function CommentThread({
         onCollapseButtonClick={() => dispatch(toggleThreadCollapse(id))}
       >
         <Comment
-          avatar={commentAuthorAvatar}
           collapsed={collapsed}
           comment={comment}
           onReplyButtonClick={() => dispatch(toggleReplyToCommentId(id))}

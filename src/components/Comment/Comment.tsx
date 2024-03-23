@@ -1,14 +1,13 @@
 import React from "react";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
-import { useVote } from "@services/api";
+import { useAvatar, useVote } from "@services/api";
 import { useAuthGuard } from "@hooks";
 
 import { UserContent, SubmissionHeader, Voting } from "@components";
 import "./Comment.scss";
 
 type CommentProps = {
-  avatar?: string | null;
   collapsed?: boolean;
   comment: Comment;
   hideDistinction?: boolean;
@@ -19,7 +18,6 @@ type CommentProps = {
 };
 
 export function Comment({
-  avatar,
   collapsed = false,
   comment,
   hideDistinction,
@@ -39,9 +37,12 @@ export function Comment({
     pinned,
     score,
     scoreHidden,
+    userId,
     userName,
     voteDirection,
   } = comment;
+
+  const avatar = useAvatar(userId);
   const vote = useAuthGuard(useVote(comment).mutate);
 
   if (deletedBy) {
