@@ -17,7 +17,6 @@ export { IntersectionDetector } from "./IntersectionDetector/IntersectionDetecto
 export { Comment } from "./Comment/Comment";
 export { CommentSkeleton } from "./Comment/CommentSkeleton";
 export { CommentThread } from "./CommentThread/CommentThread";
-export { CommentThreadContainer } from "./CommentThreadContainer/CommentThreadContainer";
 export { CommentThreadList } from "./CommentThreadList/CommentThreadList";
 export { Card } from "./Card/Card";
 export { Button } from "./Button/Button";

@@ -139,6 +139,7 @@ export function useComment(id: string) {
       },
     );
     const comment = comments?.comments[id];
+    if (!comment) throw new Error(`Comment ${id} not found in cache`);
     return comment;
   };
 

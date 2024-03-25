@@ -4,7 +4,7 @@ import { useLoadMoreComments } from "@services/api";
 
 import {
   CommentForm,
-  CommentThreadContainer,
+  CommentThread,
   CommentThreadListSkeleton,
   CommentWrapper,
   IntersectionDetector,
@@ -52,7 +52,7 @@ export function CommentThreadList({
         )}
         {commentIds.map((commentId) => (
           <li key={commentId} className="comment-thread-list__item">
-            <CommentThreadContainer commentId={commentId} depth={depth} />
+            <CommentThread commentId={commentId} depth={depth} />
           </li>
         ))}
         {!autoLoadMoreComments && moreComments && (

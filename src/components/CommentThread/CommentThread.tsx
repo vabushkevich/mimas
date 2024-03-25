@@ -1,22 +1,26 @@
-import React from "react";
+import React, { memo } from "react";
 import classNames from "classnames";
+import { useComment } from "@services/api";
 import { useAppDispatch, useAppSelector, useIsSmallScreen } from "@hooks";
 import {
   toggleReplyToCommentId,
   toggleThreadCollapse,
   unsetReplyToCommentId,
 } from "@store/commentsSlice";
-import type { Comment as CommentType } from "@types";
 
 import { Comment, CommentThreadList, CommentWrapper } from "@components";
 import "./CommentThread.scss";
 
 type CommentThreadProps = {
-  comment: CommentType;
+  commentId: string;
   depth: number;
 };
 
-export function CommentThread({ comment, depth }: CommentThreadProps) {
+export const CommentThread = memo(function CommentThread({
+  commentId,
+  depth,
+}: CommentThreadProps) {
+  const { data: comment } = useComment(commentId);
   const { childIds, id, moreChildren } = comment;
 
   const showReplyForm = useAppSelector(
@@ -61,4 +65,4 @@ export function CommentThread({ comment, depth }: CommentThreadProps) {
       )}
     </div>
   );
-}
+});
