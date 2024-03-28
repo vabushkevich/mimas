@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "sass:list";
 @use "sass:selector";
 @use "./variables" as *;
@@ -136,6 +137,15 @@
 
     @include dark-mode {
       background-color: themed("gray-900");
+    }
+  }
+
+  &::placeholder {
+    color: lighten(themed("text-primary"), 50%);
+    opacity: 1;
+
+    @include dark-mode {
+      color: darken(themed("text-primary"), 35%);
     }
   }
 }
