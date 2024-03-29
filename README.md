@@ -12,21 +12,22 @@ can run the app on your computer locally.
 ### Prerequisites
 
 Before starting, you should have installed [git](https://git-scm.com),
-[Node.js](https://nodejs.org) (>=14.21.3), and npm.
+[Node.js](https://nodejs.org) (>=18.18.0), and npm.
 
 ### How to start
 
-First you have to get a Client ID by registering your own Reddit application:
+First, you have to get a Client ID by registering your own Reddit application:
 
-1. Go to [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps).
-2. Click the "are you a developer? create an app..." button at the bottom of the
-   page.
-3. Enter any suitable app name in the "name" field.
+1. Go to [https://old.reddit.com/prefs/apps](https://old.reddit.com/prefs/apps).
+2. Scroll to the bottom of the page and click on the "are you a developer?
+   create an app..." button. The application creation form will appear.
+3. Enter the value `mimas (self-hosted)` in the "name" field.
 4. Check the "installed app" option.
-5. Fill in the "redirect uri" field with the value `http://localhost:4777/auth`.
-6. Click to the "create app" button.
-7. You will see the Client ID on top of the created app card under the app name
-   (an alphanumeric string about 20 characters long).
+5. Enter the value `http://localhost:4777/auth` in the "redirect uri" field.
+6. Click on the "create app" button.
+7. You will see the Client ID at the top of the created app card under the app
+   name (an alphanumeric string about 20 characters long). Save it (you'll need
+   it later).
 
 Then clone this repository to your computer:
 
@@ -41,14 +42,14 @@ cd mimas
 npm install
 ```
 
-Copy the `.env.example` file to `.env`:
+Copy the `.env.example` file to the `.env` file:
 
 ```shell
 cp .env.example .env
 ```
 
 Edit the `.env` file: replace `client_id_of_your_reddit_app` with the Client ID
-you got in the first step.
+you got earlier.
 
 Run the following command to compile required files and to start the web server:
 
