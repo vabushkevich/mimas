@@ -70,3 +70,4 @@ export { AspectRatio } from "./AspectRatio/AspectRatio";
 export { ExternalLink } from "./ExternalLink/ExternalLink";
 export { ExternalLinkText } from "./ExternalLink/ExternalLinkText";
 export { CommentThreadListSkeleton } from "./CommentThreadList/CommentThreadListSkeleton";
+export { Flair } from "./Flair/Flair";

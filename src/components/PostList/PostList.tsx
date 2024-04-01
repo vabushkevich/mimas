@@ -6,6 +6,7 @@ import "./PostList.scss";
 
 type PostListProps = {
   feedType: FeedType;
+  hideFlairs?: boolean;
   hidePins?: boolean;
   isLoading?: boolean;
   posts: PostType[];
@@ -14,6 +15,7 @@ type PostListProps = {
 
 export function PostList({
   feedType,
+  hideFlairs = false,
   hidePins = false,
   isLoading = false,
   posts,
@@ -24,6 +26,7 @@ export function PostList({
       {posts.map((post) => (
         <li key={post.id} className="post-list__item">
           <Post
+            hideFlair={hideFlairs}
             pinned={!hidePins && post.pinnedIn.includes(feedType)}
             post={post}
             primaryAuthorType={primaryAuthorType}

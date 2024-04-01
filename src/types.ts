@@ -45,6 +45,7 @@ export type BasePost = {
   commentCount: number;
   dateCreated: number;
   dateEdited?: number;
+  flair?: string;
   id: string;
   locked: boolean;
   pinnedIn: FeedType[];
@@ -53,6 +54,7 @@ export type BasePost = {
   subredditId: string;
   title: string;
   url: string;
+  userFlair?: string;
   userId?: string;
   userName: string;
   voteDirection: VoteDirection;
@@ -129,6 +131,7 @@ export type Post =
 
 export type PostProps<T extends BasePost> = {
   collapsed?: boolean;
+  hideFlair?: boolean;
   hideFooter?: boolean;
   large?: boolean;
   pinned?: boolean;
@@ -159,6 +162,7 @@ export type Comment = {
   postUrl: string;
   score: number;
   scoreHidden: boolean;
+  userFlair?: string;
   userId?: string;
   userName: string;
   voteDirection: VoteDirection;

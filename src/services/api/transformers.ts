@@ -12,6 +12,7 @@ import {
   isCrossPost,
   isRemovedPost,
   stripBaseURL,
+  getFlairText,
 } from "./utils";
 import {
   Post,
@@ -80,11 +81,15 @@ export function transformBasePost(
   const {
     data: {
       archived,
+      author_flair_richtext,
+      author_flair_text,
       author_fullname,
       author,
       created_utc,
       edited,
       likes,
+      link_flair_richtext,
+      link_flair_text,
       locked,
       name,
       num_comments,
@@ -117,13 +122,24 @@ export function transformBasePost(
     voteDirection: likes != null ? (likes ? 1 : -1) : 0,
   };
 
+  const flair = getFlairText({
+    richText: link_flair_richtext,
+    text: link_flair_text || "",
+  });
+  const userFlair = getFlairText({
+    richText: author_flair_richtext,
+    text: author_flair_text || "",
+  });
+
   if (author_fullname) basePost.userId = author_fullname;
   if (typeof edited == "number") basePost.dateEdited = edited * 1000;
+  if (flair) basePost.flair = flair;
   if (pinned) basePost.pinnedIn.push("user");
   if (extractAdditionalText && selftext_html) {
     basePost.additionalTextHtml = selftext_html;
   }
   if (stickied) basePost.pinnedIn.push("subreddit");
+  if (userFlair) basePost.userFlair = userFlair;
 
   return basePost;
 }
@@ -315,6 +331,8 @@ export function transformCommentListItems(
 export function transformComment(rawComment: Raw.Comment): Comment {
   const {
     data: {
+      author_flair_richtext,
+      author_flair_text,
       author_fullname,
       author,
       body_html,
@@ -357,12 +375,18 @@ export function transformComment(rawComment: Raw.Comment): Comment {
     voteDirection: likes != null ? (likes ? 1 : -1) : 0,
   };
 
+  const userFlair = getFlairText({
+    richText: author_flair_richtext,
+    text: author_flair_text || "",
+  });
+
   if (author_fullname) comment.userId = author_fullname;
   if (distinguished) comment.distinction = distinguished;
   if (typeof edited == "number") comment.dateEdited = edited * 1000;
   if (isCommentDeleted(rawComment)) {
     comment.deletedBy = getCommentDeleter(rawComment);
   }
+  if (userFlair) comment.userFlair = userFlair;
 
   return comment;
 }

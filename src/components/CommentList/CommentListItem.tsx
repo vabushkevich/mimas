@@ -19,6 +19,7 @@ export function CommentListItem({ comment }: CommentListItemProps) {
         <Comment
           comment={comment}
           hideDistinction
+          hideFlair
           hideLock
           hidePin
           hideReplyButton

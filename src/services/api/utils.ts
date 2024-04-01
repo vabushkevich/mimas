@@ -301,3 +301,25 @@ export function stripBaseURL(url: string) {
   const { pathname, search, hash } = new URL(url, location.origin);
   return pathname + search + hash;
 }
+
+export function getFlairText({
+  richText,
+  text,
+}: {
+  richText?: Raw.FlairElement[];
+  text?: string;
+}) {
+  if (richText?.length) {
+    // Even if the result of the next return is an empty string, that's fine,
+    // and we don't need to inspect the `text` variable. This is because a flair
+    // may only consist of custom Reddit emojis. In this case `text` would
+    // contain something like `":smiley:"` and it would be inappropriate output.
+    return richText
+      .filter((elem): elem is Raw.FlairTextElement => elem.e == "text")
+      .map((elem) => elem.t)
+      .join(" ")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+  }
+  if (text != null) return text;
+}

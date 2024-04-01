@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import {
   Card,
   DropdownMenu,
+  Flair,
   MenuItem,
   SubmissionHeader,
   UserContent,
@@ -25,6 +26,7 @@ type BasePostProps = PostProps<Post> & {
 };
 
 export function BasePost({
+  hideFlair = false,
   hideFooter = false,
   pinned = false,
   post,
@@ -40,6 +42,7 @@ export function BasePost({
     commentCount,
     dateCreated,
     dateEdited,
+    flair,
     id,
     locked,
     score,
@@ -48,6 +51,7 @@ export function BasePost({
     title,
     type,
     url,
+    userFlair,
     userId,
     userName,
     voteDirection,
@@ -66,6 +70,20 @@ export function BasePost({
   const vote = useAuthGuard(useVote(post).mutate);
   const bookmark = useAuthGuard(useBookmarkPost(id).mutate);
 
+  const headingChildren = (
+    <>
+      <h3
+        className={classNames(
+          "post__title",
+          title.length >= 120 && "post__title--small",
+        )}
+      >
+        {title}{" "}
+      </h3>
+      {flair && !hideFlair && <Flair className="post__flair" text={flair} />}
+    </>
+  );
+
   return (
     <Card border={hideFooter} hideOverflow={hideFooter}>
       <div
@@ -79,6 +97,7 @@ export function BasePost({
             avatar={avatar}
             dateCreated={dateCreated}
             dateEdited={dateEdited}
+            flair={!hideFlair ? userFlair : undefined}
             locked={locked}
             pinned={pinned}
             primaryAuthorType={primaryAuthorType}
@@ -104,20 +123,15 @@ export function BasePost({
             </MenuItem>
           </DropdownMenu>
         </div>
-        <h3
-          className={classNames(
-            "post__title",
-            title.length >= 120 && "post__title--small",
-          )}
-        >
+        <div className="post__heading">
           {titleClickable ? (
             <Link className="post__link" to={url}>
-              {title}
+              {headingChildren}
             </Link>
           ) : (
-            title
+            headingChildren
           )}
-        </h3>
+        </div>
         <div className="post__body">
           {children}
           {showAdditionalText && additionalTextHtml && (

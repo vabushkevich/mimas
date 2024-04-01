@@ -1,12 +1,18 @@
 export type BasePost = {
   data: {
     archived: boolean;
+    author_flair_richtext?: FlairElement[];
+    author_flair_text: string | null;
+    author_flair_type?: "text" | "richtext";
     author_fullname?: string;
     author: string;
     created_utc: number;
     edited: number | boolean;
     is_video: boolean;
     likes: boolean | null;
+    link_flair_richtext: FlairElement[];
+    link_flair_text: string | null;
+    link_flair_type: "text" | "richtext";
     locked: boolean;
     media: object | null;
     name: string;
@@ -176,6 +182,9 @@ export type Subreddit = PublicSubreddit | PrivateSubreddit;
 
 export type Comment = {
   data: {
+    author_flair_richtext?: FlairElement[];
+    author_flair_text: string | null;
+    author_flair_type?: "text" | "richtext";
     author_fullname?: string;
     author: string;
     body_html: string;
@@ -295,3 +304,16 @@ export type RedditError = {
   message: string;
   reason: string;
 };
+
+export type FlairTextElement = {
+  e: "text";
+  t: string;
+};
+
+export type FlairEmojiElement = {
+  a: string;
+  e: "emoji";
+  u: string;
+};
+
+export type FlairElement = FlairTextElement | FlairEmojiElement;

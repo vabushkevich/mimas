@@ -25,9 +25,11 @@ export function BasePostSkeleton({ children }: BasePostSkeletonProps) {
             <DotsIcon className="post__dots-icon" />
           </span>
         </div>
-        <h3 className="post__title">
-          <Skeleton width="70%" />
-        </h3>
+        <div className="post__heading">
+          <h3 className="post__title">
+            <Skeleton width="70%" />
+          </h3>
+        </div>
         <div className="post__body">{children}</div>
         <div className="post__footer">
           <span className="post__control">

@@ -4,7 +4,7 @@ import { formatDistanceToNow, formatDate } from "@utils";
 import { SubmissionDistinction, AuthorType } from "@types";
 import classNames from "classnames";
 
-import { Avatar } from "@components";
+import { Avatar, Flair } from "@components";
 import PencilIcon from "./assets/pencil.svg";
 import PinIcon from "./assets/pin.svg";
 import LockIcon from "./assets/lock.svg";
@@ -16,6 +16,7 @@ type SubmissionHeaderProps = {
   dateCreated: number;
   dateEdited?: number;
   distinction?: SubmissionDistinction;
+  flair?: string;
   locked?: boolean;
   pinned?: boolean;
   primaryAuthorType?: AuthorType;
@@ -29,6 +30,7 @@ export function SubmissionHeader({
   dateCreated,
   dateEdited,
   distinction,
+  flair,
   locked,
   pinned,
   primaryAuthorType = "user",
@@ -88,6 +90,7 @@ export function SubmissionHeader({
           )}
         </div>
       )}
+      {flair && <Flair className="submission-header__flair" text={flair} />}
     </div>
   );
 }

@@ -10,6 +10,7 @@ export function CrossPost(props: PostProps<CrossPost>) {
       <div className="cross-post-body">
         <Post
           collapsed={props.collapsed}
+          hideFlair
           hideFooter
           large={props.large}
           post={props.post.parent}

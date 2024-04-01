@@ -54,6 +54,7 @@ export function PostFeed({
     >
       <PostList
         feedType={type}
+        hideFlairs={type != "subreddit"}
         hidePins={type == "subreddit" && sort != "hot"}
         isLoading={isFetching}
         posts={posts}

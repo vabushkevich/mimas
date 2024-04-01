@@ -23,6 +23,7 @@ export function PostSearch({ query }: PostSearchProps) {
     <div>
       <PostList
         feedType="subreddit"
+        hideFlairs
         hidePins
         isLoading={isFetching}
         posts={posts}

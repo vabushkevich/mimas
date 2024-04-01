@@ -11,6 +11,7 @@ type CommentProps = {
   collapsed?: boolean;
   comment: Comment;
   hideDistinction?: boolean;
+  hideFlair?: boolean;
   hideLock?: boolean;
   hidePin?: boolean;
   hideReplyButton?: boolean;
@@ -21,6 +22,7 @@ export function Comment({
   collapsed = false,
   comment,
   hideDistinction,
+  hideFlair,
   hideLock,
   hidePin,
   hideReplyButton,
@@ -37,6 +39,7 @@ export function Comment({
     pinned,
     score,
     scoreHidden,
+    userFlair,
     userId,
     userName,
     voteDirection,
@@ -61,6 +64,7 @@ export function Comment({
         dateCreated={dateCreated}
         dateEdited={dateEdited}
         distinction={!hideDistinction ? distinction : undefined}
+        flair={!hideFlair ? userFlair : undefined}
         locked={!hideLock && locked}
         pinned={!hidePin && pinned}
         userName={userName}
