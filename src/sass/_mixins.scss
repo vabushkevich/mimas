@@ -17,6 +17,10 @@
   background-color: transparent;
   user-select: none;
   cursor: pointer;
+
+  &:disabled {
+    pointer-events: none;
+  }
 }
 
 @mixin text-truncate {

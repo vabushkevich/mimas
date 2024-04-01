@@ -31,10 +31,6 @@
         background-color: lighten(themed("gray-600"), 6%);
       }
     }
-
-    &:disabled {
-      pointer-events: none;
-    }
   }
 
   &__body {
