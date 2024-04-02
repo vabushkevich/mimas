@@ -60,15 +60,16 @@ export function CommentThreadList({
             <CommentWrapper collapseButtonDisabled>
               <button
                 className="comment-thread-list__more-comments-btn"
+                disabled={isMoreCommentsLoading}
                 onClick={() => loadMoreComments()}
               >
                 {getMoreCommentsMessage(moreComments.totalCount)}
-                {isMoreCommentsLoading && (
-                  <span className="comment-thread-list__loader">
-                    <Loader size="sm" />
-                  </span>
-                )}
               </button>
+              {isMoreCommentsLoading && (
+                <span className="comment-thread-list__loader">
+                  <Loader size="sm" />
+                </span>
+              )}
             </CommentWrapper>
           </li>
         )}
