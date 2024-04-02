@@ -122,4 +122,18 @@
       }
     }
   }
+
+  &--color_transparent {
+    &#{$root}--variant_solid {
+      $bg-color: white;
+      --bg-color-hover: #{darken($bg-color, 6%)};
+      --bg-color-active: #{darken($bg-color, 10%)};
+
+      @include dark-mode {
+        $bg-color: themed("gray-800");
+        --bg-color-hover: #{lighten($bg-color, 3%)};
+        --bg-color-active: #{lighten($bg-color, 6%)};
+      }
+    }
+  }
 }

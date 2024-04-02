@@ -4,7 +4,7 @@ import classNames from "classnames";
 import "./Button.scss";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  color?: "blue" | "clear" | "gray";
+  color?: "blue" | "clear" | "gray" | "transparent";
   icon?: React.ReactNode;
   pill?: boolean;
   rightIcon?: React.ReactNode;
