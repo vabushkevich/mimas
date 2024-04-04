@@ -15,9 +15,14 @@
     resize: none;
   }
 
-  &__button {
+  &__controls {
+    display: flex;
     position: absolute;
     right: 10px;
     bottom: 10px;
+
+    & > :not(:last-child) {
+      margin-right: 6px;
+    }
   }
 }

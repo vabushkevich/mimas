@@ -7,7 +7,9 @@ import "./CommentForm.scss";
 
 type CommentFormProps = {
   autoFocus?: boolean;
+  cancelable?: boolean;
   parentId: string;
+  onCancel?: () => void;
   onSubmit?: () => void;
 };
 
@@ -28,7 +30,9 @@ function useStoredReply(
 
 export function CommentForm({
   autoFocus,
+  cancelable,
   parentId,
+  onCancel,
   onSubmit,
 }: CommentFormProps) {
   const [text = "", setText] = useStoredReply(parentId);
@@ -56,7 +60,20 @@ export function CommentForm({
         value={text}
         onChange={(e) => setText(e.target.value)}
       ></textarea>
-      <div className="comment-form__button">
+      <div className="comment-form__controls">
+        {cancelable && (
+          <Button
+            color="transparent"
+            disabled={isSubmitting}
+            type="reset"
+            onClick={() => {
+              setText("");
+              onCancel?.();
+            }}
+          >
+            Cancel
+          </Button>
+        )}
         <Button
           disabled={text.trim().length == 0 || isSubmitting}
           type="submit"

@@ -20,6 +20,7 @@ type CommentThreadListProps = {
   parentId?: string;
   showCommentForm?: boolean;
   onComment?: () => void;
+  onCommentFormClose?: () => void;
 };
 
 function getMoreCommentsMessage(commentCount: number) {
@@ -36,6 +37,7 @@ export function CommentThreadList({
   parentId,
   showCommentForm,
   onComment,
+  onCommentFormClose,
 }: CommentThreadListProps) {
   const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
     useLoadMoreComments({ commentId: parentId });
@@ -46,7 +48,13 @@ export function CommentThreadList({
         {showCommentForm && parentId && (
           <li className="comment-thread-list__item">
             <CommentWrapper collapseButtonDisabled>
-              <CommentForm autoFocus parentId={parentId} onSubmit={onComment} />
+              <CommentForm
+                autoFocus
+                cancelable
+                parentId={parentId}
+                onCancel={onCommentFormClose}
+                onSubmit={onComment}
+              />
             </CommentWrapper>
           </li>
         )}

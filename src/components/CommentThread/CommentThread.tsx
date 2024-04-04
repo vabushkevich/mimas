@@ -60,6 +60,7 @@ export const CommentThread = memo(function CommentThread({
             parentId={id}
             showCommentForm={showReplyForm}
             onComment={() => dispatch(unsetReplyToCommentId(id))}
+            onCommentFormClose={() => dispatch(unsetReplyToCommentId(id))}
           />
         </div>
       )}
