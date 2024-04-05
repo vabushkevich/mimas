@@ -244,29 +244,29 @@ export type FeedType = AuthorType | "mixed";
 export type SortTimeInterval = (typeof sortTimeIntervals)[number];
 
 export function isCommentSortingOption(
-  value: any,
+  value: unknown,
 ): value is CommentSortingOption {
-  return commentSortingOptions.includes(value);
+  return isInArray(commentSortingOptions, value);
 }
 
 export function isPostFeedSortingOption(
-  value: any,
+  value: unknown,
 ): value is PostFeedSortingOption {
-  return postFeedSortingOptions.includes(value);
+  return isInArray(postFeedSortingOptions, value);
 }
 
 export function isCommentFeedSortingOption(
-  value: any,
+  value: unknown,
 ): value is CommentFeedSortingOption {
-  return commentFeedSortingOptions.includes(value);
+  return isInArray(commentFeedSortingOptions, value);
 }
 
-export function isIdPrefix(value: any): value is IdPrefix {
-  return idPrefixes.includes(value);
+export function isIdPrefix(value: unknown): value is IdPrefix {
+  return isInArray(idPrefixes, value);
 }
 
-export function isSortTimeInterval(value: any): value is SortTimeInterval {
-  return sortTimeIntervals.includes(value);
+export function isSortTimeInterval(value: unknown): value is SortTimeInterval {
+  return isInArray(sortTimeIntervals, value);
 }
 
 export function isSortRequiresTimeInterval(sort: FeedSortingOption) {
@@ -304,3 +304,7 @@ export type PropsWithAs<
 > = AsProp<T> &
   Omit<P, keyof AsProp<T>> &
   Omit<React.ComponentPropsWithoutRef<T>, keyof P>;
+
+function isInArray<T>(array: ReadonlyArray<T>, value: unknown): value is T {
+  return (array as ReadonlyArray<unknown>).includes(value);
+}
