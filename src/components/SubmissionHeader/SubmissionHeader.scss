@@ -23,6 +23,7 @@
 
   &__date {
     color: themed("gray-700");
+    user-select: none;
 
     @include dark-mode {
       color: themed("gray-300");
