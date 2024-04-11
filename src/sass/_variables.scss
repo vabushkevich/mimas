@@ -60,6 +60,8 @@ $themes: (
     "text-primary-hover": lighten(map.get($colors, "light", "gray-900"), 35%),
     "text-secondary": map.get($colors, "light", "gray-800"),
     "text-secondary-hover": map.get($colors, "light", "gray-900"),
+    "text-tertiary": map.get($colors, "light", "gray-700"),
+    "text-tertiary-hover": darken(map.get($colors, "light", "gray-700"), 22%),
     "focus-box-shadow": 0 0 0 3px map.get($colors, "light", "blue-300"),
   ),
   dark: (
@@ -67,6 +69,8 @@ $themes: (
     "text-primary-hover": darken(map.get($colors, "dark", "gray-100"), 10%),
     "text-secondary": map.get($colors, "dark", "gray-200"),
     "text-secondary-hover": lighten(map.get($colors, "dark", "gray-200"), 10%),
+    "text-tertiary": map.get($colors, "dark", "gray-400"),
+    "text-tertiary-hover": lighten(map.get($colors, "dark", "gray-400"), 6%),
     "focus-box-shadow": 0 0 0 3px map.get($colors, "dark", "blue-700"),
   ),
 );

@@ -11,10 +11,9 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 1.2;
-    color: themed("gray-700");
 
-    @include dark-mode {
-      color: themed("gray-400");
+    @include themify {
+      color: themed("text-tertiary");
     }
   }
 }

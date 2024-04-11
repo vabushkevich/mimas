@@ -6,11 +6,13 @@
   padding: 0 0.35em;
   font-size: 0.95rem;
   line-height: 1.4;
-  color: themed("gray-700");
-  background-color: lighten(themed("gray-700"), 41%);
+  background-color: lighten(themed("text-tertiary"), 41%);
+
+  @include themify {
+    color: themed("text-tertiary");
+  }
 
   @include dark-mode {
-    color: themed("gray-400");
-    background-color: darken(themed("gray-400"), 37%);
+    background-color: darken(themed("text-tertiary"), 37%);
   }
 }

@@ -51,10 +51,9 @@
 
   &__github-icon {
     width: 28px;
-    color: themed("gray-700");
 
-    @include dark-mode {
-      color: themed("gray-400");
+    @include themify {
+      color: themed("text-tertiary");
     }
 
     &:hover {
