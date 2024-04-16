@@ -39,6 +39,7 @@ export function Comment({
     pinned,
     score,
     scoreHidden,
+    url,
     userFlair,
     userId,
     userName,
@@ -67,6 +68,7 @@ export function Comment({
         flair={!hideFlair ? userFlair : undefined}
         locked={!hideLock && locked}
         pinned={!hidePin && pinned}
+        url={url}
         userName={userName}
       />
       {!collapsed && (

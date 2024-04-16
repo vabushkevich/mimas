@@ -27,6 +27,12 @@
     @include themify {
       color: themed("text-tertiary");
     }
+
+    &--clickable:hover {
+      @include themify {
+        color: themed("text-tertiary-hover");
+      }
+    }
   }
 
   &__status-icons {

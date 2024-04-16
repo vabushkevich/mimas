@@ -162,6 +162,7 @@ export type Comment = {
   postUrl: string;
   score: number;
   scoreHidden: boolean;
+  url: string;
   userFlair?: string;
   userId?: string;
   userName: string;

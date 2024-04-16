@@ -21,6 +21,7 @@ type SubmissionHeaderProps = {
   pinned?: boolean;
   primaryAuthorType?: AuthorType;
   subreddit?: string;
+  url?: string;
   userName: string;
 };
 
@@ -35,11 +36,24 @@ export function SubmissionHeader({
   pinned,
   primaryAuthorType = "user",
   subreddit,
+  url,
   userName,
 }: SubmissionHeaderProps) {
   const subredditIsPrimaryAuthor =
     primaryAuthorType == "subreddit" && subreddit;
   const hasStatusIcons = !!dateEdited || pinned || locked;
+
+  const date = (
+    <div
+      className={classNames(
+        "submission-header__date",
+        url && "submission-header__date--clickable",
+      )}
+      title={formatDate(dateCreated)}
+    >
+      {formatDistanceToNow(dateCreated)}
+    </div>
+  );
 
   return (
     <div className="submission-header">
@@ -72,9 +86,7 @@ export function SubmissionHeader({
           {userName}
         </Link>
       )}
-      <div className="submission-header__date" title={formatDate(dateCreated)}>
-        {formatDistanceToNow(dateCreated)}
-      </div>
+      {url ? <Link to={url}>{date}</Link> : date}
       {hasStatusIcons && (
         <div className="submission-header__status-icons">
           {pinned && <PinIcon className="submission-header__icon" />}

@@ -31,7 +31,7 @@ export function App() {
           <Route path="/(user|u)/:name">
             <UserPage />
           </Route>
-          <Route path="/r/:subreddit/comments/:id">
+          <Route path="/r/:subreddit/comments/:id/:slug?/:commentId?">
             <PostPage />
           </Route>
           <Route path="/search">

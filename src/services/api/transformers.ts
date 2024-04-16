@@ -349,6 +349,7 @@ export function transformComment(rawComment: Raw.Comment): Comment {
       locked,
       name,
       parent_id,
+      permalink,
       score_hidden,
       score,
       stickied,
@@ -371,6 +372,7 @@ export function transformComment(rawComment: Raw.Comment): Comment {
     postUrl: stripBaseURL(link_permalink),
     score: score,
     scoreHidden: score_hidden,
+    url: permalink,
     userName: author,
     voteDirection: likes != null ? (likes ? 1 : -1) : 0,
   };

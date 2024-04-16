@@ -13,18 +13,16 @@ export function PostCommentsSkeleton() {
     <div className="post-comments">
       <Card>
         <div className="post-comments__body">
-          <div className="post-comments__container">
-            <div className="post-comments__header">
+          <div className="post-comments__header">
+            <div className="post-comments__heading-row">
               <h3 className="post-comments__heading">
                 <Skeleton width={30} /> comments
               </h3>
-              <div className="post-comments__sorting">
-                <DropdownButtonSkeleton variant="text" contentWidth={40} />
-              </div>
+              <DropdownButtonSkeleton variant="text" contentWidth={40} />
             </div>
-          </div>
-          <div className="post-comments__container">
-            <Skeleton block height={90} />
+            <div className="post-comments__comment-form">
+              <Skeleton block height={90} />
+            </div>
           </div>
           <div className="post-comments__thread-list">
             <CommentThreadListSkeleton />

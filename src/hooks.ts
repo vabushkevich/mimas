@@ -94,19 +94,26 @@ export function useSearchParams<T extends Record<string, string>>(): [
 }
 
 export function usePostParams() {
-  const [params] = useParams<{ id: string }>();
+  const [params] = useParams<{ commentId?: string; id: string }>();
   const [searchParams] = useSearchParams<{
     comments?: string;
     sort?: string;
   }>();
 
+  const commentId = params.commentId && createId(params.commentId, "comment");
   const postId = createId(params.id, "post");
   const commentSorting = isCommentSortingOption(searchParams.sort)
     ? searchParams.sort
     : undefined;
-  const shouldScrollToComments = searchParams.comments != null;
+  const shouldScrollToComments =
+    searchParams.comments != null || !!params.commentId;
 
-  return { postId, commentSorting, shouldScrollToComments };
+  return {
+    postId,
+    commentId,
+    commentSorting,
+    shouldScrollToComments,
+  };
 }
 
 export const useAppDispatch: () => AppDispatch = useDispatch;

@@ -201,6 +201,7 @@ export type Comment = {
     locked: boolean;
     name: string;
     parent_id: string;
+    permalink: string;
     score_hidden: boolean;
     score: number;
     stickied: boolean;

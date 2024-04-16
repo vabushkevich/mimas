@@ -12,6 +12,7 @@ import "./PostPage.scss";
 export function PostPage() {
   const {
     postId,
+    commentId,
     commentSorting: commentSortingParam,
     shouldScrollToComments,
   } = usePostParams();
@@ -25,10 +26,7 @@ export function PostPage() {
   const { data: post, isLoading: isPostLoading } = usePost(postId);
   const { data: threadList, isLoading: isCommentsLoading } = usePostComments(
     postId,
-    {
-      limit: 100,
-      sort: commentSorting,
-    },
+    { commentId, limit: 100, sort: commentSorting },
   );
 
   useLayoutEffect(() => {
@@ -40,7 +38,7 @@ export function PostPage() {
     ) {
       commentsRef.current?.scrollIntoView();
     }
-  }, [shouldScrollToComments, navigationType, isPostLoading]);
+  }, [shouldScrollToComments, navigationType, isPostLoading, history.location]);
 
   return (
     <Page title={post?.title}>
@@ -66,6 +64,8 @@ export function PostPage() {
               isPostArchived={post.archived}
               isPostLocked={post.locked}
               postId={postId}
+              postURL={post.url}
+              singleThreaded={!!commentId}
               sort={commentSorting}
               threadList={threadList}
               onCommentSortingChange={(sort) => {

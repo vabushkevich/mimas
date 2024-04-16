@@ -107,9 +107,11 @@ export function useUserByName(name: string) {
 export function usePostComments(
   postId: string,
   {
+    commentId,
     limit,
     sort,
   }: {
+    commentId?: string;
     limit?: number;
     sort?: CommentSortingOption;
   } = {},
@@ -117,9 +119,14 @@ export function usePostComments(
   const { key } = useLocation();
 
   return useQuery({
-    queryKey: ["post-comments", postId, { limit, sort }, key],
+    queryKey: ["post-comments", postId, { commentId, limit, sort }, key],
     queryFn: async () => {
-      const threadList = await client.getComments(postId, { limit, sort });
+      const threadList = await client.getComments(postId, {
+        commentId,
+        limit,
+        sort,
+      });
+      if (commentId) threadList.rootCommentIds = [commentId];
       prefetchAvatars(Object.values(threadList.comments));
       return threadList;
     },
