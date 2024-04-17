@@ -190,14 +190,13 @@ export type Comment = {
     body_html: string;
     body: string;
     created_utc: number;
-    depth: number;
+    depth?: number;
     distinguished: "moderator" | "admin" | null;
     edited: number | boolean;
     is_submitter: boolean;
     likes: boolean | null;
     link_id: string;
-    link_permalink: string;
-    link_title: string;
+    link_title?: string;
     locked: boolean;
     name: string;
     parent_id: string;

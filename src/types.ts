@@ -158,7 +158,7 @@ export type Comment = {
   parentId: string;
   pinned: boolean;
   postId: string;
-  postTitle: string;
+  postTitle?: string;
   postUrl: string;
   score: number;
   scoreHidden: boolean;

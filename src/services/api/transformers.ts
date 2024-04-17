@@ -11,7 +11,6 @@ import {
   isExternalVideoPost,
   isCrossPost,
   isRemovedPost,
-  stripBaseURL,
   getFlairText,
 } from "./utils";
 import {
@@ -344,7 +343,6 @@ export function transformComment(rawComment: Raw.Comment): Comment {
       is_submitter,
       likes,
       link_id,
-      link_permalink,
       link_title,
       locked,
       name,
@@ -362,14 +360,13 @@ export function transformComment(rawComment: Raw.Comment): Comment {
     bySubmitter: is_submitter,
     childIds: [],
     dateCreated: created_utc * 1000,
-    depth,
+    depth: depth || 0,
     id: name,
     locked,
     parentId: parent_id,
     pinned: stickied,
     postId: link_id,
-    postTitle: link_title,
-    postUrl: stripBaseURL(link_permalink),
+    postUrl: permalink.split("/").slice(0, -2).join("/"),
     score: score,
     scoreHidden: score_hidden,
     url: permalink,
@@ -385,6 +382,7 @@ export function transformComment(rawComment: Raw.Comment): Comment {
   if (author_fullname) comment.userId = author_fullname;
   if (distinguished) comment.distinction = distinguished;
   if (typeof edited == "number") comment.dateEdited = edited * 1000;
+  if (link_title) comment.postTitle = link_title;
   if (isCommentDeleted(rawComment)) {
     comment.deletedBy = getCommentDeleter(rawComment);
   }

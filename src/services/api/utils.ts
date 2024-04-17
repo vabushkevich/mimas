@@ -297,11 +297,6 @@ export function updateSubredditInCache(
   );
 }
 
-export function stripBaseURL(url: string) {
-  const { pathname, search, hash } = new URL(url, location.origin);
-  return pathname + search + hash;
-}
-
 export function getFlairText({
   richText,
   text,
