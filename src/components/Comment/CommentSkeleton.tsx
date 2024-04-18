@@ -6,13 +6,10 @@ import {
   VotingSkeleton,
   UserContent,
 } from "@components";
+import DotsIcon from "@assets/svg/dots.svg";
 import "./Comment.scss";
 
-type CommentSkeletonProps = {
-  hideReplyButton?: boolean;
-};
-
-export function CommentSkeleton({ hideReplyButton }: CommentSkeletonProps) {
+export function CommentSkeleton() {
   return (
     <div className="comment">
       <SubmissionHeaderSkeleton />
@@ -22,9 +19,12 @@ export function CommentSkeleton({ hideReplyButton }: CommentSkeletonProps) {
         </UserContent>
       </div>
       <div className="comment__footer">
-        {!hideReplyButton && (
-          <button className="comment__reply-btn">Reply</button>
-        )}
+        <button className="comment__control comment__reply-btn">Reply</button>
+        <div className="comment__menu">
+          <div className="comment__control">
+            <DotsIcon className="comment__dots-icon" />
+          </div>
+        </div>
         <div className="comment__voting">
           <VotingSkeleton />
         </div>

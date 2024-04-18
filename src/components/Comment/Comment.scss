@@ -7,27 +7,48 @@
 
   &__footer {
     display: flex;
-    font-weight: 500;
+    align-items: center;
 
     @include themify {
       color: themed("text-secondary");
     }
   }
 
-  &__reply-btn {
+  &__control {
     @include reset-button;
 
-    font-weight: inherit;
+    @include themify {
+      color: themed("text-secondary");
 
-    &:hover {
-      @include themify {
+      &:hover {
         color: themed("text-secondary-hover");
       }
     }
+  }
+
+  &__reply-btn {
+    font-weight: 500;
 
     &:disabled {
       opacity: 0.6;
     }
+  }
+
+  &__menu {
+    display: flex;
+    margin-left: 10px;
+  }
+
+  &__menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__dots-icon {
+    width: 12px;
   }
 
   &__voting {

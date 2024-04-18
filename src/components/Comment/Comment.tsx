@@ -1,10 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
 import { useAvatar, useVote } from "@services/api";
 import { useAuthGuard } from "@hooks";
+import { copyToClipboard } from "@utils";
 
-import { UserContent, SubmissionHeader, Voting } from "@components";
+import {
+  DropdownMenu,
+  MenuItem,
+  SubmissionHeader,
+  UserContent,
+  Voting,
+} from "@components";
+import DotsIcon from "@assets/svg/dots.svg";
 import "./Comment.scss";
 
 type CommentProps = {
@@ -14,7 +24,7 @@ type CommentProps = {
   hideFlair?: boolean;
   hideLock?: boolean;
   hidePin?: boolean;
-  hideReplyButton?: boolean;
+  replyInline?: boolean;
   onReplyButtonClick?: () => void;
 };
 
@@ -25,7 +35,7 @@ export function Comment({
   hideFlair,
   hideLock,
   hidePin,
-  hideReplyButton,
+  replyInline = true,
   onReplyButtonClick,
 }: CommentProps) {
   const {
@@ -77,15 +87,38 @@ export function Comment({
             <UserContent html={bodyHtml} />
           </div>
           <div className="comment__footer">
-            {!hideReplyButton && (
+            {replyInline ? (
               <button
-                className="comment__reply-btn"
+                className="comment__control comment__reply-btn"
                 disabled={locked}
                 onClick={onReplyButtonClick}
               >
                 Reply
               </button>
+            ) : (
+              <Link className="comment__control comment__reply-btn" to={url}>
+                Reply
+              </Link>
             )}
+            <div className="comment__menu">
+              <DropdownMenu
+                button={
+                  <button className="comment__control comment__menu-btn">
+                    <DotsIcon className="comment__dots-icon" />
+                  </button>
+                }
+              >
+                <MenuItem
+                  onClick={async () => {
+                    const commentURL = String(new URL(url, location.origin));
+                    await copyToClipboard(commentURL);
+                    toast.success("Link copied");
+                  }}
+                >
+                  Copy link
+                </MenuItem>
+              </DropdownMenu>
+            </div>
             <div className="comment__voting">
               <Voting
                 score={score}

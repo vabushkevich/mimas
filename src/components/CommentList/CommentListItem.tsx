@@ -22,7 +22,7 @@ export function CommentListItem({ comment }: CommentListItemProps) {
           hideFlair
           hideLock
           hidePin
-          hideReplyButton
+          replyInline={false}
         />
       </div>
     </Card>

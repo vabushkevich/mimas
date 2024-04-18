@@ -10,7 +10,7 @@ export function CommentListItemSkeleton() {
         <div className="comment-list-item__post-link">
           <Skeleton width={170} />
         </div>
-        <CommentSkeleton hideReplyButton />
+        <CommentSkeleton />
       </div>
     </Card>
   );
