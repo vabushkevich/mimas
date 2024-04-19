@@ -12,7 +12,7 @@ export function SidebarHeader({ onMenuButtonClick }: SidebarHeaderProps) {
   return (
     <div className="sidebar-header">
       <button className="sidebar-header__menu-btn" onClick={onMenuButtonClick}>
-        <MenuIcon width="20" />
+        <MenuIcon height="15" />
       </button>
       <Link className="sidebar-header__logo" to="/"></Link>
     </div>

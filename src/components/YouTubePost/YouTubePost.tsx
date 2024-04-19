@@ -24,7 +24,7 @@ export function YouTubePost(props: PostProps<YouTubePost>) {
               className="youtube-post-body__play-btn"
               onClick={() => setStarted(true)}
             >
-              {started ? <PlayButton loading /> : <YouTubeIcon width="68" />}
+              {started ? <PlayButton loading /> : <YouTubeIcon height="48" />}
             </button>
           </>
         )}

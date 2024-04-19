@@ -32,7 +32,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
             className="site-nav__button site-nav__section-back-btn"
             onClick={() => setIsSearchMode(false)}
           >
-            <ArrowLeftIcon width="18" />
+            <ArrowLeftIcon height="18" />
           </button>
           <div className="site-nav__section-content">
             <Search autoFocus onSubmit={() => setIsSearchMode(false)} />
@@ -47,7 +47,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
                 className="site-nav__button"
                 onClick={() => setIsSearchMode(true)}
               >
-                <MagnifierIcon width="20" />
+                <MagnifierIcon height="20" />
               </button>
             ) : (
               <div className="site-nav__search">

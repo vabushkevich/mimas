@@ -41,7 +41,7 @@
   }
 
   &__icon {
-    width: 12px;
+    height: 12px;
     color: themed("gray-600");
 
     @include dark-mode {

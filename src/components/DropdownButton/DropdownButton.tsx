@@ -9,7 +9,7 @@ export const DropdownButton = function DropdownButton(
   return (
     <Button
       color="gray"
-      rightIcon={<DownIcon width="10" />}
+      rightIcon={<DownIcon height="10" />}
       {...props}
     ></Button>
   );

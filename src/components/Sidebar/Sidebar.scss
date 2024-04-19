@@ -50,7 +50,7 @@
   }
 
   &__github-icon {
-    width: 28px;
+    height: 28px;
 
     @include themify {
       color: themed("text-tertiary");

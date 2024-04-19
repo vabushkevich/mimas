@@ -17,13 +17,14 @@
   }
 
   &__input-icon {
+    height: 12px;
     opacity: 0.45;
   }
 
   &__magnifier-icon {
     position: absolute;
     left: 10px;
-    width: 15px;
+    height: 15px;
     pointer-events: none;
   }
 

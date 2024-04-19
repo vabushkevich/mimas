@@ -130,7 +130,7 @@
   &__left-arrow-icon,
   &__right-arrow-icon {
     position: absolute;
-    width: 40px;
+    height: 40px;
     filter: drop-shadow(0 1px 1px rgba(black, 0.33));
   }
 
@@ -140,9 +140,5 @@
 
   &__right-arrow-icon {
     right: 15%;
-  }
-
-  &__close-icon {
-    width: 22px;
   }
 }

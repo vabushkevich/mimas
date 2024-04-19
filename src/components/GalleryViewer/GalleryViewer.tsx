@@ -110,7 +110,7 @@ export function GalleryViewer({
         )}
       </div>
       <button className="gallery-viewer__close-btn" onClick={onClose}>
-        <CrossIcon className="gallery-viewer__close-icon" />
+        <CrossIcon height="22" />
       </button>
     </div>
   );
