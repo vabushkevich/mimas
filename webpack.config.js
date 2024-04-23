@@ -69,6 +69,9 @@ module.exports = {
               svgoConfig: {
                 plugins: ["preset-default", "removeXMLNS"],
               },
+              svgProps: {
+                height: "1em",
+              },
             },
           },
         ],
