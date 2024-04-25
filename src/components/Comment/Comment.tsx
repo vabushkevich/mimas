@@ -14,6 +14,7 @@ import {
   UserContent,
   Voting,
 } from "@components";
+import CopyIcon from "@assets/svg/copy.svg";
 import DotsIcon from "@assets/svg/dots.svg";
 import "./Comment.scss";
 
@@ -109,6 +110,7 @@ export function Comment({
                 }
               >
                 <MenuItem
+                  leftIcon={<CopyIcon />}
                   onClick={async () => {
                     const commentURL = String(new URL(url, location.origin));
                     await copyToClipboard(commentURL);

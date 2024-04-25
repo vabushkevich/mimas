@@ -16,6 +16,7 @@ import {
   UserContent,
   Voting,
 } from "@components";
+import CopyIcon from "@assets/svg/copy.svg";
 import DotsIcon from "@assets/svg/dots.svg";
 import BubbleIcon from "./assets/bubble.svg";
 import BookmarkIcon from "./assets/bookmark.svg";
@@ -113,6 +114,7 @@ export function BasePost({
             }
           >
             <MenuItem
+              leftIcon={<CopyIcon />}
               onClick={async () => {
                 const postURL = String(new URL(url, location.origin));
                 await copyToClipboard(postURL);
