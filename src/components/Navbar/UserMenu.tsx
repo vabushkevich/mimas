@@ -33,38 +33,22 @@ export function UserMenu({ user }: UserMenuProps) {
       size="lg"
     >
       {user && (
-        <MenuItem
-          as={Link}
-          leftIcon={<UserIcon className="user-menu__item-icon" />}
-          to={`/user/${user.name}`}
-        >
+        <MenuItem as={Link} leftIcon={<UserIcon />} to={`/user/${user.name}`}>
           {user.name}
         </MenuItem>
       )}
       <MenuItem
-        leftIcon={
-          darkModeEnabled ? (
-            <SunIcon className="user-menu__item-icon" />
-          ) : (
-            <MoonIcon className="user-menu__item-icon" />
-          )
-        }
+        leftIcon={darkModeEnabled ? <SunIcon /> : <MoonIcon />}
         onClick={toggleDarkMode}
       >
         {darkModeEnabled ? "Light" : "Dark"} mode
       </MenuItem>
       {authorized ? (
-        <MenuItem
-          leftIcon={<OutIcon className="user-menu__item-icon" />}
-          onClick={signOut}
-        >
+        <MenuItem leftIcon={<OutIcon />} onClick={signOut}>
           Sign out
         </MenuItem>
       ) : (
-        <MenuItem
-          leftIcon={<InIcon className="user-menu__item-icon" />}
-          onClick={signIn}
-        >
+        <MenuItem leftIcon={<InIcon />} onClick={signIn}>
           Sign in with Reddit
         </MenuItem>
       )}

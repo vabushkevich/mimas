@@ -21,6 +21,10 @@
     }
   }
 
+  &__left-icon {
+    font-size: 18px;
+  }
+
   &--selected {
     background-color: themed("blue-200");
     font-weight: 600;
