@@ -14,6 +14,10 @@
       0 0 40px 20px rgba($color: black, $alpha: 0.25);
   }
 
+  @include themify {
+    color: themed("text-primary");
+  }
+
   &--size_md {
     padding: 4px;
 
