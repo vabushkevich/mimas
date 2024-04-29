@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 type MenuContextType = {
   size: "md" | "lg";
   isItemSelected: (value?: string) => boolean;
-  onItemClick?: (value?: string) => void;
+  onItemClick?: (value?: string, close?: boolean) => void;
   onItemRender?: (content: React.ReactNode, value?: string) => void;
 };
 

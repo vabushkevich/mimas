@@ -6,6 +6,7 @@ import type { PropsWithAs } from "@types";
 import "./MenuItem.scss";
 
 type MenuItemProps = {
+  closeOnClick?: boolean;
   leftIcon?: React.ReactNode;
   selected?: boolean;
   value?: string;
@@ -15,6 +16,7 @@ type MenuItemProps = {
 
 export function MenuItem<T extends React.ElementType>({
   as,
+  closeOnClick,
   leftIcon,
   selected,
   value,
@@ -39,7 +41,7 @@ export function MenuItem<T extends React.ElementType>({
       )}
       onClick={() => {
         onClick?.(value);
-        onItemClick?.(value);
+        onItemClick?.(value, closeOnClick);
       }}
     >
       {leftIcon && <span className="menu-item__left-icon">{leftIcon}</span>}

@@ -55,10 +55,8 @@ export function DropdownMenu({
         >
           <Menu
             {...menuProps}
-            onItemClick={(itemValue) => {
-              onItemClick?.(itemValue);
-              setIsOpen(false);
-            }}
+            onClose={() => setIsOpen(false)}
+            onItemClick={(itemValue) => onItemClick?.(itemValue)}
             onItemSelect={(content) => setSelectedContent(content)}
           >
             {children}
