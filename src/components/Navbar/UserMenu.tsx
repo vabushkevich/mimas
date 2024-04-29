@@ -38,6 +38,7 @@ export function UserMenu({ user }: UserMenuProps) {
         </MenuItem>
       )}
       <MenuItem
+        closeOnClick={false}
         leftIcon={darkModeEnabled ? <SunIcon /> : <MoonIcon />}
         onClick={toggleDarkMode}
       >
