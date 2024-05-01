@@ -21,12 +21,6 @@ export function ScaleFade({
   const [isVisuallyHidden, setIsVisuallyHidden] = useState(shouldBeHidden);
   const ref = useRef<HTMLDivElement>(null);
 
-  const style: React.CSSProperties = {};
-  if (transformOrigin) style.transformOrigin = transformOrigin;
-  if (initialScale && isVisuallyHidden) {
-    style.transform = `scale(${initialScale})`;
-  }
-
   useEffect(() => {
     if (isHidden && !shouldBeHidden) {
       setIsHidden(false);
@@ -66,7 +60,12 @@ export function ScaleFade({
         isVisuallyHidden && "scale-fade--visually-hidden",
       )}
       ref={ref}
-      style={style}
+      style={
+        {
+          "--scale": initialScale,
+          "--transform-origin": transformOrigin,
+        } as React.CSSProperties
+      }
     >
       {children}
     </div>

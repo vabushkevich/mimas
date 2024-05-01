@@ -3,11 +3,14 @@
 .scale-fade {
   @include transition(opacity, transform);
 
+  transform-origin: var(--transform-origin);
+
   &--hidden {
     display: none;
   }
 
   &--visually-hidden {
+    transform: scale(var(--scale));
     opacity: 0;
   }
 }
