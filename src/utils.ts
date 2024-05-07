@@ -188,3 +188,7 @@ export function getHostname(url: string | URL, { trimWWW = true } = {}) {
   const { hostname } = url instanceof URL ? url : new URL(url);
   return trimWWW && hostname.startsWith("www.") ? hostname.slice(4) : hostname;
 }
+
+export function afterPaint(callback: () => void) {
+  requestAnimationFrame(() => requestAnimationFrame(callback));
+}

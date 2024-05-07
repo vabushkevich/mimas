@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import { afterPaint } from "@utils";
 
 import "./ScaleFade.scss";
 
@@ -21,34 +22,15 @@ export function ScaleFade({
   const [isVisuallyHidden, setIsVisuallyHidden] = useState(shouldBeHidden);
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isHidden && !shouldBeHidden) {
+  useLayoutEffect(() => {
+    if (!isHidden) {
+      // When the `hidden` class is removed, it is necessary to remove the
+      // `visually-hidden` class after repaint to make the transition happen
+      afterPaint(() => setIsVisuallyHidden(shouldBeHidden));
+    } else if (!shouldBeHidden) {
       setIsHidden(false);
-    } else {
-      const elem = ref.current;
-      setIsVisuallyHidden(shouldBeHidden);
-      if (!shouldBeHidden || !elem) return;
-
-      const hideElem = () => setIsHidden(true);
-      const handleTransitionEnd = (event: Event) => {
-        if (event.target == elem) hideElem();
-      };
-      const timer = setTimeout(hideElem, 100);
-      elem.addEventListener("transitionend", handleTransitionEnd);
-
-      return () => {
-        clearTimeout(timer);
-        elem.removeEventListener("transitionend", handleTransitionEnd);
-      };
     }
-  }, [shouldBeHidden]);
-
-  useEffect(() => {
-    if (isHidden) return;
-    // Force recalculate style to avoid `display: none` affecting transition
-    if (ref.current) getComputedStyle(ref.current).display;
-    setIsVisuallyHidden(false);
-  }, [isHidden]);
+  }, [isHidden, shouldBeHidden]);
 
   if (unmountOnHide && isHidden) return null;
 
@@ -66,6 +48,15 @@ export function ScaleFade({
           "--transform-origin": transformOrigin,
         } as React.CSSProperties
       }
+      onTransitionEnd={(event) => {
+        if (
+          event.target == ref.current &&
+          event.propertyName == "opacity" &&
+          isVisuallyHidden
+        ) {
+          setIsHidden(true);
+        }
+      }}
     >
       {children}
     </div>
