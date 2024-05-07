@@ -21,7 +21,7 @@ export function CommentSkeleton() {
       <div className="comment__footer">
         <button className="comment__control comment__reply-btn">Reply</button>
         <div className="comment__menu">
-          <div className="comment__control">
+          <div className="comment__control comment__menu-btn">
             <DotsIcon className="comment__dots-icon" />
           </div>
         </div>
