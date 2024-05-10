@@ -9,7 +9,8 @@
     display: none;
   }
 
-  &--visually-hidden {
+  &--exit,
+  &--exiting {
     transform: scale(var(--scale));
     opacity: 0;
   }

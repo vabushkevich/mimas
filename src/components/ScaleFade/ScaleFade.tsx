@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React from "react";
 import classNames from "classnames";
-import { afterPaint } from "@utils";
+import { useTransitionState } from "@hooks";
 
 import "./ScaleFade.scss";
 
@@ -17,46 +17,26 @@ export function ScaleFade({
   unmountOnHide?: boolean;
   children: React.ReactNode;
 }) {
-  const shouldBeHidden = !restProps.in;
-  const [isHidden, setIsHidden] = useState(shouldBeHidden);
-  const [isVisuallyHidden, setIsVisuallyHidden] = useState(shouldBeHidden);
-  const ref = useRef<HTMLDivElement>(null);
+  const { shouldMount, status } = useTransitionState({
+    duration: 100,
+    in: restProps.in,
+  });
 
-  useLayoutEffect(() => {
-    if (!isHidden) {
-      // When the `hidden` class is removed, it is necessary to remove the
-      // `visually-hidden` class after repaint to make the transition happen
-      afterPaint(() => setIsVisuallyHidden(shouldBeHidden));
-    } else if (!shouldBeHidden) {
-      setIsHidden(false);
-    }
-  }, [isHidden, shouldBeHidden]);
-
-  if (unmountOnHide && isHidden) return null;
+  if (unmountOnHide && !shouldMount) return null;
 
   return (
     <div
       className={classNames(
         "scale-fade",
-        isHidden && "scale-fade--hidden",
-        isVisuallyHidden && "scale-fade--visually-hidden",
+        `scale-fade--${status}`,
+        !shouldMount && "scale-fade--hidden",
       )}
-      ref={ref}
       style={
         {
           "--scale": initialScale,
           "--transform-origin": transformOrigin,
         } as React.CSSProperties
       }
-      onTransitionEnd={(event) => {
-        if (
-          event.target == ref.current &&
-          event.propertyName == "opacity" &&
-          isVisuallyHidden
-        ) {
-          setIsHidden(true);
-        }
-      }}
     >
       {children}
     </div>
