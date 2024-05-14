@@ -51,7 +51,7 @@ export function DropdownMenu({
         <ScaleFade
           in={isOpen}
           transformOrigin={alignRight ? "top right" : "top left"}
-          unmountOnHide={!menuProps.selectable}
+          unmountOnExit={!menuProps.selectable}
         >
           <Menu
             {...menuProps}

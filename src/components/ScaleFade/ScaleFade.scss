@@ -1,7 +1,7 @@
 @use "@sass/mixins" as *;
 
 .scale-fade {
-  @include transition(opacity, transform);
+  @include transition(opacity var(--duration), transform var(--duration));
 
   transform-origin: var(--transform-origin);
 

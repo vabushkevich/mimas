@@ -5,24 +5,22 @@ import { useTransitionState } from "@hooks";
 import "./ScaleFade.scss";
 
 export function ScaleFade({
+  in: inProp,
   initialScale = 0.95,
   transformOrigin,
-  unmountOnHide,
+  unmountOnExit,
   children,
-  ...restProps
 }: {
   in?: boolean;
   initialScale?: number;
   transformOrigin?: string;
-  unmountOnHide?: boolean;
+  unmountOnExit?: boolean;
   children: React.ReactNode;
 }) {
-  const { shouldMount, status } = useTransitionState({
-    duration: 100,
-    in: restProps.in,
-  });
+  const duration = 100;
+  const { shouldMount, status } = useTransitionState({ duration, in: inProp });
 
-  if (unmountOnHide && !shouldMount) return null;
+  if (unmountOnExit && !shouldMount) return null;
 
   return (
     <div
@@ -33,6 +31,7 @@ export function ScaleFade({
       )}
       style={
         {
+          "--duration": `${duration}ms`,
           "--scale": initialScale,
           "--transform-origin": transformOrigin,
         } as React.CSSProperties
