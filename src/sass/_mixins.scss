@@ -33,34 +33,8 @@
   line-height: 1.6;
 }
 
-// Nests a selector inside `:root` if it is not already nested. Examples:
-// Input: `div`. Output: `:root div`.
-// Input: `html div`. Output: `:root div`.
-// Input: `:root div`. Output: `:root div`.
-// Input: `:root`. Output: `:root`.
-@function root-nest-selector($selector) {
-  $out: ();
-
-  @each $sel in $selector {
-    $new-selector: if(
-      selector.is-superselector(":root, :root *, html, html *", $sel),
-      selector.replace($sel, "html", ":root"),
-      selector.nest(":root", $sel)
-    );
-    $out: list.append($out, $new-selector, $separator: comma);
-  }
-
-  @return $out;
-}
-
 @mixin color-mode($mode) {
-  $selector: selector.replace(
-    #{root-nest-selector(&)},
-    ":root",
-    ":root[data-color-mode=#{$mode}]"
-  );
-
-  @at-root #{$selector} {
+  @at-root #{selector.nest(":root[data-color-mode=#{$mode}]", &)} {
     $theme-map: map-get($themes, $mode) !global;
     @content;
     $theme-map: null !global;
