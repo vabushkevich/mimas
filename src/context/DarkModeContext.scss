@@ -1,0 +1,5 @@
+:root[data-color-mode-changing] * {
+  transition-property: background-color, border-color, box-shadow !important;
+  transition-duration: 0.2s !important;
+  transition-timing-function: ease-out !important;
+}

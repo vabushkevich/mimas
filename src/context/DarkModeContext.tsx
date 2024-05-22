@@ -1,14 +1,19 @@
-import { useLocalStorage, useMediaQuery } from "@hooks";
+import { useLocalStorage, useMediaQuery, useTransitionState } from "@hooks";
 import React, { createContext, useContext, useLayoutEffect } from "react";
-import { useTransitions } from "./TransitionsContext";
-import type { ColorMode } from "@types";
+
+import "./DarkModeContext.scss";
 
 type DarkModeContextType = {
-  darkModeEnabled: boolean;
+  isDarkMode: boolean;
   toggleDarkMode: () => void;
 };
 
 const DarkModeContext = createContext<DarkModeContextType | null>(null);
+
+function applyColorMode(dark: boolean) {
+  const colorMode = dark ? "dark" : "light";
+  document.documentElement.setAttribute("data-color-mode", colorMode);
+}
 
 export function useDarkMode() {
   const context = useContext(DarkModeContext);
@@ -25,36 +30,39 @@ export function DarkModeContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { disableTransitions, enableTransitions } = useTransitions();
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [storedIsDarkMode, setIsDarkMode] = useLocalStorage(
+    "dark-mode",
+    prefersDarkMode,
+  );
+  const isDarkMode = !!storedIsDarkMode;
+  const [isSystemColorMode, setIsSystemColorMode] = useLocalStorage(
+    "use-system-color-mode",
+    true,
+  );
+  const transition = useTransitionState({ duration: 200, in: isDarkMode });
 
-  const preferredMode = useMediaQuery("(prefers-color-scheme: dark)")
-    ? "dark"
-    : "light";
-  const [mode, setMode] = useLocalStorage<ColorMode>("color-mode", "system");
-  const darkModeEnabled =
-    mode == "dark" || (mode == "system" && preferredMode == "dark");
-
-  const contextValue = {
-    darkModeEnabled,
-    toggleDarkMode: () => {
-      if (mode == "system" || mode == preferredMode) {
-        setMode(darkModeEnabled ? "light" : "dark");
-      } else {
-        setMode("system");
-      }
-    },
+  const toggleDarkMode = () => {
+    const nextIsDarkMode = !isDarkMode;
+    setIsDarkMode(nextIsDarkMode);
+    setIsSystemColorMode(nextIsDarkMode == prefersDarkMode);
+    document.documentElement.setAttribute("data-color-mode-changing", "");
+    applyColorMode(nextIsDarkMode);
   };
 
+  useLayoutEffect(() => applyColorMode(isDarkMode), []);
+
   useLayoutEffect(() => {
-    disableTransitions();
+    if (isSystemColorMode && isDarkMode != prefersDarkMode) toggleDarkMode();
+  }, [prefersDarkMode]);
 
-    document.documentElement.setAttribute(
-      "data-color-mode",
-      darkModeEnabled ? "dark" : "light",
-    );
+  useLayoutEffect(() => {
+    if (!transition.isActive) {
+      document.documentElement.removeAttribute("data-color-mode-changing");
+    }
+  }, [transition.isActive]);
 
-    setTimeout(enableTransitions);
-  }, [darkModeEnabled]);
+  const contextValue = { isDarkMode, toggleDarkMode };
 
   return (
     <DarkModeContext.Provider value={contextValue}>

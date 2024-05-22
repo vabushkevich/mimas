@@ -18,7 +18,7 @@ type UserMenuProps = {
 };
 
 export function UserMenu({ user }: UserMenuProps) {
-  const { darkModeEnabled, toggleDarkMode } = useDarkMode();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const { authorized, signIn, signOut } = useAuth();
 
   return (
@@ -39,10 +39,10 @@ export function UserMenu({ user }: UserMenuProps) {
       )}
       <MenuItem
         closeOnClick={false}
-        leftIcon={darkModeEnabled ? <SunIcon /> : <MoonIcon />}
+        leftIcon={isDarkMode ? <SunIcon /> : <MoonIcon />}
         onClick={toggleDarkMode}
       >
-        {darkModeEnabled ? "Light" : "Dark"} mode
+        {isDarkMode ? "Light" : "Dark"} mode
       </MenuItem>
       {authorized ? (
         <MenuItem leftIcon={<OutIcon />} onClick={signOut}>
