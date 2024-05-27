@@ -1,21 +1,21 @@
 import React from "react";
-import type { ColorMode } from "@types";
+import classNames from "classnames";
 
 import "./Loader.scss";
 
 type LoaderProps = {
-  colorMode?: ColorMode;
+  color?: "black" | "white";
   size?: "sm" | "md" | "lg";
 };
 
-export function Loader({ colorMode = "system", size = "md" }: LoaderProps) {
+export function Loader({ color, size = "md" }: LoaderProps) {
   return (
     <div
-      className={[
+      className={classNames(
         "loader",
-        `loader--color-mode_${colorMode}`,
+        color && `loader--color_${color}`,
         `loader--size_${size}`,
-      ].join(" ")}
+      )}
     >
       <div className="loader__dot"></div>
       <div className="loader__dot"></div>

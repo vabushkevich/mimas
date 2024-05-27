@@ -12,7 +12,7 @@ export function PlayButton({ loading = false }: PlayButtonProps) {
   return (
     <div className="play-button">
       {loading ? (
-        <Loader colorMode="light" />
+        <Loader color="white" />
       ) : (
         <PlayIcon className="play-button__icon" />
       )}

@@ -69,7 +69,7 @@ export function GalleryViewer({
           />
           {(!image?.src || !imageLoaded) && (
             <div className="gallery-viewer__loader">
-              <Loader colorMode="light" size="lg" />
+              <Loader color="white" size="lg" />
             </div>
           )}
           {pageCount > 1 && (

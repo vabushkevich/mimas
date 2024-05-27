@@ -78,7 +78,7 @@ export function CommentForm({
           disabled={text.trim().length == 0 || isSubmitting}
           type="submit"
         >
-          {isSubmitting ? <Loader colorMode="light" /> : "Post"}
+          {isSubmitting ? <Loader color="white" /> : "Post"}
         </Button>
       </div>
     </form>

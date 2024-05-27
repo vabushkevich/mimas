@@ -1,11 +1,11 @@
 @use "@sass/mixins" as *;
 
-@mixin loader-dark-mode {
+@mixin loader-color-black {
   color: black;
   opacity: 0.4;
 }
 
-@mixin loader-light-mode {
+@mixin loader-color-white {
   color: white;
   opacity: 0.7;
 }
@@ -14,6 +14,11 @@
   $root: &;
 
   display: flex;
+
+  @include loader-color-black;
+  @include dark-mode {
+    @include loader-color-white;
+  }
 
   &__dot {
     border-radius: 50%;
@@ -30,19 +35,12 @@
     }
   }
 
-  &--color-mode_dark {
-    @include loader-dark-mode;
+  &--color_black {
+    @include loader-color-black;
   }
 
-  &--color-mode_light {
-    @include loader-light-mode;
-  }
-
-  &--color-mode_system {
-    @include loader-dark-mode;
-    @include dark-mode {
-      @include loader-light-mode;
-    }
+  &--color_white {
+    @include loader-color-white;
   }
 
   &--size_lg {

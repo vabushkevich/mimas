@@ -295,8 +295,6 @@ export type Gallery = {
   }[];
 };
 
-export type ColorMode = "dark" | "light" | "system";
-
 type AsProp<T extends React.ElementType> = { as?: T };
 
 export type PropsWithAs<
