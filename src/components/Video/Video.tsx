@@ -7,19 +7,19 @@ import "./Video.scss";
 
 type VideoProps = {
   height: number;
+  idle?: boolean;
   isHLS?: boolean;
   poster?: string;
   src: string;
-  started?: boolean;
   width: number;
 };
 
 export function Video({
   height,
+  idle = true,
   isHLS,
   poster,
   src,
-  started,
   width,
 }: VideoProps) {
   const [canPlay, setCanPlay] = useState(false);
@@ -27,7 +27,7 @@ export function Video({
   const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  if (!started) {
+  if (idle) {
     if (canPlay) setCanPlay(false);
     if (controls) setControls(false);
     if (duration) setDuration(0);
@@ -37,7 +37,7 @@ export function Video({
     const video = videoRef.current;
     let hls: Hls | undefined;
 
-    if (!started || !video) return;
+    if (idle || !video) return;
 
     if (isHLS && Hls.isSupported()) {
       hls = new Hls();
@@ -58,7 +58,7 @@ export function Video({
       video.src = "";
       hls?.destroy();
     };
-  }, [isHLS, src, started]);
+  }, [idle, isHLS, src]);
 
   return (
     <AspectRatio ratio={width / height}>
@@ -73,7 +73,7 @@ export function Video({
             <rect x="0" y="0" width="100%" height="100%" />
           </svg>
         )}
-        {started && (
+        {!idle && (
           <video
             className="video__fill"
             style={!canPlay ? { visibility: "hidden" } : {}}
@@ -95,9 +95,9 @@ export function Video({
             <MediaProgress mediaRef={videoRef} />
           </div>
         )}
-        {(!started || !canPlay) && (
+        {(idle || !canPlay) && (
           <button className="video__fill video__play-button">
-            <PlayButton loading={started} />
+            <PlayButton loading={!idle} />
           </button>
         )}
       </div>

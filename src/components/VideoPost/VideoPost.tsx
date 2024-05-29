@@ -25,7 +25,7 @@ export function VideoPost(props: PostProps<VideoPost>) {
           isHLS
           src={hlsURL}
           poster={preview?.src}
-          started={isLastOnScreen}
+          idle={!isLastOnScreen}
           width={width}
           height={height}
         />

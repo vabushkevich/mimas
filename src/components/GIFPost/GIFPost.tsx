@@ -26,7 +26,7 @@ export function GIFPost(props: PostProps<GIFPost>) {
           <Video
             src={video.src}
             poster={preview.src}
-            started={isLastOnScreen}
+            idle={!isLastOnScreen}
             width={video.width}
             height={video.height}
           />
