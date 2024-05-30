@@ -404,16 +404,13 @@ export function useIntersectionDetector<T extends Element>({
   return intersecting;
 }
 
-export function useOnScreenMedia<T extends Element>(
-  ref: React.RefObject<T>,
-  callbacks?: { onEnter?: () => void; onLeave?: () => void },
+export function usePageIntersectionDetector<T extends Element>(
+  options: Parameters<typeof useIntersectionDetector<T>>[0],
 ) {
   return useIntersectionDetector({
     delay: 200,
-    ref,
     rootMargin: `-${NAVBAR_HEIGHT} 0px 0px`,
-    threshold: 0.75,
-    ...callbacks,
+    ...options,
   });
 }
 
@@ -426,7 +423,9 @@ export function useLastOnScreenMedia<T extends Element>(
     (state) => state.onScreenMediaIds.at(-1) == key,
   );
 
-  useOnScreenMedia(ref, {
+  usePageIntersectionDetector({
+    ref,
+    threshold: 0.75,
     onEnter: () => dispatch(addOnScreenMediaId(key)),
     onLeave: () => dispatch(removeOnScreenMediaId(key)),
   });
