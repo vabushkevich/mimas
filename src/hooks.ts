@@ -496,3 +496,11 @@ export function useTransitionState({
 
   return { isActive, shouldMount, status };
 }
+
+export function useMediaPlayback<T extends Element>(
+  ref: React.RefObject<T>,
+  key: string,
+) {
+  const isLastOnScreen = useLastOnScreenMedia(ref, key);
+  return { idle: !isLastOnScreen };
+}

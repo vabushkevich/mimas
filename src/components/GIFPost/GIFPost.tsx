@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import classNames from "classnames";
-import { useLastOnScreenMedia } from "@hooks";
+import { useMediaPlayback } from "@hooks";
 import type { GIFPost, PostProps } from "@types";
 
 import { BasePost, Video } from "@components";
@@ -11,7 +11,7 @@ export function GIFPost(props: PostProps<GIFPost>) {
   const preview = previewVariants.findLast(({ width }) => width <= 960);
   const video = videoVariants.findLast(({ width }) => width <= 960);
   const ref = useRef<HTMLDivElement>(null);
-  const isLastOnScreen = useLastOnScreenMedia(ref, props.post.id);
+  const playerProps = useMediaPlayback(ref, props.post.id);
 
   return (
     <BasePost {...props}>
@@ -26,9 +26,9 @@ export function GIFPost(props: PostProps<GIFPost>) {
           <Video
             src={video.src}
             poster={preview.src}
-            idle={!isLastOnScreen}
             width={video.width}
             height={video.height}
+            {...playerProps}
           />
         )}
       </div>

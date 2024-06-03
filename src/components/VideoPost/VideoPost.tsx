@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import classNames from "classnames";
-import { useLastOnScreenMedia } from "@hooks";
+import { useMediaPlayback } from "@hooks";
 import type { VideoPost, PostProps } from "@types";
 
 import { BasePost, Video } from "@components";
@@ -10,7 +10,7 @@ export function VideoPost(props: PostProps<VideoPost>) {
   const { hlsURL, previewVariants, width, height } = props.post;
   const preview = previewVariants.findLast(({ width }) => width <= 960);
   const ref = useRef<HTMLDivElement>(null);
-  const isLastOnScreen = useLastOnScreenMedia(ref, props.post.id);
+  const playerProps = useMediaPlayback(ref, props.post.id);
 
   return (
     <BasePost {...props}>
@@ -25,9 +25,9 @@ export function VideoPost(props: PostProps<VideoPost>) {
           isHLS
           src={hlsURL}
           poster={preview?.src}
-          idle={!isLastOnScreen}
           width={width}
           height={height}
+          {...playerProps}
         />
       </div>
     </BasePost>
