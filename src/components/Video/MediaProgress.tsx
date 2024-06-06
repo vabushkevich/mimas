@@ -34,6 +34,8 @@ export function MediaProgress({ mediaRef }: MediaProgressProps) {
       bar.style.width = `${progress * 100}%`;
     };
 
+    sync();
+
     media.addEventListener("timeupdate", step);
     media.addEventListener("seeking", sync);
 
