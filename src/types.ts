@@ -307,3 +307,5 @@ export type PropsWithAs<
 function isInArray<T>(array: ReadonlyArray<T>, value: unknown): value is T {
   return (array as ReadonlyArray<unknown>).includes(value);
 }
+
+export type MediaPlaybackStatus = "playing" | "paused" | "stopped";

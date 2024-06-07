@@ -1,5 +1,6 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import Hls from "hls.js";
+import type { MediaPlaybackStatus } from "@types";
 
 import { AspectRatio, PlayButton } from "@components";
 import { MediaProgress } from "./MediaProgress";
@@ -7,37 +8,57 @@ import "./Video.scss";
 
 type VideoProps = {
   height: number;
-  idle?: boolean;
   isHLS?: boolean;
   poster?: string;
   src: string;
+  status?: MediaPlaybackStatus;
   width: number;
 };
 
 export function Video({
   height,
-  idle = true,
   isHLS,
   poster,
   src,
+  status = "stopped",
   width,
 }: VideoProps) {
+  const isPlaying = status == "playing";
+  const isPaused = status == "paused";
+  const isStopped = status == "stopped";
+
   const [canPlay, setCanPlay] = useState(false);
   const [controls, setControls] = useState(false);
   const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  if (idle) {
+  const renderVideo = isPlaying || (isPaused && canPlay);
+
+  const posterElem = poster ? (
+    <img className="video__fill video__poster" src={poster} />
+  ) : (
+    <svg
+      className="video__fill video__placeholder"
+      viewBox={`0 0 ${width} ${height}`}
+    >
+      <rect x="0" y="0" width="100%" height="100%" />
+    </svg>
+  );
+
+  if (isStopped) {
     if (canPlay) setCanPlay(false);
-    if (controls) setControls(false);
     if (duration) setDuration(0);
+  }
+
+  if (!isPlaying && controls) {
+    setControls(false);
   }
 
   useLayoutEffect(() => {
     const video = videoRef.current;
     let hls: Hls | undefined;
 
-    if (idle || !video) return;
+    if (!renderVideo || !video) return;
 
     if (isHLS && Hls.isSupported()) {
       hls = new Hls();
@@ -50,30 +71,27 @@ export function Video({
       video.src = src;
     }
 
-    video.play().catch((error) => {
-      if (videoRef.current) throw error;
-    });
-
     return () => {
       video.src = "";
       hls?.destroy();
     };
-  }, [idle, isHLS, src]);
+  }, [isHLS, renderVideo, src]);
+
+  useLayoutEffect(() => {
+    if (isPlaying) {
+      videoRef.current?.play().catch((error) => {
+        if (videoRef.current) throw error;
+      });
+    } else {
+      videoRef.current?.pause();
+    }
+  }, [isPlaying]);
 
   return (
     <AspectRatio ratio={width / height}>
       <div className="video">
-        {poster ? (
-          <img className="video__fill video__poster" src={poster} />
-        ) : (
-          <svg
-            className="video__fill video__placeholder"
-            viewBox={`0 0 ${width} ${height}`}
-          >
-            <rect x="0" y="0" width="100%" height="100%" />
-          </svg>
-        )}
-        {!idle && (
+        {!canPlay && posterElem}
+        {renderVideo && (
           <video
             className="video__fill"
             style={!canPlay ? { visibility: "hidden" } : {}}
@@ -90,14 +108,14 @@ export function Video({
             onMouseOver={() => setControls(true)}
           ></video>
         )}
-        {canPlay && duration >= 10 && (
+        {isPlaying && canPlay && duration >= 10 && (
           <div className="video__progress">
             <MediaProgress mediaRef={videoRef} />
           </div>
         )}
-        {(idle || !canPlay) && (
+        {(!isPlaying || !canPlay) && (
           <button className="video__fill video__play-button">
-            <PlayButton loading={!idle} />
+            <PlayButton loading={isPlaying} />
           </button>
         )}
       </div>

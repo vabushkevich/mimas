@@ -13,7 +13,7 @@ import {
   useLocation,
   useRouteMatch,
 } from "react-router-dom";
-import { isCommentSortingOption } from "@types";
+import { MediaPlaybackStatus, isCommentSortingOption } from "@types";
 import { createId } from "@utils";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "./store";
@@ -502,5 +502,6 @@ export function useMediaPlayback<T extends Element>(
   key: string,
 ) {
   const isLastOnScreen = useLastOnScreenMedia(ref, key);
-  return { idle: !isLastOnScreen };
+  const status: MediaPlaybackStatus = isLastOnScreen ? "playing" : "stopped";
+  return { status };
 }
