@@ -79,8 +79,8 @@ export function Video({
 
   useLayoutEffect(() => {
     if (isPlaying) {
-      videoRef.current?.play().catch((error) => {
-        if (videoRef.current) throw error;
+      videoRef.current?.play().catch((error: Error) => {
+        if (error.name != "AbortError") throw error;
       });
     } else {
       videoRef.current?.pause();
