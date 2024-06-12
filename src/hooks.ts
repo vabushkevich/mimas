@@ -502,6 +502,20 @@ export function useMediaPlayback<T extends Element>(
   key: string,
 ) {
   const isLastOnScreen = useLastOnScreenMedia(ref, key);
-  const status: MediaPlaybackStatus = isLastOnScreen ? "playing" : "stopped";
+  const isNearViewport = usePageIntersectionDetector({
+    ref,
+    rootMargin: "100% 0px",
+  });
+
+  let status: MediaPlaybackStatus;
+
+  if (isLastOnScreen) {
+    status = "playing";
+  } else if (isNearViewport) {
+    status = "paused";
+  } else {
+    status = "stopped";
+  }
+
   return { status };
 }
