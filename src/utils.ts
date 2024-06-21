@@ -192,3 +192,17 @@ export function getHostname(url: string | URL, { trimWWW = true } = {}) {
 export function afterPaint(callback: () => void) {
   requestAnimationFrame(() => requestAnimationFrame(callback));
 }
+
+export function createImage({
+  src = "",
+  width,
+  height,
+}: {
+  src?: string;
+  width?: number;
+  height?: number;
+} = {}) {
+  const image = new Image(width, height);
+  image.src = src;
+  return image;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { hashString, pseudoRandom } from "@utils";
-import { usePreloadImage } from "@hooks";
+import { useIsImageLoading } from "@hooks";
 
 import "./Avatar.scss";
 
@@ -25,7 +25,7 @@ const colorPairs = [
 ];
 
 export function Avatar({ shadow = true, name, size, src }: AvatarProps) {
-  const loaded = usePreloadImage(src);
+  const isLoading = useIsImageLoading(src);
   const className = classNames([
     "avatar",
     shadow && "avatar--shadow",
@@ -52,7 +52,7 @@ export function Avatar({ shadow = true, name, size, src }: AvatarProps) {
   return (
     <div
       className={className}
-      style={src && loaded ? { backgroundImage: `url("${src}")` } : {}}
+      style={src && !isLoading ? { backgroundImage: `url("${src}")` } : {}}
     ></div>
   );
 }
