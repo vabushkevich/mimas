@@ -271,24 +271,24 @@ export function useIsImageLoading(src = "") {
 
 export function useTextAreaAutoHeight(
   ref: React.RefObject<HTMLTextAreaElement>,
+  value?: string,
 ) {
   const [height, setHeight] = useState<number>();
 
   useLayoutEffect(() => {
-    const textArea = ref.current;
-    if (!textArea) return;
+    const elem = ref.current;
+    if (!elem) return;
 
-    const { height: origHeight, overflow: origOverflow } = textArea.style;
-    const borderSize = textArea.offsetHeight - textArea.clientHeight;
+    const { clientHeight, offsetHeight, style } = elem;
+    const { height: origHeight, overflowY: origOverflowY } = style;
+    const borderSize = offsetHeight - clientHeight;
 
-    textArea.style.height = "";
-    textArea.style.overflow = "hidden";
-    // Need to add `1`, because some browsers do not correctly calculate the
-    // height of the element if the page is scaled
-    setHeight(textArea.scrollHeight + borderSize + 1);
-    textArea.style.height = origHeight;
-    textArea.style.overflow = origOverflow;
-  }, [ref.current?.value]);
+    style.height = "";
+    style.overflowY = "hidden";
+    setHeight(elem.scrollHeight + borderSize);
+    style.height = origHeight;
+    style.overflowY = origOverflowY;
+  }, [ref, value]);
 
   return height;
 }

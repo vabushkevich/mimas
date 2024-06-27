@@ -37,7 +37,7 @@ export function CommentForm({
 }: CommentFormProps) {
   const [text = "", setText] = useStoredReply(parentId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const textAreaHeight = useTextAreaAutoHeight(textAreaRef);
+  const textAreaHeight = useTextAreaAutoHeight(textAreaRef, text);
   const postCommentMutation = usePostComment({ onSuccess: () => setText("") });
   const { isLoading: isSubmitting } = postCommentMutation;
   const postComment = useAuthGuard(postCommentMutation.mutate);
