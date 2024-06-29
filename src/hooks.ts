@@ -14,7 +14,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { MediaPlaybackStatus, isCommentSortingOption } from "@types";
-import { createId } from "@utils";
+import { createId, createImage } from "@utils";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "./store";
 import { useAuth } from "@services/auth";
@@ -248,22 +248,22 @@ export function useTitle(title?: string) {
   }, [title]);
 }
 
-export function usePreloadImage(src = "") {
-  const image = useMemo(() => {
-    const image = new Image();
-    image.src = src;
-    return image;
+export function useIsImageLoading(src = "") {
+  const [isLoading, setIsLoading] = useState(
+    () => !createImage({ src }).complete,
+  );
+
+  useEffect(() => {
+    const image = createImage({ src });
+    const updateIsLoading = () => setIsLoading(!image.complete);
+    updateIsLoading();
+    if (!image.complete) {
+      image.addEventListener("load", updateIsLoading);
+      return () => image.removeEventListener("load", updateIsLoading);
+    }
   }, [src]);
-  const [loaded, setLoaded] = useState(image.complete);
 
-  useLayoutEffect(() => {
-    const handleLoad = () => setLoaded(true);
-    image.addEventListener("load", handleLoad);
-    setLoaded(image.complete);
-    return () => image.removeEventListener("load", handleLoad);
-  }, [image]);
-
-  return loaded;
+  return isLoading;
 }
 
 export function useTextAreaAutoHeight(
