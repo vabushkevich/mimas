@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef } from "react";
+import { useControllableState } from "@hooks";
 import { MenuContext } from "./MenuContext";
 
 import "./Menu.scss";
@@ -26,13 +27,11 @@ export function Menu({
   onItemSelect,
   children,
 }: MenuProps) {
-  const controllable = value != null;
   const contentsRef = useRef<Record<string, React.ReactNode>>({});
-  const [selectedValue, setSelectedValue] = useState(value ?? defaultValue);
-
-  useLayoutEffect(() => {
-    if (controllable) setSelectedValue(value);
-  }, [value]);
+  const [selectedValue, setSelectedValue] = useControllableState(
+    value,
+    defaultValue,
+  );
 
   useLayoutEffect(() => {
     const selectedContent = selectedValue
@@ -47,7 +46,7 @@ export function Menu({
       return selectable && itemValue != null && itemValue == selectedValue;
     },
     onItemClick: (itemValue?: string, close?: boolean) => {
-      if (selectable && !controllable) setSelectedValue(itemValue);
+      if (selectable) setSelectedValue(itemValue);
       onItemClick?.(itemValue);
       if (close ?? closeOnClick) onClose?.();
     },
