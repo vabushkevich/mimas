@@ -2,9 +2,9 @@ import { createContext, useContext } from "react";
 
 type MenuContextType = {
   size: "md" | "lg";
-  isItemSelected: (value?: string) => boolean;
-  onItemClick?: (value?: string, close?: boolean) => void;
-  onItemRender?: (content: React.ReactNode, value?: string) => void;
+  isItemSelected: (value: string | null) => boolean;
+  onItemClick?: (value: string | null, close?: boolean) => void;
+  onItemRender?: (content: React.ReactNode, value: string | null) => void;
 };
 
 export const MenuContext = createContext<MenuContextType | null>(null);
