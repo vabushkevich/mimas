@@ -1,9 +1,8 @@
 import React from "react";
 
 import { Skeleton } from "@components";
-import { Button } from "./Button";
+import { Button, ButtonProps } from "./Button";
 
-type ButtonProps = Parameters<typeof Button>[0];
 type ButtonSkeletonProps = Omit<ButtonProps, "children"> & {
   contentWidth?: number;
 };
