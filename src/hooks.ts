@@ -4,7 +4,6 @@ import {
   useEffect,
   RefObject,
   useRef,
-  useMemo,
   useLayoutEffect,
 } from "react";
 import {
@@ -188,17 +187,23 @@ export function useLocalStorage<T>(
   key: string,
   initialValue?: T,
 ): [T | undefined, (value: T) => void, () => void] {
-  const storedValue = useMemo(() => {
+  const latestInitialValue = useRef(initialValue);
+  useEffect(() => {
+    latestInitialValue.current = initialValue;
+  });
+
+  const getStoredValue = useCallback(() => {
     const item = localStorage.getItem(key);
-    if (item) return JSON.parse(item) as T;
+    if (item != null) return JSON.parse(item) as T;
   }, [key]);
-  const [value, setValue] = useState(storedValue ?? initialValue);
+
+  const [value, setValue] = useState(() => {
+    const storedValue = getStoredValue();
+    return storedValue !== undefined ? storedValue : initialValue;
+  });
 
   const storeValue = useCallback(
     (newValue: T) => {
-      // If `setValue()` is called after the component has been unmounted, it
-      // will have no effect and the state will be lost. To prevent this, the
-      // value must be stored in local storage at the same time.
       localStorage.setItem(key, JSON.stringify(newValue));
       setValue(newValue);
     },
@@ -210,16 +215,14 @@ export function useLocalStorage<T>(
     setValue(undefined);
   }, [key]);
 
-  // When the `key` has been changed, the `value` is no longer relevant.
-  // Therefore, value synchronization is required.
-  useLayoutEffect(() => {
-    const actualValue = storedValue ?? initialValue;
-    if (actualValue !== undefined) {
-      storeValue(actualValue);
+  useEffect(() => {
+    const storedValue = getStoredValue();
+    if (storedValue === undefined && latestInitialValue.current !== undefined) {
+      storeValue(latestInitialValue.current);
     } else {
-      setValue(undefined);
+      setValue(storedValue);
     }
-  }, [key]);
+  }, [getStoredValue, key, storeValue]);
 
   return [value, storeValue, deleteValue];
 }
