@@ -1,6 +1,22 @@
+@use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
 .menu {
+  display: inline-block;
+  position: relative;
+
+  &__list {
+    position: absolute;
+    margin-top: 6px;
+    z-index: $z-index-dropdown;
+
+    &--align-right {
+      right: 0;
+    }
+  }
+}
+
+.menu-list {
   background-color: white;
   border-radius: 6px;
   box-shadow:

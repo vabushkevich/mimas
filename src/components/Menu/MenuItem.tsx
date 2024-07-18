@@ -1,51 +1,54 @@
-import React, { useLayoutEffect } from "react";
-import { useMenu } from "./MenuContext";
+import React from "react";
 import classNames from "classnames";
-import type { PropsWithAs } from "@types";
+import { Link } from "react-router-dom";
+import { useMenuContext } from "./MenuContext";
 
 import "./MenuItem.scss";
 
 type MenuItemProps = {
-  closeOnClick?: boolean;
+  closeOnSelect?: boolean;
+  isSelected?: boolean;
   leftIcon?: React.ReactNode;
-  selected?: boolean;
-  value?: string | null;
-  onClick?: (value: string | null) => void;
+  onSelect?: () => void;
   children: React.ReactNode;
 };
 
-export function MenuItem<T extends React.ElementType>({
-  as,
-  closeOnClick,
+type MenuItemLinkProps = MenuItemProps & { href: string };
+
+export function MenuItem(props: MenuItemProps) {
+  const commonProps = useCommonProps(props);
+  return <button {...commonProps} />;
+}
+
+export function MenuItemLink(props: MenuItemLinkProps) {
+  const commonProps = useCommonProps(props);
+  return <Link {...commonProps} to={props.href} />;
+}
+
+function useCommonProps({
+  closeOnSelect,
+  isSelected,
   leftIcon,
-  selected,
-  value = null,
-  onClick,
+  onSelect,
   children,
-  ...rest
-}: PropsWithAs<T, MenuItemProps>) {
-  const Component = as ?? "button";
-  const { size, isItemSelected, onItemClick, onItemRender } = useMenu();
+}: MenuItemProps) {
+  const { size, onItemSelect } = useMenuContext();
 
-  useLayoutEffect(() => {
-    onItemRender?.(children, value);
-  }, [children, value]);
-
-  return (
-    <Component
-      {...rest}
-      className={classNames(
-        "menu-item",
-        (selected ?? isItemSelected(value)) && "menu-item--selected",
-        `menu-item--size_${size}`,
-      )}
-      onClick={() => {
-        onClick?.(value);
-        onItemClick?.(value, closeOnClick);
-      }}
-    >
-      {leftIcon && <span className="menu-item__left-icon">{leftIcon}</span>}
-      {children}
-    </Component>
-  );
+  return {
+    className: classNames(
+      "menu-item",
+      `menu-item--size_${size}`,
+      isSelected && "menu-item--selected",
+    ),
+    onClick: () => {
+      onSelect?.();
+      onItemSelect?.(closeOnSelect);
+    },
+    children: (
+      <>
+        {leftIcon && <span className="menu-item__left-icon">{leftIcon}</span>}
+        {children}
+      </>
+    ),
+  };
 }

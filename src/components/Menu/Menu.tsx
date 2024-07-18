@@ -1,63 +1,64 @@
-import React, { useLayoutEffect, useRef } from "react";
-import { useControllableState } from "@hooks";
-import { MenuContext } from "./MenuContext";
+import React, { useRef, useState } from "react";
+import classNames from "classnames";
+import { useClickOutside } from "@hooks";
 
+import { ScaleFade } from "@components";
+import { MenuContext } from "./MenuContext";
 import "./Menu.scss";
 
-type MenuProps = {
-  closeOnClick?: boolean;
-  defaultValue?: string | null;
-  selectable?: boolean;
+export type MenuProps = {
+  alignRight?: boolean;
+  closeOnSelect?: boolean;
+  renderButton: (props: {
+    ref: React.RefObject<HTMLButtonElement>;
+    onClick: () => void;
+  }) => React.ReactNode;
   size?: "md" | "lg";
-  value?: string | null;
-  onClose?: () => void;
-  onItemClick?: (value: string | null) => void;
-  onItemSelect?: (content: React.ReactNode) => void;
   children: React.ReactNode;
 };
 
 export function Menu({
-  closeOnClick = true,
-  defaultValue,
-  selectable = false,
+  alignRight,
+  closeOnSelect = true,
+  renderButton,
   size = "md",
-  value,
-  onClose,
-  onItemClick,
-  onItemSelect,
   children,
 }: MenuProps) {
-  const contentsRef = useRef<Record<string, React.ReactNode>>({});
-  const [selectedValue, setSelectedValue] = useControllableState(
-    value,
-    defaultValue,
-  );
+  const [isOpen, setIsOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    const selectedContent = selectedValue
-      ? contentsRef.current[selectedValue]
-      : null;
-    onItemSelect?.(selectedContent);
-  }, [selectedValue]);
-
-  const contextValue = {
-    size,
-    isItemSelected: (itemValue: string | null) => {
-      return selectable && itemValue != null && itemValue == selectedValue;
-    },
-    onItemClick: (itemValue: string | null, close?: boolean) => {
-      if (selectable) setSelectedValue(itemValue);
-      onItemClick?.(itemValue);
-      if (close ?? closeOnClick) onClose?.();
-    },
-    onItemRender: (content: React.ReactNode, itemValue: string | null) => {
-      if (itemValue != null) contentsRef.current[itemValue] = content;
-    },
+  const handleButtonClick = () => setIsOpen(!isOpen);
+  const handleItemSelect = (close?: boolean) => {
+    if (close ?? closeOnSelect) setIsOpen(false);
   };
 
+  const button = renderButton({ ref: buttonRef, onClick: handleButtonClick });
+
+  useClickOutside([buttonRef, listRef], () => setIsOpen(false));
+
   return (
-    <MenuContext.Provider value={contextValue}>
-      <div className={`menu menu--size_${size}`}>{children}</div>
+    <MenuContext.Provider value={{ size, onItemSelect: handleItemSelect }}>
+      <div className="menu">
+        {button}
+        <div
+          className={classNames(
+            "menu__list",
+            alignRight && "menu__list--align-right",
+          )}
+          ref={listRef}
+        >
+          <ScaleFade
+            in={isOpen}
+            transformOrigin={alignRight ? "top right" : "top left"}
+            unmountOnExit
+          >
+            <div className={`menu-list menu-list--size_${size}`}>
+              {children}
+            </div>
+          </ScaleFade>
+        </div>
+      </div>
     </MenuContext.Provider>
   );
 }

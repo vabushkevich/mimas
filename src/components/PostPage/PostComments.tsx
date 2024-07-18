@@ -3,17 +3,14 @@ import { Link } from "react-router-dom";
 import {
   CommentSortingOption,
   CommentThreadList as CommentThreadListType,
-  isCommentSortingOption,
 } from "@types";
 
 import {
-  CommentThreadList,
-  DropdownMenu,
-  MenuItem,
-  Card,
   Alert,
+  Card,
   CommentForm,
-  DropdownButton,
+  CommentThreadList,
+  Select,
   UserContent,
 } from "@components";
 import "./PostPage.scss";
@@ -76,28 +73,20 @@ export function PostComments({
                     {getHeadingText(commentCount)}
                   </h3>
                   {commentCount > 1 && (
-                    <DropdownMenu
+                    <Select
                       alignRight
-                      button={(selectedContent) => (
-                        <DropdownButton variant="text">
-                          {selectedContent}
-                        </DropdownButton>
-                      )}
-                      selectable
+                      options={[
+                        { value: "confidence", label: "Best" },
+                        { value: "top", label: "Top" },
+                        { value: "new", label: "New" },
+                        { value: "controversial", label: "Controversial" },
+                        { value: "old", label: "Old" },
+                        { value: "qa", label: "Q&A" },
+                      ]}
                       value={sort}
-                      onItemClick={(value) => {
-                        if (isCommentSortingOption(value)) {
-                          onCommentSortingChange?.(value);
-                        }
-                      }}
-                    >
-                      <MenuItem value="confidence">Best</MenuItem>
-                      <MenuItem value="top">Top</MenuItem>
-                      <MenuItem value="new">New</MenuItem>
-                      <MenuItem value="controversial">Controversial</MenuItem>
-                      <MenuItem value="old">Old</MenuItem>
-                      <MenuItem value="qa">Q&A</MenuItem>
-                    </DropdownMenu>
+                      variant="text"
+                      onSelect={(value) => onCommentSortingChange?.(value)}
+                    />
                   )}
                 </div>
               )}

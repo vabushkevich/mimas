@@ -8,7 +8,7 @@ import { useAuthGuard } from "@hooks";
 import { copyToClipboard } from "@utils";
 
 import {
-  DropdownMenu,
+  Menu,
   MenuItem,
   SubmissionHeader,
   UserContent,
@@ -102,16 +102,19 @@ export function Comment({
               </Link>
             )}
             <div className="comment__menu">
-              <DropdownMenu
-                button={
-                  <button className="comment__control comment__menu-btn">
+              <Menu
+                renderButton={(props) => (
+                  <button
+                    {...props}
+                    className="comment__control comment__menu-btn"
+                  >
                     <DotsIcon className="comment__dots-icon" />
                   </button>
-                }
+                )}
               >
                 <MenuItem
                   leftIcon={<CopyIcon />}
-                  onClick={async () => {
+                  onSelect={async () => {
                     const commentURL = String(new URL(url, location.origin));
                     await copyToClipboard(commentURL);
                     toast.success("Link copied");
@@ -119,7 +122,7 @@ export function Comment({
                 >
                   Copy link
                 </MenuItem>
-              </DropdownMenu>
+              </Menu>
             </div>
             <div className="comment__voting">
               <Voting

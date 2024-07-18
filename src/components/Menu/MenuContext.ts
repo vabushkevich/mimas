@@ -1,19 +1,19 @@
 import { createContext, useContext } from "react";
 
-type MenuContextType = {
-  size: "md" | "lg";
-  isItemSelected: (value: string | null) => boolean;
-  onItemClick?: (value: string | null, close?: boolean) => void;
-  onItemRender?: (content: React.ReactNode, value: string | null) => void;
+import { MenuProps } from "./Menu";
+
+type MenuContextValue = {
+  size: Exclude<MenuProps["size"], undefined>;
+  onItemSelect: (close?: boolean) => void;
 };
 
-export const MenuContext = createContext<MenuContextType | null>(null);
+export const MenuContext = createContext<MenuContextValue | null>(null);
 
-export function useMenu() {
+export function useMenuContext() {
   const context = useContext(MenuContext);
 
   if (context == null) {
-    throw new Error("useMenu was used outside of its Provider");
+    throw new Error("useMenuContext was used outside of its Provider");
   }
 
   return context;

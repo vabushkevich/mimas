@@ -1,10 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "@services/auth";
 import { useDarkMode } from "@context";
 import { User } from "@types";
 
-import { DropdownMenu, MenuItem, Avatar } from "@components";
+import { Avatar, Menu, MenuItem, MenuItemLink } from "@components";
 import DownIcon from "@assets/svg/arrow-down.svg";
 import UserIcon from "./assets/user.svg";
 import MoonIcon from "./assets/moon.svg";
@@ -22,37 +21,37 @@ export function UserMenu({ user }: UserMenuProps) {
   const { authorized, signIn, signOut } = useAuth();
 
   return (
-    <DropdownMenu
+    <Menu
       alignRight
-      button={
-        <button className="user-menu__button">
+      renderButton={(props) => (
+        <button {...props} className="user-menu__button">
           <Avatar size="md" src={user?.avatar} />
           <DownIcon className="user-menu__button-icon" />
         </button>
-      }
+      )}
       size="lg"
     >
       {user && (
-        <MenuItem as={Link} leftIcon={<UserIcon />} to={`/user/${user.name}`}>
+        <MenuItemLink href={`/user/${user.name}`} leftIcon={<UserIcon />}>
           {user.name}
-        </MenuItem>
+        </MenuItemLink>
       )}
       <MenuItem
-        closeOnClick={false}
+        closeOnSelect={false}
         leftIcon={isDarkMode ? <SunIcon /> : <MoonIcon />}
-        onClick={toggleDarkMode}
+        onSelect={toggleDarkMode}
       >
         {isDarkMode ? "Light" : "Dark"} mode
       </MenuItem>
       {authorized ? (
-        <MenuItem leftIcon={<OutIcon />} onClick={signOut}>
+        <MenuItem leftIcon={<OutIcon />} onSelect={signOut}>
           Sign out
         </MenuItem>
       ) : (
-        <MenuItem leftIcon={<InIcon />} onClick={signIn}>
+        <MenuItem leftIcon={<InIcon />} onSelect={signIn}>
           Sign in with Reddit
         </MenuItem>
       )}
-    </DropdownMenu>
+    </Menu>
   );
 }
