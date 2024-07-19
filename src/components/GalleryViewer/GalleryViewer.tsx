@@ -26,8 +26,8 @@ export function GalleryViewer({
   const pageCount = gallery.items.length;
   const { page, prevPage, nextPage } = usePagination({
     initialPage,
+    isLooped: true,
     pageCount,
-    infinite: true,
   });
   const { caption, imageVariants, linkURL } = gallery.items[page];
   const image = imageVariants.at(-1);
