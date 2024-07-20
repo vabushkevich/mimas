@@ -26,17 +26,17 @@ import {
 const NAVBAR_HEIGHT = "50px";
 
 export function useClickOutside(
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<Element>,
   callback: () => void,
 ): void;
 
 export function useClickOutside(
-  refs: RefObject<HTMLElement>[],
+  refs: RefObject<Element>[],
   callback: () => void,
 ): void;
 
 export function useClickOutside(
-  arg: RefObject<HTMLElement> | RefObject<HTMLElement>[],
+  arg: RefObject<Element> | RefObject<Element>[],
   callback: () => void,
 ): void {
   const handleClick = useEvent(({ target }: MouseEvent) => {
