@@ -39,23 +39,17 @@ export function useClickOutside(
   arg: RefObject<HTMLElement> | RefObject<HTMLElement>[],
   callback: () => void,
 ): void {
-  const refs = Array.isArray(arg) ? arg : [arg];
-  const callbackRef = useRef(callback);
+  const handleClick = useEvent(({ target }: MouseEvent) => {
+    if (!(target instanceof Element)) return;
+    const refs = Array.isArray(arg) ? arg : [arg];
+    if (refs.some((ref) => ref.current?.contains(target))) return;
+    callback();
+  });
 
   useEffect(() => {
-    callbackRef.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    const handleClick = ({ target }: MouseEvent) => {
-      const elems = refs.map((ref) => ref.current);
-      if (elems.some((elem) => elem?.contains(target as Node))) return;
-      callbackRef.current();
-    };
-
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
-  }, refs);
+  }, [handleClick]);
 }
 
 export function useSearchParams<T extends Record<string, string>>(): [
@@ -521,4 +515,12 @@ export function useMediaPlayback<T extends Element>(
   }
 
   return { status };
+}
+
+export function useEvent<T extends unknown[], R>(callback: (...args: T) => R) {
+  const ref = useRef(callback);
+  useLayoutEffect(() => {
+    ref.current = callback;
+  });
+  return useCallback((...args: T) => ref.current(...args), []);
 }
