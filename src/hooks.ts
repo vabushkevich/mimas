@@ -524,3 +524,15 @@ export function useEvent<T extends unknown[], R>(callback: (...args: T) => R) {
   });
   return useCallback((...args: T) => ref.current(...args), []);
 }
+
+// A hook that simplifies the creation of components that can be either
+// controlled or uncontrolled
+export function useControllableState<T>(
+  value: T,
+  defaultValue: T | (() => T),
+): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const isControlled = value !== undefined;
+  const innerState = useState(defaultValue);
+  const noop = useCallback(() => {}, []);
+  return isControlled ? [value, noop] : innerState;
+}
