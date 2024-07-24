@@ -6,12 +6,12 @@ import "./Menu.scss";
 
 type MenuProps = {
   closeOnClick?: boolean;
-  defaultValue?: string;
+  defaultValue?: string | null;
   selectable?: boolean;
   size?: "md" | "lg";
-  value?: string;
+  value?: string | null;
   onClose?: () => void;
-  onItemClick?: (value?: string) => void;
+  onItemClick?: (value: string | null) => void;
   onItemSelect?: (content: React.ReactNode) => void;
   children: React.ReactNode;
 };
@@ -42,15 +42,15 @@ export function Menu({
 
   const contextValue = {
     size,
-    isItemSelected: (itemValue?: string) => {
+    isItemSelected: (itemValue: string | null) => {
       return selectable && itemValue != null && itemValue == selectedValue;
     },
-    onItemClick: (itemValue?: string, close?: boolean) => {
+    onItemClick: (itemValue: string | null, close?: boolean) => {
       if (selectable) setSelectedValue(itemValue);
       onItemClick?.(itemValue);
       if (close ?? closeOnClick) onClose?.();
     },
-    onItemRender: (content: React.ReactNode, itemValue?: string) => {
+    onItemRender: (content: React.ReactNode, itemValue: string | null) => {
       if (itemValue != null) contentsRef.current[itemValue] = content;
     },
   };

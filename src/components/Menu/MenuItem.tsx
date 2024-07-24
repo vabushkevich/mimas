@@ -9,8 +9,8 @@ type MenuItemProps = {
   closeOnClick?: boolean;
   leftIcon?: React.ReactNode;
   selected?: boolean;
-  value?: string;
-  onClick?: (value?: string) => void;
+  value?: string | null;
+  onClick?: (value: string | null) => void;
   children: React.ReactNode;
 };
 
@@ -19,7 +19,7 @@ export function MenuItem<T extends React.ElementType>({
   closeOnClick,
   leftIcon,
   selected,
-  value,
+  value = null,
   onClick,
   children,
   ...rest
