@@ -452,24 +452,20 @@ export function useTransitionState({
   const [shouldMount, setShouldMount] = useState(inProp);
   const isActive = status == "entering" || status == "exiting";
 
-  useLayoutEffect(() => {
+  const latestDuration = useRef(duration);
+  useEffect(() => {
+    latestDuration.current = duration;
+  }, [duration]);
+
+  // Reacting to `in` argument changes
+  const [prevInProp, setPrevInProp] = useState(inProp);
+  if (inProp != prevInProp) {
+    setPrevInProp(inProp);
     if (inProp) {
       if (status == "exit") {
-        if (!shouldMount) {
-          // The target component is ready to change its status from `exit` to
-          // `entering`. Make sure that the component is mounted.
-          setShouldMount(true);
-        } else {
-          // The target component should now be mounted. To make the transition
-          // happen, it is necessary to paint the component first.
-          let ignore = false;
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              if (!ignore) setStatus("entering");
-            });
-          });
-          return () => (ignore = true);
-        }
+        // The target component is about to change its status from `exit` to
+        // `entering`. Before doing so, the component should be mounted.
+        if (!shouldMount) setShouldMount(true);
       } else if (status == "exiting") {
         setStatus("entering");
       }
@@ -480,17 +476,38 @@ export function useTransitionState({
         setShouldMount(false);
       }
     }
+  }
 
-    // Change `status` from `entering` to `enter` and from `exiting` to `exit`
-    // automatically with a delay
-    if (status == "entering" || status == "exiting") {
-      const nextStatus = status == "entering" ? "enter" : "exit";
-      const delay =
-        typeof duration == "number" ? duration : duration[nextStatus];
-      const timeout = setTimeout(() => setStatus(nextStatus), delay);
-      return () => clearTimeout(timeout);
-    }
-  }, [inProp, shouldMount, status]);
+  // Change `status` from `exit` to `entering` after the component is painted
+  useEffect(() => {
+    if (status != "exit" || !shouldMount) return;
+    // The target component should now be mounted and ready to change its
+    // status from `exit` to `entering`. To make the transition happen, it is
+    // necessary to paint the component first.
+    let ignore = false;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!ignore) setStatus("entering");
+      });
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [shouldMount, status]);
+
+  // Change `status` from `entering` to `enter` and from `exiting` to `exit`
+  // automatically with a delay
+  useEffect(() => {
+    if (status == "enter" || status == "exit") return;
+    const nextStatus = status == "entering" ? "enter" : "exit";
+    const duration = latestDuration.current;
+    const delay = typeof duration == "number" ? duration : duration[nextStatus];
+    const timeout = setTimeout(() => {
+      if (nextStatus == "exit") setShouldMount(false);
+      setStatus(nextStatus);
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [status]);
 
   return { isActive, shouldMount, status };
 }
