@@ -386,7 +386,7 @@ export function useInView<T extends Element>({
   return isInView;
 }
 
-export function usePageIntersectionDetector<T extends Element>(
+export function useInPageView<T extends Element>(
   options: Parameters<typeof useInView<T>>[0],
 ) {
   return useInView({
@@ -405,13 +405,13 @@ export function useLastOnScreenMedia<T extends Element>(
     (state) => state.onScreenMediaIds.at(-1) == key,
   );
 
-  const isIntersecting = usePageIntersectionDetector({ ref, threshold: 0.75 });
+  const isInPageView = useInPageView({ ref, threshold: 0.75 });
   useLayoutEffect(() => {
-    if (isIntersecting) dispatch(addOnScreenMediaId(key));
+    if (isInPageView) dispatch(addOnScreenMediaId(key));
     return () => {
-      if (isIntersecting) dispatch(removeOnScreenMediaId(key));
+      if (isInPageView) dispatch(removeOnScreenMediaId(key));
     };
-  }, [dispatch, isIntersecting, key]);
+  }, [dispatch, isInPageView, key]);
 
   return isLastOnScreen;
 }
@@ -502,7 +502,7 @@ export function useMediaPlayback<T extends Element>(
   key: string,
 ) {
   const isLastOnScreen = useLastOnScreenMedia(ref, key);
-  const isNearViewport = usePageIntersectionDetector({
+  const isNearViewport = useInPageView({
     ref,
     rootMargin: "100% 0px",
   });
