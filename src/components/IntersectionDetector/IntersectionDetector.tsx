@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useIntersectionDetector } from "@hooks";
+import { useInView } from "@hooks";
 
 type IntersectionDetectorProps = {
   rootMargin?: string;
@@ -22,13 +22,13 @@ export function IntersectionDetector({
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const isIntersecting = useIntersectionDetector({ ref, ...restProps });
+  const isInView = useInView({ ref, ...restProps });
   useEffect(() => {
-    if (isIntersecting) savedCallbacks.current.onEnter?.();
+    if (isInView) savedCallbacks.current.onEnter?.();
     return () => {
-      if (isIntersecting) savedCallbacks.current.onLeave?.();
+      if (isInView) savedCallbacks.current.onLeave?.();
     };
-  }, [isIntersecting]);
+  }, [isInView]);
 
   return <div ref={ref}>{children}</div>;
 }
