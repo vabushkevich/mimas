@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import classNames from "classnames";
 
 import "./Button.scss";
@@ -13,36 +13,43 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   width?: string | number;
 };
 
-export const Button = function Button({
-  color = "blue",
-  icon,
-  pill = false,
-  rightIcon,
-  size = "md",
-  variant = "solid",
-  width,
-  children,
-  ...other
-}: ButtonProps) {
-  return (
-    <button
-      className={classNames(
-        "button",
-        `button--color_${color}`,
-        `button--size_${size}`,
-        `button--variant_${variant}`,
-        pill && "button--pill",
-        icon && "button--icon",
-      )}
-      style={{ width }}
-      {...other}
-    >
-      {icon || (
-        <>
-          {children}
-          {rightIcon && <span className="button__right-icon">{rightIcon}</span>}
-        </>
-      )}
-    </button>
-  );
-};
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(props, ref) {
+    const {
+      color = "blue",
+      icon,
+      pill = false,
+      rightIcon,
+      size = "md",
+      variant = "solid",
+      width,
+      children,
+      ...other
+    } = props;
+
+    return (
+      <button
+        className={classNames(
+          "button",
+          `button--color_${color}`,
+          `button--size_${size}`,
+          `button--variant_${variant}`,
+          pill && "button--pill",
+          icon && "button--icon",
+        )}
+        ref={ref}
+        style={{ width }}
+        {...other}
+      >
+        {icon || (
+          <>
+            {children}
+            {rightIcon && (
+              <span className="button__right-icon">{rightIcon}</span>
+            )}
+          </>
+        )}
+      </button>
+    );
+  },
+);
