@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { Button } from "@components";
+import { Button, ButtonProps } from "@components";
 
-type SubscribeButtonProps = Omit<Parameters<typeof Button>[0], "children"> & {
+type SubscribeButtonProps = Omit<ButtonProps, "children"> & {
   subscribed?: boolean;
 };
 

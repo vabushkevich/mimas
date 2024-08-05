@@ -1,10 +1,12 @@
 import React from "react";
 
-import { Button } from "@components";
+import { Button, ButtonProps } from "@components";
 import DownIcon from "@assets/svg/arrow-down.svg";
 
+export type DropdownButtonProps = ButtonProps;
+
 export const DropdownButton = function DropdownButton(
-  props: Parameters<typeof Button>[0],
+  props: DropdownButtonProps,
 ) {
   return (
     <Button

@@ -20,6 +20,7 @@ export { CommentThread } from "./CommentThread/CommentThread";
 export { CommentThreadList } from "./CommentThreadList/CommentThreadList";
 export { Card } from "./Card/Card";
 export { Button } from "./Button/Button";
+export type { ButtonProps } from "./Button/Button";
 export { ButtonSkeleton } from "./Button/ButtonSkeleton";
 export { Menu } from "./Menu/Menu";
 export { MenuItem } from "./Menu/MenuItem";

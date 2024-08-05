@@ -1,9 +1,8 @@
 import React from "react";
 
 import { Skeleton } from "@components";
-import { DropdownButton } from "./DropdownButton";
+import { DropdownButton, DropdownButtonProps } from "./DropdownButton";
 
-type DropdownButtonProps = Parameters<typeof DropdownButton>[0];
 type DropdownButtonSkeletonProps = Omit<DropdownButtonProps, "children"> & {
   contentWidth?: number;
 };
