@@ -11,13 +11,14 @@
       },
       "extends": [
         "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
         "plugin:@typescript-eslint/recommended"
       ],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "sourceType": "module"
       },
-      "plugins": ["react", "@typescript-eslint"],
+      "plugins": ["react", "react-hooks", "@typescript-eslint"],
       "settings": {
         "react": {
           "version": "detect"
