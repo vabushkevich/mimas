@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 
 import {
   Card,
-  DropdownMenu,
   Flair,
+  Menu,
   MenuItem,
   SubmissionHeader,
   UserContent,
@@ -105,17 +105,17 @@ export function BasePost({
             subreddit={subreddit}
             userName={userName}
           />
-          <DropdownMenu
+          <Menu
             alignRight
-            button={
-              <button className="post__control post__menu-btn">
+            renderButton={(props) => (
+              <button {...props} className="post__control post__menu-btn">
                 <DotsIcon className="post__dots-icon" />
               </button>
-            }
+            )}
           >
             <MenuItem
               leftIcon={<CopyIcon />}
-              onClick={async () => {
+              onSelect={async () => {
                 const postURL = String(new URL(url, location.origin));
                 await copyToClipboard(postURL);
                 toast.success("Link copied");
@@ -123,7 +123,7 @@ export function BasePost({
             >
               Copy link
             </MenuItem>
-          </DropdownMenu>
+          </Menu>
         </div>
         <div className="post__heading">
           {titleClickable ? (

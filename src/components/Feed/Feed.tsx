@@ -4,10 +4,9 @@ import {
   FeedSortingOption,
   SortTimeInterval,
   isSortRequiresTimeInterval,
-  isSortTimeInterval,
 } from "@types";
 
-import { DropdownMenu, MenuItem, DropdownButton } from "@components";
+import { Select } from "@components";
 import "./Feed.scss";
 
 type FeedProps<T> = {
@@ -30,44 +29,31 @@ export function Feed<T extends FeedSortingOption>({
   return (
     <div className="feed">
       <div className="feed__sort">
-        <DropdownMenu
-          button={(selectedContent) => (
-            <DropdownButton color="clear" pill>
-              {selectedContent}
-            </DropdownButton>
-          )}
-          selectable
+        <Select
+          color="clear"
+          options={sortingOptions.map((sortingOption) => ({
+            value: sortingOption,
+            label: capitalize(sortingOption),
+          }))}
+          pill
           value={sort}
-          onItemClick={(value) => onSortChange?.(value as T)}
-        >
-          {sortingOptions.map((sort) => (
-            <MenuItem key={sort} value={sort}>
-              {capitalize(sort)}
-            </MenuItem>
-          ))}
-        </DropdownMenu>
+          onSelect={(value) => onSortChange?.(value)}
+        />
         {isSortRequiresTimeInterval(sort) && (
-          <DropdownMenu
-            button={(selectedContent) => (
-              <DropdownButton color="clear" pill>
-                {selectedContent}
-              </DropdownButton>
-            )}
-            selectable
+          <Select
+            color="clear"
+            options={[
+              { value: "hour", label: "Hour" },
+              { value: "day", label: "Day" },
+              { value: "week", label: "Week" },
+              { value: "month", label: "Month" },
+              { value: "year", label: "Year" },
+              { value: "all", label: "All Time" },
+            ]}
+            pill
             value={sortTimeInterval}
-            onItemClick={(value) => {
-              if (isSortTimeInterval(value)) {
-                onSortTimeIntervalChange?.(value);
-              }
-            }}
-          >
-            <MenuItem value="hour">Hour</MenuItem>
-            <MenuItem value="day">Day</MenuItem>
-            <MenuItem value="week">Week</MenuItem>
-            <MenuItem value="month">Month</MenuItem>
-            <MenuItem value="year">Year</MenuItem>
-            <MenuItem value="all">All Time</MenuItem>
-          </DropdownMenu>
+            onSelect={(value) => onSortTimeIntervalChange?.(value)}
+          />
         )}
       </div>
       {children}
