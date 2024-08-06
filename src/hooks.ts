@@ -5,6 +5,7 @@ import {
   RefObject,
   useRef,
   useLayoutEffect,
+  useReducer,
 } from "react";
 import {
   generatePath,
@@ -107,72 +108,72 @@ export function useAuthGuard<T extends unknown[], R>(func?: (...args: T) => R) {
 }
 
 export function useCounter({
-  initialCount,
+  initialCount = 0,
+  isLooped,
   min = -Infinity,
   max = Infinity,
 }: {
-  initialCount: number;
+  initialCount?: number;
+  isLooped?: boolean;
   min?: number;
   max?: number;
 }) {
-  const [count, setCount] = useState(initialCount);
+  type Action =
+    | { type: "increment" }
+    | { type: "decrement" }
+    | { type: "reset" }
+    | { type: "set"; value: number };
 
-  const decrement = () => {
-    setCount(Math.max(min, count - 1));
-  };
+  const clamp = (value: number) => Math.min(Math.max(min, value), max);
 
-  const increment = () => {
-    setCount(Math.min(count + 1, max));
-  };
+  const [count, dispatch] = useReducer((state: number, action: Action) => {
+    switch (action.type) {
+      case "increment":
+        if (state < max) return state + 1;
+        return isLooped ? min : state;
+      case "decrement":
+        if (state > min) return state - 1;
+        return isLooped ? max : state;
+      case "reset":
+        return clamp(initialCount);
+      case "set":
+        return clamp(action.value);
+    }
+  }, clamp(initialCount));
 
-  const set = (value: number) => {
-    setCount(Math.min(Math.max(min, value), max));
-  };
+  const increment = useCallback(() => dispatch({ type: "increment" }), []);
+  const decrement = useCallback(() => dispatch({ type: "decrement" }), []);
+  const reset = useCallback(() => dispatch({ type: "reset" }), []);
+  const set = useCallback(
+    (value: number) => dispatch({ type: "set", value }),
+    [],
+  );
 
-  const reset = () => {
-    setCount(initialCount);
-  };
-
-  return { count, decrement, increment, set, reset };
+  return { count, increment, decrement, reset, set };
 }
 
 export function usePagination({
   initialPage,
+  isLooped,
   pageCount,
-  infinite = false,
 }: {
-  initialPage: number;
+  initialPage?: number;
+  isLooped?: boolean;
   pageCount: number;
-  infinite?: boolean;
 }) {
   const firstPage = 0;
   const lastPage = pageCount - 1;
   const {
     count: page,
-    decrement: decrementPage,
-    increment: incrementPage,
+    increment: nextPage,
+    decrement: prevPage,
     set: setPage,
   } = useCounter({
     initialCount: initialPage,
+    isLooped,
     min: firstPage,
     max: lastPage,
   });
-
-  const prevPage = () => {
-    if (infinite && page <= firstPage) {
-      setPage(lastPage);
-    } else {
-      decrementPage();
-    }
-  };
-
-  const nextPage = () => {
-    if (infinite && page >= lastPage) {
-      setPage(firstPage);
-    } else {
-      incrementPage();
-    }
-  };
 
   return { page, prevPage, nextPage, setPage };
 }
