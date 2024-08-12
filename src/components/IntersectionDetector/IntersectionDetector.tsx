@@ -22,7 +22,7 @@ export function IntersectionDetector({
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const isInView = useInView({ ref, ...restProps });
+  const isInView = useInView(ref, restProps);
   useEffect(() => {
     if (isInView) savedCallbacks.current.onEnter?.();
     return () => {

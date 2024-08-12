@@ -336,17 +336,18 @@ export function useNavigationType() {
   }
 }
 
-export function useInView<T extends Element>({
-  delay = 0,
-  ref,
-  rootMargin,
-  threshold,
-}: {
-  delay?: number;
-  ref: React.RefObject<T>;
-  rootMargin?: string;
-  threshold?: number;
-}) {
+export function useInView<T extends Element>(
+  ref: React.RefObject<T>,
+  {
+    delay = 0,
+    rootMargin,
+    threshold,
+  }: {
+    delay?: number;
+    rootMargin?: string;
+    threshold?: number;
+  },
+) {
   const [isInView, setIsInView] = useState(false);
 
   const latestDelay = useRef(delay);
@@ -387,9 +388,9 @@ export function useInView<T extends Element>({
 }
 
 export function useInPageView<T extends Element>(
-  options: Parameters<typeof useInView<T>>[0],
+  ...[ref, options]: Parameters<typeof useInView<T>>
 ) {
-  return useInView({
+  return useInView(ref, {
     delay: 200,
     rootMargin: `-${NAVBAR_HEIGHT} 0px 0px`,
     ...options,
@@ -405,7 +406,7 @@ export function useLastOnScreenMedia<T extends Element>(
     (state) => state.onScreenMediaIds.at(-1) == key,
   );
 
-  const isInPageView = useInPageView({ ref, threshold: 0.75 });
+  const isInPageView = useInPageView(ref, { threshold: 0.75 });
   useLayoutEffect(() => {
     if (isInPageView) dispatch(addOnScreenMediaId(key));
     return () => {
@@ -502,10 +503,7 @@ export function useMediaPlayback<T extends Element>(
   key: string,
 ) {
   const isLastOnScreen = useLastOnScreenMedia(ref, key);
-  const isNearViewport = useInPageView({
-    ref,
-    rootMargin: "100% 0px",
-  });
+  const isNearViewport = useInPageView(ref, { rootMargin: "100% 0px" });
 
   let status: MediaPlaybackStatus;
 
