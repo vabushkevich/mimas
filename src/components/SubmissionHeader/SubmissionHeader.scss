@@ -17,8 +17,8 @@
     }
   }
 
-  &__secondary-author {
-    @include text-truncate;
+  &__author {
+    min-width: 0;
   }
 
   &__date {
@@ -58,52 +58,5 @@
 
     flex-shrink: 10000;
     min-width: 30px;
-  }
-}
-
-.primary-author {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  font-weight: 500;
-
-  &__avatar {
-    margin-right: 5px;
-  }
-
-  &__name {
-    @include text-truncate;
-  }
-
-  &--highlighted &__name {
-    padding: 0 4px;
-    border-radius: 4px;
-    color: white;
-  }
-
-  &--highlighted:hover &__name {
-    opacity: 0.85;
-  }
-
-  &--submitter &__name {
-    background-color: themed("blue-400");
-
-    @include dark-mode {
-      background-color: themed("blue-500");
-    }
-  }
-
-  &--moderator &__name {
-    @include themify {
-      background-color: themed("green-500");
-    }
-  }
-
-  &--admin &__name {
-    background-color: themed("orange-400");
-
-    @include dark-mode {
-      background-color: themed("orange-500");
-    }
   }
 }

@@ -1,0 +1,52 @@
+@use "@sass/mixins" as *;
+
+.author-link {
+  display: flex;
+  align-items: center;
+
+  &__avatar {
+    margin-right: 5px;
+  }
+
+  &__name {
+    @include text-truncate;
+
+    background-color: var(--color);
+  }
+
+  &--primary {
+    font-weight: 500;
+  }
+
+  &--highlighted &__name {
+    padding: 0 4px;
+    border-radius: 4px;
+    color: white;
+  }
+
+  &--highlighted:hover &__name {
+    opacity: 0.85;
+  }
+
+  &--submitter {
+    --color: #{themed("blue-400")};
+
+    @include dark-mode {
+      --color: #{themed("blue-500")};
+    }
+  }
+
+  &--moderator {
+    @include themify {
+      --color: #{themed("green-500")};
+    }
+  }
+
+  &--admin {
+    --color: #{themed("orange-400")};
+
+    @include dark-mode {
+      --color: #{themed("orange-500")};
+    }
+  }
+}

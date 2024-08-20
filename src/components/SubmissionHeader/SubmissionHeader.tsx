@@ -4,7 +4,8 @@ import { formatDistanceToNow, formatDate } from "@utils";
 import { SubmissionDistinction, AuthorType } from "@types";
 import classNames from "classnames";
 
-import { Avatar, Flair } from "@components";
+import { Flair } from "@components";
+import { AuthorLink } from "./AuthorLink";
 import PencilIcon from "./assets/pencil.svg";
 import PinIcon from "./assets/pin.svg";
 import LockIcon from "./assets/lock.svg";
@@ -57,34 +58,21 @@ export function SubmissionHeader({
 
   return (
     <div className="submission-header">
-      <Link
-        className={classNames([
-          "primary-author",
-          bySubmitter && "primary-author--submitter",
-          distinction && `primary-author--${distinction}`,
-          (bySubmitter || distinction) && "primary-author--highlighted",
-        ])}
-        to={subredditIsPrimaryAuthor ? `/r/${subreddit}` : `/user/${userName}`}
-      >
-        <div className="primary-author__avatar">
-          <Avatar
-            // Only subreddit can have `null` as `picture` value
-            name={avatar === null ? subreddit : undefined}
-            size="xs"
-            src={avatar || undefined}
-          />
-        </div>
-        <div className="primary-author__name">
-          {subredditIsPrimaryAuthor ? subreddit : userName}
-        </div>
-      </Link>
+      <AuthorLink
+        avatar={avatar}
+        bySubmitter={bySubmitter}
+        className="submission-header__author"
+        distinction={distinction}
+        isPrimary
+        name={subredditIsPrimaryAuthor ? subreddit : userName}
+        type={primaryAuthorType}
+      />
       {subredditIsPrimaryAuthor && (
-        <Link
-          className="submission-header__secondary-author"
-          to={`/user/${userName}`}
-        >
-          {userName}
-        </Link>
+        <AuthorLink
+          className="submission-header__author"
+          name={userName}
+          type="user"
+        />
       )}
       {url ? <Link to={url}>{date}</Link> : date}
       {hasStatusIcons && (

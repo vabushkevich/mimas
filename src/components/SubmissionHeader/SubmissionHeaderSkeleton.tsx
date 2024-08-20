@@ -6,11 +6,11 @@ import "./SubmissionHeader.scss";
 export function SubmissionHeaderSkeleton() {
   return (
     <div className="submission-header">
-      <span className="primary-author">
-        <div className="primary-author__avatar">
+      <span className="author-link">
+        <div className="author-link__avatar">
           <Skeleton width={20} height={20} circle block />
         </div>
-        <div className="primary-author__name">
+        <div className="author-link__name">
           <Skeleton width={60} />
         </div>
       </span>
