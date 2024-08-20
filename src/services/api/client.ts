@@ -29,14 +29,19 @@ class RedditWebAPI {
     this.#getAccessToken = typeof arg == "string" ? async () => arg : arg;
   }
 
-  async #fetchWithAuth(...[input, init = {}]: Parameters<typeof fetch>) {
+  async #request(
+    method: string,
+    apiMethod: string,
+    { body, params }: { body?: BodyInit; params?: Record<string, string> } = {},
+  ) {
+    const searchParams = new URLSearchParams({ raw_json: "1", ...params });
+    const url = `https://oauth.reddit.com/${apiMethod}?${searchParams}`;
     const accessToken = await this.#getAccessToken();
-    const response = await fetch(input, {
-      ...init,
-      headers: {
-        ...(init.headers || {}),
-        Authorization: `Bearer ${accessToken}`,
-      },
+    const response = await fetch(url, {
+      body,
+      cache: "no-store",
+      headers: { Authorization: `Bearer ${accessToken}` },
+      method,
     });
 
     if (!response.ok) {
@@ -49,15 +54,25 @@ class RedditWebAPI {
     return response;
   }
 
+  async #get(method: string, params?: Record<string, string>) {
+    return await this.#request("GET", method, { params });
+  }
+
+  async #post(
+    method: string,
+    params?: Record<string, string>,
+    body?: BodyInit,
+  ) {
+    return await this.#request("POST", method, { body, params });
+  }
+
   async getPost(id: string) {
     return (await this.getPosts([id]))[0];
   }
 
   async getPosts(ids: string[]) {
     if (ids.length == 0) return [];
-    const rawPosts = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/api/info?id=${ids}&raw_json=1`,
-    )
+    const rawPosts = await this.#get("api/info", { id: ids.join() })
       .then((res) => res.json() as Promise<Raw.Listing<Raw.Post>>)
       .then((json) => json.data.children);
     return rawPosts.map((rawPost) => transformPost(rawPost));
@@ -78,24 +93,23 @@ class RedditWebAPI {
     subreddit?: string;
     userName?: string;
   }) {
-    const params = new URLSearchParams({ raw_json: "1" });
-    if (after) params.append("after", after);
-    if (limit) params.append("limit", String(limit));
+    const params: Record<string, string> = {};
+    if (after) params.after = after;
+    if (limit) params.limit = String(limit);
     if (sortTimeInterval && isSortRequiresTimeInterval(sort)) {
-      params.append("t", sortTimeInterval);
+      params.t = sortTimeInterval;
     }
-    if (sort && userName) params.append("sort", sort);
+    if (sort && userName) params.sort = sort;
 
-    let url = "https://oauth.reddit.com";
+    let method = "";
     if (userName) {
-      url += `/user/${userName}/submitted`;
+      method = `user/${userName}/submitted`;
     } else if (subreddit) {
-      url += `/r/${subreddit}`;
+      method = `r/${subreddit}`;
     }
-    if (sort && (subreddit || !userName)) url += `/${sort}`;
-    url += `?${params}`;
+    if (sort && (subreddit || !userName)) method += `/${sort}`;
 
-    const rawPosts = await this.#fetchWithAuth(url)
+    const rawPosts = await this.#get(method, params)
       .then((res) => res.json() as Promise<Raw.Listing<Raw.Post>>)
       .then((json) => json.data.children);
 
@@ -115,17 +129,15 @@ class RedditWebAPI {
     sortTimeInterval?: SortTimeInterval;
     userName: string;
   }) {
-    const params = new URLSearchParams({ raw_json: "1" });
-    if (after) params.append("after", after);
-    if (limit) params.append("limit", String(limit));
-    if (sort) params.append("sort", sort);
+    const params: Record<string, string> = {};
+    if (after) params.after = after;
+    if (limit) params.limit = String(limit);
+    if (sort) params.sort = sort;
     if (sortTimeInterval && isSortRequiresTimeInterval(sort)) {
-      params.append("t", sortTimeInterval);
+      params.t = sortTimeInterval;
     }
 
-    const rawComments = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/user/${userName}/comments?${params}`,
-    )
+    const rawComments = await this.#get(`user/${userName}/comments`, params)
       .then((res) => res.json() as Promise<Raw.Listing<Raw.Comment>>)
       .then((json) => json.data.children);
 
@@ -138,9 +150,7 @@ class RedditWebAPI {
 
   async getSubreddits(ids: string[]) {
     if (ids.length == 0) return [];
-    const rawSubreddits = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/api/info?id=${ids}&raw_json=1`,
-    )
+    const rawSubreddits = await this.#get("api/info", { id: ids.join() })
       .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
       .then((json) => json.data.children);
     return rawSubreddits.map((rawSubreddit) =>
@@ -149,17 +159,13 @@ class RedditWebAPI {
   }
 
   async getSubredditByName(name: string) {
-    const rawSubreddit = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/r/${name}/about?raw_json=1`,
-    )
+    const rawSubreddit = await this.#get(`r/${name}/about`)
       .then((res) => res.json() as Promise<Raw.Subreddit>)
       .catch(async (error) => {
         if (error instanceof HTTPError) {
           const errorData = await error.response?.json();
           if (isRedditError(errorData) && errorData.reason == "private") {
-            return this.#fetchWithAuth(
-              `https://oauth.reddit.com/api/info?sr_name=${name}&raw_json=1`,
-            )
+            return this.#get("api/info", { sr_name: name })
               .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
               .then((json) => json.data.children[0]);
           }
@@ -183,17 +189,17 @@ class RedditWebAPI {
       sort?: CommentSortingOption;
     } = {},
   ) {
-    const params = new URLSearchParams({
+    const params: Record<string, string> = {
       limit: String(limit),
-      raw_json: "1",
       threaded: "false",
-    });
-    if (sort) params.set("sort", sort);
-    if (commentId) params.set("comment", getIdSuffix(commentId));
+    };
+    if (commentId) params.comment = getIdSuffix(commentId);
+    if (sort) params.sort = sort;
 
     type JSONType = [Raw.Listing<Raw.Post>, Raw.Listing<Raw.CommentListItem>];
-    const items: Raw.CommentListItem[] = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/comments/${getIdSuffix(postId)}?${params}`,
+    const items: Raw.CommentListItem[] = await this.#get(
+      `comments/${getIdSuffix(postId)}`,
+      params,
     )
       .then((res) => res.json() as Promise<JSONType>)
       .then((json) => json[1].data.children);
@@ -212,17 +218,16 @@ class RedditWebAPI {
       sort?: CommentSortingOption;
     } = {},
   ) {
-    const formData = new FormData();
-    formData.append("api_type", "json");
-    formData.append("raw_json", "1");
-    formData.append("children", commentIds.map((id) => getIdSuffix(id)).join());
-    formData.append("link_id", postId);
-    if (sort) formData.append("sort", sort);
+    const params: Record<string, string> = {
+      api_type: "json",
+      link_id: postId,
+    };
+    if (sort) params.sort = sort;
 
-    const items = await this.#fetchWithAuth(
-      "https://oauth.reddit.com/api/morechildren",
-      { body: formData, method: "POST" },
-    )
+    const formData = new FormData();
+    formData.set("children", commentIds.map((id) => getIdSuffix(id)).join());
+
+    const items = await this.#post("api/morechildren", params, formData)
       .then((res) => res.json() as Promise<Raw.Things<Raw.CommentListItem>>)
       .then((json) => json.json.data.things);
 
@@ -230,17 +235,17 @@ class RedditWebAPI {
   }
 
   async getUserByName(name: string) {
-    const rawFullUser = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/user/${name}/about?raw_json=1`,
-    ).then((res) => res.json() as Promise<Raw.FullUser>);
+    const rawFullUser = await this.#get(`user/${name}/about`).then(
+      (res) => res.json() as Promise<Raw.FullUser>,
+    );
     return transformFullUser(rawFullUser);
   }
 
   async getUsers(ids: string[]) {
     if (ids.length == 0) return [];
-    const rawShortUsers = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/api/user_data_by_account_ids?ids=${ids}&raw_json=1`,
-    ).then((res) => res.json() as Promise<Record<string, Raw.ShortUser>>);
+    const rawShortUsers = await this.#get("api/user_data_by_account_ids", {
+      ids: ids.join(),
+    }).then((res) => res.json() as Promise<Record<string, Raw.ShortUser>>);
     return transformShortUsers(rawShortUsers);
   }
 
@@ -269,17 +274,14 @@ class RedditWebAPI {
   }
 
   async getIdentity() {
-    const rawIdentity = await this.#fetchWithAuth(
-      "https://oauth.reddit.com/api/v1/me?raw_json=1",
-      { cache: "no-store" },
-    ).then((res) => res.json() as Promise<Raw.Identity>);
+    const rawIdentity = await this.#get("api/v1/me").then(
+      (res) => res.json() as Promise<Raw.Identity>,
+    );
     return transformIdentity(rawIdentity);
   }
 
   async getMySubscriptions() {
-    const rawSubreddits = await this.#fetchWithAuth(
-      "https://oauth.reddit.com/subreddits/mine/subscriber",
-    )
+    const rawSubreddits = await this.#get("subreddits/mine/subscriber")
       .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
       .then((json) => json.data.children);
     return rawSubreddits.map((rawSubreddit) =>
@@ -288,25 +290,15 @@ class RedditWebAPI {
   }
 
   async vote(id: string, direction: number) {
-    const params = new URLSearchParams({ id, dir: String(direction) });
-    await this.#fetchWithAuth("https://oauth.reddit.com/api/vote", {
-      body: params,
-      method: "POST",
-    });
+    await this.#post("api/vote", { dir: String(direction), id });
   }
 
   async comment(parentId: string, text: string) {
-    const params = new URLSearchParams({
+    const rawComment = await this.#post("api/comment", {
       api_type: "json",
-      raw_json: "1",
       text,
       thing_id: parentId,
-    });
-
-    const rawComment = await this.#fetchWithAuth(
-      "https://oauth.reddit.com/api/comment",
-      { body: params, method: "POST" },
-    )
+    })
       .then((res) => res.json() as Promise<Raw.Things<Raw.Comment>>)
       .then((json) => json.json.data.things[0]);
 
@@ -314,35 +306,22 @@ class RedditWebAPI {
   }
 
   async bookmark(id: string, action: "add" | "remove" = "add") {
-    const params = new URLSearchParams({ id });
-    await this.#fetchWithAuth(
-      `https://oauth.reddit.com/api/${action == "add" ? "save" : "unsave"}`,
-      {
-        body: params,
-        method: "POST",
-      },
-    );
+    await this.#post(`api/${action == "add" ? "save" : "unsave"}`, { id });
   }
 
   async subscribe(subredditName: string, action: "sub" | "unsub" = "sub") {
-    const params = new URLSearchParams({ sr_name: subredditName, action });
-    await this.#fetchWithAuth("https://oauth.reddit.com/api/subscribe", {
-      body: params,
-      method: "POST",
-    });
+    await this.#post("api/subscribe", { action, sr_name: subredditName });
   }
 
   async searchSubreddits(
     query: string,
     { after, limit }: { after?: string; limit?: number } = {},
   ) {
-    const params = new URLSearchParams({ q: query, raw_json: "1" });
-    if (after) params.append("after", after);
-    if (limit) params.append("limit", String(limit));
+    const params: Record<string, string> = { q: query };
+    if (after) params.after = after;
+    if (limit) params.limit = String(limit);
 
-    const rawSubreddits = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/subreddits/search?${params}`,
-    )
+    const rawSubreddits = await this.#get("subreddits/search", params)
       .then((res) => res.json() as Promise<Raw.Listing<Raw.Subreddit>>)
       .then((json) => json.data.children);
 
@@ -355,13 +334,11 @@ class RedditWebAPI {
     query: string,
     { after, limit }: { after?: string; limit?: number } = {},
   ) {
-    const params = new URLSearchParams({ q: query, raw_json: "1" });
-    if (after) params.append("after", after);
-    if (limit) params.append("limit", String(limit));
+    const params: Record<string, string> = { q: query };
+    if (after) params.after = after;
+    if (limit) params.limit = String(limit);
 
-    const rawPosts = await this.#fetchWithAuth(
-      `https://oauth.reddit.com/search?${params}`,
-    )
+    const rawPosts = await this.#get("search", params)
       .then((res) => res.json() as Promise<Raw.Listing<Raw.Post>>)
       .then((json) => json.data.children);
 
