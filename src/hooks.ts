@@ -336,7 +336,7 @@ export function useNavigationType() {
   }
 }
 
-export function useIntersectionDetector<T extends Element>({
+export function useInView<T extends Element>({
   delay = 0,
   ref,
   rootMargin,
@@ -347,7 +347,7 @@ export function useIntersectionDetector<T extends Element>({
   rootMargin?: string;
   threshold?: number;
 }) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
   const latestDelay = useRef(delay);
   useEffect(() => {
@@ -363,15 +363,12 @@ export function useIntersectionDetector<T extends Element>({
       (entries) => {
         for (const entry of entries) {
           const delay = latestDelay.current;
-          const updateIsIntersecting = () => {
-            setIsIntersecting(entry.isIntersecting);
-          };
-
+          const updateIsInView = () => setIsInView(entry.isIntersecting);
           if (delay == 0 || !entry.isIntersecting) {
             clearTimeout(timeout);
-            updateIsIntersecting();
+            updateIsInView();
           } else {
-            timeout = setTimeout(updateIsIntersecting, delay);
+            timeout = setTimeout(updateIsInView, delay);
           }
         }
       },
@@ -386,13 +383,13 @@ export function useIntersectionDetector<T extends Element>({
     };
   }, [ref, rootMargin, threshold]);
 
-  return isIntersecting;
+  return isInView;
 }
 
 export function usePageIntersectionDetector<T extends Element>(
-  options: Parameters<typeof useIntersectionDetector<T>>[0],
+  options: Parameters<typeof useInView<T>>[0],
 ) {
-  return useIntersectionDetector({
+  return useInView({
     delay: 200,
     rootMargin: `-${NAVBAR_HEIGHT} 0px 0px`,
     ...options,
