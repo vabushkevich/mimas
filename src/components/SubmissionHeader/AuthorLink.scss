@@ -18,6 +18,10 @@
     font-weight: 500;
   }
 
+  &--deleted {
+    cursor: default;
+  }
+
   &--highlighted &__name {
     padding: 0 4px;
     border-radius: 4px;

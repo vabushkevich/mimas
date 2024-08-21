@@ -25,20 +25,24 @@ export function AuthorLink({
   name,
   type,
 }: AuthorLinkProps) {
-  return (
-    <Link
-      className={classNames(
-        classNameProp,
-        "author-link",
-        isPrimary && [
-          "author-link--primary",
-          bySubmitter && "author-link--submitter",
-          distinction && `author-link--${distinction}`,
-          (bySubmitter || distinction) && "author-link--highlighted",
-        ],
-      )}
-      to={`${type == "user" ? "/user/" : "/r/"}${name}`}
-    >
+  const url = `${type == "user" ? "/user/" : "/r/"}${name}`;
+  const isHighlighted = !!(bySubmitter || distinction);
+  const isDeleted = name == "[deleted]";
+
+  const className = classNames(
+    classNameProp,
+    "author-link",
+    isDeleted && "author-link--deleted",
+    isPrimary && [
+      "author-link--primary",
+      bySubmitter && "author-link--submitter",
+      distinction && `author-link--${distinction}`,
+      isHighlighted && "author-link--highlighted",
+    ],
+  );
+
+  const content = (
+    <>
       {isPrimary && (
         <div className="author-link__avatar">
           <Avatar
@@ -50,6 +54,14 @@ export function AuthorLink({
         </div>
       )}
       <div className="author-link__name">{name}</div>
+    </>
+  );
+
+  if (isDeleted) return <div className={className}>{content}</div>;
+
+  return (
+    <Link className={className} to={url}>
+      {content}
     </Link>
   );
 }
