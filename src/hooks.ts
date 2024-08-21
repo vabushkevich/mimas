@@ -341,65 +341,52 @@ export function useIntersectionDetector<T extends Element>({
   ref,
   rootMargin,
   threshold,
-  onEnter,
-  onLeave,
 }: {
   delay?: number;
   ref: React.RefObject<T>;
   rootMargin?: string;
   threshold?: number;
-  onEnter?: () => void;
-  onLeave?: () => void;
 }) {
-  const callbacksRef = useRef({ onEnter, onLeave });
-  const [intersecting, setIntersecting] = useState(false);
-  const shouldHandleLeaveRef = useRef(false);
-  const timerRef = useRef<number>();
+  const [isIntersecting, setIsIntersecting] = useState(false);
 
+  const latestDelay = useRef(delay);
   useEffect(() => {
-    callbacksRef.current = { onEnter, onLeave };
-  }, [onEnter, onLeave]);
+    latestDelay.current = delay;
+  }, [delay]);
 
   useEffect(() => {
     if (!ref.current) return;
 
-    const handleEnter = () => {
-      callbacksRef.current.onEnter?.();
-      shouldHandleLeaveRef.current = true;
-      setIntersecting(true);
-    };
-
-    const handleLeave = () => {
-      if (!shouldHandleLeaveRef.current) return;
-      callbacksRef.current.onLeave?.();
-      shouldHandleLeaveRef.current = false;
-      setIntersecting(false);
-    };
+    let timeout: number | undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (delay == 0) {
-            entry.isIntersecting ? handleEnter() : handleLeave();
-          } else if (entry.isIntersecting) {
-            timerRef.current = setTimeout(handleEnter, delay);
+          const delay = latestDelay.current;
+          const updateIsIntersecting = () => {
+            setIsIntersecting(entry.isIntersecting);
+          };
+
+          if (delay == 0 || !entry.isIntersecting) {
+            clearTimeout(timeout);
+            updateIsIntersecting();
           } else {
-            clearTimeout(timerRef.current);
-            handleLeave();
+            timeout = setTimeout(updateIsIntersecting, delay);
           }
         }
       },
       { rootMargin, threshold },
     );
+
     observer.observe(ref.current);
 
     return () => {
       observer.disconnect();
-      handleLeave();
+      clearTimeout(timeout);
     };
-  }, []);
+  }, [ref, rootMargin, threshold]);
 
-  return intersecting;
+  return isIntersecting;
 }
 
 export function usePageIntersectionDetector<T extends Element>(
@@ -421,12 +408,13 @@ export function useLastOnScreenMedia<T extends Element>(
     (state) => state.onScreenMediaIds.at(-1) == key,
   );
 
-  usePageIntersectionDetector({
-    ref,
-    threshold: 0.75,
-    onEnter: () => dispatch(addOnScreenMediaId(key)),
-    onLeave: () => dispatch(removeOnScreenMediaId(key)),
-  });
+  const isIntersecting = usePageIntersectionDetector({ ref, threshold: 0.75 });
+  useLayoutEffect(() => {
+    if (isIntersecting) dispatch(addOnScreenMediaId(key));
+    return () => {
+      if (isIntersecting) dispatch(removeOnScreenMediaId(key));
+    };
+  }, [dispatch, isIntersecting, key]);
 
   return isLastOnScreen;
 }

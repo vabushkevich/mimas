@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useIntersectionDetector } from "@hooks";
 
 type IntersectionDetectorProps = {
@@ -10,10 +10,25 @@ type IntersectionDetectorProps = {
 };
 
 export function IntersectionDetector({
+  onEnter,
+  onLeave,
   children,
   ...restProps
 }: IntersectionDetectorProps) {
+  const savedCallbacks = useRef({ onEnter, onLeave });
+  useEffect(() => {
+    savedCallbacks.current = { onEnter, onLeave };
+  });
+
   const ref = useRef<HTMLDivElement>(null);
-  useIntersectionDetector({ ref, ...restProps });
+
+  const isIntersecting = useIntersectionDetector({ ref, ...restProps });
+  useEffect(() => {
+    if (isIntersecting) savedCallbacks.current.onEnter?.();
+    return () => {
+      if (isIntersecting) savedCallbacks.current.onLeave?.();
+    };
+  }, [isIntersecting]);
+
   return <div ref={ref}>{children}</div>;
 }
