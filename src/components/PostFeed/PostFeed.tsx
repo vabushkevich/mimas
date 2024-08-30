@@ -58,7 +58,7 @@ export function PostFeed({
         hidePins={type == "subreddit" && sort != "hot"}
         isLoading={isFetching}
         posts={posts}
-        primaryAuthorType={type == "subreddit" ? "user" : "subreddit"}
+        showSubreddits={type != "subreddit"}
       />
       {!isFetching && posts.length == 0 && (
         <Info>There are no posts here yet...</Info>

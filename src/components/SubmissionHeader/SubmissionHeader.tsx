@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, formatDate } from "@utils";
-import { SubmissionDistinction, AuthorType } from "@types";
+import { SubmissionDistinction } from "@types";
 import classNames from "classnames";
 
 import { Flair } from "@components";
@@ -20,7 +20,6 @@ type SubmissionHeaderProps = {
   flair?: string;
   locked?: boolean;
   pinned?: boolean;
-  primaryAuthorType?: AuthorType;
   subreddit?: string;
   url?: string;
   userName: string;
@@ -35,13 +34,10 @@ export function SubmissionHeader({
   flair,
   locked,
   pinned,
-  primaryAuthorType = "user",
   subreddit,
   url,
   userName,
 }: SubmissionHeaderProps) {
-  const subredditIsPrimaryAuthor =
-    primaryAuthorType == "subreddit" && subreddit;
   const hasStatusIcons = !!dateEdited || pinned || locked;
 
   const date = (
@@ -64,10 +60,10 @@ export function SubmissionHeader({
         className="submission-header__author"
         distinction={distinction}
         isPrimary
-        name={subredditIsPrimaryAuthor ? subreddit : userName}
-        type={primaryAuthorType}
+        name={subreddit || userName}
+        type={subreddit ? "subreddit" : "user"}
       />
-      {subredditIsPrimaryAuthor && (
+      {subreddit && (
         <AuthorLink
           className="submission-header__author"
           name={userName}

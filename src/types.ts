@@ -136,8 +136,8 @@ export type PostProps<T extends BasePost> = {
   large?: boolean;
   pinned?: boolean;
   post: T;
-  primaryAuthorType?: AuthorType;
   showAdditionalText?: boolean;
+  showSubreddit?: boolean;
   titleClickable?: boolean;
   onCommentsButtonClick?: (event: MouseEvent) => void;
 };

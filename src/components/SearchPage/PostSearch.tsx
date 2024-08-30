@@ -27,7 +27,6 @@ export function PostSearch({ query }: PostSearchProps) {
         hidePins
         isLoading={isFetching}
         posts={posts}
-        primaryAuthorType="subreddit"
       />
       {!isFetching && hasNextPage && (
         <IntersectionDetector

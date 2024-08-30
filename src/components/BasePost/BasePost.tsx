@@ -31,8 +31,8 @@ export function BasePost({
   hideFooter = false,
   pinned = false,
   post,
-  primaryAuthorType = "subreddit",
   showAdditionalText,
+  showSubreddit = true,
   titleClickable = true,
   onCommentsButtonClick,
   children,
@@ -58,8 +58,7 @@ export function BasePost({
     voteDirection,
   } = post;
 
-  const primaryAuthorId =
-    primaryAuthorType == "subreddit" ? subredditId : userId;
+  const primaryAuthorId = showSubreddit ? subredditId : userId;
   const removeBottomPadding =
     hideFooter &&
     (type != "text" || post.bodyHtml.length == 0) &&
@@ -101,8 +100,7 @@ export function BasePost({
             flair={!hideFlair ? userFlair : undefined}
             locked={locked}
             pinned={pinned}
-            primaryAuthorType={primaryAuthorType}
-            subreddit={subreddit}
+            subreddit={showSubreddit ? subreddit : undefined}
             userName={userName}
           />
           <Menu

@@ -1,5 +1,5 @@
 import React from "react";
-import { Post as PostType, AuthorType, FeedType } from "@types";
+import { Post as PostType, FeedType } from "@types";
 
 import { Post, PostSkeleton } from "@components";
 import "./PostList.scss";
@@ -10,7 +10,7 @@ type PostListProps = {
   hidePins?: boolean;
   isLoading?: boolean;
   posts: PostType[];
-  primaryAuthorType?: AuthorType;
+  showSubreddits?: boolean;
 };
 
 export function PostList({
@@ -19,7 +19,7 @@ export function PostList({
   hidePins = false,
   isLoading = false,
   posts,
-  primaryAuthorType,
+  showSubreddits,
 }: PostListProps) {
   return (
     <ol className="post-list">
@@ -29,7 +29,7 @@ export function PostList({
             hideFlair={hideFlairs}
             pinned={!hidePins && post.pinnedIn.includes(feedType)}
             post={post}
-            primaryAuthorType={primaryAuthorType}
+            showSubreddit={showSubreddits}
           />
         </li>
       ))}
