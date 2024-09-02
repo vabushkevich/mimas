@@ -61,13 +61,13 @@ export function SubmissionHeader({
         distinction={distinction}
         isPrimary
         name={subreddit || userName}
-        type={subreddit ? "subreddit" : "user"}
+        url={subreddit ? `/r/${subreddit}` : `/user/${userName}`}
       />
       {subreddit && (
         <AuthorLink
           className="submission-header__author"
           name={userName}
-          type="user"
+          url={`/user/${userName}`}
         />
       )}
       {url ? <Link to={url}>{date}</Link> : date}

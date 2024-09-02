@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { SubmissionDistinction, AuthorType } from "@types";
+import { SubmissionDistinction } from "@types";
 import classNames from "classnames";
 
 import { Avatar } from "@components";
@@ -13,7 +13,7 @@ type AuthorLinkProps = {
   distinction?: SubmissionDistinction;
   isPrimary?: boolean;
   name: string;
-  type: AuthorType;
+  url: string;
 };
 
 export function AuthorLink({
@@ -23,9 +23,8 @@ export function AuthorLink({
   distinction,
   isPrimary,
   name,
-  type,
+  url,
 }: AuthorLinkProps) {
-  const url = `${type == "user" ? "/user/" : "/r/"}${name}`;
   const isHighlighted = !!(bySubmitter || distinction);
   const isDeleted = name == "[deleted]";
 
