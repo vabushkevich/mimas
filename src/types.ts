@@ -238,9 +238,7 @@ export type IdType =
   | "subreddit"
   | "award";
 
-export type AuthorType = "user" | "subreddit";
-
-export type FeedType = AuthorType | "mixed";
+export type FeedType = "subreddit" | "user" | "mixed";
 
 export type SortTimeInterval = (typeof sortTimeIntervals)[number];
 
