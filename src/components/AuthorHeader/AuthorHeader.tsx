@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
-import { useIsSmallScreen } from "@hooks";
 
 import { Card, Stat, Avatar, ReadMore } from "@components";
 import "./AuthorHeader.scss";
@@ -31,9 +30,6 @@ export function AuthorHeader({
   subscribeButton,
   tabs,
 }: AuthorHeaderProps) {
-  const isSmallScreen = useIsSmallScreen();
-  const descriptionMaxLength = isSmallScreen ? 70 : 150;
-
   return (
     <div
       className={classNames(
@@ -52,7 +48,7 @@ export function AuthorHeader({
           </div>
           {description && (
             <div className="author-header__description">
-              <ReadMore maxLength={descriptionMaxLength} text={description} />
+              <ReadMore previewLines={2} text={description} />
             </div>
           )}
           {stats && stats.length > 0 && (

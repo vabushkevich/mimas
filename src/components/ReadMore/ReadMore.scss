@@ -2,8 +2,6 @@
 
 .read-more {
   position: relative;
-  overflow: hidden;
-  cursor: pointer;
 
   &:hover &__button {
     @include themify {
@@ -11,28 +9,43 @@
     }
   }
 
+  &__text {
+    overflow: hidden;
+  }
+
   &__button {
+    --bg-color: white;
+
     @include reset-button;
     @include themify {
       color: themed("text-primary");
     }
+    @include dark-mode {
+      --bg-color: #{themed("gray-900")};
+    }
 
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
     font-weight: 500;
+    line-height: inherit;
+    background-color: var(--bg-color);
 
+    // Gradient that fades out main text
     &::before {
+      $width: 4em;
+
       content: "";
       position: absolute;
-      margin-left: -2em;
-      margin-top: -0.2em;
-      width: 2em;
-      height: 1.6em;
-      background-color: white;
-      mask-image: linear-gradient(to right, rgba(#000, 0), rgba(#000, 1));
-      pointer-events: none;
-
-      @include dark-mode {
-        background-color: themed("gray-900");
-      }
+      margin-left: -$width;
+      width: $width;
+      height: 100%;
+      background-color: var(--bg-color);
+      mask-image: linear-gradient(to right, transparent, black 90%);
     }
+  }
+
+  &--preview {
+    cursor: pointer;
   }
 }
