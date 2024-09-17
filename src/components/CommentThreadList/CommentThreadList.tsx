@@ -1,6 +1,7 @@
 import React from "react";
 import { MoreItems } from "@types";
 import { useLoadMoreComments } from "@services/api";
+import { useIsSmallScreen } from "@hooks";
 
 import {
   CommentForm,
@@ -23,6 +24,8 @@ type CommentThreadListProps = {
   onCommentFormClose?: () => void;
 };
 
+export const baseIndent = 10;
+
 function getMoreCommentsMessage(commentCount: number) {
   if (commentCount > 1) return `${commentCount} comments`;
   if (commentCount == 1) return "1 comment";
@@ -42,12 +45,17 @@ export function CommentThreadList({
   const { mutate: loadMoreComments, isLoading: isMoreCommentsLoading } =
     useLoadMoreComments({ commentId: parentId });
 
+  const isSmallScreen = useIsSmallScreen();
+  const depthLimit = isSmallScreen ? 7 : 20;
+  const limitedDepth = Math.min(depth, depthLimit);
+  const indent = baseIndent + limitedDepth * (baseIndent + 4);
+
   return (
     <div className="comment-thread-list">
       <ol className="comment-thread-list__list">
         {showCommentForm && parentId && (
           <li className="comment-thread-list__item">
-            <CommentWrapper collapseButtonDisabled>
+            <CommentWrapper collapseButtonDisabled indent={indent}>
               <CommentForm
                 autoFocus
                 cancelable
@@ -60,12 +68,16 @@ export function CommentThreadList({
         )}
         {commentIds.map((commentId) => (
           <li key={commentId} className="comment-thread-list__item">
-            <CommentThread commentId={commentId} depth={depth} />
+            <CommentThread
+              commentId={commentId}
+              depth={depth}
+              indent={indent}
+            />
           </li>
         ))}
         {!autoLoadMoreComments && moreComments && (
           <li className="comment-thread-list__item">
-            <CommentWrapper collapseButtonDisabled>
+            <CommentWrapper collapseButtonDisabled indent={indent}>
               <button
                 className="comment-thread-list__more-comments-btn"
                 disabled={isMoreCommentsLoading}

@@ -1,14 +1,9 @@
 .comment-thread {
   &__replies {
-    margin-left: 14px;
     margin-top: 18px;
 
     &--collapsed {
       display: none;
-    }
-
-    &--flat {
-      margin-left: 0;
     }
   }
 }

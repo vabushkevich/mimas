@@ -4,12 +4,14 @@ import "./CommentWrapper.scss";
 
 type CommentWrapperProps = {
   collapseButtonDisabled?: boolean;
+  indent?: number;
   onCollapseButtonClick?: () => void;
   children: React.ReactNode;
 };
 
 export function CommentWrapper({
   collapseButtonDisabled,
+  indent,
   onCollapseButtonClick,
   children,
 }: CommentWrapperProps) {
@@ -18,6 +20,7 @@ export function CommentWrapper({
       <button
         disabled={collapseButtonDisabled}
         className="comment-wrapper__collapse-btn"
+        style={indent ? { paddingLeft: `${indent}px` } : {}}
         onClick={onCollapseButtonClick}
       ></button>
       <div className="comment-wrapper__body">{children}</div>

@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import classNames from "classnames";
 import { useComment } from "@services/api";
-import { useAppDispatch, useAppSelector, useIsSmallScreen } from "@hooks";
+import { useAppDispatch, useAppSelector } from "@hooks";
 import {
   toggleReplyToCommentId,
   toggleThreadCollapse,
@@ -14,11 +14,13 @@ import "./CommentThread.scss";
 type CommentThreadProps = {
   commentId: string;
   depth: number;
+  indent: number;
 };
 
 export const CommentThread = memo(function CommentThread({
   commentId,
   depth,
+  indent,
 }: CommentThreadProps) {
   const { data: comment } = useComment(commentId);
   const { childIds, id, moreChildren } = comment;
@@ -30,13 +32,12 @@ export const CommentThread = memo(function CommentThread({
     state.comments.collapsedThreadIds.includes(id),
   );
   const dispatch = useAppDispatch();
-  const isSmallScreen = useIsSmallScreen();
   const renderReplies = childIds.length > 0 || moreChildren || showReplyForm;
-  const depthLimit = isSmallScreen ? 7 : 20;
 
   return (
     <div className="comment-thread">
       <CommentWrapper
+        indent={indent}
         onCollapseButtonClick={() => dispatch(toggleThreadCollapse(id))}
       >
         <Comment
@@ -50,7 +51,6 @@ export const CommentThread = memo(function CommentThread({
           className={classNames(
             "comment-thread__replies",
             collapsed && "comment-thread__replies--collapsed",
-            depth >= depthLimit && "comment-thread__replies--flat",
           )}
         >
           <CommentThreadList
