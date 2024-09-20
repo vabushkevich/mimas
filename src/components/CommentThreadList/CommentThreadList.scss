@@ -1,10 +1,6 @@
 @use "@sass/mixins" as *;
 
 .comment-thread-list {
-  &__list {
-    @include reset-list;
-  }
-
   &__item:not(:last-child) {
     margin-bottom: 18px;
   }

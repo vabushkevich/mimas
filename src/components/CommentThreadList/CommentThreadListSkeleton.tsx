@@ -13,15 +13,13 @@ export function CommentThreadListSkeleton({
 }: CommentThreadListSkeletonProps) {
   return (
     <div className="comment-thread-list">
-      <ol className="comment-thread-list__list">
-        {new Array(itemCount).fill(0).map((_, i) => (
-          <li key={i} className="comment-thread-list__item">
-            <CommentWrapper indent={baseIndent}>
-              <CommentSkeleton />
-            </CommentWrapper>
-          </li>
-        ))}
-      </ol>
+      {new Array(itemCount).fill(0).map((_, i) => (
+        <div key={i} className="comment-thread-list__item">
+          <CommentWrapper indent={baseIndent}>
+            <CommentSkeleton />
+          </CommentWrapper>
+        </div>
+      ))}
     </div>
   );
 }
