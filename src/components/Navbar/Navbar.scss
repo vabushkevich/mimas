@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
@@ -5,11 +6,11 @@
   display: flex;
   height: 100%;
   background-color: white;
-  box-shadow: 0 1px darken(white, 10%);
+  box-shadow: 0 1px hsl(0 0% 90%);
 
   @include dark-mode {
-    box-shadow: 0 1px lighten(themed("gray-900"), 6%);
     background-color: themed("gray-900");
+    box-shadow: 0 1px color.adjust(themed("gray-900"), $lightness: 6%);
   }
 
   &__right-col {

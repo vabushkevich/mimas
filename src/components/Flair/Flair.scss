@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "@sass/mixins" as *;
 
 .flair {
@@ -6,13 +7,13 @@
   padding: 0 0.35em;
   font-size: 0.95rem;
   line-height: 1.4;
-  background-color: lighten(themed("text-tertiary"), 41%);
+  background-color: color.adjust(themed("text-tertiary"), $lightness: 41%);
 
   @include themify {
     color: themed("text-tertiary");
   }
 
   @include dark-mode {
-    background-color: darken(themed("text-tertiary"), 37%);
+    background-color: color.adjust(themed("text-tertiary"), $lightness: -37%);
   }
 }

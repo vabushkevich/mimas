@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "@sass/variables" as *;
 @use "@sass/mixins" as *;
 
@@ -103,7 +104,7 @@
     color: themed("blue-400");
 
     &:hover {
-      color: lighten(themed("blue-400"), 5%);
+      color: color.adjust(themed("blue-400"), $lightness: 5%);
     }
   }
 

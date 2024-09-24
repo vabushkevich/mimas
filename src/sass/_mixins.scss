@@ -1,6 +1,7 @@
 @use "sass:color";
 @use "sass:list";
 @use "sass:selector";
+@use "sass:map";
 @use "./variables" as *;
 
 @mixin reset-list {
@@ -35,7 +36,7 @@
 
 @mixin color-mode($mode) {
   @at-root #{selector.nest(":root[data-color-mode=#{$mode}]", &)} {
-    $theme-map: map-get($themes, $mode) !global;
+    $theme-map: map.get($themes, $mode) !global;
     @content;
     $theme-map: null !global;
   }
@@ -67,7 +68,7 @@
 // function is called outside of the `color-mode` mixin, then the light theme is
 // used by default.
 @function themed($key) {
-  @return map-get($theme-map or map-get($themes, "light"), $key);
+  @return map.get($theme-map or map.get($themes, "light"), $key);
 }
 
 @function transition-value(
@@ -119,11 +120,11 @@
   }
 
   &::placeholder {
-    color: lighten(themed("text-primary"), 50%);
+    color: color.adjust(themed("text-primary"), $lightness: 50%);
     opacity: 1;
 
     @include dark-mode {
-      color: darken(themed("text-primary"), 35%);
+      color: color.adjust(themed("text-primary"), $lightness: -35%);
     }
   }
 }

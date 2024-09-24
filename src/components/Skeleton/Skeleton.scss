@@ -1,7 +1,8 @@
+@use "sass:color";
 @use "@sass/mixins" as *;
 
 .skeleton {
-  --pulse-color: #{lighten(themed("gray-400"), 4%)};
+  --pulse-color: #{color.adjust(themed("gray-400"), $lightness: 4%)};
 
   display: inline-block;
   width: 100%;
@@ -10,7 +11,7 @@
   animation: 1.2s ease-in-out infinite skeleton-pulse;
 
   @include dark-mode {
-    --pulse-color: #{darken(themed("gray-700"), 4%)};
+    --pulse-color: #{color.adjust(themed("gray-700"), $lightness: -4%)};
 
     background-color: themed("gray-700");
   }
