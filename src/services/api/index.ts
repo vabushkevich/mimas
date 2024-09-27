@@ -264,10 +264,7 @@ export function useVote(submission: Submission) {
       if ("commentCount" in submission) {
         updatePostInCache(submission.id, updater);
       } else {
-        updateCommentInCache(submission.id, updater, {
-          postId: submission.postId,
-          userName: submission.userName,
-        });
+        updateCommentInCache(submission.id, updater);
       }
     },
   });
