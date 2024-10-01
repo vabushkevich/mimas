@@ -241,19 +241,12 @@ export function addCommentToCache(comment: Comment) {
     postId,
     (threadList) => {
       threadList.comments[id] = comment;
+      if (isRootComment) threadList.rootCommentIds.unshift(id);
     },
     { active: true },
   );
 
-  if (isRootComment) {
-    updatePostCommentsInCache(
-      postId,
-      (threadList) => {
-        threadList.rootCommentIds.unshift(id);
-      },
-      { active: true },
-    );
-  } else {
+  if (!isRootComment) {
     updateCommentInCache(
       parentId,
       (comment) => {
