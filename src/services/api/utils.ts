@@ -208,6 +208,10 @@ export function addCommentsToCache(
     postId,
     (threadListDraft) => {
       Object.assign(threadListDraft.comments, threadList.comments);
+      if (!commentId) {
+        threadListDraft.rootCommentIds.push(...threadList.rootCommentIds);
+        threadListDraft.moreComments = threadList.moreComments;
+      }
     },
     { active: true },
   );
@@ -218,15 +222,6 @@ export function addCommentsToCache(
       (comment) => {
         comment.childIds.push(...threadList.rootCommentIds);
         comment.moreChildren = threadList.moreComments;
-      },
-      { active: true },
-    );
-  } else {
-    updatePostCommentsInCache(
-      postId,
-      (threadListDraft) => {
-        threadListDraft.rootCommentIds.push(...threadList.rootCommentIds);
-        threadListDraft.moreComments = threadList.moreComments;
       },
       { active: true },
     );
