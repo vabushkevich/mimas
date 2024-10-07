@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useClickOutside, useIsSmallScreen } from "@hooks";
-import { useAuth } from "@services/auth";
-import { useIdentity } from "@services/api";
+import { useSignedInUser } from "@services/api";
 
 import { SidebarHeader } from "@components";
 import { UserMenu } from "./UserMenu";
@@ -15,12 +14,10 @@ type NavbarProps = {
 };
 
 export function Navbar({ onMenuButtonClick }: NavbarProps) {
-  const { authorized } = useAuth();
   const [isSearchMode, setIsSearchMode] = useState(false);
   const isSmallScreen = useIsSmallScreen();
   const searchSectionRef = useRef<HTMLDivElement>(null);
-  const { data: identity } = useIdentity({ enabled: authorized });
-  const user = authorized ? identity?.user : undefined;
+  const signedInUser = useSignedInUser();
 
   useClickOutside(searchSectionRef, () => setIsSearchMode(false));
 
@@ -55,7 +52,7 @@ export function Navbar({ onMenuButtonClick }: NavbarProps) {
               </div>
             )}
             <div className="site-nav__user-menu">
-              <UserMenu user={user} />
+              <UserMenu user={signedInUser} />
             </div>
           </div>
         </>

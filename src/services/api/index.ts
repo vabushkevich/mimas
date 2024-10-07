@@ -23,6 +23,7 @@ import {
   updateSubredditInCache,
 } from "./utils";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "@services/auth";
 
 export function usePosts(ids: string[]) {
   return useQuery(["posts", ...ids], () => client.getPosts(ids), {
@@ -343,4 +344,10 @@ export function useSearchPosts(
       getNextPageParam: (lastPosts) => lastPosts.at(-1)?.id,
     },
   );
+}
+
+export function useSignedInUser() {
+  const { authorized } = useAuth();
+  const { data: identity } = useIdentity({ enabled: authorized });
+  if (authorized) return identity?.user;
 }
