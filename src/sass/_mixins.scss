@@ -4,6 +4,8 @@
 @use "sass:map";
 @use "./variables" as *;
 
+$theme-map: null;
+
 @mixin reset-list {
   list-style: none;
   margin: 0;
