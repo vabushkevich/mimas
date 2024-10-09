@@ -1,13 +1,16 @@
 @use "@sass/mixins" as *;
 
 .comment {
+  $row-gap: 8px;
+
   &__body {
-    margin: 8px 0;
+    margin-top: $row-gap;
   }
 
   &__footer {
     display: flex;
     align-items: center;
+    margin-top: $row-gap;
 
     @include themify {
       color: themed("text-secondary");

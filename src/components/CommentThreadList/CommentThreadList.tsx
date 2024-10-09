@@ -58,7 +58,7 @@ export function CommentThreadList({
             <CommentForm
               autoFocus
               cancelable
-              parentId={parentId}
+              targetId={parentId}
               onCancel={onCommentFormClose}
               onSubmit={onComment}
             />

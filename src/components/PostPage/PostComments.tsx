@@ -94,7 +94,7 @@ export function PostComments({
                 {alertMessage ? (
                   <Alert>{alertMessage}</Alert>
                 ) : (
-                  <CommentForm parentId={postId} />
+                  <CommentForm targetId={postId} />
                 )}
               </div>
             </div>

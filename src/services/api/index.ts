@@ -282,6 +282,17 @@ export function usePostComment({ onSuccess }: { onSuccess?: () => void }) {
   });
 }
 
+export function useEditComment({ onSuccess }: { onSuccess?: () => void }) {
+  return useMutation({
+    mutationFn: ({ id, text }: { id: string; text: string }) =>
+      client.editComment(id, text),
+    onSuccess: (updatedComment, { id }) => {
+      updateCommentInCache(id, () => updatedComment);
+      onSuccess?.();
+    },
+  });
+}
+
 export function useBookmarkPost(id: string) {
   return useMutation({
     mutationFn: (action: "add" | "remove") => client.bookmark(id, action),

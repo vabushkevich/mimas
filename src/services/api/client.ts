@@ -305,6 +305,18 @@ class RedditWebAPI {
     return transformComment(rawComment);
   }
 
+  async editComment(id: string, text: string) {
+    const rawComment = await this.#post("api/editusertext", {
+      api_type: "json",
+      text,
+      thing_id: id,
+    })
+      .then((res) => res.json() as Promise<Raw.Things<Raw.Comment>>)
+      .then((json) => json.json.data.things[0]);
+
+    return transformComment(rawComment);
+  }
+
   async bookmark(id: string, action: "add" | "remove" = "add") {
     await this.#post(`api/${action == "add" ? "save" : "unsave"}`, { id });
   }
