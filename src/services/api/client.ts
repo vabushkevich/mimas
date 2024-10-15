@@ -317,6 +317,10 @@ class RedditWebAPI {
     return transformComment(rawComment);
   }
 
+  async deleteComment(id: string) {
+    await this.#post("api/del", { id });
+  }
+
   async bookmark(id: string, action: "add" | "remove" = "add") {
     await this.#post(`api/${action == "add" ? "save" : "unsave"}`, { id });
   }

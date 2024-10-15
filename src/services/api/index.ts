@@ -17,6 +17,7 @@ import { client } from "./client";
 import {
   addCommentToCache,
   addCommentsToCache,
+  deleteCommentFromCache,
   prefetchAvatars,
   updateCommentInCache,
   updatePostInCache,
@@ -288,6 +289,18 @@ export function useEditComment({ onSuccess }: { onSuccess?: () => void }) {
       client.editComment(id, text),
     onSuccess: (updatedComment, { id }) => {
       updateCommentInCache(id, () => updatedComment);
+      onSuccess?.();
+    },
+  });
+}
+
+export function useDeleteComment({
+  onSuccess,
+}: { onSuccess?: () => void } = {}) {
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) => client.deleteComment(id),
+    onSuccess: (_, { id }) => {
+      deleteCommentFromCache(id);
       onSuccess?.();
     },
   });

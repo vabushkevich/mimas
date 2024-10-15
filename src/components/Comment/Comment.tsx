@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import type { Comment } from "@types";
 import { capitalize } from "lodash-es";
-import { useAvatar, useSignedInUser, useVote } from "@services/api";
+import {
+  useAvatar,
+  useDeleteComment,
+  useSignedInUser,
+  useVote,
+} from "@services/api";
 import { useAuthGuard } from "@hooks";
 import { copyToClipboard } from "@utils";
 
@@ -17,6 +22,7 @@ import {
 } from "@components";
 import PencilIcon from "./assets/pencil.svg";
 import LinkIcon from "@assets/svg/link.svg";
+import TrashIcon from "./assets/trash.svg";
 import DotsIcon from "@assets/svg/dots.svg";
 import "./Comment.scss";
 
@@ -64,6 +70,7 @@ export function Comment({
   const [isEdit, setIsEdit] = useState(false);
   const avatar = useAvatar(userId);
   const vote = useAuthGuard(useVote(comment).mutate);
+  const deleteComment = useAuthGuard(useDeleteComment().mutate);
   const signedInUser = useSignedInUser();
   const bySignedInUser = signedInUser && signedInUser.id == userId;
   const disableEditing = () => setIsEdit(false);
@@ -151,6 +158,14 @@ export function Comment({
                   >
                     Copy link
                   </MenuItem>
+                  {bySignedInUser && (
+                    <MenuItem
+                      leftIcon={<TrashIcon />}
+                      onSelect={() => deleteComment({ id })}
+                    >
+                      Delete
+                    </MenuItem>
+                  )}
                 </Menu>
               </div>
               <div className="comment__voting">

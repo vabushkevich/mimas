@@ -252,6 +252,33 @@ export function addCommentToCache(comment: Comment) {
   }
 }
 
+export function deleteCommentFromCache(
+  commentId: string,
+  { active }: { active?: boolean } = {},
+) {
+  updateCommentInCache(commentId, (comment) => {
+    comment.deletedBy = "user";
+  });
+
+  queryClient.setQueriesData<InfiniteData<Comment[]>>(
+    {
+      type: active ? "active" : "all",
+      queryKey: ["comment-feed"],
+    },
+    (data) =>
+      data &&
+      produce(data, (draft) => {
+        for (const comments of draft.pages) {
+          const foundIndex = comments.findIndex((v) => v.id == commentId);
+          if (foundIndex != -1) {
+            comments.splice(foundIndex, 1);
+            break;
+          }
+        }
+      }),
+  );
+}
+
 export function prefetchAvatars(submissions: Submission[]) {
   const authorIds = getSubmissionAuthorIds(submissions);
   const newAuthorIds = authorIds.filter(
