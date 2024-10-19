@@ -7,7 +7,10 @@ import {
   commentFeedSortingOptions,
 } from "@types";
 
-import { Feed, CommentList, IntersectionDetector, Info } from "@components";
+import { CommentList } from "../CommentList/CommentList";
+import { Feed } from "../Feed/Feed";
+import { Info } from "../Info/Info";
+import { IntersectionDetector } from "../IntersectionDetector/IntersectionDetector";
 
 type CommentFeedProps = {
   sort?: CommentFeedSortingOption;

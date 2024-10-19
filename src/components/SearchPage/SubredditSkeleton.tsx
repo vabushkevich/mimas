@@ -1,6 +1,7 @@
 import React from "react";
 
-import { Card, Skeleton } from "@components";
+import { Card } from "../Card/Card";
+import { Skeleton } from "../Skeleton/Skeleton";
 import "./Subreddit.scss";
 
 export function SubredditSkeleton() {

@@ -12,14 +12,12 @@ import {
 import { useAuthGuard } from "@hooks";
 import { copyToClipboard } from "@utils";
 
-import {
-  CommentForm,
-  Menu,
-  MenuItem,
-  SubmissionHeader,
-  UserContent,
-  Voting,
-} from "@components";
+import { CommentForm } from "../CommentForm/CommentForm";
+import { Menu } from "../Menu/Menu";
+import { MenuItem } from "../Menu/MenuItem";
+import { SubmissionHeader } from "../SubmissionHeader/SubmissionHeader";
+import { UserContent } from "../UserContent/UserContent";
+import { Voting } from "../Voting/Voting";
 import PencilIcon from "./assets/pencil.svg";
 import LinkIcon from "@assets/svg/link.svg";
 import TrashIcon from "./assets/trash.svg";

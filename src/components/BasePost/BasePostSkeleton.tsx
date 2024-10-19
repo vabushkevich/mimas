@@ -1,11 +1,9 @@
 import React from "react";
 
-import {
-  Card,
-  SubmissionHeaderSkeleton,
-  Skeleton,
-  VotingSkeleton,
-} from "@components";
+import { Card } from "../Card/Card";
+import { Skeleton } from "../Skeleton/Skeleton";
+import { SubmissionHeaderSkeleton } from "../SubmissionHeader/SubmissionHeaderSkeleton";
+import { VotingSkeleton } from "../Voting/VotingSkeleton";
 import DotsIcon from "@assets/svg/dots.svg";
 import BubbleIcon from "./assets/bubble.svg";
 import BookmarkIcon from "./assets/bookmark.svg";

@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Comment as CommentType } from "@types";
 
-import { Card, Comment } from "@components";
+import { Card } from "../Card/Card";
+import { Comment } from "../Comment/Comment";
 import "./CommentListItem.scss";
 
 type CommentListItemProps = {

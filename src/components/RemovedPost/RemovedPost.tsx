@@ -1,7 +1,8 @@
 import React from "react";
 import type { RemovedPost, PostProps } from "@types";
 
-import { BasePost, Alert } from "@components";
+import { Alert } from "../Alert/Alert";
+import { BasePost } from "../BasePost/BasePost";
 import "./RemovedPost.scss";
 
 const removalReasonMessages: Record<RemovedPost["removalReason"], string> = {

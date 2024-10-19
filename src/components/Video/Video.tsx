@@ -2,7 +2,8 @@ import React, { useState, useRef, useLayoutEffect } from "react";
 import Hls from "hls.js";
 import type { MediaPlaybackStatus } from "@types";
 
-import { AspectRatio, PlayButton } from "@components";
+import { AspectRatio } from "../AspectRatio/AspectRatio";
+import { PlayButton } from "../PlayButton/PlayButton";
 import { MediaProgress } from "./MediaProgress";
 import "./Video.scss";
 

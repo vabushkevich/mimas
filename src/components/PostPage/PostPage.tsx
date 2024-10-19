@@ -4,7 +4,10 @@ import { useLocalStorage, useNavigationType, usePostParams } from "@hooks";
 import { usePost, usePostComments } from "@services/api";
 import { CommentSortingOption } from "@types";
 
-import { Post, Container, Page, PostSkeleton } from "@components";
+import { Container } from "../Container/Container";
+import { Page } from "../Page/Page";
+import { Post } from "../Post/Post";
+import { PostSkeleton } from "../Post/PostSkeleton";
 import { PostComments } from "./PostComments";
 import { PostCommentsSkeleton } from "./PostCommentsSkeleton";
 import "./PostPage.scss";

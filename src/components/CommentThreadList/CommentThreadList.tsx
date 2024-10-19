@@ -3,14 +3,12 @@ import { MoreItems } from "@types";
 import { useLoadMoreComments } from "@services/api";
 import { useIsSmallScreen } from "@hooks";
 
-import {
-  CommentForm,
-  CommentThread,
-  CommentThreadListSkeleton,
-  CommentWrapper,
-  IntersectionDetector,
-  Loader,
-} from "@components";
+import { CommentForm } from "../CommentForm/CommentForm";
+import { CommentThread } from "../CommentThread/CommentThread";
+import { CommentWrapper } from "../CommentWrapper/CommentWrapper";
+import { IntersectionDetector } from "../IntersectionDetector/IntersectionDetector";
+import { Loader } from "../Loader/Loader";
+import { CommentThreadListSkeleton } from "./CommentThreadListSkeleton";
 import "./CommentThreadList.scss";
 
 type CommentThreadListProps = {

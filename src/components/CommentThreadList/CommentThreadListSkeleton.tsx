@@ -1,6 +1,7 @@
 import React from "react";
 
-import { CommentSkeleton, CommentWrapper } from "@components";
+import { CommentSkeleton } from "../Comment/CommentSkeleton";
+import { CommentWrapper } from "../CommentWrapper/CommentWrapper";
 import { baseIndent } from "./CommentThreadList";
 import "./CommentThreadList.scss";
 

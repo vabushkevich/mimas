@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { SubmissionDistinction } from "@types";
 import classNames from "classnames";
 
-import { Avatar } from "@components";
+import { Avatar } from "../Avatar/Avatar";
 import "./AuthorLink.scss";
 
 type AuthorLinkProps = {

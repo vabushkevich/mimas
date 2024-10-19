@@ -5,14 +5,12 @@ import {
   CommentThreadList as CommentThreadListType,
 } from "@types";
 
-import {
-  Alert,
-  Card,
-  CommentForm,
-  CommentThreadList,
-  Select,
-  UserContent,
-} from "@components";
+import { Alert } from "../Alert/Alert";
+import { Card } from "../Card/Card";
+import { CommentForm } from "../CommentForm/CommentForm";
+import { CommentThreadList } from "../CommentThreadList/CommentThreadList";
+import { Select } from "../Select/Select";
+import { UserContent } from "../UserContent/UserContent";
 import "./PostPage.scss";
 
 type PostCommentsProps = {

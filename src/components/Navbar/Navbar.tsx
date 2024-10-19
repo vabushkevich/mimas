@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useClickOutside, useIsSmallScreen } from "@hooks";
 import { useSignedInUser } from "@services/api";
 
-import { SidebarHeader } from "@components";
+import { SidebarHeader } from "../SidebarHeader/SidebarHeader";
 import { UserMenu } from "./UserMenu";
 import { Search } from "./Search";
 import ArrowLeftIcon from "@assets/svg/arrow-left.svg";

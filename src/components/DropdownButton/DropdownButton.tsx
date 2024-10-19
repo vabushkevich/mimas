@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 
-import { Button, ButtonProps } from "@components";
+import { ButtonProps, Button } from "../Button/Button";
 import DownIcon from "@assets/svg/arrow-down.svg";
 
 export type DropdownButtonProps = ButtonProps;

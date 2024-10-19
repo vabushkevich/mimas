@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Skeleton } from "@components";
+import { Skeleton } from "../Skeleton/Skeleton";
 import "./SubmissionHeader.scss";
 
 export function SubmissionHeaderSkeleton() {

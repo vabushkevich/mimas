@@ -1,6 +1,7 @@
 import React from "react";
 
-import { Card, UserContent } from "@components";
+import { Card } from "../Card/Card";
+import { UserContent } from "../UserContent/UserContent";
 import "./Info.scss";
 
 type InfoProps = {

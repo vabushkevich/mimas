@@ -3,7 +3,10 @@ import { uniqBy } from "lodash-es";
 import { useIsSmallScreen } from "@hooks";
 import { useSearchSubreddits } from "@services/api";
 
-import { Button, Card, Info, Skeleton } from "@components";
+import { Button } from "../Button/Button";
+import { Card } from "../Card/Card";
+import { Info } from "../Info/Info";
+import { Skeleton } from "../Skeleton/Skeleton";
 import { SubredditList } from "./SubredditList";
 import "./SubredditSearch.scss";
 

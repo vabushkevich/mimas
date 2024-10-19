@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Container, Page, Info } from "@components";
+import { Container } from "../Container/Container";
+import { Info } from "../Info/Info";
+import { Page } from "../Page/Page";
 import RightIcon from "@assets/svg/arrow-right.svg";
 import "./NotFoundPage.scss";
 

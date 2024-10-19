@@ -1,7 +1,8 @@
 import React from "react";
 import type { CrossPost, PostProps } from "@types";
 
-import { BasePost, Post } from "@components";
+import { BasePost } from "../BasePost/BasePost";
+import { Post } from "../Post/Post";
 import "./CrossPost.scss";
 
 export function CrossPost(props: PostProps<CrossPost>) {

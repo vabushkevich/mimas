@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Skeleton } from "@components";
+import { Skeleton } from "../Skeleton/Skeleton";
 import "./Sidebar.scss";
 
 export function SidebarMenuSkeleton({ count = 3 }: { count: number }) {

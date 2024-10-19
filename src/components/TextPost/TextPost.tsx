@@ -2,7 +2,8 @@ import React, { useState, useRef, useLayoutEffect } from "react";
 import type { TextPost, PostProps } from "@types";
 import classNames from "classnames";
 
-import { BasePost, UserContent } from "@components";
+import { BasePost } from "../BasePost/BasePost";
+import { UserContent } from "../UserContent/UserContent";
 import "./TextPost.scss";
 
 const MAX_BODY_HEIGHT = 300;

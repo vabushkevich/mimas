@@ -2,7 +2,9 @@ import React from "react";
 import { useSidebarSubreddits } from "./hooks";
 import { useAuth } from "@services/auth";
 
-import { Avatar, ExternalLink, SidebarHeader } from "@components";
+import { Avatar } from "../Avatar/Avatar";
+import { ExternalLink } from "../ExternalLink/ExternalLink";
+import { SidebarHeader } from "../SidebarHeader/SidebarHeader";
 import { SidebarMenu } from "./SidebarMenu";
 import { SidebarItem } from "./SidebarItem";
 import { SidebarMenuSkeleton } from "./SidebarMenuSkeleton";

@@ -1,6 +1,8 @@
 import React from "react";
 
-import { Card, CommentSkeleton, Skeleton } from "@components";
+import { Card } from "../Card/Card";
+import { CommentSkeleton } from "../Comment/CommentSkeleton";
+import { Skeleton } from "../Skeleton/Skeleton";
 import "./CommentListItem.scss";
 
 export function CommentListItemSkeleton() {

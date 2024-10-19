@@ -1,7 +1,9 @@
 import React from "react";
 import { useSearchParams } from "@hooks";
 
-import { Container, Info, Page } from "@components";
+import { Container } from "../Container/Container";
+import { Info } from "../Info/Info";
+import { Page } from "../Page/Page";
 import { SubredditSearch } from "./SubredditSearch";
 import { PostSearch } from "./PostSearch";
 import "./SearchPage.scss";

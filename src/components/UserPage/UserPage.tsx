@@ -9,14 +9,12 @@ import {
   isCommentFeedSortingOption,
 } from "@types";
 
-import {
-  Container,
-  Page,
-  AuthorHeader,
-  PostFeed,
-  CommentFeed,
-  AuthorHeaderSkeleton,
-} from "@components";
+import { AuthorHeader } from "../AuthorHeader/AuthorHeader";
+import { AuthorHeaderSkeleton } from "../AuthorHeader/AuthorHeaderSkeleton";
+import { CommentFeed } from "../CommentFeed/CommentFeed";
+import { Container } from "../Container/Container";
+import { Page } from "../Page/Page";
+import { PostFeed } from "../PostFeed/PostFeed";
 import "./UserPage.scss";
 
 export function UserPage() {

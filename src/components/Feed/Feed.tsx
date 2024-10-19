@@ -6,7 +6,7 @@ import {
   isSortRequiresTimeInterval,
 } from "@types";
 
-import { Select } from "@components";
+import { Select } from "../Select/Select";
 import "./Feed.scss";
 
 type FeedProps<T> = {

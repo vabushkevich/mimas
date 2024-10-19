@@ -3,7 +3,9 @@ import { usePagination, useIsImageLoading } from "@hooks";
 import { getHostname } from "@utils";
 import type { Gallery } from "@types";
 
-import { ExternalLink, ExternalLinkText, Loader } from "@components";
+import { ExternalLink } from "../ExternalLink/ExternalLink";
+import { ExternalLinkText } from "../ExternalLink/ExternalLinkText";
+import { Loader } from "../Loader/Loader";
 import LeftIcon from "@assets/svg/arrow-left.svg";
 import RightIcon from "@assets/svg/arrow-right.svg";
 import CrossIcon from "@assets/svg/cross.svg";

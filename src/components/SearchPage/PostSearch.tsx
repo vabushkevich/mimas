@@ -2,7 +2,9 @@ import React from "react";
 import { uniqBy } from "lodash-es";
 import { useSearchPosts } from "@services/api";
 
-import { Info, IntersectionDetector, PostList } from "@components";
+import { Info } from "../Info/Info";
+import { IntersectionDetector } from "../IntersectionDetector/IntersectionDetector";
+import { PostList } from "../PostList/PostList";
 
 type PostSearchProps = {
   query: string;

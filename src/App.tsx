@@ -2,15 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { postFeedSortingOptions } from "@types";
 
-import {
-  AuthPage,
-  NotFoundPage,
-  PostPage,
-  SearchPage,
-  SubredditPage,
-  Toaster,
-  UserPage,
-} from "@components";
+import { AuthPage } from "./components/AuthPage/AuthPage";
+import { NotFoundPage } from "./components/NotFoundPage/NotFoundPage";
+import { PostPage } from "./components/PostPage/PostPage";
+import { SearchPage } from "./components/SearchPage/SearchPage";
+import { SubredditPage } from "./components/SubredditPage/SubredditPage";
+import { Toaster } from "./components/Toaster/Toaster";
+import { UserPage } from "./components/UserPage/UserPage";
 
 const sortParamValues = postFeedSortingOptions.join("|");
 

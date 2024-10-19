@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Skeleton } from "@components";
+import { Skeleton } from "../Skeleton/Skeleton";
 import { Button, ButtonProps } from "./Button";
 
 type ButtonSkeletonProps = Omit<ButtonProps, "children"> & {

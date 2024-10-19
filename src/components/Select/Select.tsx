@@ -2,12 +2,11 @@ import React from "react";
 import { useControllableState } from "@hooks";
 
 import {
-  DropdownButton,
   DropdownButtonProps,
-  Menu,
-  MenuItem,
-  MenuProps,
-} from "@components";
+  DropdownButton,
+} from "../DropdownButton/DropdownButton";
+import { MenuProps, Menu } from "../Menu/Menu";
+import { MenuItem } from "../Menu/MenuItem";
 
 type SelectOption<T extends string> = {
   label: React.ReactNode;

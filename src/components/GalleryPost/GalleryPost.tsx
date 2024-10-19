@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import type { GalleryPost, PostProps } from "@types";
 
-import { BasePost, Gallery, GalleryViewer } from "@components";
+import { BasePost } from "../BasePost/BasePost";
+import { Gallery } from "../Gallery/Gallery";
+import { GalleryViewer } from "../GalleryViewer/GalleryViewer";
 import "./GalleryPost.scss";
 
 export function GalleryPost(props: PostProps<GalleryPost>) {

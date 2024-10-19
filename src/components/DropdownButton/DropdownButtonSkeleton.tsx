@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Skeleton } from "@components";
+import { Skeleton } from "../Skeleton/Skeleton";
 import { DropdownButton, DropdownButtonProps } from "./DropdownButton";
 
 type DropdownButtonSkeletonProps = Omit<DropdownButtonProps, "children"> & {

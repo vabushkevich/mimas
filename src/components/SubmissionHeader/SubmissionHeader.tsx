@@ -4,7 +4,7 @@ import { formatDistanceToNow, formatDate } from "@utils";
 import { SubmissionDistinction } from "@types";
 import classNames from "classnames";
 
-import { Flair } from "@components";
+import { Flair } from "../Flair/Flair";
 import { AuthorLink } from "./AuthorLink";
 import PencilIcon from "./assets/pencil.svg";
 import PinIcon from "./assets/pin.svg";

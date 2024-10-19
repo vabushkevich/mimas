@@ -2,7 +2,7 @@ import React from "react";
 import { useIsSmallScreen } from "@hooks";
 import type { Gallery } from "@types";
 
-import { AspectRatio } from "@components";
+import { AspectRatio } from "../AspectRatio/AspectRatio";
 import "./Gallery.scss";
 
 const MAX_DISPLAYED_ITEM_COUNT = 6;

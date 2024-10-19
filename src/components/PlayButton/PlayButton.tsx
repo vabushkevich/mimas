@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Loader } from "@components";
+import { Loader } from "../Loader/Loader";
 import PlayIcon from "./assets/play.svg";
 import "./PlayButton.scss";
 

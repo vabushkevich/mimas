@@ -1,6 +1,8 @@
 import React from "react";
 
-import { BasePostSkeleton, Skeleton, UserContent } from "@components";
+import { BasePostSkeleton } from "../BasePost/BasePostSkeleton";
+import { Skeleton } from "../Skeleton/Skeleton";
+import { UserContent } from "../UserContent/UserContent";
 import "./TextPost.scss";
 
 export function TextPostSkeleton() {

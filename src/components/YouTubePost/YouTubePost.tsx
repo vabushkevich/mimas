@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import type { YouTubePost, PostProps } from "@types";
 
-import { BasePost, PlayButton } from "@components";
+import { BasePost } from "../BasePost/BasePost";
+import { PlayButton } from "../PlayButton/PlayButton";
 import { YouTubeThumbnail } from "./YouTubeThumbnail";
 import YouTubeIcon from "./assets/youtube-play.svg";
 import "./YouTubePost.scss";

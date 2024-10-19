@@ -8,7 +8,10 @@ import {
   postFeedSortingOptions,
 } from "@types";
 
-import { Feed, IntersectionDetector, PostList, Info } from "@components";
+import { Feed } from "../Feed/Feed";
+import { Info } from "../Info/Info";
+import { IntersectionDetector } from "../IntersectionDetector/IntersectionDetector";
+import { PostList } from "../PostList/PostList";
 
 type FeedProps = {
   sort?: PostFeedSortingOption;

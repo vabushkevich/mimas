@@ -1,7 +1,10 @@
 import React from "react";
 import classNames from "classnames";
 
-import { Card, Skeleton, StatSkeleton, ButtonSkeleton } from "@components";
+import { ButtonSkeleton } from "../Button/ButtonSkeleton";
+import { Card } from "../Card/Card";
+import { Skeleton } from "../Skeleton/Skeleton";
+import { StatSkeleton } from "../Stat/StatSkeleton";
 import "./AuthorHeader.scss";
 
 type AuthorHeaderSkeletonProps = {

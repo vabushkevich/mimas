@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import classNames from "classnames";
 import { useClickOutside } from "@hooks";
 
-import { ScaleFade } from "@components";
+import { ScaleFade } from "../ScaleFade/ScaleFade";
 import { MenuContext } from "./MenuContext";
 import "./Menu.scss";
 

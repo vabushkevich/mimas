@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import type { ImagePost, PostProps } from "@types";
 
-import { BasePost, GalleryViewer } from "@components";
+import { BasePost } from "../BasePost/BasePost";
+import { GalleryViewer } from "../GalleryViewer/GalleryViewer";
 import "./ImagePost.scss";
 
 export function ImagePost(props: PostProps<ImagePost>) {

@@ -2,7 +2,10 @@ import React from "react";
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
 
-import { Card, Stat, Avatar, ReadMore } from "@components";
+import { Avatar } from "../Avatar/Avatar";
+import { Card } from "../Card/Card";
+import { ReadMore } from "../ReadMore/ReadMore";
+import { Stat } from "../Stat/Stat";
 import "./AuthorHeader.scss";
 
 type AuthorHeaderProps = {

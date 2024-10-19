@@ -2,7 +2,8 @@ import React, { useRef } from "react";
 import { useAuthGuard, useLocalStorage, useTextAreaAutoHeight } from "@hooks";
 import { useEditComment, usePostComment } from "@services/api";
 
-import { Button, Loader } from "@components";
+import { Button } from "../Button/Button";
+import { Loader } from "../Loader/Loader";
 import "./CommentForm.scss";
 
 type CommentFormProps = {

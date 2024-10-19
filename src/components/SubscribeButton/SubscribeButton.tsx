@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, ButtonProps } from "@components";
+import { ButtonProps, Button } from "../Button/Button";
 
 type SubscribeButtonProps = Omit<ButtonProps, "children"> & {
   subscribed?: boolean;

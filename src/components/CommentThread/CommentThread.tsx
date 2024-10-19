@@ -8,7 +8,9 @@ import {
   unsetReplyToCommentId,
 } from "@store/commentsSlice";
 
-import { Comment, CommentThreadList, CommentWrapper } from "@components";
+import { Comment } from "../Comment/Comment";
+import { CommentThreadList } from "../CommentThreadList/CommentThreadList";
+import { CommentWrapper } from "../CommentWrapper/CommentWrapper";
 import "./CommentThread.scss";
 
 type CommentThreadProps = {

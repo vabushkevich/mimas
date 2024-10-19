@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Skeleton } from "@components";
+import { Skeleton } from "../Skeleton/Skeleton";
 import UpIcon from "@assets/svg/arrow-up.svg";
 import DownIcon from "@assets/svg/arrow-down.svg";
 import "./Voting.scss";

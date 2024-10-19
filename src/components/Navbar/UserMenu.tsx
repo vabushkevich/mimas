@@ -3,7 +3,9 @@ import { useAuth } from "@services/auth";
 import { useDarkMode } from "@context";
 import { User } from "@types";
 
-import { Avatar, Menu, MenuItem, MenuItemLink } from "@components";
+import { Avatar } from "../Avatar/Avatar";
+import { Menu } from "../Menu/Menu";
+import { MenuItemLink, MenuItem } from "../Menu/MenuItem";
 import DownIcon from "@assets/svg/arrow-down.svg";
 import UserIcon from "./assets/user.svg";
 import MoonIcon from "./assets/moon.svg";

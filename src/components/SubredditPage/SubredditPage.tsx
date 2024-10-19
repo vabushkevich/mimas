@@ -5,14 +5,12 @@ import { useSubredditByName, useSubscribe } from "@services/api";
 import { useAuth } from "@services/auth";
 import { isPostFeedSortingOption, isSortTimeInterval } from "@types";
 
-import {
-  Container,
-  Page,
-  PostFeed,
-  AuthorHeader,
-  AuthorHeaderSkeleton,
-  SubscribeButton,
-} from "@components";
+import { AuthorHeader } from "../AuthorHeader/AuthorHeader";
+import { AuthorHeaderSkeleton } from "../AuthorHeader/AuthorHeaderSkeleton";
+import { Container } from "../Container/Container";
+import { Page } from "../Page/Page";
+import { PostFeed } from "../PostFeed/PostFeed";
+import { SubscribeButton } from "../SubscribeButton/SubscribeButton";
 import "./SubredditPage.scss";
 
 export function SubredditPage() {

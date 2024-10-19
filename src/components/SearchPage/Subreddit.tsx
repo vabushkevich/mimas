@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { compactNumber } from "@utils";
 import { Subreddit as SubredditType } from "@types";
 
-import { Avatar, Card } from "@components";
+import { Avatar } from "../Avatar/Avatar";
+import { Card } from "../Card/Card";
 import "./Subreddit.scss";
 
 export function Subreddit({ subreddit }: { subreddit: SubredditType }) {

@@ -2,7 +2,9 @@ import React from "react";
 import { getHostname } from "@utils";
 import type { LinkPost, PostProps } from "@types";
 
-import { BasePost, ExternalLink, ExternalLinkText } from "@components";
+import { BasePost } from "../BasePost/BasePost";
+import { ExternalLink } from "../ExternalLink/ExternalLink";
+import { ExternalLinkText } from "../ExternalLink/ExternalLinkText";
 import "./LinkPost.scss";
 
 export function LinkPost(props: PostProps<LinkPost>) {

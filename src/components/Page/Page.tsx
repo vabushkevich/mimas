@@ -7,7 +7,9 @@ import {
   useTitle,
 } from "@hooks";
 
-import { Navbar, Sidebar, Offcanvas } from "@components";
+import { Navbar } from "../Navbar/Navbar";
+import { Offcanvas } from "../Offcanvas/Offcanvas";
+import { Sidebar } from "../Sidebar/Sidebar";
 import "./Page.scss";
 
 type PageProps = {

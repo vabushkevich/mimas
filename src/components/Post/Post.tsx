@@ -1,17 +1,15 @@
 import React from "react";
 import type { Post, PostProps } from "@types";
 
-import {
-  LinkPost,
-  TextPost,
-  GalleryPost,
-  VideoPost,
-  ImagePost,
-  GIFPost,
-  YouTubePost,
-  CrossPost,
-  RemovedPost,
-} from "@components";
+import { CrossPost } from "../CrossPost/CrossPost";
+import { GalleryPost } from "../GalleryPost/GalleryPost";
+import { GIFPost } from "../GIFPost/GIFPost";
+import { ImagePost } from "../ImagePost/ImagePost";
+import { LinkPost } from "../LinkPost/LinkPost";
+import { RemovedPost } from "../RemovedPost/RemovedPost";
+import { TextPost } from "../TextPost/TextPost";
+import { VideoPost } from "../VideoPost/VideoPost";
+import { YouTubePost } from "../YouTubePost/YouTubePost";
 
 export function Post({ post, ...rest }: PostProps<Post>) {
   switch (post.type) {

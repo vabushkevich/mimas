@@ -1,11 +1,9 @@
 import React from "react";
 
-import {
-  Card,
-  CommentThreadListSkeleton,
-  DropdownButtonSkeleton,
-  Skeleton,
-} from "@components";
+import { Card } from "../Card/Card";
+import { CommentThreadListSkeleton } from "../CommentThreadList/CommentThreadListSkeleton";
+import { DropdownButtonSkeleton } from "../DropdownButton/DropdownButtonSkeleton";
+import { Skeleton } from "../Skeleton/Skeleton";
 import "./PostComments.scss";
 
 export function PostCommentsSkeleton() {

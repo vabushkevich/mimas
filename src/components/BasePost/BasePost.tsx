@@ -7,15 +7,13 @@ import { useAuthGuard } from "@hooks";
 import classNames from "classnames";
 import toast from "react-hot-toast";
 
-import {
-  Card,
-  Flair,
-  Menu,
-  MenuItem,
-  SubmissionHeader,
-  UserContent,
-  Voting,
-} from "@components";
+import { Card } from "../Card/Card";
+import { Flair } from "../Flair/Flair";
+import { Menu } from "../Menu/Menu";
+import { MenuItem } from "../Menu/MenuItem";
+import { SubmissionHeader } from "../SubmissionHeader/SubmissionHeader";
+import { UserContent } from "../UserContent/UserContent";
+import { Voting } from "../Voting/Voting";
 import LinkIcon from "@assets/svg/link.svg";
 import DotsIcon from "@assets/svg/dots.svg";
 import BubbleIcon from "./assets/bubble.svg";

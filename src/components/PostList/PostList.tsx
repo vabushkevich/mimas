@@ -1,7 +1,8 @@
 import React from "react";
 import { Post as PostType, FeedType } from "@types";
 
-import { Post, PostSkeleton } from "@components";
+import { Post } from "../Post/Post";
+import { PostSkeleton } from "../Post/PostSkeleton";
 import "./PostList.scss";
 
 type PostListProps = {

@@ -3,7 +3,8 @@ import classNames from "classnames";
 import { useMediaPlayback } from "@hooks";
 import type { VideoPost, PostProps } from "@types";
 
-import { BasePost, Video } from "@components";
+import { BasePost } from "../BasePost/BasePost";
+import { Video } from "../Video/Video";
 import "./VideoPost.scss";
 
 export function VideoPost(props: PostProps<VideoPost>) {
