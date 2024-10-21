@@ -33,7 +33,11 @@ export function PostFeed({
   onSortTimeIntervalChange,
 }: FeedProps) {
   const bestSortEnabled = subreddit == "";
-  if (!sort || (sort == "best" && !bestSortEnabled)) sort = "hot";
+  if (sort) {
+    if (sort == "best" && !bestSortEnabled) sort = "hot";
+  } else {
+    sort = type == "user" ? "new" : "hot";
+  }
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useFeedPosts({
     limit: 20,
