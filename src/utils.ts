@@ -102,8 +102,7 @@ export function getSubmissionAuthorIds(submissions: Submission[]) {
   const ids = new Set<string>();
 
   for (const submission of submissions) {
-    const isPost = "title" in submission;
-    if (isPost) ids.add(submission.subredditId);
+    ids.add(submission.subredditId);
     if (submission.userId) ids.add(submission.userId);
   }
 

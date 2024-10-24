@@ -162,6 +162,8 @@ export type Comment = {
   postUrl: string;
   score: number;
   scoreHidden: boolean;
+  subreddit: string;
+  subredditId: string;
   url: string;
   userFlair?: string;
   userId?: string;

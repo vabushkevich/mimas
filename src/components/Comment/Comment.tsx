@@ -32,6 +32,7 @@ type CommentProps = {
   hideLock?: boolean;
   hidePin?: boolean;
   replyInline?: boolean;
+  showSubreddit?: boolean;
   onReplyButtonClick?: () => void;
 };
 
@@ -43,6 +44,7 @@ export function Comment({
   hideLock,
   hidePin,
   replyInline = true,
+  showSubreddit,
   onReplyButtonClick,
 }: CommentProps) {
   const {
@@ -58,6 +60,8 @@ export function Comment({
     pinned,
     score,
     scoreHidden,
+    subreddit,
+    subredditId,
     url,
     userFlair,
     userId,
@@ -65,8 +69,10 @@ export function Comment({
     voteDirection,
   } = comment;
 
+  const primaryAuthorId = showSubreddit ? subredditId : userId;
+
   const [isEdit, setIsEdit] = useState(false);
-  const avatar = useAvatar(userId);
+  const avatar = useAvatar(primaryAuthorId);
   const vote = useAuthGuard(useVote(comment).mutate);
   const deleteComment = useAuthGuard(useDeleteComment().mutate);
   const signedInUser = useSignedInUser();
@@ -92,6 +98,7 @@ export function Comment({
         flair={!hideFlair ? userFlair : undefined}
         locked={!hideLock && locked}
         pinned={!hidePin && pinned}
+        subreddit={showSubreddit ? subreddit : undefined}
         url={url}
         userName={userName}
       />

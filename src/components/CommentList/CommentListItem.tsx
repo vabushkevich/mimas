@@ -24,6 +24,7 @@ export function CommentListItem({ comment }: CommentListItemProps) {
           hideLock
           hidePin
           replyInline={false}
+          showSubreddit
         />
       </div>
     </Card>

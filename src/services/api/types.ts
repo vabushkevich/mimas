@@ -204,6 +204,8 @@ export type Comment = {
     score_hidden: boolean;
     score: number;
     stickied: boolean;
+    subreddit: string;
+    subreddit_id: string;
   };
   kind: "t1";
 };

@@ -351,6 +351,8 @@ export function transformComment(rawComment: Raw.Comment): Comment {
       score_hidden,
       score,
       stickied,
+      subreddit,
+      subreddit_id,
     },
   } = rawComment;
 
@@ -369,6 +371,8 @@ export function transformComment(rawComment: Raw.Comment): Comment {
     postUrl: permalink.split("/").slice(0, -2).join("/"),
     score: score,
     scoreHidden: score_hidden,
+    subreddit,
+    subredditId: subreddit_id,
     url: permalink,
     userName: author,
     voteDirection: likes != null ? (likes ? 1 : -1) : 0,

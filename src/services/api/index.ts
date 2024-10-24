@@ -83,7 +83,14 @@ export function useUserComments(options: {
 
   return useInfiniteQuery(
     ["comment-feed", userName, limit, sort, sortTimeInterval, key],
-    ({ pageParam }) => client.getUserComments({ ...options, after: pageParam }),
+    async ({ pageParam }) => {
+      const comments = await client.getUserComments({
+        ...options,
+        after: pageParam,
+      });
+      prefetchAvatars(comments);
+      return comments;
+    },
     {
       getNextPageParam: (lastComments) => lastComments.at(-1)?.id,
     },
