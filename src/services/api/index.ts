@@ -62,7 +62,10 @@ export function useFeedPosts(options: {
         ...options,
         after: pageParam,
       });
-      prefetchAvatars(posts);
+      const crosspostedPosts = posts
+        .filter((post) => post.type == "crosspost")
+        .map((post) => post.parent);
+      prefetchAvatars([...posts, ...crosspostedPosts]);
       return posts;
     },
     {
