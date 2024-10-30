@@ -1,27 +1,25 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
     "esModuleInterop": true,
     "isolatedModules": true,
-    "jsx": "react",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "moduleResolution": "node",
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "noEmit": true,
-    "outDir": "./dist/",
     "paths": {
-      "@assets": ["src/assets/*"],
-      "@context": ["src/context"],
-      "@hooks": ["src/hooks.ts"],
-      "@sass/*": ["src/sass/*"],
-      "@services/*": ["src/services/*"],
-      "@store/*": ["src/store/*"],
-      "@types": ["src/types.ts"],
-      "@utils": ["src/utils.ts"]
+      "@assets": ["./src/assets/*"],
+      "@context": ["./src/context"],
+      "@hooks": ["./src/hooks.ts"],
+      "@sass/*": ["./src/sass/*"],
+      "@services/*": ["./src/services/*"],
+      "@store/*": ["./src/store/*"],
+      "@types": ["./src/types.ts"],
+      "@utils": ["./src/utils.ts"]
     },
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext",
-    "types": []
+    "target": "ESNext"
   }
 }

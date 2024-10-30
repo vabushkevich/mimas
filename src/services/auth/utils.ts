@@ -1,7 +1,11 @@
 import { transformAuth } from "./transformers";
 import { Auth, RawAuth } from "./types";
 
-const basicCredentials = btoa(`${process.env.REDDIT_APP_CLIENT_ID}:`);
+if (process.env.REDDIT_APP_CLIENT_ID == null) {
+  throw new Error("REDDIT_APP_CLIENT_ID environment variable is not defined");
+}
+const clientId = process.env.REDDIT_APP_CLIENT_ID;
+const basicCredentials = btoa(`${clientId}:`);
 
 export async function requestAuth(code?: string) {
   const params: Record<string, string> = code
@@ -55,7 +59,7 @@ export async function revokeAuth(refreshToken: string) {
 
 export function getAuthURL() {
   const params = new URLSearchParams({
-    client_id: process.env.REDDIT_APP_CLIENT_ID,
+    client_id: clientId,
     response_type: "code",
     state: `${Date.now()}${location.pathname}${location.search}`,
     redirect_uri: `${location.origin}/auth`,

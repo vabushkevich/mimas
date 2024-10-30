@@ -1,9 +1,3 @@
-declare const process: {
-  env: {
-    [key: string]: string;
-  };
-};
-
 declare module "*.png";
 declare module "*.svg?external";
 declare module "*.svg?inline" {

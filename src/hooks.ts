@@ -358,7 +358,7 @@ export function useInView<T extends Element>(
   useEffect(() => {
     if (!ref.current) return;
 
-    let timeout: number | undefined;
+    let timeout: ReturnType<typeof setTimeout>;
 
     const observer = new IntersectionObserver(
       (entries) => {
