@@ -58,28 +58,26 @@ module.exports = {
         oneOf: [
           { resourceQuery: /inline/, type: "asset/inline" },
           { resourceQuery: /external/, type: "asset/resource" },
-          { issuer: { not: /\.[jt]sx?$/ }, type: "asset/resource" },
-        ],
-      },
-      {
-        test: /\.svg$/i,
-        issuer: /\.[jt]sx?$/,
-        resourceQuery: { not: /external|inline/ },
-        use: [
           {
-            loader: "@svgr/webpack",
-            options: {
-              replaceAttrValues: {
-                "#000": "currentColor",
+            issuer: /\.tsx$/i,
+            use: [
+              {
+                loader: "@svgr/webpack",
+                options: {
+                  replaceAttrValues: {
+                    "#000": "currentColor",
+                  },
+                  svgoConfig: {
+                    plugins: ["preset-default", "removeXMLNS"],
+                  },
+                  svgProps: {
+                    height: "1em",
+                  },
+                },
               },
-              svgoConfig: {
-                plugins: ["preset-default", "removeXMLNS"],
-              },
-              svgProps: {
-                height: "1em",
-              },
-            },
+            ],
           },
+          { type: "asset/resource" },
         ],
       },
     ],
@@ -141,7 +139,7 @@ module.exports = {
       "@types": path.resolve(__dirname, "src/types.ts"),
       "@utils": path.resolve(__dirname, "src/utils.ts"),
     },
-    extensions: [".tsx", ".ts", ".js", ".json"],
+    extensions: [".tsx", ".ts", "..."],
   },
   stats: {
     loggingDebug: ["sass-loader"],
