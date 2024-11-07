@@ -51,7 +51,7 @@ export function AuthorHeader({
           </div>
           {description && (
             <div className="author-header__description">
-              <ReadMore previewLines={2} text={description} />
+              <ReadMore key={name} previewLines={2} text={description} />
             </div>
           )}
           {stats && stats.length > 0 && (
